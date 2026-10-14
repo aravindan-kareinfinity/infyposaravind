@@ -1,0 +1,457 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a> HR /
+            Employee In-Out
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-show="ShowSearch" ng-click="ShowNew()"><a><i class="fa fa-file"></i>New</a></li>
+            <li style="cursor:pointer" ng-show="ShowSearch" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li style="cursor:pointer" ng-hide="ShowSearch" ng-click="Save(EditItem)"><a><i class="fa fa-save"></i>Save</a></li>
+            <li style="cursor:pointer" ng-show="ShowSearch" ng-click="exporttoExcel(igrid,'employeeinout', 'employeeinout')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-show="ShowSearch && selectedcount>0" ng-click="SynchAbsent()"><a><i class="fa fa-save"></i>Update Absent</a></li>
+            <li style="cursor:pointer" ng-hide="ShowSearch" ng-click="SwitchPanel()"><a><i class="fa fa-angle-left"></i>Back</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <!-- Your Page Content Here -->
+            <!-- Your Page Content Here -->
+            <div class="col-md-12">
+                <div class="box-body no-padding" style="background-color: #fff;">
+                    <div class="box box-info">
+                        <div ng-show="ShowSearch">
+                            <div class="col-md-3 col-sm-3">
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Company</label>
+                                    <select class="form-control input-sm"
+                                            style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Working Location</label>
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="location.id as location.name for location in Locations track by location.id" ng-model="locationid"></select>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Department</label>
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="departmentid"></select>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Employee</label>
+                                    <select class="form-control select2 input-sm" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Date</label>
+
+                                    <input type="text" style="width:100%" ng-hide="validmode==5" daterange="fromdate,todate" class="form-control pull-right input-sm">
+
+                                    <input type="text" style="width:100%" ng-show="validmode==5" datemodule="fromdate" ng-model="fromdate" class="form-control pull-right input-sm">
+
+                                </div>
+                                <div class="row row-padbot-15">
+
+                                    <label for="inputEmail3" class="control-label">Working/Salary Mode</label>
+                                    <div class="col-md-12 no-padding">
+                                        <div class="col-md-6 no-padding">
+                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in WorkingModes track by item.id" ng-model="workingmode"></select>
+                                        </div>
+                                        <div class="col-md-6 no-padding" style="padding-left:0px">
+                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in SalaryModes track by item.id" ng-model="salarymode"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Filter Mode</label>
+                                    <select class="form-control select2 input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in ValidModes track by item.id" ng-model="validmode"></select>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Floor</label>
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="floor.id as floor.code for floor in Floors track by floor.id" ng-model="floorid"></select>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="pull-left">
+                                        <div class="col-md-12" style="vertical-align:top;font-size:medium;color:brown"><b>{{SearchResultMessage}}</b></div>
+
+                                    </div>
+
+                                    <div class="pull-right">
+                                        <!--<button class="glyphicon glyphicon-search btn btn-info btn-sm" ng-click="Search()"></button>-->
+
+                                        <button class="glyphicon glyphicon-download-alt  btn btn-info btn-sm" ng-click="exporttoExcel('#deduction','Employees In-Out')"
+                                                data-widget="Excel" data-toggle="tooltip" title="Excel - In-Out" ng-show="validmode!=5 && SearchResult.length>0"></button>
+
+                                        <button class="glyphicon glyphicon-download-alt  btn btn-info btn-sm" ng-click="exporttoExcel('#absenties','Absenties Report')"
+                                                data-widget="Excel" data-toggle="tooltip" title="Excel - Absenties" ng-show="validmode==5 && AbsentiesResult.length>0"></button>
+
+                                        <button type="button" class="glyphicon glyphicon-print btn btn-info  btn-sm" ng-click="printDiv('#deduction','Employee In-Out',1)"
+                                                data-widget="print" data-toggle="tooltip" title="Print" ng-show="validmode!=5 && SearchResult.length>0"></button>
+
+                                        <button type="button" class="glyphicon glyphicon-print btn btn-info  btn-sm" ng-click="printDiv('#absenties','Employee In-Out',1)"
+                                                data-widget="print" data-toggle="tooltip" title="Print" ng-show="validmode==5 && AbsentiesResult.length>0"></button>
+
+                                        <button type="button" class="glyphicon glyphicon-print btn btn-success btn-sm btn-sm" ng-click="printteaslip()" data-widget="print Tea Slip"
+                                                data-toggle="tooltip" title="Print Tea Slip" ng-show="validmode==0 && SearchResult.length>0"></button>
+
+                                        <button type="button" class="glyphicon glyphicon-print btn btn-success btn-sm btn-sm" ng-click="printabsent()" data-widget="print Slip"
+                                                data-toggle="tooltip" title="Print Absent Slip" ng-show="validmode==5 && AbsentiesResult.length>0"></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div id="gridContainer">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-show="ShowReadonly">
+
+                            <div class="col-md-8 col-sm-8" style="margin-top:10px">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <th style="width:35%">Date :</th>
+                                                    <td>{{EditItem.attendanceon |date:'dd-MM-yyyy'}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="width:35%">Employee Name :</th>
+                                                    <td>{{EditItem.employeename}}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Intime :</th>
+                                                    <td>{{EditItem.intime |displayMinuteAsTime }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Working Hours :</th>
+                                                    <td>
+                                                        <input type="number" ng-model="EditItem.workinghours" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Late In :</th>
+                                                    <td>{{EditItem.latecheckin |displayMinuteAsHourMinute }}</td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <th style="width:35%">Has Valid :</th>
+                                                    <td>{{EditItem.valid}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="width:35%">Employee Code :</th>
+                                                    <td>{{EditItem.employeecode}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Outtime :</th>
+                                                    <td>{{EditItem.outtime |displayMinuteAsTime}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Free Min :</th>
+                                                    <td>{{EditItem.nonworking |displayMinuteAsHourMinute}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Early Out :</th>
+                                                    <td>{{EditItem.earlycheckout |displayMinuteAsHourMinute}}</td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <th style="width:60%">Morning Absent :</th>
+                                                    <td><input type="checkbox" ng-model="EditItem.morningabsent" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="width:60%">Evening Absent:</th>
+                                                    <td><input type="checkbox" ng-model="EditItem.afternoonabsent" /></td>
+                                                </tr>
+
+
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <th style="width:40%">In-Time</th>
+                                                    <td style="width:35%"><input type="text" ng-model="EditItem.intimeString" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="width:40%">Out-Time</th>
+                                                    <td style="width:35%"><input type="text" ng-model="EditItem.outtimeString" /></td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <th style="width:40%">Morning OT</th>
+                                                    <td><input type="number" ng-model="EditItem.morningovertime" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="width:40%">Evening OT</th>
+                                                    <td><input type="number" ng-model="EditItem.eveningovertime" /></td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <th style="width:40%">Late Checkin</th>
+                                                    <td style="width:35%"><input type="number" ng-model="EditItem.latecheckin" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="width:40%">Early Checkout</th>
+                                                    <td style="width:35%"><input type="number" ng-model="EditItem.earlycheckout" /></td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4" style="margin-top:10px">
+
+                                <div class="col-md-12 no-padding">
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" class="form-control input-sm" ng-model="LogTime" style="width:100%" />
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+
+                                        <div class="input-group input-group-sm" style="width:100%">
+                                            <input type="text" class="input-sm form-control"
+                                                   ng-model="LogFlag"
+                                                   placeholder="B,I,O" style="width: 100%;" />
+
+                                            <span class="input-group-btn" style="width:10px">
+                                                <button type="button" class="btn btn-info btn-sm btn-flat"
+                                                        ng-click="AddLogItem()">
+                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <table fixed-header="300px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-6">Time</th>
+                                            <th class="col-md-6">Flag</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in EditItem.Log">
+                                            <td class="col-md-6">{{item.time}}</td>
+                                            <td class="col-md-6">
+                                                {{item.flag}} <div class="pull-right">
+                                                    <button type="button" class="btn btn-xs btn-danger" ng-click="DeleteLogItem(item)"><i class="fa fa-trash-o"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <div ng-show="CreateNew">
+
+
+
+                            <div class="col-md-12" style="padding-top:10px;background-color:white">
+                                <div class="col-md-5">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tr>
+                                                <th style="width:35%">Date :</th>
+                                                <td>
+                                                    <input type="text" class="form-control input-sm datepicker"
+                                                           datemodule="EditItem.attendanceon" ng-model="EditItem.attendanceon">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:35%">Employee Name :</th>
+                                                <td>
+                                                    <select class="form-control select2" style="width: 100%;" select2=""
+                                                            options="item.id as item.code for item in Employee track by item.id" ng-model="EditItem.employeeid"></select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:35%">Morning Absent :</th>
+                                                <td><input type="checkbox" ng-model="EditItem.morningabsent" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:35%">Evening Absent:</th>
+                                                <td><input type="checkbox" ng-model="EditItem.afternoonabsent" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:35%">In-Time</th>
+                                                <td><input type="text" style="width:50%" class="form-control input-sm" ng-model="EditItem.intimeString" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:35%">Out-Time</th>
+                                                <td><input type="text" style="width:50%" class="form-control input-sm" ng-model="EditItem.outtimeString" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Late In :</th>
+                                                <td>{{EditItem.latecheckin |displayMinuteAsHourMinute }}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Early Out :</th>
+                                                <td>{{EditItem.earlycheckout |displayMinuteAsHourMinute}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="table-responsive">
+                                        <table class="table">
+
+                                            <tr>
+                                                <th style="width:35%">Working Hours</th>
+                                                <td>
+                                                    <input type="number"
+                                                           style="width:50%"
+                                                           class="form-control input-sm" ng-model="EditItem.workinghours" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:35%">Free Minutes</th>
+                                                <td>
+                                                    <input type="number" class="form-control input-sm"
+                                                           style="width:50%" ng-model="EditItem.nonworking" />
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th style="width:35%">Morning OT</th>
+                                                <td>
+                                                    <input type="number" style="width:50%"
+                                                           class="form-control input-sm" ng-model="EditItem.morningovertime" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:35%">Evening OT</th>
+                                                <td>
+                                                    <input type="number" style="width:50%"
+                                                           class="form-control input-sm" ng-model="EditItem.eveningovertime" />
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th style="width:35%">Late Checkin</th>
+                                                <td>
+                                                    <input type="number" style="width:50%"
+                                                           class="form-control input-sm" ng-model="EditItem.latecheckin" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:35%">Early Checkout</th>
+                                                <td>
+                                                    <input type="number" style="width:50%"
+                                                           class="form-control input-sm" ng-model="EditItem.earlycheckout" />
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-3">
+                                    <div class="col-md-12 no-padding">
+                                        <div class="col-md-6 no-padding">
+                                            <input type="text" class="form-control input-sm" ng-model="LogTime" style="width:100%" />
+                                        </div>
+                                        <div class="col-md-6 no-padding">
+
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="input-sm form-control"
+                                                       ng-model="LogFlag"
+                                                       placeholder="B,I,O" style="width: 100%;" />
+
+                                                <span class="input-group-btn" style="width:10px">
+                                                    <button type="button" class="btn btn-info btn-sm btn-flat"
+                                                            ng-click="AddLogItem()">
+                                                        <i class="glyphicon glyphicon-plus-sign"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 no-padding">
+                                        <table fixed-header="200px" class="fixed_table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="col-md-6">Time</th>
+                                                    <th class="col-md-6">Flag</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in EditItem.Log">
+                                                    <td class="col-md-6">{{item.time}}</td>
+                                                    <td class="col-md-6">
+                                                        {{item.flag}} <div class="pull-right">
+                                                            <button type="button" class="btn btn-xs btn-danger" ng-click="DeleteLogItem(item)"><i class="fa fa-trash-o"></i></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+    </section>
+</div>
+<!-- /.content-wrapper -->

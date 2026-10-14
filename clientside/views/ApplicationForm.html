@@ -1,0 +1,410 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Application Form
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+<li><a href back-button>Back</a></li>
+            <li class="active">Application Form</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <code style="color:black;line-height:25px">
+            <div class="row">
+                <div ng-hide="ShowEdit">
+                    <div style="border-color:brown" ng-hide="ShowAll" id="pendingfeediv">
+                        <section class="invoicewithpadding">
+                            <!-- title row -->
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <img id="companylogo" class="no-border no-padding" style="max-height:120PX;max-width:120PX;padding-left:0px">
+                                </div>
+                                <div class="col-xs-7">
+                                    <h4 style="text-align:center;font-size:large"><b>{{Application.company.name}}</b></h4>
+                                    <h5 style="text-align:center;"><b>{{SearchRef(Application.company.cityid,Cities,'CUDDALORE')}}</b></h5>
+                                    <h4 style="text-align:center;"><b style="border-bottom:1px solid black"> APPLICATION FORM</b></h4>
+                                    <h5 style="text-align:center;"><b>(TO BE FILLED IN CAPS)</b></h5>
+                                </div>
+
+                                <div class="col-xs-3">
+                                    <br /><br />
+                                    <br />
+                                    <h6 style="text-align:left;"><b>Employee No&nbsp;:&nbsp;{{Application.employeecode}}</b></h6>
+                                    <h6 style="text-align:left;"><b>DATE : {{Application.dateofjoining | date:'dd-MM-yyyy'}}</b></h6>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <h6 style="border-bottom:1px solid black;"></h6>
+                            <div class="row invoice-info">
+
+                                <div class="col-xs-9">
+                                    <table class="zerotable" style="width:100%;overflow:hidden">
+                                        <tr>
+                                            <th colspan="2">1.NAME :</th>
+                                            <td colspan="2">{{SearchRef(Application.title,Title,'')}}&nbsp;{{Application.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2">2.SUR NAME :</th>
+                                            <td>{{Application.surname}}</td>
+                                            <th>&nbsp;BLOODGROUP:</th>
+                                            <td>{{SearchRef(Application.personal.bloodgroup,Bloodgroup,'')}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2">3.DATE OF BIRTH / AGE:</th>
+                                            <td>{{Application.dateofbirth| date:'dd-MM-yyyy'}}/{{Application.date_part}}</td>
+                                            <th colspan="1">4.GENDER:</th>
+                                            <td colspan="1">{{SearchRef(Application.gender,Gender,'')}}</td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <th colspan="2">5.FATHER NAME:</th>
+                                            <td>{{Application.personal.fathername}}</td>
+                                            <th>&nbsp;LIVE WITH:</th>
+                                            <td>{{Application.personal.livewithfather?'Yes':'No'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2">6.MOTHER NAME:</th>
+                                            <td>{{Application.personal.mothername}}</td>
+                                            <th>&nbsp;LIVE WITH:</th>
+                                            <td>{{Application.personal.livewithmother?'Yes':'No'}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th colspan="2">7.RELIGION:</th>
+                                            <td>{{Application.personal.religion}}</td>
+                                            <th colspan="1">8.COMMUNITY / CASTE:</th>
+                                            <td>{{SearchRef(Application.personal.community,Community,'')}} / {{SearchRef(Application.personal.caste,Caste,'')}}</td>
+                                            <td></td>
+
+
+
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2">9.MARITAL STATUS:</th>
+                                            <td>{{Application.personal.mstatus}}</td>
+
+                                            <th colspan="1">10.SPOUSE NAME:</th>
+                                            <td colspan="1">{{Application.personal.spousename}}</td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                                <div class="col-xs-3" style="text-align:right;">
+                                    <img id="img_photo" class="no-border no-padding" style="max-height:150PX;max-width:150PX;padding-left:0px">
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                            <div class="row invoice-info">
+
+                                <div class="col-xs-12">
+                                    <table class="zerotable" style="width:100%;overflow:hidden">
+                                        <tr>
+                                            <th colspan="2">11.<u>ADDRESS RESIDENCE</u></th>
+                                            <th colspan="2"><u>ADDRESS PERMANANT</u></th>
+                                        </tr>
+
+                                        <tr>
+                                            <th>a.DOOR NO:</th>
+                                            <td>{{Application.presentaddress.residentno}}</td>
+
+                                            <th>DOOR NO:</th>
+                                            <td>{{Application.permanentaddress.residentno}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>b.STREET</th>
+                                            <td>{{Application.presentaddress.street}}</td>
+
+                                            <th>STREET</th>
+                                            <td>{{Application.permanentaddress.street}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>c.AREA</th>
+                                            <td>{{Application.presentaddress.area}}</td>
+
+                                            <th>AREA</th>
+                                            <td>{{Application.permanentaddress.area}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>d.VILLAGE</th>
+                                            <td>{{Application.presentaddress.village}}</td>
+
+                                            <th>VILLAGE</th>
+                                            <td>{{Application.permanentaddress.village}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>e.TALUK</th>
+                                            <td>{{SearchRef(Application.presentaddress.city,Cities,'')}}</td>
+
+                                            <th>TALUK</th>
+                                            <td>{{SearchRef(Application.permanentaddress.city,Cities,'')}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>f.DISTRICT</th>
+                                            <td>{{SearchRef(Application.presentaddress.district,Cities)}}</td>
+
+                                            <th>DISTRICT</th>
+                                            <td>{{SearchRef(Application.permanentaddress.district,Cities)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>g.STATE</th>
+                                            <td>{{SearchRef(Application.presentaddress.state,States)}}</td>
+
+                                            <th>STATE</th>
+                                            <td>{{SearchRef(Application.permanentaddress.state,States)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>h.PINCODE</th>
+                                            <td>{{Application.presentaddress.pincode}}</td>
+
+                                            <th>PINCODE</th>
+                                            <td>{{Application.permanentaddress.pincode}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>i.CONTACT</th>
+                                            <td>{{Application.contactno}}</td>
+                                            <th>FATHER NO.</th>
+                                            <td>{{Application.personal.fatherno}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>MOTHER NO.</th>
+                                            <td>{{Application.personal.motherno}}</td>
+                                            <th colspan="2"></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row invoice-info" style="page-break-after: always;">
+
+                                <div class="col-md-12">
+                                    <div>
+                                        <b style="border-bottom:1px solid black">12.EDUCATIONAL QUALIFICATION</b>
+                                        <table style="height:200px" class="print_table">
+                                            <thead>
+                                                <tr>
+                                                    <th width="40px">S.No</th>
+                                                    <th>NAME OF INSTITUTION&nbsp;/&nbsp;PLACE</th>
+                                                    <th width="250px">QUALIFICATION</th>
+                                                    <th width="100px">YEAR</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in Application.education.items">
+                                                    <td style="margin-left:15px">&nbsp;{{hasvalue($index+1,item.institution)}}</td>
+                                                    <td>{{mergecolumn(item.institution,item.place,'/')}}</td>
+                                                    <td>{{item.name}}</td>
+                                                    <td>{{item.year}}</td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row invoice-info">
+                                <div class="col-md-12">
+                                    <div>
+                                        <b style="border-bottom:1px solid black">13.FAMILY DETAILS</b>
+                                        <table style="height:200px" class="print_table">
+                                            <thead>
+                                                <tr>
+                                                    <th width="40px">S.No</th>
+                                                    <th width="150px">NAME</th>
+                                                    <th width="70px">GENDER</th>
+                                                    <th width="70px">AGE</th>
+                                                    <th>QUALIFICATION</th>
+                                                    <th width="150px">RELATIONSHIP</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in Application.family.items">
+                                                    <td>&nbsp;{{hasvalue($index+1,item.gender)}}</td>
+                                                    <td>{{item.name}}</td>
+                                                    <td>{{SearchRef(item.gender,Gender,'')}}</td>
+                                                    <td>{{item.age}}</td>
+                                                    <td>{{item.qualification}}</td>
+                                                    <td>{{item.relation}}</td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="row invoice-info">
+                                <div class="col-md-12">
+                                    <div>
+                                        <b style="border-bottom:1px solid black">14.EXPERIENCE</b>
+                                        <table style="height:200px" class="print_table">
+                                            <thead>
+                                                <tr>
+                                                    <th width="40px">S.No</th>
+                                                    <th width="150px">DESIGNATION</th>
+                                                    <th>ORGANIZATION</th>
+                                                    <th width="100px">PLACE</th>
+                                                    <th width="100px">YEAR</th>
+                                                    <!--<th width="70px">SALARY</th>-->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in Application.experiance.items">
+                                                    <td>&nbsp;{{hasvalue($index+1,item.institution)}}</td>
+                                                    <td>{{item.name}}</td>
+                                                    <td>{{item.institution}}</td>
+                                                    <td>{{item.place}}</td>
+                                                    <td>{{item.year}}</td>
+                                                    <!--<td>{{item.salary}}</td>-->
+
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row invoice-info">
+                                <div class="col-md-12">
+                                    <table class="zerotable" style="width:100%;overflow:hidden">
+                                        <tr>
+                                            <th>15.STRENGTH :</th>
+                                            <th>{{Application.personal.strength}}</th>
+                                            <th>&nbsp;16.WHAT WILL YOU DO HERE:</th>
+                                            <th>{{Application.personal.expdesignation}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th>17.REFERENCE IF ANY:</th>
+                                            <td>{{Application.refempid}}</td>
+
+                                            <th>&nbsp;18.EXPECTING SALARY:</th>
+                                            <td>{{Application.personal.expsalary}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="4"><u>19.PROOF OF IDENTITY WITH XEROX COPY</u></th>
+                                        </tr>
+                                        <tr></tr>
+                                        <tr></tr>
+                                        <tr>
+                                            <th>a.AADHAR NO.</th>
+                                            <td>{{Application.aadharno}}</td>
+
+                                            <th>&nbsp;d.BANK A/C NO.</th>
+                                            <td>{{Application.bank.accountno}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>b.VOTERCARD NO.</th>
+                                            <td>{{Application.pancardno}}</td>
+                                            <th>&nbsp;e.NAME OF BANK</th>
+                                            <td>{{SearchRef(Application.bank.bankid,Banks)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>c.RATION CARD NO.</th>
+                                            <td>{{Application.personal.smartcardno}}</td>
+
+                                            <th>&nbsp;f.BANK I.F.C.</th>
+                                            <td>{{Application.bank.ifsc}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="border-bottom:1px solid black">20.DECLARATION</th>
+                                        </tr>
+                                        <!--<tfoot>
+                                            Above said particulars all are correct and true to the best of my knowledge and belief.
+                                            In Future if the management find any false,it will subject penalise under criminal procedure
+                                        </tfoot>-->
+                                    </table>
+
+                                    <p>
+                                        Above said particulars all are correct and true to the best of my knowledge and belief.
+                                        In Future if the management find any false,it will subject to penalise under criminal procedure.
+                                    </p>
+                                    <br /><br />
+                                    <div class="rowshort">
+                                        <div class="col-xs-2"></div>
+                                        <div class="col-sm-4 pull-left">
+                                            <h6>Thump Impression</h6>
+                                        </div>
+                                        <div class="col-xs-4 pull-right">
+                                            <h6>Signature</h6>
+                                        </div>
+                                        <div class="col-xs-2"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h4 style="text-align:center;"><b style="border-bottom:1px solid black">OFFICE USE ONLY</b></h4>
+                                </div>
+                            </div>
+
+                            <h6 style="border-bottom:1px solid black;"></h6>
+                            <div class="row invoice-info">
+                                <div class="col-md-12">
+                                    <div>
+                                        <table class="zerotable">
+                                            <tr>
+                                                <th style="width:35%">1.Education :</th>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <th>2.Experience :</th>
+                                                <td>{{EditItem.employeename}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>3.Family:</th>
+                                                <td></td>
+                                                <th style="width:5%;text-align:right">Suggested</th>
+                                                <td>{{EditItem.employeename}}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>4.Distance:</th>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <th>5.Commitments:</th>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <th>6.Background</th>
+                                                <td></td>
+                                                <th style="width:5%;text-align:right">Approved</th>
+                                                <td>{{EditItem.employeename}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>7.Reference</th>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </section>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        </code>
+    </section>
+</div>

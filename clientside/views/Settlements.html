@@ -1,0 +1,713 @@
+﻿<div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+
+            <h1 ng-click="SearchUnsettled(false)">
+                <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+                Settlement (Unsettled : {{unsettlebillcount}})
+            </h1>
+            <ol class="breadcrumb">
+                <li style="cursor:pointer" ng-click="CreateNew()"><a><i class="fa fa-file"></i>New</a></li>
+                <li style="cursor:pointer" ng-disabled="SaveRequest" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+                <li style="cursor:pointer" ng-show="UserInfo.p_SETTLEMENT.print && Settlement.lastBillID != ''" ng-click="PrintLastBill(Settlement.lastBillID)"><a><i class="fa fa-print"></i>Print Slip For {{Settlement.lastBillID}}</a></li>
+                <li style="cursor:pointer" ng-show="UserInfo.p_SETTLEMENT.print && lastbillno != ''"><a href="BillsettlementmasterService/PrintPDF/{{UserInfo.OrganizationID}}/{{lastMasterBillID}}"><i class="fa fa-download"></i>Download {{lastbillno}}.PDF</a></li>
+                <li style="cursor:pointer" ng-show="UserInfo.p_SETTLEMENT.print && lastMasterBillID != ''" ng-click="PrintLastBillMaster(lastMasterBillID)"><a><i class="fa fas fa-print"></i>Print Settlement Slip</a></li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content" tabindex="0">
+            <!-- Your Page Content Here -->
+            <div class="box box-success">
+                <div class="box-body">
+                    <div class="col-md-6">
+                        <div class="row col-md-12">
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="input-group input-group-sm">
+                                            <input method="text" class="form-control input-sm" style="width: 100%;" placeholder="Bill No"
+                                                   focusid="autocoding" ng-model="autoCoding.code" ng-change="codeChanged()" onkeyenter="SearchAutoCoding()">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-flat" ng-click="SearchAutoCoding()">Go!</button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-md-12">
+
+                            <table fixed-header="420px" class="fixed_table" additionalheight="0">
+                                <thead>
+                                    <tr>
+                                        <th width="100px">SNO </th>
+                                        <th width="35%">BILL NO</th>
+                                        <th width="35%">AMOUNT</th>
+                                        <th width="100px">ACTION</th>
+                                        <th width="100px" ng-show="UserInfo.p_SUPPORTCREDITSETTLEMENT.view && !item.iscreditbill">CR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in Settlement.Billsettlement">
+                                        <td>{{$index+1}}</td>
+                                        <td>{{item.billno}}</td>
+                                        <td>{{item.receivable}}<span ng-show="item.iscreditbill" class="pull-right" style="font-size:large;color:orangered;padding-right:20px">CR</span></td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="ManageDeleteItem('Delete',item)">Delete</button>
+                                        </td>
+                                        <td ng-show="UserInfo.p_SUPPORTCREDITSETTLEMENT.view && !item.iscreditbill">
+                                            <button type="button" class="btn btn-info btn-xs" ng-click="ManageCredit('CR',item)">Credit</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <span style="font-size:15px;cursor:pointer;position:absolute;top:0px;right:3px" ng-click="openNav()">&#9776;</span>
+
+                        <div id="mySidenav" class="sidenav">
+
+                            <a href="javascript:void(0)" class="closebtn" ng-click="closeNav()" style="font-size:15px">&#9776;</a>
+                            <ul class="sidebar-menu">
+                                <li class="treeview">
+                                    <a href="#">
+                                        <div style="display:inline">
+                                            <div class="row text-center">
+                                                <i class="fa fa-save fa-2x" ng-click="TouchButton('save','0')" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li class="treeview">
+                                    <a href="#">
+                                        <div style="display:inline">
+                                            <div class="row text-center">
+                                                <i class="fa fa-save fa-2x" ng-click="TouchButton('cash','00')" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li class="treeview">
+                                    <a href="#">
+                                        <div style="display:inline">
+                                            <div class="row text-center">
+                                                <i class="fa fa-save fa-2x" ng-click="TouchButton('card','01')" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li class="treeview">
+                                    <a href="#">
+                                        <div style="display:inline">
+                                            <div class="row text-center"><i ng-click="TouchButton('discount','d')" class="fa fa-percent fa-2x" aria-hidden="true"></i></div>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li class="treeview">
+                                    <a href="#">
+                                        <div style="display:inline">
+                                            <div class="row text-center"><i class="fa fa-times fa-2x" ng-click="TouchButton('discount','d')"></i></div>
+                                        </div>
+                                    </a>
+                                </li>
+
+
+                                <li class="treeview">
+                                    <a href="#">
+                                        <div style="display:inline">
+                                            <div class="row text-center"><i ng-click="TouchButton('discount','p')" class="fa fa-print fa-2x"></i></div>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li class="treeview">
+                                    <a href="#">
+                                        <div style="display:inline">
+                                            <div class="row text-center"><i class="fa fa-times fa-2x" ng-click="TouchButton('new','n')"></i></div>
+                                        </div>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row row-padbot-15">
+                                <label for="inputEmail3" class="col-md-4 control-label">DATE</label>
+                                <div class="col-md-4" ng-style="{'background-color':dateStyle}">
+                                    {{Settlement.settlementon |date : 'dd-MM-yyyy hh:mm a'}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row row-padbot-15">
+                                <label for="inputEmail3" class="col-md-4 control-label">LOCATION</label>
+                                <div class="col-md-4">
+                                    {{LocationName}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row row-padbot-15">
+                                <label for="inputEmail3" class="col-md-4 control-label">COUNTER</label>
+                                <div class="col-md-8">
+                                    {{CounterName}}/{{floorname}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+
+                            <div class="row row-padbot-15">
+                                <label for="inputEmail3" class="col-md-4 control-label">BILL(s) AMOUNT</label>
+                                <div class="col-md-4">
+                                    {{Settlement.billamount|number :system_salesroundingdigit}}
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <label for="inputPassword3" class="col-md-4 control-label">DISCOUNT AMOUNT</label>
+                                <div class="col-md-4">
+                                    {{Settlement.billadditionaldiscount+Settlement.additionaldiscount|number :system_salesroundingdigit}}
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="col-md-4" style="margin-top:15px">
+                                    NET AMOUNT
+                                </div>
+                                <div class="col-md-3" style="color:brown;font-size:xx-large;vertical-align:top;">
+                                    {{Settlement.receivable|number :system_salesroundingdigit}}
+                                </div>
+
+                                <div class="col-md-5" ng-show="Settlement.balanceamount>0" style="padding-left:0px">
+                                    <label for="inputPassword3" class="col-md-6 control-label" style="padding-top:15px">BALANCE</label>
+                                    <div class="col-md-6" style="color:orangered;font-size:xx-large;vertical-align:top;">
+                                        {{Settlement.balanceamount|number :system_salesroundingdigit}}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="col-md-4" style="margin-top:15px">
+                                    RECEIVED
+                                </div>
+                                <div class="col-md-3" style="color:darkgreen;font-size:xx-large;vertical-align:top;">
+                                    {{Settlement.paidamount|number :system_salesroundingdigit}}
+                                </div>
+
+                                <div class="col-md-5" ng-show="Settlement.balanceamount<0" style="padding-left:0px">
+
+                                    <label for="inputPassword3" class="col-md-6 control-label" ng-show="Settlement.returnbillvalue>0" style="padding-top:15px">REFUND</label>
+                                    <label for="inputPassword3" class="col-md-6 control-label" ng-show="Settlement.returnbillvalue==0" style="padding-top:15px">RETURN</label>
+
+                                    <div class="col-md-6 text-right" style="color:orangered;vertical-align:top;font-size:xx-large;">
+                                        {{Settlement.balanceamount*-1|number :system_salesroundingdigit}}
+                                    </div>
+                                </div>
+                                <div class="col-md-5" ng-show="Settlement.paymentinfo.adjustment_enable" style="padding-left:0px;margin-top:15px">
+                                    <label for="inputPassword3" class="col-md-6 control-label">ADJUST</label>
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" class="form-control input-sm" placeholder="Denomination"
+                                               ng-change="PaidChanged('ADJ')"
+                                               ng-model="Settlement.paymentinfo.adjustment_paid" focusid="adjustment_paid" onkeyenter="checkbalanceandgo('cashpaid')">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="Settlement.paymentinfo.discount_enable">
+                                <label for="inputPassword3" class="col-md-4 control-label">DISCNT</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control input-sm" ng-model="Settlement.paymentinfo.discount_paid"
+                                           focusid="discountpaid" focusonenter="discountapprovedby"
+                                           ng-readonly="Settlement.paymentinfo.discount_byotp"
+                                           onkeyenter="CheckDiscountPercentage()"
+                                           ng-change="PaidChanged('DISCNT')" placeholder="Amount">
+                                    <div ng-show="Settlement.paymentinfo.discount_percentage"
+                                         style="position: absolute; right: 0px; z-index: 1000; margin-right: 20px; top: 5px; color: indianred">
+                                        {{Settlement.paymentinfo.discount_percentage}}%
+                                    </div>
+                                </div>
+                                <div class="col-md-5" style="padding-left:0px">
+                                    <select class="form-control" select2='Approved By' style="width: 100%;" ng-model="Settlement.paymentinfo.discount_approvedBy"
+                                            focusonenter="discountremarks"
+                                            focusid="discountapprovedby" options="item.id as item.code for item in EmployeeList track by item.id"></select>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="Settlement.paymentinfo.discount_paid>0 && UserInfo.p_CANAPPROVEDISCOUNT.view">
+                                <label for="inputPassword3" class="col-md-4 control-label">REMARK</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2='Discount Remark' style="width: 100%;" ng-model="Settlement.paymentinfo.discount_info"
+                                            focusonenter="cashpaid"
+                                            focusid="discountremarks" options="item.name as item.name for item in DiscountRemaks track by item.id"></select>
+
+                                    <!--<input type="text" class="form-control input-sm" style="width: 100%;" placeholder="remark" focusid="discountremarks"
+                                           onkeyenter="checkbalanceandgo('cashpaid')"
+                                           ng-model="Settlement.paymentinfo.discount_info">-->
+                                </div>
+                            </div>
+
+
+                            <div class="row row-padbot-15">
+                                <label for="inputPassword3" class="col-md-4 control-label">CASH</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control input-sm" placeholder="Denomination" ng-change="CashChanged(Settlement.paymentinfo.cash_paid)"
+                                           ng-model="Settlement.paymentinfo.cash_paid" onkeyenter="checkbalanceandgo('cardpaid')" focusid="cashpaid">
+                                </div>
+                                <div class="col-md-5 text-right" style="font-size:large;color:darkgreen;padding-left:0px">
+                                    <input type="text" class="form-control input-sm" placeholder="Denomination" ng-change="CashChanged(Settlement.paymentinfo.cash_dinamination)"
+                                           ng-model="Settlement.paymentinfo.cash_dinamination" onkeyenter="checkbalanceandgo('cardpaid')">
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-hide="true">
+                                <label for="inputPassword3" class="col-md-4 control-label">RETURN DINOMINATION</label>
+                                <div class="col-md-8">
+                                    <div class="col-sm-3 no-padding" ng-repeat="item in Settlement.paymentinfo.return_dinamination">
+                                        <b>{{item.d}}</b> - {{item.m}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="UserInfo.appsettings.int_payment">
+                                <div class="col-md-12 no-padding" ng-show="UserInfo.appsettings.int_paymode==1">
+                                    <label for="inputPassword3" class="col-md-4 control-label">{{PaymentIntegration.Integrater.name}}</label>
+                                    <div class="col-md-8">
+                                        <div class="input-group input-group-sm">
+                                            <select class="form-control" select2='Bank' style="width: 100%;" 
+                                                    ng-model="PaymentIntegration.optionid"
+                                                    focusid="Innoviti_optionid" focusonenter="Innoviti_pay"
+                                                    options="item.id as item.name for item in PaymentIntegration.Integrater.Options track by item.id"></select>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-flat"
+                                                        focusid="Innoviti_pay"
+                                                        ng-click="PaymentIntegration.Integrater.Run(PaymentIntegration.optionid,Settlement)">
+                                                    Pay
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 no-padding" ng-show="UserInfo.appsettings.int_paymode==2">
+                                    <label for="inputPassword3" class="col-md-4 control-label">{{PaymentIntegration.Integrater.name}}</label>
+                                    <div class="col-md-3">
+                                        <select class="form-control" select2='Mode'
+                                                focusid="Razerpay_optionid" focusonenter="Razerpay_mode" 
+                                                ng-change="PaymentIntegration.lock=false"
+                                                ng-model="PaymentIntegration.optionid"
+                                                options="item.id as item.name for item in PaymentIntegration.Integrater.Options track by item.id"></select>
+
+                                    </div>
+                                    <div class="col-md-5" style="padding-left:0px">
+                                        <div class="input-group input-group-sm">
+                                            <div class="col-md-12 no-padding">
+                                                <select class="form-control" select2='Device'
+                                                        ng-disabled="PaymentIntegration.lock"
+                                                        ng-model="PaymentIntegration.deviceid"
+                                                        focusid="Razerpay_mode" focusonenter="Razer_pay"
+                                                        ng-change="PaymentIntegration.configChanged(PaymentIntegration.deviceid,SwippingList)"
+                                                        options="item.code as item.name for item in SwippingList track by item.code"></select>
+                                            </div>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-flat"
+                                                        focusid="Razer_pay" ng-hide="PaymentIntegrationRunning"
+                                                        ng-click="PaymentIntegration.Integrater.Run(PaymentIntegration.deviceid,PaymentIntegration.deviceconfig,PaymentIntegration.optionid,Settlement)">
+                                                    Swipe
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-flat"
+                                                        ng-show="PaymentIntegrationRunning"
+                                                        ng-click="PaymentIntegration.Integrater.Cancel()">
+                                                    Cancel
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-show="UserInfo.appsettings.int_paymode==3">
+                                    <label for="inputPassword3" class="col-md-4 control-label">{{PaymentIntegration.Integrater.name}}</label>
+                                    <div class="col-md-3">
+                                        <select class="form-control" select2='Mode'
+                                                focusid="Pinelab_optionid" focusonenter="Pinelab_mode" 
+                                                ng-model="PaymentIntegration.optionid"
+                                                ng-change="PaymentIntegration.lock=false"
+                                                options="item.id as item.name for item in PaymentIntegration.Integrater.Options track by item.id"></select>
+
+                                    </div>
+                                    <div class="col-md-5" style="padding-left:0px">
+                                        <div class="input-group input-group-sm">
+                                            <div class="col-md-12 no-padding">
+                                                <select class="form-control" select2='Device'
+                                                        ng-disabled="PaymentIntegration.lock"
+                                                        ng-model="PaymentIntegration.deviceid"
+                                                        ng-change="PaymentIntegration.configChanged(PaymentIntegration.deviceid,SwippingList)"
+                                                        focusid="Pinelab_mode" focusonenter="Pinelab_pay"
+                                                        options="item.code as item.name for item in SwippingList track by item.code"></select>
+                                            </div>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-flat"
+                                                        focusid="Pinelab_pay" ng-hide="PaymentIntegrationRunning"
+                                                        ng-click="PaymentIntegration.Integrater.Run(PaymentIntegration.deviceid,PaymentIntegration.deviceconfig,PaymentIntegration.optionid,Settlement)">
+                                                    Swipe
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-flat"
+                                                        ng-show="PaymentIntegrationRunning"
+                                                        ng-click="PaymentIntegration.Integrater.Cancel()">
+                                                    Cancel
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-show="UserInfo.appsettings.int_paymode==4">
+                                    <label for="inputPassword3" class="col-md-4 control-label">{{PaymentIntegration.Integrater.name}}</label>
+                                    <div class="col-md-3">
+                                        <select class="form-control" select2='Mode'
+                                                focusid="paytm_optionid" focusonenter="paytm_mode"
+                                                ng-change="PaymentIntegration.lock=false"
+                                                ng-model="PaymentIntegration.optionid"
+                                                options="item.id as item.name for item in PaymentIntegration.Integrater.Options track by item.id"></select>
+
+                                    </div>
+                                    <div class="col-md-5" style="padding-left:0px">
+                                        <div class="input-group input-group-sm">
+                                            <div class="col-md-12 no-padding">
+                                                <select class="form-control" select2='Device'
+                                                        style="width:100%"
+                                                        ng-disabled="PaymentIntegration.lock"
+                                                        ng-model="PaymentIntegration.deviceid"
+                                                        ng-change="PaymentIntegration.configChanged(PaymentIntegration.deviceid,SwippingList)"
+                                                        focusid="paytm_mode" focusonenter="paytm_pay"
+                                                        options="item.code as item.name for item in SwippingList track by item.code"></select>
+                                            </div>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-flat"
+                                                        focusid="paytm_pay" ng-hide="PaymentIntegrationRunning"
+                                                        ng-click="PaymentIntegration.Integrater.Run(PaymentIntegration.deviceid,PaymentIntegration.deviceconfig,PaymentIntegration.optionid,Settlement)">
+                                                    Swipe
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-flat"
+                                                        ng-show="PaymentIntegrationRunning"
+                                                        ng-click="PaymentIntegration.Integrater.Cancel()">
+                                                    Cancel
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <label for="inputPassword3" class="col-md-4 control-label">CARD</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="Paid" focusid="cardpaid" ng-change="PaidChanged('CARD')"
+                                           onkeyenter="checkmachineandbank()" ng-model="Settlement.paymentinfo.card_paid">
+                                </div>
+                                <div class="col-md-5" style="padding-left:0px" ng-hide="system_swippingmachine">
+                                    <select class="form-control" select2='Bank' style="width: 100%;" ng-model="Settlement.paymentinfo.card_bankid" focusid="bankid"
+                                            onkeyenter="checkbalanceandgo('cardno')" options="item.id as item.name for item in BankList track by item.id"></select>
+                                </div>
+                                <div class="col-md-5" style="padding-left:0px" ng-show="system_swippingmachine">
+                                    <select class="form-control" select2='Machine' style="width: 100%;" ng-model="Settlement.paymentinfo.card_machineid" focusid="cardmachineid"
+                                            onkeyenter="checkbalanceandgo('cardno')" options="item.id as item.name for item in SwippingList track by item.id"></select>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="system_salecollectcarddata && Settlement.paymentinfo.card_paid>0">
+                                <label for="inputPassword3" class="col-md-4 control-label">INFO</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;"
+                                           placeholder="Card No" focusid="cardno"
+                                           focusonenter="cardtypeid"
+                                           ng-model="Settlement.paymentinfo.card_no">
+                                </div>
+                                <div class="col-md-5" style="padding-left:0px">
+                                    <select class="form-control" select2='type' style="width: 100%;" ng-model="Settlement.paymentinfo.card_typeid" focusid="cardtypeid"
+                                            onkeyenter="checkbalanceandgo('upipaid')"
+                                            options="item.id as item.name for item in CardTypeList track by item.id"></select>
+                                </div>
+                            </div>
+
+
+                            <!--<div class="row row-padbot-15" ng-show="false && Settlement.paymentinfo.card_paid>0">
+        <label for="inputPassword3" class="col-md-4 control-label">INFO</label>
+        <div class="col-md-3">
+            <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="Card No" focusid="carno" focusonenter="cardremark" ng-model="Settlement.paymentinfo.card_no">
+        </div>
+        <div class="col-md-5" style="padding-left:0px" >
+            <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="remark" focusid="cardremark" onkeyenter="checkbalanceandgo('cardpaid')"
+                   ng-model="Settlement.paymentinfo.card_info">
+        </div>
+    </div>-->
+                            <div class="row row-padbot-15">
+                                <label for="inputPassword3" class="col-md-4 control-label">UPI</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control input-sm"
+                                           ng-model="Settlement.paymentinfo.upi_paid"
+                                           focusid="upipaid"
+                                           onkeyenter="checkbalanceandgo('upiprovider')"
+                                           ng-change="PaidChanged('UPI')" placeholder="Amount">
+                                </div>
+                                <div class="col-md-5" style="padding-left:0px">
+                                    <select class="form-control" select2='UPI Proivder' style="width: 100%;"
+                                            ng-model="Settlement.paymentinfo.upiproviderid"
+                                            focusid="upiprovider"
+                                            onkeyenter="checkbalanceandgo('upicardno')"
+                                            options="item.id as item.code for item in UPIProviderList track by item.id"></select>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15" ng-show="system_salecollectcarddata && Settlement.paymentinfo.upi_paid>0">
+                                <label for="inputPassword3" class="col-md-4 control-label">INFO</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;"
+                                           placeholder="Ref No" focusid="upicardno"
+                                           onkeyenter="checkbalanceandgo('creditpaid')"
+                                           ng-model="Settlement.paymentinfo.card_no">
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="Settlement.paymentinfo.has_credit">
+                                <div for="inputPassword3" class="col-md-4 control-label"><div class="pull-left col-md-6 no-padding">CREDIT</div><div class="pull-right"><input ng-model="Settlement.paymentinfo.credit_partly" type="checkbox" />&nbsp;&nbsp;Partly</div></div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control input-sm" ng-model="Settlement.paymentinfo.credit_paid"
+                                           focusid="creditpaid" focusonenter="approvedby" ng-readonly="!Settlement.paymentinfo.credit_partly"
+                                           ng-change="PaidChanged('CREDIT')" placeholder="Amount">
+                                </div>
+                                <div class="col-md-5" style="padding-left:0px">
+                                    <select class="form-control" select2='Approved By' style="width: 100%;"
+                                            ng-model="Settlement.paymentinfo.credit_approved"
+                                            onkeyenter="checkloansettlement()"
+                                            focusid="approvedby" options="item.id as item.code for item in EmployeeList track by item.id"></select>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="system_loansettlement">
+                                <label for="inputPassword3" class="col-md-4 control-label">LOAN</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control input-sm" ng-model="Settlement.paymentinfo.loan_paid"
+                                           focusid="loanpaid" focusonenter="loanprovider"
+                                           ng-change="PaidChanged('LOAN')" placeholder="Amount">
+                                </div>
+                                <div class="col-md-5" style="padding-left:0px">
+                                    <select class="form-control" select2='Loan Proivder' style="width: 100%;" ng-model="Settlement.paymentinfo.loanproviderid"
+                                            focusid="loanprovider"
+                                            focusonenter="loanreference"
+                                            options="item.id as item.code for item in LoanProviderList track by item.id"></select>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="system_loansettlement">
+                                <label for="inputPassword3" class="col-md-4 control-label">LOAN NO</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control input-sm" ng-model="Settlement.paymentinfo.loan_reference"
+                                           focusid="loanreference" onkeyenter="checkbalanceandgo('autocoding')">
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="Settlement.paymentinfo.referralemployee">
+                                <label for="inputPassword3" class="col-md-4 control-label">EMPLOY</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2='Referral By' style="width: 100%;"
+                                            ng-model="Settlement.paymentinfo.referralemployeeid"
+                                            options="item.id as item.code for item in EmployeeList track by item.id"></select>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="Settlement.paymentinfo.referralagent">
+                                <label for="inputPassword3" class="col-md-4 control-label">AGENT</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2='Employee' style="width: 100%;"
+                                            ng-model="Settlement.paymentinfo.referralagentid"
+                                            options="item.id as item.code for item in AgentList track by item.id"></select>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <label for="inputPassword3" class="col-md-4 control-label">VOUCHER</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control input-sm" ng-readonly="true"
+                                           ng-model="Settlement.paymentinfo.voucher_paid">
+                                </div>
+                                <div class="col-md-5" style="padding-left:0px">
+                                    <input type="text" focusid="voucher_id" class="form-control input-sm"
+                                           ng-model="Settlement.paymentinfo.voucher_last" onkeyenter="NewVoucher()">
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="Settlement.paymentinfo.voucher_paid>0">
+                                <label for="inputPassword3" class="col-md-4 control-label">Remark</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;"
+                                           placeholder="remark" focusid="voucher_reference"
+                                           onkeyenter="checkbalanceandgo('voucher_paid')"
+                                           ng-model="Settlement.paymentinfo.voucher_reference">
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="voucherlist.length>0">
+                                <div class="col-md-12">
+                                    <div class="table-responsive mailbox-messages">
+                                        <table fixed-header="120px" class="fixed_table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:150px">Code</th>
+                                                    <th style="width:100px">Amount</th>
+                                                    <th style="width:70px;text-align:center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in voucherlist">
+                                                    <td style="font-size:smaller;color:brown">{{item.code}}</td>
+                                                    <td>{{item.amount}}&nbsp;&nbsp;/&nbsp;&nbsp;{{item.available}}</td>
+                                                    <td>
+                                                        <button type="button" class="btn-danger btn btn-xs" ng-click="ManageSearchItem('Delete',item)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row col-md-12" ng-show="lastrefundamount>0 && Settlement.Billsettlement.length==0">
+                                <div class="row row-padbot-15">
+                                    <div class="col-md-4" style="margin-top:15px">
+                                        LAST RETURN AMOUNT
+                                    </div>
+                                    <div class="col-md-3" style="color:darkgreen;font-size:xx-large;vertical-align:top;">
+                                        {{lastrefundamount|number :system_salesroundingdigit}}
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="row col-md-12">
+                            <label for="inputEmail3" class="control-label text-green" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+</div>
+
+<script type="text/ng-template" id="SpecialDiscount">
+    <div class="ngdialog-message">
+        <div class="row row-padbot-15">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <label class="control-label pull-right" style="color:brown;font-size:medium;vertical-align:top;">Maximum Allowed Cashier Limit @ {{AD}}%</label>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="control-label">Discount</label>
+                </div>
+                <div class="col-md-8">
+                    <div class="col-md-4 no-padding">
+                        <input  type="text" style="width:100%"  ng-readonly="true" class="form-control input-sm" ng-model="totalreceivable">
+                    </div>
+                    <div class="col-md-4 no-padding">
+                        <input type="text" style="width:100%" class="form-control input-sm" 
+                               ng-change="discountchanged()" ng-readonly="CanAskPasscode"
+                               ng-model="discount_paidpercentage" focusid="discountpercent" focusonenter="discountvalue">
+                        <div style="position:absolute;top:5px;right:10px">
+                            %
+                        </div>
+                    </div>
+                    <div class="col-md-4 no-padding">
+                        <input  type="text" style="width:100%"  class="form-control input-sm" ng-model="discount_paid" 
+                               ng-change="discountvaluechanged()" ng-readonly="CanAskPasscode" 
+                               focusid="discountvalue" focusonenter="discreason">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row row-padbot-15">
+            <div class="form-group">
+                <div class="col-md-4">
+                    <label class="control-label">Reason</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control input-sm" ng-model="discount_info" focusid="discreason" focusonenter="discapprovedby">
+                </div>
+            </div>
+        </div>
+        <div class="row row-padbot-15">
+            <div class="form-group">
+                <div class="col-md-4">
+                    <label class="control-label">Approved by</label>
+                </div>
+                <div class="col-md-8">
+                    <select class="form-control" style="width: 100%;" select2="Approved By"
+                            options="item.id as item.code for item in EmployeeList track by item.id" ng-model="discount_approvedBy" focusid="discapprovedby" focusonenter="employeecode"></select>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-4 no-padding" ng-show="!CanApprove && DiscountValue>0">
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6 no-padding">
+                    <input type="text" style="width:100%" class="input-sm" ng-model="EmployeeCode" placeholder="E.Code" focusid="employeecode"
+                           focusonenter="passcode" onkeyenter="RequestSMS()" />
+                </div>
+                <div class="col-md-6 no-padding">
+                    <input type="text" style="width:100%" class="input-sm" ng-model="PassCode"
+                           ng-readonly="!CanAskPasscode"
+                           placeholder="P.Code" focusid="passcode"
+                           onkeyenter="RequestPermission()" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 no-padding pull-right">
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="closeThisDialog()">Close</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-show="CanApprove" ng-click="Approve()">Approve</button>
+
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="UpdateCustomer">
+    <h4 style="font-size:large;color:brown">
+        Please Select Customer
+    </h4>
+    <div class="ngdialog-message">
+        <div class="md-col-12 row">
+            <div class="col-md-12">
+                <label>Mobile No</label>
+                <div class="input-group-sm">
+                    <input type="text" class="form-control input-sm" placeholder=""
+                           focusonenter="customer_name" ng-model="contactno" focusid="customer_contact"
+                           onkeyenter="Search()">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label>Name</label>
+                <div class="input-group-sm">
+                    <input type="text" class="form-control input-sm" style="width: 100%;" focusid="customer_name"
+                           focusonenter="customer_birthdate" ng-model="name">
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="UpdateCreditBill()">OK</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary btn-sm" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

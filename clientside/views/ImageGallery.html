@@ -1,0 +1,139 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Image Gallery
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer">
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280"
+                             ng-model="uploadfilename"
+                             filetype="DATA"
+                             filemodel="uploadfilename" onuploadcomplete='fileuploadedcomplete'
+                             uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                             multiple="false">
+                    <i class="fa fa-upload">Import Excel</i>
+                </file-upload>
+            </li>
+            <li ng-show="BarcodeList.length>0" style="cursor:pointer" ng-click="Search()"><a><i class="fa fa-search"></i>Search</a></li>
+            <li style="cursor:pointer"
+                ng-show="Report != null"
+                ng-click="DownloadPDF()"><a><i class="fa fa-download"></i>Download</a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-2">
+                        <div class="col-md-6 no-padding">
+                            <label class="col-md-12 no-padding">Rows</label>
+                            <div class="col-md-12 no-padding">
+
+                                <select class="input-sm" style="width:100%" ng-model="RowCount">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 no-padding">
+                            <label class="col-md-12 no-padding">Columns</label>
+                            <div class="col-md-12 no-padding">
+                                <select class="input-sm" style="width:100%" ng-model="ColumnCount">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <table class="fixed_table" id="stockanalyser" fixed-header="100px" additionalheight="300">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            Details
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in Options">
+                                        <td tablecell><input type="checkbox" ng-model="item.selected" /></td>
+                                        <td tablecell>{{item.name}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <select class="input-sm" style="width:100%" ng-model="DetailPosition">
+                                <option value="0">None</option>
+                                <option value="1">Top</option>
+                                <option value="2">Bottom</option>
+                                <option value="3">Left</option>
+                                <option value="4">Right</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+
+                            <div class="col-md-12 no-padding">
+                                <div class="input-group input-group-sm">
+                                    <input method="text" class="input-sm form-control"
+                                           style="width: 100%;"
+                                           onkeyenter="AddBarcode(directbarcode)"
+                                           ng-model="directbarcode"
+                                           placeholder="Barcode">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-danger btn-sm btn-flat"
+                                                ng-click="PopItems()">
+                                            &nbsp;Add Barcode
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <div id="gridBarcodes">
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-10 no-padding">
+                        <div id="gridResultContainer">
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+

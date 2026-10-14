@@ -1,0 +1,92 @@
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+using InfyPOS.Models;
+using InfyPOS.Common;
+using InfyPOS.Data;
+
+namespace InfyPOS.Controllers
+{
+    [RoutePrefix("ShiftAllocationService")]
+    public class ShiftAllocationServiceController : ApiController
+    {
+
+        [HttpGet]
+        [Route("Entity")]
+        public async Task<IHttpActionResult> Entity()
+        {
+            var result = new ActionRequest<ShiftAllocation>();
+            result.Item = new ShiftAllocation();
+            return this.Ok(result);
+        }
+
+        [HttpPost]
+        [Route("Search")]
+        public async Task<IHttpActionResult> Search(ActionRequest<ShiftAllocationCreteria> request)
+        {
+            ShiftAllocationDataService ShiftAllocationData = new ShiftAllocationDataService();
+            ShiftAllocation result = await Task<ShiftAllocation>.Run(() => ShiftAllocationData.Search(request.Item));
+            return this.Ok(result);
+        }
+
+        [HttpPost]
+        [Route("Generate")]
+        public async Task<IHttpActionResult> Generate(ActionRequest<ShiftAllocationCreteria> request)
+        {
+            ShiftAllocationDataService ShiftAllocationData = new ShiftAllocationDataService();
+            ShiftAllocation result = await Task<ShiftAllocation>.Run(() => ShiftAllocationData.Generate(request.Item));
+            if(result.summary.Count>0)
+            result.maxemployeeperday = result.summary.Max(e => e.employees.Count);
+            return this.Ok(result);
+        }
+
+        [HttpPost]
+        [Route("Save")]
+        public async Task<IHttpActionResult> Save(ActionRequest<ShiftAllocation> request)
+        {
+            ShiftAllocationDataService ShiftAllocationData = new ShiftAllocationDataService();
+            if (request.Item.id <= 0)
+            {
+                ShiftAllocation result = await Task<ShiftAllocation>.Run(() => ShiftAllocationData.Insert(request.Item));
+                return this.Ok(result);
+            }
+            else
+            {
+                ShiftAllocation result = await Task<ShiftAllocation>.Run(() => ShiftAllocationData.Update(request.Item));
+                return this.Ok(result);
+            }
+        }
+
+        [HttpPost]
+        [Route("Insert")]
+        public async Task<IHttpActionResult> Insert(ActionRequest<ShiftAllocation> request)
+        {
+            ShiftAllocationDataService ShiftAllocationData = new ShiftAllocationDataService();
+            ShiftAllocation result = await Task<ShiftAllocation>.Run(() => ShiftAllocationData.Insert(request.Item));
+            return this.Ok(result);
+        }
+
+        [HttpPost]
+        [Route("Update")]
+        public async Task<IHttpActionResult> Update(ActionRequest<ShiftAllocation> request)
+        {
+            ShiftAllocationDataService ShiftAllocationData = new ShiftAllocationDataService();
+            ShiftAllocation result = await Task<ShiftAllocation>.Run(() => ShiftAllocationData.Update(request.Item));
+            return this.Ok(result);
+        }
+
+        [HttpPost]
+        [Route("Delete")]
+        public async Task<IHttpActionResult> Delete(ActionRequest<ShiftAllocation> request)
+        {
+            ShiftAllocationDataService ShiftAllocationData = new ShiftAllocationDataService();
+            bool result = await Task<bool>.Run(() => ShiftAllocationData.Delete(request.Item));
+            return this.Ok(result);
+        }
+    }
+}

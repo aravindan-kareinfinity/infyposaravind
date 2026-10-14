@@ -1,0 +1,223 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Warehouse / Transport Issue
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="Clear()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" ng-disabled="SaveRequest" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.searchentity && SearchResult.length>0" style="cursor:pointer" ng-click="exporttoExcel('#resulttable','Courier Entry Report')"><a><i class="fa fa-download"></i>Export</a></li>
+            <li ng-show="IssueLR.id>0" style="cursor:pointer" ng-click="printDiv()"><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-success">
+            <form name="IssueLRForm" role="form">
+
+                <div class="box-body">
+                    <div class="row row-padbot-15">
+                        <div class="col-sm-5 col-md-5">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 col-md-4 form-group required control-label">Booking Office</label>
+                                <div class="col-sm-8 col-md-8">
+                                    {{SearchRef(IssueLR.bookingofficeid,BookingOffice)}}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-5 col-md-5">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 col-md-4 form-group control-label">Issue Number</label>
+                                <div class="col-sm-8 col-md-8">
+                                    <input method="text" class="form-control input-sm" ng-readonly="true" ng-model="IssueLR.issueno">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-5 col-sm-5">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 col-md-4 form-group required control-label">Collected By</label>
+                                <div class="col-sm-8 col-md-8">
+                                    <select class="form-control" select2='Employee' ng-model="IssueLR.collectingby" style="width:100%"
+                                            options="item.id as item.name for item in CollectedBy track by item.id" focusid="collectingby" focusonenter="issuedate"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-5 col-sm-5">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 col-md-4 form-group required control-label">Issue Date</label>
+                                <div class="col-sm-8 col-md-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right input-sm" datemodule="IssueLR.issuedate" ng-model="issuelR.issuedate" focusid="issuedate" focusonenter="lrno">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <!-- /.row -->
+                        <div class="col-md-5 col-sm-5">
+
+
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 col-md-4 form-group required control-label">LR Number</label>
+                                <div class="col-sm-8 col-md-8">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control input-sm" ng-model="LrSearchCondition.lrno" focusid="lrno" focusonenter="entryno">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-box" ng-click="AddLrItems()">Add</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-5 col-sm-5">
+                            <div class="form-group">
+                                <label for="inputEmail3" class=col-sm-4 col-md-4 form-group required control-label">Entry Number</label>
+                                <div class="col-md-8">
+                                    <div class="input-group input-group-sm">
+
+                                        <input type="text" class="form-control input-sm" ng-model="LrSearchCondition.lrentryno" focusid="entryno" focusonenter="fromlocationid">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-box" ng-click="AddLrItems()">Add</button>
+                                        </span>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12 col-sm-12">
+                            <table fixed-header="230px" additionalheight="170" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:10px">&nbsp;</th>
+
+                                        <th style="width:100px">SO No</th>
+                                        <th style="width:100px">SO Date</th>
+                                        <th style="width:100px">O Qty</th>
+                                        <th style="width:100px">P Qty</th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SOList.Salesorderitems">
+                                        <td></td>
+                                      
+                                        <td>{{item.sono}}</td>
+                                        <td>{{item.sodate | date:'dd-MM-yyyy'}}</td>
+                                        <td>{{item.oqty}}</td>
+                                        <td>{{item.plannedqty}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+
+                        <!-- /.col -->
+                        <div class="col-md-5 col-sm-5">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 clo-md-4 control-label">From Location</label>
+                                <div class="col-sm-8 col-md-8">
+                                    {{SearchRef(IssueLR.fromlocationid,City)}}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-7 col-sm-7">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-5 col-md-5 control-label">No Of Bundles/Boxes/Pieces</label>
+                                <div class="col-md-7">
+                                    <div class="col-sm-4 col-md-4 no-padding">
+                                        <input method="text" class="form-control input-sm" ng-readonly="true" style="width: 100%;" ng-model="IssueLR.noofbundels" focusid="noofbundels" focusonenter="noofboxes">
+                                    </div>
+                                    <div class="col-sm-4 col-md-4 no-padding">
+                                        <input method="text" class="form-control input-sm" ng-readonly="true" style="width: 100%;" ng-model="IssueLR.noofboxes" focusid="noofboxes" focusonenter="noofpieces">
+                                    </div>
+                                    <div class="col-sm-4 col-md-4 no-padding">
+                                        <input method="text" class="form-control input-sm" ng-readonly="true" style="width: 100%;" ng-model="IssueLR.noofpieces" focusid="noofpieces" focusonenter="frieghtcharges">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-5 col-sm-5">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 clo-md-4 control-label">Receiving Location</label>
+                                <div class="col-sm-8 col-md-8">
+
+                                    {{SearchRef(IssueLR.receivinglocationid,City)}}
+
+                                    <!--<select class="form-control" select2='Location' ng-model="IssueLR.receivinglocationid"
+                                    options="item.id as item.name for item in City track by item.id"
+                                    focusid="receivinglocationid"></select>-->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /.col -->
+                        <div class="col-md-7 col-sm-7">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-5 col-md-5 control-label">Fright Charge</label>
+
+                                <div class="col-md-7">
+                                    <div class="col-md-4 no-padding">
+                                        <input method="text" class="form-control input-sm" ng-readonly="true"
+                                               style="width: 100%;" ng-model="IssueLR.frieghtcharges" focusid="frieghtcharges" focusonenter="noofpieces">
+                                    </div>
+                                    <div class="col-md-4 no-padding">
+                                        <label for="inputEmail3">Weight</label>
+                                    </div>
+                                    <div class="col-md-4 no-padding">
+                                        <input method="text" class="form-control input-sm" ng-readonly="true"
+                                               style="width: 100%;" ng-model="IssueLR.weight" focusid="frieghtcharges" focusonenter="noofpieces">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                </div>
+
+            </form>
+        </div>
+
+      
+    </section>
+</div>

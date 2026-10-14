@@ -1,0 +1,170 @@
+﻿<div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+                Purchase Budget
+            </h1>
+            <ol class="breadcrumb">
+                <li style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save &nbsp;({{ModifiedCount}})</a></li>
+                <li style="cursor:pointer" ng-show="ReportPage" ng-click="ShowConfig()"><a><i class="fa fa-gears"></i>Configuration</a></li>
+                <li style="cursor:pointer" ng-hide="ReportPage || !ProductLoaded" ng-click="ShowConfig()"><a><i class="fa fa-file"></i>Report</a></li>
+            </ol>
+
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <!-- first row starts  -->
+            <div class="box box-primary">
+                <div class="box-body">
+
+                    <div class="col-md-12 no-padding" ng-show="ReportPage">
+
+                        <div class="col-md-2 no-padding">
+
+                            <div class="col-md-12" style="padding-left:0px">
+                                <label for="inputEmail3" class="control-label no-margin">Report</label>
+                                <select class="input-sm form-control" options="item.id as item.name for item in ReportList track by item.id" ng-model="SearchCondition.reportid" select2=""></select>
+                            </div>
+                            <div class="col-md-12" style="padding-left:0px">
+                                <label for="inputEmail3" class="control-label no-margin">Sales Range</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" daterange="SearchCondition.sfrom,SearchCondition.sto" class="input-sm form-control">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-info" ng-click="Report()" focusid="go">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="padding-top: 10px; padding-left: 0px">
+
+                                <div class="col-md-12 no-padding" id="sbdggrid">
+
+                                </div>
+
+                                <!--<table fixed-header="130px" additionalheight="450">
+        <thead>
+            <tr>
+                <th width="50px">
+                    &nbsp;
+                </th>
+                <th width="100%">Budgets</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in Budgets">
+                <td>
+                    <input type="checkbox" style="margin-right:10px" ng-model="item.view">
+                </td>
+                <td>{{item.name}}</td>
+            </tr>
+        </tbody>
+    </table>-->
+                            </div>
+                            <div class="col-md-12" style="padding-left:0px">
+                                <div class="col-md-12 no-padding" id="smnggrid">
+
+                                </div>
+                                <!--<table fixed-header="130px" additionalheight="450">
+        <thead>
+            <tr>
+                <th width="50px">
+                    &nbsp;
+                </th>
+                <th width="100%">Manager</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in PurchaseManager">
+                <td>
+                    <input type="checkbox" style="margin-right:10px" ng-model="item.view">
+                </td>
+                <td>{{item.name}}</td>
+            </tr>
+        </tbody>
+    </table>-->
+                            </div>
+                            <div class="col-md-12" style="padding-left:0px">
+                                <div class="col-md-12 no-padding" id="sprdgrid">
+
+                                </div>
+                                <!--<table fixed-header="130px" additionalheight="400">
+        <thead>
+            <tr>
+                <th width="50px">
+                    &nbsp;
+                </th>
+                <th width="100%">Products</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in ProductList">
+                <td>
+                    <input type="checkbox" style="margin-right:10px" ng-model="item.view">
+                </td>
+                <td>{{item.name}}</td>
+            </tr>
+        </tbody>
+    </table>-->
+                            </div>
+                        </div>
+
+                        <div class="col-md-10" style="padding-right:0px">
+                            <div class="col-md-12 no-padding" id="rptContainer">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding" ng-hide="ReportPage">
+                        <div class="col-md-4" style="padding-left:0px">
+                            <div class="col-md-12 no-padding">
+                                <label for="inputEmail3" class="form-group required control-label no-margin">Budget</label>
+
+                                <div class="input-group input-group-sm">
+                                    <select class="input-sm form-control" options="item.id as item.name for item in Budgets track by item.id" ng-model="ProductBudget.budgetid" select2=""></select>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-info" ng-click="Search()" focusid="go">Go!</button>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding" id="gridContainer">
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 no-padding">
+                            <div class="col-md-12 no-padding">
+                                <label for="inputEmail3" class="form-group required control-label no-margin">Products</label>
+
+                                <div class="input-group input-group-sm">
+                                    <select class="input-sm form-control" options="item.id as item.name for item in ProductList track by item.id" ng-model="ProductBudget.productid" select2=""></select>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-info" ng-click="AddProduct()" focusid="go">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding" id="prdContainer">
+
+                            </div>
+                        </div>
+
+                        
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+

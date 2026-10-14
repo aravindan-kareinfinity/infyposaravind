@@ -1,0 +1,684 @@
+﻿   <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Product Details
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+<li><a href back-button>Back</a></li>
+            <li class="active">Product Details</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body ">
+                <div class="row row-padbot-15">
+                    <div class="col-sm-6">
+                        <div class="row row-padbot-15">
+                            <div class="col-sm-6 no-padding">
+                                <div class="col-sm-5">
+                                    <label for="inputEmail3">Supplier</label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-readonly="true" ng-model="Invoice.suppliercompanyname">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 no-padding">
+                                <div class="col-sm-6">
+                                    <label for="inputEmail3">No of Pieces</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-readonly="true" ng-model="Invoice.noofpieces">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-sm-6 no-padding">
+                                <div class="col-sm-5">
+                                    <label for="inputEmail3">Company</label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-readonly="true" ng-model="Invoice.companyname">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 no-padding">
+                                <div class="col-sm-6">
+                                    <label for="inputEmail3">No of Bundles</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-readonly="true" ng-model="Invoice.noofbundle">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-sm-6 no-padding">
+                                <div class="col-sm-5">
+                                    <label for="inputEmail3">Inv. No/Date</label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="text" class="input-sm form-control pull-right" ng-readonly="true" value="{{Invoice.invoiceno}} / {{Invoice.invoicedate | date :'dd-MM-yyyy'}}">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 no-padding">
+                                <div class="col-sm-6">
+                                    <label for="inputEmail3">Base Amount</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="input-sm form-control" ng-readonly="true" style="width: 100%;" ng-model="Invoice.baseamount">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-sm-6 no-padding">
+                                <div class="col-sm-5">
+                                    <label for="inputEmail3">LR Details</label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-readonly="true" value="{{Invoice.lrno}} / {{Invoice.lrentryno}}">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 no-padding">
+                                <div class="col-sm-6">
+                                    <label for="inputEmail3">Total Amount</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-readonly="true" ng-model="Invoice.totalamount">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 no-padding">
+
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="col-md-6" ng-show="ShowInvoiceList">
+                                    <select class="input-sm form-control" select2="Select Product" ng-model="ProductSearch.currentInvoiceID" options="item.id as item.invoiceno for item in InvoiceList track by item.id"></select>
+                                </div>
+                                <div class="col-md-2" ng-show="ShowInvoiceList">
+                                    <button class="btn btn-warning" ng-click="LoadInvoice()">Go</button>
+                                </div>
+                                <div class="col-md-8" ng-hide="ShowInvoiceList">
+
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-warning btn-sm pull-right" ng-click="SwitchPanel()">Search</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table fixed-header="100px" class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th>Tax %</th>
+                                                <th>Amount</th>
+                                                <th>Discnt</th>
+                                                <th>Tax</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in Invoice.Lrinvoicetaxitems">
+                                                <td>{{item.percentage}}%</td>
+                                                <td>{{item.amounton}}</td>
+                                                <td>{{item.discount}}@{{item.discountpercentage}}%</td>
+                                                <td>{{item.taxamount}}</td>
+                                                <td>{{item.netamount}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row no-padding">
+                    <div class="col-md-12">
+                        <div class="col-md-6 no-padding">
+                            <div class="col-md-4 no-padding">
+                                <small>Product</small>
+                                <select class="input-sm form-control" select2="Select Product" ng-model="ProductSearch.ProductID" ng-change="productChange()"
+                                        options="item.id as item.name for item in ProductList track by item.id"
+                                        focusid="ProductID" focusonenter="brandid"></select>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <small>Brand</small>
+                                <select class="input-sm form-control" options="item.id as item.name for item in BrandName track by item.id" ng-change="findItems()"
+                                        ng-model="ItemDetails.Details.brandid" focusid="brandid" focusonenter="taxid" select2="Select Brand"></select>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <small>S.Tax</small>
+                                <select class="input-sm form-control" select2="Tax" ng-model="ItemDetails.taxid" ng-change="taxChange()"
+                                        options="item.id as item.name for item in PurchaseTax track by item.id"
+                                        focusid="taxid" focusonenter="designid "></select>
+                            </div>
+                            <div class="col-md-2 no-padding">
+
+                                <small>DesingNo</small>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="input-sm form-control" placeholder="Design No" ng-model="ItemDetails.designid"
+                                           focusid="designid" focusonenter="patternid" onshiftenter="SearchDesign()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 no-padding">
+
+
+                            <div class="col-sm-3 no-padding">
+                                <small>Pattern</small>
+                                <select class="input-sm form-control" select2="Pattern" ng-model="ItemDetails.Details.patternid" options="item.id as item.name for item in PatternList track by item.id" focusid="patternid" focusonenter="styleid"></select>
+                            </div>
+                            <div class="col-sm-3 no-padding">
+                                <small>Style</small>
+                                <select class="input-sm form-control" select2="Style" ng-model="ItemDetails.Details.styleid" options="item.id as item.name for item in StyleList track by item.id" focusid="styleid" focusonenter="sizeid"></select>
+                            </div>
+
+
+                            <div class="col-sm-3 no-padding">
+                                <small>Size</small>
+                                <select class="input-sm form-control" select2="Size" ng-model="ItemDetails.Details.sizeid" options="item.id as item.name for item in SizeList track by item.id" focusid="sizeid" focusonenter="materialid"></select>
+                            </div>
+
+
+                            <div class="col-sm-3 no-padding">
+                                <small>Material</small>
+                                <select class="input-sm form-control" select2="Material" ng-model="ItemDetails.Details.materialid" options="item.id as item.name for item in MaterialList track by item.id" focusid="materialid" focusonenter="SearchItemName"></select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+
+                        <div class="col-md-6 no-padding">
+
+                            <div class="col-md-4 no-padding">
+                                <small>Item Search</small>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="input-sm form-control" style="width: 100%;"
+                                           placeholder="Item name"
+                                           focusid="SearchItemName" focusonenter="typeid"
+                                           onshiftenter="SearchItem()"
+                                           ng-model="ProductSearch.SearchItemName">
+                                    <span class="input-group-btn">
+                                        <small></small>
+                                        <button type="button" class="btn btn-info btn-sm btn-flat glyphicon glyphicon-search" ng-click="SearchItem()"></button>
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-3 no-padding">
+                                <small>Type</small>
+                                <select class="form-control" select2="Type" options="item.id as item.name for item in TypeList track by item.id" ng-model="ItemDetails.Details.typeid" focusid="typeid" focusonenter="colourid"></select>
+                            </div>
+
+                            <div class="col-sm-3 no-padding">
+                                <small>Colour</small>
+                                <select class="input-sm form-control" select2="Colour" ng-model="ItemDetails.Details.colourid" options="item.id as item.name for item in ColorList track by item.id" focusid="colourid"
+                                        focusonenter="buyingqty"></select>
+                            </div>
+                            <div class="col-sm-2 no-padding">
+                                <small>Qty</small>
+                                <input type="number" class="input-sm form-control" style="width: 100%;" placeholder="Qty" ng-change="fixTax()"
+                                       focusid="buyingqty" focusonenter="basebuyingprice" ng-model="ItemDetails.buyingqty" selectAllOnFocus="true">
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6 no-padding">
+
+                            <div class="col-sm-2 no-padding">
+                                <small>Cost</small>
+                                <input type="number" class="input-sm form-control" style="width: 100%;" placeholder="Cost" ng-change="fixTax()"
+                                       focusid="basebuyingprice"
+                                       focusonenter="marginpercentage"
+                                       selectAllOnFocus="true"
+                                       ng-model="ItemDetails.basebuyingprice">
+                            </div>
+
+                            <div class="col-sm-2 no-padding">
+                                <small>Margin %</small>
+                                <input type="number" class="input-sm form-control" style="width: 100%;" placeholder="marginpercentage" ng-change="marginChanged()"
+                                       focusid="marginpercentage" focusonenter="salediscountpercentage" selectAllOnFocus="true" ng-model="ItemDetails.marginpercentage">
+                            </div>
+                            <div class="col-sm-2 no-padding">
+                                <small>Sale Price</small>
+                                <input type="number" class="input-sm form-control" style="width: 100%;" ng-readonly="AutoCalculation" placeholder="Selling Price" ng-model="ItemDetails.sellingprice"
+                                       focusid="sellingprice" selectAllOnFocus="true" focusonenter="mrp">
+                            </div>
+
+                            <div class="col-sm-2 no-padding">
+                                <small>MRP</small>
+                                <input type="number" class="input-sm form-control" style="width: 100%;" placeholder="MRP" focusid="mrp" ng-change="mrpChange()"
+                                       focusonenter="polist" ng-model="ItemDetails.mrp">
+                            </div>
+
+                            <div class="col-sm-2 no-padding">
+                                <small>Discount %</small>
+                                <input type="number" class="input-sm form-control" style="width: 100%;" placeholder="salediscountpercentage" ng-change="salediscountChanged()"
+                                       focusid="salediscountpercentage" focusonenter="polist" ng-model="ItemDetails.salediscountpercentage">
+                            </div>
+
+                            <div class="col-sm-2 no-padding">
+                                <small>Final Price</small>
+                                <input type="number" class="input-sm form-control" style="width: 100%;" ng-readonly="true" value="{{ItemDetails.sellingprice-ItemDetails.salediscount}}" />
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row no-padding">
+                    <div class="col-md-12">
+                        <div class="col-sm-6 no-padding">
+                            <div class="col-sm-4 no-padding">
+                                <small>ItemName</small>
+                                <input type="text" class="input-sm form-control" ng-readonly="true" style="width: 100%;" placeholder="Item Full Name" ng-model="ItemDetails.Details.printingname" focusid="printingname" focusonenter="polist">
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <small>LastPrice</small>
+                                <input type="text" class="input-sm form-control" ng-readonly="true" style="width: 100%;" placeholder="Last Price" value="{{ItemDetails.lastbuyingprice}}/{{ItemDetails.lastsellingprice}}">
+                            </div>
+
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <small>P.D %</small>
+                                    <input type="text" class="input-sm form-control no-padding" placeholder="discount"
+                                           ng-model="ItemDetails.purchasediscountpercentage" ng-change="purchasediscountpercentagechanged()">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <small>P.D V</small>
+                                    <input type="text" class="input-sm form-control no-padding" placeholder="discount"
+                                           ng-model="ItemDetails.purchasediscount" ng-change="purchasediscountchanged()">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 no-padding">
+                                <small>BuyingPrice</small>
+                                <input type="text" class="input-sm form-control" ng-readonly="AutoCalculation" style="width: 100%;" placeholder="buying price"
+                                       ng-model="ItemDetails.buyingprice">
+                            </div>
+
+
+                        </div>
+                        <div class="col-sm-6 no-padding">
+                            <div class="col-md-2 no-padding">
+                                <small>S.Discount</small>
+                                <input type="text" class="input-sm form-control" ng-readonly="true" style="width: 100%;" placeholder="discount" value="{{ItemDetails.salediscount}}">
+                            </div>
+
+
+                            <div class="col-sm-2 no-padding">
+                                <small>P.Tax </small>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" placeholder="Tax" ng-readonly="AutoCalculation" ng-model="ItemDetails.purchasetax">
+                            </div>
+
+                            <div class="col-sm-2 no-padding">
+                                <small>S.Tax</small>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" placeholder="Tax" ng-readonly="AutoCalculation" ng-model="ItemDetails.salestax">
+                            </div>
+
+
+
+                            <div class="col-sm-2 no-padding">
+                                <small>P.O List</small>
+                                <input type="text" class="input-sm form-control" placeholder="P.O List" ng-model="ItemDetails.polist" focusid="polist" focusonenter="hsncode">
+                            </div>
+                            <div class="col-sm-2 no-padding">
+                                <small>hsn code</small>
+                                <input type="text" class="input-sm form-control" placeholder="HSN Code" ng-model="ItemDetails.hsncode" focusid="hsncode" focusonenter="sno">
+                            </div>
+
+                            <div class="col-sm-2 no-padding">
+                                <small>SerialNo</small>
+                                <div class="col-sm-12 no-padding">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="input-sm form-control" placeholder="S.No" ng-model="ItemDetails.sno" focusid="sno" onkeyenter="AddItem()">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info btn-sm btn-flat glyphicon glyphicon-plus-sign" ng-click="AddItem()"></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <table fixed-header="275px" class="fixed_table">
+                            <thead>
+                                <tr>
+                                    <th class="no-padding" width="50px">Sl. No</th>
+                                    <th class="no-padding" width="200px">Product</th>
+                                    <th class="no-padding" width="100px">DesignNo</th>
+                                    <th class="no-padding" width="100px">HSN Code</th>
+                                    <th class="no-padding" width="100px">Qty</th>
+                                    <th class="no-padding" width="100px">B.Price</th>
+                                    <th class="no-padding" width="100px">MRP</th>
+                                    <th class="no-padding" width="100px">Size</th>
+                                    <th class="no-padding" width="100px">S.Price</th>
+                                    <th class="no-padding" width="100px">Amount</th>
+                                    <th class="no-padding" width="150px">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-hide="item.IsChild" ng-repeat="item in Invoice.Lrinvoiceitems track by $index">
+                                    <td class="right">{{item.sno}}</td>
+                                    <td>{{SearchRef(item.productid,ProductList)}}</td>
+
+                                    <td><input type="text" class="input-sm form-control right" ng-model="item.designid"></td>
+                                    <td><input type="text" class="input-sm form-control right" ng-model="item.hsncode"></td>
+                                    <td><input type="text" class="input-sm form-control right" ng-model="item.buyingqty"></td>
+                                    <td class="right">{{item.buyingprice}}</td>
+                                    <td class="right">{{item.mrp}}</td>
+                                    <td>{{SearchRef(item.Details.sizeid,SizeList)}}</td>
+                                    <td class="right"><input type="text" class="input-sm form-control right" ng-model="item.sellingprice"></td>
+                                    <td class="right">{{item.buyingamount}}</td>
+                                    <td class="center">
+
+                                        <button type="button" class="btn btn-xs btn-primary" ng-click="ManageSearchItem('Edit',item)">Edit</button>
+                                        <button type="button" class="btn btn-xs btn-danger" ng-click="ManageSearchItem('Delete',item)">Delete</button>
+                                        <button type="button" class="btn btn-xs btn-primary" ng-click="ManageSearchItem('View',item)" ng-show="item.IsParent">&nbsp;+&nbsp;</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="col-sm-2 no-padding">
+                            Total
+                        </div>
+                        <div class="col-sm-1 no-padding">
+                            <input type="text" class="input-sm form-control" style="width: 100%;" ng-readonly="true" placeholder="total tax" ng-model="Total.tax">
+                        </div>
+                        <div class="col-sm-1 no-padding">
+                            <input type="text" class="input-sm form-control" style="width: 100%;" ng-readonly="true" placeholder="total amount" ng-model="Total.amount">
+                        </div>
+                        <div class="col-sm-1 no-padding">
+
+                        </div>
+                        <div class="col-sm-1 no-padding">
+                            <input type="text" class="input-sm form-control" style="width: 100%;" ng-readonly="true" placeholder="Qty" ng-model="Total.buyingqty">
+                        </div>
+                        <div class="col-sm-1 no-padding">
+                            <input type="text" class="input-sm form-control" style="width: 100%;" ng-readonly="true" placeholder="Buying Price" ng-model="Total.buyingprice">
+                        </div>
+                        <div class="col-sm-1 no-padding">
+                            <input type="text" class="input-sm form-control" style="width: 100%;" ng-readonly="true" placeholder="MRP" ng-model="Total.mrp">
+                        </div>
+                        <div class="col-sm-1 no-padding">
+                            &nbsp;
+                        </div>
+                        <div class="col-sm-1 no-padding">
+                            <input type="text" class="input-sm form-control" style="width: 100%;" ng-readonly="true" placeholder="Selling Price" ng-model="Total.sellingprice">
+                        </div>
+                        <div class="col-sm-2 no-padding">
+                            <div class="col-sm-1 no-padding">
+                            </div>
+                            <div class="col-sm-11 no-padding">
+                                <select class="input-sm form-control" style="width: 100%;" select2="Status" options="item.id as item.name for item in StatusList track by item.id" ng-model="Invoice.statusid"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="control-label text-green" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-block btn-primary pull-right" ng-disabled="SaveRequest" ng-click="Save(true)">Save&amp;Next</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-block btn-success pull-right" style="width: 100%;" ng-disabled="SaveRequest" ng-click="Save(false)">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div><!--End Product details-->
+        <div class="box box-primary" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2">Company</label>
+                            <div class="col-md-4">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" onkeyenter="Search()" ng-model="SearchCondition.companyid" options="item.id as item.name for item in BuyingCompany track by item.id"></select>
+                            </div>
+                            <label for="inputEmail3" class="col-md-2">Supplier</label>
+                            <div class="col-md-3">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" onkeyenter="Search()" ng-model="SearchCondition.supplierid" options="item.id as item.name for item in SupplierList track by item.id"></select>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="pull-right btn-sm btn btn-warning" ng-click="SwitchPanel()">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">Invoice Date</label>
+                            <div class="col-md-4">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" daterange="SearchCondition.fromdate,SearchCondition.todate" onkeyenter="Search()" class="input-sm form-control pull-right">
+                                </div>
+                            </div>
+                        
+                            <label for="inputEmail3" class="col-md-2 control-label">Invoice No</label>
+                            <div class="col-md-3">
+                                <input type="text" class="input-sm form-control" ng-model="SearchCondition.invoiceno" onkeyenter="Search()" />
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="pull-right btnMarginer btn btn-sm btn-primary"  ng-click="Search()">Search</button>
+                                <!-- /.row -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                
+                <div class="row row-padbot-15">
+
+                    <div class="col-md-12">
+
+                            <table fixed-header="300px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th width="100px">Company</th>
+                                        <th width="100px">InvoiceNo</th>
+                                        <th width="100px">Date</th>
+                                        <th width="100px">Bundles</th>
+                                        <th width="100px">Base</th>
+                                        <th width="100px">Tax</th>
+                                        <th width="100px">Total</th>
+                                        <th width="100px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SearchResult">
+                                        <td>{{SearchRef(item.suppliercompanyid,SupplierCompany)}}</td>
+                                        <td>{{item.invoiceno}}</td>
+                                        <td>{{item.invoicedate | date:'dd-MM-yyyy'}}</td>
+                                        <td>{{item.noofbundle}}</td>
+                                        <td>{{item.baseamount}}</td>
+                                        <td>{{item.taxamount}}</td>
+                                        <td>{{item.totalamount}}</td>
+                                        <td><button type="button" class="btn btn-info btn-xs" ng-click="ManageSearchItem('EditInvoice',item)">Edit</button> <button type="button" class="btn btn-danger btn-xs" ng-click="ManageSearchItem('DeleteInvoice',item)">Delete</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+
+<script type="text/ng-template" id="MultiSize">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="row row-padbot-15" ng-hide="isView">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-3 control-label">Size Detail</label>
+                    <div class="input-group input-group-sm col-sm-6 no-padding">
+                        <input type="text" class="input-sm form-control" ng-hide="IsJump" placeholder="Qty-Meter" ng-model="sizeInfo" focusid="sizeInfoBit" onkeyenter="CreateItems($event)">
+
+                        <input type="text" class="input-sm form-control" ng-show="IsJump" placeholder="Start-Increment-End" focusid="sizeInfo" ng-model="sizeInfo" onkeyenter="CreateItems($event)">
+
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-info btn-sm btn-flat glyphicon glyphicon-plus-sign" ng-click="CreateItems()"></button>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row no-padding" ng-hide="isView">
+                <div class="form-group" ng-hide="!IsJump">
+                    <input type="checkbox" ng-model="AllowChangePrice" />
+                    <label for="inputEmail3" class="col-md-3 control-label">Change Price</label>
+                </div>
+            </div>
+            <div class="row row-padbot-15">
+
+                <table fixed-header="250px">
+                    <thead>
+                        <tr>
+                            <th class="no-padding" width="70px">Size</th>
+                            <th class="no-padding" width="70px">Qty</th>
+                            <th class="no-padding" width="100px" ng-show="AllowChangePrice || isView">Cost</th>
+                            <th class="no-padding" width="70px" ng-show="AllowChangePrice || isView">Margin</th>
+                            <th class="no-padding" width="100px" ng-show="AllowChangePrice || isView">MRP</th>
+                            <th class="no-padding" width="70px" ng-show="AllowChangePrice || isView">Dsnt</th>
+                            <th class="no-padding" width="100px" ng-show="AllowChangePrice || isView">Final</th>
+                            <th class="no-padding" width="50PX" ng-hide="isView">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in PopupList">
+                            <td>{{item.sizename}}</td>
+                            <td><input type="text" class="input-sm form-control" tablecell focusid="{{item.cellid}}" ng-model="item.qty" ng-readonly="isView" ng-change="QtyChanged(item,item.qty, '{{item.qty}}')" /></td>
+                            <td><input type="text" class="input-sm form-control" tablecell ng-model="item.basebuyingprice" ng-disabled="isView || !AllowChangePrice" placeholder="cost" ng-change="PriceChanged(item,item.basebuyingprice,'{{item.basebuyingprice}}')" ng-show="AllowChangePrice || isView" /></td>
+                            <td><input type="text" class="input-sm form-control" tablecell ng-model="item.marginpercentage" ng-disabled="isView || !AllowChangePrice" placeholder="margin" ng-change="PriceChanged(item,item.basebuyingprice,item.basebuyingprice)" ng-show="AllowChangePrice || isView" /></td>
+                            <td><input type="text" class="input-sm form-control" tablecell ng-model="item.mrp" ng-disabled="isView || !AllowChangePrice" placeholder="mrp" ng-change="MRPChanged(item)" ng-show="AllowChangePrice || isView" /></td>
+                            <td><input type="text" class="input-sm form-control" ng-disabled="true" ng-show="AllowChangePrice || isView" value="{{item.salediscount}}" /></td>
+                            <td><input type="text" class="input-sm form-control" ng-disabled="true" ng-show="AllowChangePrice || isView" value="{{item.sellingprice-item.salediscount}}" /></td>
+                            <td ng-hide="isView"><button type="button" class="btn btn-xs btn-primary" ng-click="Delete(item)">Delete</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <label for="inputEmail3" class="col-md-3 control-label">{{Created}}/{{Total}}</label>
+        <label for="inputEmail3" class="col-md-3 control-label">{{TotalAmount}}</label>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-hide="isView" ng-click="Clear()">Clear</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-hide="isView" ng-click="Selected()">OK</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="ProductSearch">
+    <div class="ngdialog-message">
+        <div class="table-responsive mailbox-messages">
+            <table fixed-header="150px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th style="width:100px">Name</th>
+                        <th style="width:150px">Detail</th>
+                        <th style="width:40px">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in PopupList">
+                        <td>{{item.printingname}}</td>
+                        <td>{{item.display}}</td>
+                        <td><button type="button" class="btn btn-xs btn-primary" ng-click="Selected(item)">Select</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="PriceSearch">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="row row-padbot-15">
+                <div class="col-sm-4">
+                    Pricing Config
+                </div>
+                <div class="col-sm-3">
+                    {{Price.Mechanism}}
+                </div>
+                <div class="col-sm-3">
+                    {{Price.Value}}
+                </div>
+                <div class="col-sm-2">
+                    {{Price.Discount}}
+                </div>
+            </div>
+            <div class="row row-padbot-15">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-xs btn-primary pull-right" ng-click="Selected(Price.Value,Price.Discount)">Select</button>
+                </div>
+            </div>
+
+            <div class="row row-padbot-15">
+                <div class="col-sm-4">
+                    Last Price
+                </div>
+                <div class="col-sm-3">
+
+                </div>
+                <div class="col-sm-3">
+                    {{Price.LastPrice}}
+                </div>
+                <div class="col-sm-2">
+                    {{Price.LastDiscount}}
+                </div>
+            </div>
+            <div class="row row-padbot-15">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-xs btn-primary pull-right" ng-click="Selected(Price.LastPrice,Price.LastDiscount)">Select</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

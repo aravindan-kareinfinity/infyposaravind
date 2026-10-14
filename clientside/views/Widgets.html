@@ -1,0 +1,344 @@
+﻿
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            My Dashboard
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer"
+                ng-hide="EditCustomWidget || stocksalessummary"
+                ng-click="RunCustom('stocksalessummary',true)"><a><i class="fa fa-list"></i>Stock Insight</a></li>
+
+            <li style="cursor:pointer"
+                ng-hide="EditCustomWidget || locationpricesummary"
+                ng-click="RunCustom('locationpricesummary',true)"><a><i class="fa fa-list"></i>Price Insight</a></li>
+
+            <li style="cursor:pointer"
+                ng-hide="EditCustomWidget || locationagesummary"
+                ng-click="RunCustom('locationagesummary',true)"><a><i class="fa fa-list"></i>Agewise</a></li>
+
+            <li style="cursor:pointer"
+                ng-hide="EditCustomWidget || locationsalesummary"
+                ng-click="RunCustom('locationsalesummary',true)"><a><i class="fa fa-list"></i>Sale</a></li>
+
+        </ol>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer"
+                ng-show="EditCustomWidget"
+                ng-click="SaveCustom()"><a><i class="fa fa-save"></i>Save</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="box box-info" ng-show="EditCustomWidget">
+            <div class="box-solid" ng-style="panelheight">
+                <div class="box-body border-radius-none"
+                     style="overflow-y: scroll; background-color: whitesmoke;
+                     margin: 0px; padding: 0px"
+                     id="wget_custom">
+
+                </div>
+            </div>
+        </div>
+        <div class="box box-info" id="widgetbox" ng-hide="EditCustomWidget">
+
+            <div ng-class="col-md-12"
+                 style="height:150px"
+                 ng-show="ShowWidgetSingle">
+                <div class="box-solid">
+                    <div class="box-header" style="padding-right: 0px; padding-left: 0px">
+                        <i class="fa fa-th"></i>
+                        <h3 class="box-title">Summary</h3>
+                        <div class="-box-tools pull-right">
+                            <button type="button" class="btn bg-teal btn-sm" ng-click="RefreshSingle()">
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                            <button type="button"
+                                    ng-click="ShowWidgetSingle=false"
+                                    class="btn bg-teal btn-sm">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body border-radius-none"
+                         style="background-color: whitesmoke; margin: 0px; padding: 0px">
+                        <div class="col-md-12 no-padding no-margin">
+                            <div ng-class="item.rowclass"
+                                 ng-repeat="item in WidgetSingle"
+                                 ng-dblclick="EditSingle(item)">
+                                <div ng-show="item.wgconfig.displaymode == 'SINGLE'">
+                                    <div class="panel-stat3" ng-class="item.bgclass">
+                                        <h2 class="m-top-none" ng-bind="item.singlevalue"></h2>
+                                        <span class="dashboard_h5"
+                                              style="font-size:small"
+                                              ng-bind="item.wgconfig.title"></span>
+                                    </div>
+                                </div>
+
+                                <div ng-show="item.wgconfig.displaymode == 'DUAL'">
+
+                                    <div class="panel-stat3" ng-class="item.bgclass">
+                                        <div class="col-md-12">
+                                            <h2 class="m-top-none pull-left" ng-bind="item.topvalue"></h2>
+                                            <h4 class="m-top-none pull-right"
+                                                ng-bind="item.bottomvalue"></h4>
+                                        </div>
+
+                                        <span class="dashboard_h5"
+                                              style="font-size:small"
+                                              ng-bind="item.wgconfig.title"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-class="item.rowclass"
+                 ng-repeat="item in WidgetList"
+                 ng-hide="item.hide">
+                <div class="box-solid">
+                    <div class="box-header" style="padding-right: 0px; padding-left: 0px">
+                        <i class="fa fa-th"></i>
+                        <h3 class="box-title">{{item.wgconfig.title}}</h3>
+
+                        <div class="-box-tools pull-right">
+                            <button type="button" class="btn bg-teal btn-sm"
+                                    ng-hide="item.edit"
+                                    ng-click="Refresh(item)">
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                            <button type="button"
+                                    ng-hide="item.edit"
+                                    class="btn bg-teal btn-sm"
+                                    ng-click="Edit(true,item,WidgetList)">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button type="button"
+                                    ng-show="item.edit"
+                                    class="btn bg-teal btn-sm"
+                                    ng-click="Edit(false,item,WidgetList)">
+                                <i class="fa fa-close"></i>
+                            </button>
+
+                            <button type="button"
+                                    ng-show="item.edit && item.canalter"
+                                    class="btn bg-teal btn-sm"
+                                    ng-click="Save(item)">
+                                <i class="fa fa-save"></i>
+                            </button>
+
+                            <button type="button"
+                                    ng-hide="item.edit"
+                                    ng-click="item.hide = true"
+                                    class="btn bg-teal btn-sm">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            <button type="button"
+                                    ng-hide="item.edit"
+                                    ng-click="Delete(item,WidgetList)"
+                                    class="btn bg-danger btn-sm">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body border-radius-none"
+                         style="overflow-y: scroll; background-color: whitesmoke; margin: 0px; padding: 0px;height:250px"
+                         id="wget_{{item.id}}">
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</div>
+
+<script type="text/ng-template" id="WidgetTemplate">
+    <div ng-class="CustomWidgetList[0].rowclass"
+         ng-hide="CustomWidgetList[0].hide"
+         ng-style="halfheight"
+         id="wgetheader_[ID]">
+        <div class="box-solid">
+            <div class="box-header" style="padding-right: 0px; padding-left: 0px">
+                <i class="fa fa-th"></i>
+                <h3 class="box-title">{{CustomWidgetList[0].title}}</h3>
+
+                <div class="-box-tools pull-right">
+                    <button type="button" class="btn bg-teal btn-sm"
+                            ng-click="RefreshCustom(CustomWidgetList[0])">
+                        <i class="fa fa-refresh"></i>
+                    </button>
+
+                    <button type="button"
+                            ng-click="CustomWidgetList[0].hide = true"
+                            class="btn bg-teal btn-sm">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    <button type="button"
+                            ng-click="DeleteCustom(CustomWidgetList[0])"
+                            class="btn bg-danger btn-sm">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body border-radius-none"
+                 style="overflow-y: scroll; background-color: whitesmoke; margin: 0px; padding: 0px"
+                 id="wget_[ID]">
+
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="SaveWidget">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <div class="col-md-6 no-padding">
+                    <div class="md-col-12">
+
+                        <label for="inputEmail3" class="col-md-12 control-label">Name</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control input-sm" ng-model="name" />
+                        </div>
+
+                    </div>
+                    <div class="md-col-12">
+
+                        <label for="inputEmail3" class="col-md-12 control-label">Title</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control input-sm" ng-model="title" />
+                        </div>
+
+                    </div>
+                    <div class="md-col-12">
+
+                        <label for="inputEmail3" class="col-md-12 control-label">Storage</label>
+                        <div class="col-sm-12">
+                            <select class="form-control input-sm" style="width: 100%;" select2=""
+                                    options="report.code as report.name for report in StorageModes track by report.code"
+                                    ng-model="datastorage"></select>
+                        </div>
+
+                    </div>
+                    <div class="md-col-12">
+
+                        <label for="inputEmail3" class="col-md-12 control-label">Mode</label>
+                        <div class="col-sm-12">
+                            <select class="form-control input-sm" style="width: 100%;" select2=""
+                                    options="report.code as report.name for report in DisplayModes track by report.code"
+                                    ng-model="displaymode"></select>
+                        </div>
+
+                    </div>
+                    <div class="md-col-12" ng-hide="displaymode=='SINGLE' || displaymode=='DUAL'">
+
+                        <label for="inputEmail3" class="col-md-12 control-label">Hight/Width</label>
+                        <div class="col-sm-12">
+                            <div class="col-sm-6 no-padding">
+                                <select class="form-control input-sm" style="width: 100%;" select2=""
+                                        options="report.code as report.name for report in SIZES track by report.code"
+                                        ng-model="height"></select>
+                            </div>
+                            <div class="col-sm-6 no-padding">
+                                <select class="form-control input-sm" style="width: 100%;" select2=""
+                                        options="report.code as report.name for report in SIZES track by report.code"
+                                        ng-model="width"></select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="md-col-12" ng-show="displaymode=='SINGLE' || displaymode=='DUAL'">
+
+                        <label for="inputEmail3" class="col-md-12 control-label">Hight/Width</label>
+                        <div class="col-sm-12">
+                            <div class="col-sm-6 no-padding">
+                                <input type="text" class="form-control input-sm"
+                                       ng-model="height"
+                                       style="width: 100%;" />
+                            </div>
+                            <div class="col-sm-6 no-padding">
+                                <select class="form-control input-sm" style="width: 100%;" select2=""
+                                        options="report.code as report.name for report in SINGLESIZES by report.code"
+                                        ng-model="width"></select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="md-col-12" ng-show="displaymode=='SINGLE'">
+                        <label for="inputEmail3" class="col-md-12 control-label">VALUE</label>
+                        <div class="col-sm-12">
+                            <select class="form-control input-sm" style="width: 100%;" select2=""
+                                    options="report.name as report.name for report in aggregatelist track by report.name"
+                                    ng-model="firstvalue"></select>
+                        </div>
+                    </div>
+
+                    <div class="md-col-12" ng-show="displaymode=='DUAL'">
+                        <label for="inputEmail3" class="col-md-12 control-label">TOP/BOTTOM</label>
+                        <div class="col-sm-12">
+                            <div class="col-sm-6 no-padding">
+                                <select class="form-control input-sm" style="width: 100%;" select2=""
+                                        options="report.name as report.name for report in aggregatelist track by report.name"
+                                        ng-model="firstvalue"></select>
+                            </div>
+                            <div class="col-sm-6 no-padding">
+                                <select class="form-control input-sm" style="width: 100%;" select2=""
+                                        options="report.name as report.name for report in aggregatelist track by report.name"
+                                        ng-model="secondvalue"></select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="md-col-12">
+                        <label for="inputEmail3" class="col-md-12 control-label">TOP</label>
+                        <div class="col-sm-3"  style="padding-right:0px">
+                            <input type="text" class="form-control input-sm" ng-model="topcount" />
+                        </div>
+                        <div class="col-sm-9" style="padding-left:0px">
+                            <select class="form-control input-sm" style="width: 100%;" select2=""
+                                    options="report.name as report.name for report in aggregatelist track by report.name"
+                                    ng-model="topfield"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 no-padding">
+                    <div class="md-col-12" style="padding-left:0px">
+                        <label for="inputEmail3" class=" no-padding col-md-12 control-label">User Access</label>
+                        <div class="col-sm-12 no-padding">
+                            <input type="checkbox" ng-model="accessall"
+                                   class="pull-right" style="margin-right:40px"
+                                   /> ALL Users
+                        </div>
+                    </div>
+                    <table fixed-header="280px" class="fixed_table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th style="width:50px">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="item in UserList">
+                            <td>{{item.title}}</td>
+                            <td><input type="checkbox" ng-disabled="accessall" ng-model="item.access"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <div class="md-col-12" style="padding-bottom: 30px;padding-top: 40px;padding-right: 15px;">
+                <button type="button" class="ngdialog-button ngdialog-button-primary pull-left" ng-click="Delete()">Delete</button>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Select(true)">Preview</button>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Select(false)">OK</button>
+                <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+</script>

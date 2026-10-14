@@ -1,0 +1,79 @@
+﻿<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            CRM  /   Anniversary Wishes & Campaign
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="SearchAnniversary()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li style="cursor:pointer" ng-show="selectedlist && selectedlist.length>0" ng-click="SendSMS(selectedlist)"><a><i class="fa fas fa-search-plus"></i>Send SMS</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'customerlist', 'customerlist')"><a><i class="fa fa-download"></i>Download</a></li>
+        </ol>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="box primary">
+            
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-4">DATE</label>
+                            <div class="col-sm-8">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control input-sm" style="width:100%" daterange="SearchCondition.fromdate,SearchCondition.todate">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary btn-box" ng-click="SearchAnniversary()"><i class="fa fas fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+<script type="text/ng-template" id="SendSms">
+    <div class="ngdialog-message">
+
+        <div class="table-responsive mailbox-messages">
+            <div class="col-md-12">
+                <div style="height:30px"></div>
+                <div class="col-md-10">
+                    <span>Template</span>
+                    <div class="input-group input-group-sm">
+                        <select class="form-control select2" style="width: 100%;" select2="" ng-options="item.id as item.code for item in refsmstemplate track by item.id" ng-model="smstemplateid"></select>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="GetTemplateText()" data-widget="search" data-toggle="tooltip" title="Search"><i class="fa fa-plus"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label>Message</label>
+                        <textarea name="message" class="form-control" rows="7" ng-trim="false" ng-model="SendSms.message" required ng-keyup="Calculate()"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Send()" data-widget="send" data-toggle="tooltip" title="Send">Send</button>
+    </div>
+</script>
+

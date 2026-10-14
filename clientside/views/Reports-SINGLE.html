@@ -1,0 +1,359 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+        {{heading}} Reports
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Reports</a></li>
+            <li class="active">LR Entry</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">From Date</label>
+                            <div class="col-md-5">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control datepicker" datemodule="Reports.fromDate" ng-model="Reports.fromdate" focusid="first">
+                                </div>
+                                <div class="col-md-5">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">To Date</label>
+                            <div class="col-md-5">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control datepicker" datemodule="Reports.toDate" ng-model="Reports.todate">
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+
+                            </div>
+                        </div>
+
+                        <!-- /.col -->
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">Company Name</label>
+                            <div class="col-md-5">
+                                <select class="form-control" select2="" style="width: 100%;" ng-model="Products.purchasetaxid" options="item.id as item.name for item in BuyingCompany track by item.id"></select>
+                            </div>
+                            <div class="col-md-5">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                <div class="row row-padbot-15" ng-show="supplier">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">Supplier Name</label>
+                            <div class="col-md-5">
+                                <select class="form-control" select2="" style="width: 100%;" ng-model="Products.salestaxid" options="item.id as item.name for item in Suppliers track by item.id"></select>
+                            </div>
+                            <div class="col-md-5">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <div class="row row-padbot-15" ng-show="customer">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">Customer Name</label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="User.username">
+                            </div>
+                            <div class="col-md-5">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label "> </label>
+                            <div class="col-md-5">
+
+                            </div>
+                            <div class="col-md-5">
+
+                                <button type="button" class="pull-right btnMarginer btn btn-primary" ng-click="Search()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <div class="col-md-12">
+                    <div class="row row-padbot-15" ng-show="Purchase" id="printSectionId">
+
+
+                        <div class="col-md-12">
+                            <div class="table-responsive mailbox-messages">
+
+                                <table fixed-header="500px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10px">&nbsp;</th>
+                                            <th>BARCODE</th>
+                                            <th>ITEM DETAILS</th>
+                                            <th>PURCHASE QTY</th>
+                                            <th>STOCK QTY</th>
+                                            <th>RATE</th>
+                                            <th>AMOUNT</th>
+                                            <th>LANDED COST</th>
+
+                                            <th>PROFIT %</th>
+                                            <th>SALES PRICE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td> </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+                <div class="col-md-12">
+                    <div class="row row-padbot-15" ng-show="PurchaseReturn">
+                        <div class="col-md-12">
+                            <div class="table-responsive mailbox-messages">
+
+                                <table fixed-header="500px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10px">&nbsp;</th>
+                                            <th>S.NO</th>
+                                            <th>Barcode</th>
+                                            <th>Particulars</th>
+                                            <th>QTY</th>
+                                            <th>Rate</th>
+                                            <th>Amount</th>
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in SearchResult">
+                                            <td></td>
+                                            <td>{{item.code}}</td>
+                                            <td>{{item.name}}</td>
+                                            <td>{{SearchRef(item.salestaxid,Sales)}}</td>
+
+                                            <td>{{SearchRef(item.purchasetaxid,Purchase)}}</td>
+                                            <td>{{item.sellingmode}}</td>
+                                            <td>{{item.pricingmode}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row row-padbot-15" ng-show="Sales">
+
+                        <div class="col-md-12">
+                            <div class="table-responsive mailbox-messages">
+
+                                <table fixed-header="500px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10px">&nbsp;</th>
+                                            <th>SNo</th>
+                                            <th>BILLNO'S</th>
+                                            <th>VAT EXEMPTED</th>
+                                            <th>VAT 5%SALES</th>
+                                            <th>VAT 5%TAX</th>
+                                            <th>VAT 14.5%SAL</th>
+                                            <th>VAT 14.5%TAX</th>
+
+                                            <th>SETDISCAMT</th>
+                                            <th>NETAMOUNT</th>
+                                            <th>PARTICULARS</th>
+                                            <th>AMOUNT</th>
+                                            <th colspan="2" style="text-align:center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in SearchResult">
+                                            <td></td>
+                                            <td>{{item.code}}</td>
+                                            <td>{{item.name}}</td>
+                                            <td>{{SearchRef(item.salestaxid,Sales)}}</td>
+
+                                            <td>{{SearchRef(item.purchasetaxid,Purchase)}}</td>
+                                            <td>{{item.sellingmode}}</td>
+                                            <td>{{item.pricingmode}}</td>
+                                            <td>{{item.discountmode}}</td>
+                                            <td>{{item.discountvalue}}</td>
+                                            <td>{{item.salescounterid}}</td>
+                                            <td>{{item.isactive}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row row-padbot-15" ng-show="SalesReturn">
+
+
+                        <div class="col-md-12">
+                            <div class="table-responsive mailbox-messages">
+
+                                <table fixed-header="500px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10px">&nbsp;</th>
+                                            <th>Code</th>
+                                            <th>Name</th>
+                                            <th>Sales Tax</th>
+                                            <th>Purchase Tax</th>
+                                            <th>Selling Mode</th>
+                                            <th>Pricing Mode</th>
+                                            <th>Sales Counter</th>
+
+                                            <th>Discount</th>
+                                            <th>Discount Value</th>
+                                            <th>Disable</th>
+                                            <th colspan="2" style="text-align:center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in SearchResult">
+                                            <td></td>
+                                            <td>{{item.code}}</td>
+                                            <td>{{item.name}}</td>
+                                            <td>{{SearchRef(item.salestaxid,Sales)}}</td>
+
+                                            <td>{{SearchRef(item.purchasetaxid,Purchase)}}</td>
+                                            <td>{{item.sellingmode}}</td>
+                                            <td>{{item.pricingmode}}</td>
+                                            <td>{{item.discountmode}}</td>
+                                            <td>{{item.discountvalue}}</td>
+                                            <td>{{item.salescounterid}}</td>
+                                            <td>{{item.isactive}}</td>
+                                            <td align="center"><button type="button" class="btn btn-danger btn-xs" ng-model="Products.code" ng-click="ManageSearchItem('Delete',item)">Delete</button> <button type="button" class="btn btn-primary btn-xs" ng-click="ManageSearchItem('Edit',item)">Edit</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row row-padbot-15" ng-show="Tax">
+
+
+                        <div class="col-md-12">
+                            <div class="table-responsive mailbox-messages">
+
+                                <table fixed-header="500px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10px">&nbsp;</th>
+                                            <th>Code</th>
+                                            <th>Name</th>
+                                            <th>Sales Tax</th>
+                                            <th>Purchase Tax</th>
+                                            <th>Selling Mode</th>
+                                            <th>Pricing Mode</th>
+                                            <th>Sales Counter</th>
+
+                                            <th>Discount</th>
+                                            <th>Discount Value</th>
+                                            <th>Disable</th>
+                                            <th colspan="2" style="text-align:center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in SearchResult">
+                                            <td></td>
+                                            <td>{{item.code}}</td>
+                                            <td>{{item.name}}</td>
+                                            <td>{{SearchRef(item.salestaxid,Sales)}}</td>
+
+                                            <td>{{SearchRef(item.purchasetaxid,Purchase)}}</td>
+                                            <td>{{item.sellingmode}}</td>
+                                            <td>{{item.pricingmode}}</td>
+                                            <td>{{item.discountmode}}</td>
+                                            <td>{{item.discountvalue}}</td>
+                                            <td>{{item.salescounterid}}</td>
+                                            <td>{{item.isactive}}</td>
+                                            <td align="center"><button type="button" class="btn btn-danger btn-xs" ng-model="Products.code" ng-click="ManageSearchItem('Delete',item)">Delete</button> <button type="button" class="btn btn-primary btn-xs" ng-click="ManageSearchItem('Edit',item)">Edit</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row no-print">
+                    <div class="col-xs-12">
+                        <button ng-click="printDiv('printSectionId')" class="btn btn-success pull-right">
+                            <i class="fa fa-credit-card"></i> View
+                        </button>
+                        <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
+                            <i class="fa fa-download"></i> Generate PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+      
+    </div>
+<footer class="main-footer no-print">
+   
+</footer>
+

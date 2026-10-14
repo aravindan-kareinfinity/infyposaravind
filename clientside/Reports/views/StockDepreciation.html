@@ -1,0 +1,93 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+           Stock / Stock Depreciation Report
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'Stock Depreciation')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-click="SearchStockDepreciation()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box primary">
+            <div class="box-body">
+
+                <div class="col-md-3 no-padding">
+                    <div class="col-md-12">
+                        <div class="col-md-12 no-padding">
+                            <label>COMPANY</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Company track by item.id" focusid="company" focusonenter="dates"
+                                    ng-model="SearchCondition.companyid" ng-change="StockDepreciationList=[]"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-12 no-padding">
+                            <label>DATE</label>
+                            <input type="text" class="input-sm form-control" ng-model="asondate" datemodule="asondate"/>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <label class="col-md-12 no-padding">CONFIGURATION</label>
+                        <div class="col-md-4 no-padding">
+                            From
+                        </div>
+                        <div class="col-md-4 no-padding">
+                            To
+                        </div>
+                        <div class="col-md-4 no-padding">
+                            Depreciation %
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="padding-bottom:20px">
+                        <div class="col-md-4 no-padding">
+                            <input type="text" class="input-sm form-control" ng-model="fromage" focusonenter="toage" focusid="fromage" />
+                        </div>
+                        <div class="col-md-4 no-padding">
+                            <input type="text" class="input-sm form-control" ng-model="toage" focusonenter="depreciation" focusid="toage" />
+                        </div>
+                        <div class="col-md-4 no-padding ">
+                            <div class="input-group input-group-sm col-md-12">
+                                <input type="text" class="input-sm form-control" focusid="depreciation" ng-model="depreciation" />
+                                <span class="input-group-btn" style="width:10px">
+                                    <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddDepreciation()">
+                                        <i class="glyphicon glyphicon-plus-sign"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" style="padding-bottom:10px" ng-repeat="item in DepreciationList">
+                        <div class="col-md-4 no-padding">
+                            <input type="text" class="input-sm form-control" ng-model="item.fromage" />
+                        </div>
+                        <div class="col-md-4 no-padding">
+                            <input type="text" class="input-sm form-control" ng-model="item.toage" />
+                        </div>
+                        <div class="col-md-4 no-padding">
+                            <input type="text" class="input-sm form-control" ng-model="item.depreciation" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9 no-padding">
+
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</div>

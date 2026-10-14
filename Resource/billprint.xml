@@ -1,0 +1,127 @@
+<Config>
+  <PageSetting>
+    <Setting topmargin='40' leftmargin='20' bottommargin='30' rightmargin='10' width='700' height='850' style='Verdana,8,regular'></Setting>
+  </PageSetting>
+  <Header LineHeight='15' style='Verdana,8,bold'>
+    <Line>
+      <Content type='Image' src="0W000000000" align='left'>0,30,100,100</Content>
+      <Content type='Word' length='700' align='center' style='Verdana,10,bold'>BAGHYALAKSMI ENTERPRISES</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='100' align='left'></Content>
+      <Content type='Word' length='300' align='left'>17, Perumal kovil Sannathi Street,</Content>
+      <Content type='Word' length='50' align='left'>GSTIN     </Content>
+      <Content type='Word' length='200' align='left'>33AAAFB0605J1Z4</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='100' align='left'></Content>
+      <Content type='Word' length='300' align='left'>Tindivanam - 604001</Content>
+      <Content type='Word' length='50' align='left'>PAN NO     </Content>
+      <Content type='Word' length='200' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='100' align='left'></Content>
+      <Content type='Word' length='60' align='left'>Phone No </Content>
+      <Content type='Word' length='240' align='left'>04147 - 226847</Content>
+      <Content type='Word' length='50' align='left'>State  </Content>
+      <Content type='Word' length='200' align='left'>Tamilnadu</Content>
+    </Line>
+    <Line>
+      <Content type='Line' length='750'></Content>
+    </Line>
+    <Line>
+      <Content type='Field' name='billdisplay' length='700' align='center' style='Verdana,10,bold'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='50' align='left'>To</Content>
+      <Content type='Field' name='supplier.name' length='350' align='left'></Content>
+      <Content type='Word' length='80' align='left' style='Verdana,10,bold'>Bill No </Content>
+      <Content type='Field' name='billno' length='200' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='50' align='left'>Address</Content>
+      <Content type='Field' name='supplier.address' length='350' align='left'></Content>
+      <Content type='Word' length='80' align='left'>Date </Content>
+      <Content type='Field' name='billdate' length='200' align='left' format='dd/MM/yyyy hh:mm'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='50' align='left'>GSTIN</Content>
+      <Content type='Field' name='supplier.tinanddate' length='350' align='left'></Content>
+      <Content type='Word' length='80' align='left'>LR No/Date </Content>
+      <Content type='Field' name='lrinfo' length='200' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='700' align='center'>ITEM DETAILS</Content>
+    </Line>
+
+
+  </Header>
+  <Body Type='Table' length='20' HeaderHeight='40' LineHeight='15' style='Verdana,8,regular'>
+    <Line type='Table'>
+      <Content type='Field' name='orderid' text="S.NO" Length='30'/>
+      <Content type='Field' name='hsncode' text="HSN" Length='70' align='left'/>
+      <Content type='Field' name='barcode' text="BARCODE" Length='80' align='left'/>
+      <Content type='Field' name='printingname' text="ITEMS" Length='220' align='left'/>
+      <Content type='Field' name='taxpercentage' text="TAX" Length='50'  align='right' format='F0'/>
+      <Content type='Field' name='salerate' text="RATE" Length='50'  align='right' format='F0'/>
+      <Content type='Field' name='qty' text="QTY" Length='50'  align='right' format='F2' Total='true'/>
+      <Content type='Field' name='totaldiscount' text="DISC" Length='50' align='right' format='F2' Total='true'/>
+      <Content type='Field' name='receivable' text="AMOUNT" Length='60' align='right' format='F0' Total='true'/>
+    </Line>
+  </Body>
+  <Footer>
+    <Line>
+      <Content type='Word' length='100' align='left' style='Verdana,10,bold'> No of Pcs : </Content>
+      <Content type='Field' name='totalpiece' text="" Length='120' align='right' format='F2' style='Verdana,10,bold'/>
+    </Line>
+    <Line>
+      <Content type='Word' length='100' align='left' style='Verdana,10,bold'> Total Discount :</Content>
+      <Content type='Field' name='totaldiscount' text="" Length='120' align='right' format='F2' style='Verdana,10,bold'/>
+    </Line>
+    <Line>
+      <Content type='Word' length='100' align='left' style='Verdana,10,bold'> Total Amount :</Content>
+      <Content type='Field' name='total' text="" Length='120' align='right' format='F2' style='Verdana,10,bold'/>
+    </Line>
+    <Line/>
+    <Line>
+      <Content type='Word' length='100' align='left' style='Verdana,10,bold'> TAX DETAILS :</Content>
+    </Line>
+    <Line/>
+    <Line>
+      <Content type='Word' length='100' align='left'> SALES AMOUNT: </Content>
+      <Content type='Field' name='taxsplit.totalamount' text="" Length='100' align='right' format='F2'/>
+      <Content type='Word' length='50' align='left'> CGST: </Content>
+      <Content type='Field' name='taxsplit.cgsttaxamount' text="" Length='100' align='right' format='F2'/>
+      <Content type='Word' length='50' align='left'>  SGST:</Content>
+      <Content type='Field' name='taxsplit.sgsttaxamount' text="" Length='100' align='right' format='F2'/>
+    </Line>
+    
+    <Line type='Table' field='BillTax'>
+      <Content type='Field' name='taxpercentage' text='' Length='50' align='right' format='F0'/>
+      <Content type='Word' text='%' Length='25' align='left'/>
+      <Content type='Field' name='amount' text='' Length='100' align='right' format='F2'/>
+      <Content type='Word' name='' text='CGST:' Length='50' align='left'/>
+      <Content type='Field' name='taxpart' text='' Length='100' align='right' format='F2'/>
+      <Content type='Word' text='' Length='25' align='left'/>
+      <Content type='Field' name='secondtax' text='' Length='50' align='left' />
+      <Content type='Field' name='taxpart' text='' Length='100' align='right' format='F2'/>
+    </Line>
+    <Line>
+      <Content type='Line' length='750'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='700' align='center'>GOODS SOLD CANNOT BE TAKEN BACK</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='700' align='center'>NO GUARANTEE FOR DRY CLEAN WASH WORK, JARI &amp; COLOURS</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='700' align='center'>GOODS WILL BE CHANGED IN 15 DAYS FROM BILL DATE</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='700' align='center'>THANK YOU VISIT AGAIN</Content>
+    </Line>
+    <Line/>
+    
+  </Footer>
+</Config>

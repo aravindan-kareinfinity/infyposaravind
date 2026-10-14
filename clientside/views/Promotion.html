@@ -1,0 +1,1259 @@
+﻿<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Store / Sales Promotions Scheme
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create && UserInfo.p_SALEPROMOTION.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save && UserInfo.p_SALEPROMOTION.create" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+
+            <li ng-show="(rule.mode==11)" style="cursor:pointer">
+                <file-upload class="btn-xs file-upload" style="display:inline-block" max-width="1280"
+                             max-height="1280" preview="true" ng-model="agmtcodes"
+                             filemodel="agmtcodes" onuploadcomplete='fileuploadedagmtcodes'
+                             uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                             multiple="false">
+                    <i class="fa fa-upload">Hyper Scheme</i>
+                </file-upload>
+            </li>
+
+            <li ng-show="(rule.mode==12)" style="cursor:pointer">
+                <file-upload class="btn-xs file-upload" style="display:inline-block" max-width="1280"
+                             max-height="1280" preview="true" ng-model="barcodeprefix"
+                             filemodel="barcodeprefix" onuploadcomplete='fileuploadedbarcodeprefix'
+                             uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                             multiple="false">
+                    <i class="fa fa-upload">Barcodes</i>
+                </file-upload>
+            </li>
+
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li ng-show="Navigation.searchentity && ShowExludePromotionList && selectedcount == 0" style="cursor:pointer" ng-click="SaveExcluePromotionList(true)"><a><i class="fa fas fa-trash"></i>Clear Reward Exclude List</a></li>
+            <li ng-show="Navigation.searchentity && selectedcount > 0" style="cursor:pointer" ng-click="SaveExcluePromotionList(false)"><a><i class="fa fas fa-star"></i>Save Reward Exclude List</a></li>
+
+            <li ng-show="Navigation.searchentity && selectedcount > 0" style="cursor:pointer" ng-click="ShowSchemeLocation()"><a><i class="fa fas fa-star"></i>Multiple Location</a></li>
+            <li ng-show="Navigation.searchentity && selectedcount == 1" style="cursor:pointer" ng-click="ClonePromotion()"><a><i class="fa fas fa-star"></i>Clone</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+
+                <div class="col-md-7 no-padding">
+                    <div class="col-md-5">
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="col-md-12 control-label no-padding">Scheme Name</label>
+                            <div class="col-md-12 no-padding">
+                                <input method="text" class="input-sm form-control" ng-model="DiscountScheme.name" focusid="first" focusonenter="company">
+                            </div>
+
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="col-md-12 control-label no-padding">Company</label>
+                                    <div class="col-md-12 no-padding">
+                                        <select class="input-sm form-control" select2=""
+                                                style="width:100%"
+                                                ng-model="DiscountScheme.companyid" options="item.id as item.name for item in Company track by item.id" focusid="company" focusonenter="location"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="col-md-12 control-label no-padding">Location</label>
+                                    <div class="col-md-12 no-padding">
+                                        <select class="input-sm form-control" select2=""
+                                                style="width:100%"
+                                                ng-model="DiscountScheme.locationid" options="item.id as item.name for item in Location track by item.id" focusid="location" focusonenter="validityfrom"></select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">Validity From/To</label>
+                                <div class="col-md-12 no-padding">
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" class="input-sm form-control datepicker" datemodule="DiscountScheme.validfrom" ng-model="DiscountScheme.validfrom" focusid="validityfrom" focusonenter="validto">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" class="input-sm form-control datepicker" datemodule="DiscountScheme.validto" ng-model="DiscountScheme.validto" focusid="validto" focusonenter="applicable">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="col-md-12 control-label no-padding">Applicable</label>
+                                    <div class="col-md-12 no-padding">
+                                        <select class="input-sm form-control" select2=""
+                                                style="width:100%"
+                                                ng-model="DiscountScheme.applicablemode"
+                                                options="item.id as item.name for item in ApplicableModes track by item.id"
+                                                ng-change="applicablemodechanged()" focusid="applicable" focusonenter="mode"> </select>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="col-md-12 control-label no-padding">Mode</label>
+                                    <div class="col-md-12 no-padding">
+                                        <select class="input-sm form-control" select2=""
+                                                style="width:100%"
+                                                ng-model="DiscountScheme.mode"
+                                                options="item.id as item.name for item in DiscountModes track by item.id"
+                                                ng-change="Clear()" ng-disabled="DiscountScheme.applicablemode == 4" focusid="mode" focusonenter="mode1"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row row-padbot-15" ng-show="DiscountScheme.mode==1 || DiscountScheme.mode==2 || DiscountScheme.applicablemode == 4">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">FILTER MODE</label>
+                                <div class="col-md-12 no-padding">
+                                    <div class="input-group input-group-sm">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in ConditionModes track by item.id" startswith="true" ng-model="rule.mode" focusid="mode1"></select>
+                                        <span class="input-group-btn" focusid="add">
+                                            <button class="btn btn-primary btn-sm pull-right" ng-click="Addcondition()">ADD</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="rule.mode==10">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">Bill Amount Between</label>
+                                <div class="col-md-12 no-padding">
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="rule.ValueFrom">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="rule.ValueTo">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="(DiscountScheme.applicablemode == 4 || DiscountScheme.mode==2 || DiscountScheme.mode==1) && (rule.mode==1 || rule.mode==9)">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="col-sm-12 control-label no-padding">PRODUCT</label>
+                                <div class="col-md-12 no-padding">
+                                    <select class="input-sm form-control" select2='' options="item.id as item.name for item in Products track by item.id"
+                                            style="width:100%" ng-model="rule.item.productid"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="col-sm-12 control-label no-padding">BRAND</label>
+                                <div class="col-md-12 no-padding">
+                                    <select class="input-sm form-control" select2=''
+                                            style="width:100%" options="item.id as item.name for item in BrandName track by item.id" ng-model="rule.item.brandid"></select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="(DiscountScheme.applicablemode == 4 || DiscountScheme.mode==2 || DiscountScheme.mode==1) && (rule.mode==1 || rule.mode==9)">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">MATERIAL</label>
+                                <div class="col-md-12 no-padding">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Material track by item.id" ng-model="rule.item.materialid"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">PATTERN</label>
+                                <div class="col-md-12 no-padding">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Pattern track by item.id" ng-model="rule.item.patternid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="(DiscountScheme.applicablemode == 4 || DiscountScheme.mode==2 || DiscountScheme.mode==1) && (rule.mode==1 || rule.mode==9)">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">COLOUR</label>
+                                <div class="col-md-12 no-padding">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in ColorList track by item.id" ng-model="rule.item.colourid"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">STYLE</label>
+                                <div class="col-md-12 no-padding">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Style track by item.id" ng-model="rule.item.styleid"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15" ng-show="(DiscountScheme.applicablemode == 4 || DiscountScheme.mode==2 || DiscountScheme.mode==1) && (rule.mode==1 || rule.mode==9)">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">SIZE</label>
+                                <div class="col-md-12 no-padding">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Sizes track by item.id" startswith="true" ng-model="rule.item.sizeid"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">TYPE</label>
+                                <div class="col-md-12 no-padding">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Types track by item.id" startswith="true" ng-model="rule.item.typeid"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15" ng-show="(DiscountScheme.applicablemode == 4 || DiscountScheme.mode==2 || DiscountScheme.mode==1) && (rule.mode==1 || rule.mode==9)">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">SLEEVE</label>
+                                <div class="col-md-12 no-padding">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Sleeves track by item.id" startswith="true" ng-model="rule.item.sleeveid"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">FIT</label>
+                                <div class="col-md-12 no-padding">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Fit track by item.id" startswith="true" ng-model="rule.item.fitid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="(DiscountScheme.applicablemode == 4 || DiscountScheme.mode==2 || DiscountScheme.mode==1) && rule.mode==2">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">SUPPLIER</label>
+                                <div class="col-md-12 no-padding">
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" ng-model="rule.supplier">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15" ng-show="(DiscountScheme.applicablemode == 4 || DiscountScheme.mode==2 || DiscountScheme.mode==1) && rule.mode==2">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">INVOICE</label>
+                                <div class="col-md-12 no-padding">
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" ng-model="rule.invoiceno">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15" ng-show="(DiscountScheme.applicablemode == 4 || DiscountScheme.mode==2 || DiscountScheme.mode==1) && rule.mode==2">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">DESIGN CODE</label>
+                                <div class="col-md-12 no-padding">
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" ng-model="rule.designid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15" ng-show="(DiscountScheme.applicablemode == 4 || DiscountScheme.mode==2 || DiscountScheme.mode==1) && rule.mode==2">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">INVOICE DATE</label>
+                                <div class="col-md-12 no-padding">
+                                    <input type="text" class="form-control input-sm" id="inputPassword3"
+                                           daterange="rule.invoicefrom,rule.invoiceto">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="(DiscountScheme.applicablemode == 4 || DiscountScheme.mode==2 || DiscountScheme.mode==1) && (rule.mode==4 || rule.mode==6)">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">MARKER</label>
+                                <div class="col-md-12 no-padding">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in StockMarkers track by item.id" startswith="true" ng-model="rule.item.markerid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="(DiscountScheme.applicablemode == 4 || DiscountScheme.mode==2 || DiscountScheme.mode==1) && (rule.mode==11)">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">Agreement Code</label>
+                                <div class="col-md-12 no-padding">
+
+
+                                    <div class="input-group input-group-sm" style="width:100%">
+                                        <input type="text" class="form-control input-sm" id="inputPassword3" ng-model="rule.item.agmtcode">
+                                        <span class="input-group-btn" style="width:85px">
+                                            <button class="btn btn-primary btn-sm" ng-click="AddAgmtcode()">ADD</button>
+
+                                            <file-upload class="btn btn-default btn-rad btn-trans btn-sm file-upload" resize="true" max-width="1280"
+                                                         max-height="1280" preview="true" ng-model="rule.agmtcodes"
+                                                         filemodel="rule.agmtcodes" onuploadcomplete='fileuploaded'
+                                                         uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                                                         multiple="false">
+                                                <i class="fa fa-upload"></i>
+                                            </file-upload>
+
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-12" style="padding-left:0px;padding-top:10px;padding-right:0px">
+
+                                    <table fixed-header="250px" class="fixed_table" additionalheight="370">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:50px">S.NO</th>
+                                                <th style="width:150px">CODE</th>
+                                                <th style="width:100px">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="code in rule.item.agmtcodes">
+                                                <td>{{$index+1}}</td>
+                                                <td>{{code}}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn-xs" ng-click="RemoveAgmtcode(code)">Remove</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="(DiscountScheme.applicablemode == 4 || DiscountScheme.mode==2 || DiscountScheme.mode==1) && (rule.mode==12)">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">Barcode Prefix</label>
+                                <div class="col-md-12 no-padding">
+
+
+                                    <div class="input-group input-group-sm" style="width:100%">
+                                        <input type="text" class="form-control input-sm" id="inputPassword3" ng-model="rule.item.barcodeprefix">
+                                        <span class="input-group-btn" style="width:85px">
+                                            <button class="btn btn-primary btn-sm" ng-click="AddBarcodePrefixcode()">ADD</button>
+                                            <file-upload class="btn btn-default btn-rad btn-trans btn-sm file-upload" resize="true" max-width="1280"
+                                                         max-height="1280" preview="true" ng-model="barcodeprefix"
+                                                         filemodel="barcodeprefix" onuploadcomplete='fileuploadedbarcodeprefix'
+                                                         uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                                                         multiple="false">
+                                                <i class="fa fa-upload"></i>
+                                            </file-upload>
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-12" style="padding-left:0px;padding-top:10px;padding-right:0px">
+
+                                    <table fixed-header="250px" class="fixed_table" additionalheight="370">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:50px">S.NO</th>
+                                                <th style="width:150px">CODE</th>
+                                                <th style="width:100px">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="code in rule.item.barcodeprefixes">
+                                                <td>{{$index+1}}</td>
+                                                <td>{{code}}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn-xs" ng-click="RemoveBarcodePrefixcode(code)">Remove</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="(DiscountScheme.applicablemode == 4 || DiscountScheme.mode==2 || DiscountScheme.mode==1) && (rule.mode==3 || rule.mode==5)">
+                            <div class="col-md-12 no-padding">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12 control-label no-padding">BAR CODE</label>
+                                    <div class="col-md-12 no-padding">
+                                        <input type="text" class="form-control input-sm" id="inputPassword3" onkeyenter="AddBarcode();" ng-model="rule.item.barcode">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 no-padding" ng-show="rule.mode==3">
+                                <div class="form-group">
+                                    <div class="col-md-12 no-padding">
+
+                                        <file-upload class="btn btn-default btn-rad btn-trans btn-sm file-upload" resize="true" max-width="1280"
+                                                     max-height="1280" preview="true" ng-model="rule.barcodes"
+                                                     filemodel="rule.barcodes" onuploadcomplete='fileuploaded'
+                                                     uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                                                     multiple="false">
+                                            <i class="fa fa-upload"></i>
+                                        </file-upload>
+
+                                        <a class="btn btn-default btn-rad btn-trans btn-sm" ng-show="DiscountScheme.id>0 && DiscountScheme.barcode_count>0" href="PromotionsService\DownloadBarcodes\{{DiscountScheme.id}}\include"><i class="fa fa-download"></i></a>
+                                        <button class="btn btn-default btn-rad btn-trans btn-sm"
+                                                ng-show="DiscountScheme.id>0 && DiscountScheme.barcode_count>0" ng-click="RemoveBarcode(true)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-12 no-padding">
+                                        <div class="col-md-6" style="color:forestgreen;font-size:medium">
+                                            Available : {{DiscountScheme.barcode_count}}
+                                        </div>
+                                        <div class="col-md-6" style="color:forestgreen;font-size:medium">
+                                            Added : {{DiscountScheme.barcode_add.length}}
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="DiscountScheme.barcode_add=[]"><i class="fa fa-trash" /></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 no-padding" ng-show="rule.mode==5">
+                                <div class="form-group">
+                                    <div class="col-md-12 no-padding">
+                                        <file-upload class="btn btn-default btn-rad btn-trans btn-sm file-upload" resize="true" max-width="1280"
+                                                     max-height="1280" preview="true" ng-model="rule.barcodes"
+                                                     filemodel="rule.barcodes" onuploadcomplete='fileuploaded'
+                                                     uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                                                     multiple="false">
+                                            <i class="fa fa-upload"></i>
+                                        </file-upload>
+
+                                        <a class="btn btn-default btn-rad btn-trans btn-sm" ng-show="DiscountScheme.id>0 && DiscountScheme.excludebarcode_count>0" href="PromotionsService\DownloadBarcodes\{{DiscountScheme.id}}\exclude"><i class="fa fa-download"></i></a>
+                                        <button class="btn btn-default btn-rad btn-trans btn-sm" ng-show="DiscountScheme.id>0 && DiscountScheme.excludebarcode_count>0" ng-click="RemoveBarcode(false)"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                    <div class="col-md-12 no-padding">
+                                        <div class="col-md-6" style="color:forestgreen;font-size:medium">
+                                            Available : {{DiscountScheme.excludebarcode_count}}
+                                        </div>
+                                        <div class="col-md-6" style="color:forestgreen;font-size:medium">
+                                            Added : {{DiscountScheme.barcode_exclude_add.length}}
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="DiscountScheme.barcode_exclude_add=[]"><i class="fa fa-trash" /></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        `
+                        <div class="row row-padbot-15" ng-show="(DiscountScheme.applicablemode == 4 || DiscountScheme.mode==2 || DiscountScheme.mode==1) && rule.mode==7">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">Discount Above %</</label>
+                                <div class="col-md-12 no-padding">
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" ng-model="rule.excludediscount">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7" style="padding-left:10px;padding-right:10px">
+                        <table fixed-header="250px" class="fixed_table" additionalheight="20">
+                            <thead>
+                                <tr>
+                                    <th style="width:50px">S.NO</th>
+                                    <th style="width:150px">MODE</th>
+                                    <!--<th style="width:100px" ng-show="DiscountScheme.mode==1 || DiscountScheme.applicablemode == 4">BILL VALUE</th>-->
+                                    <th style="width:200px">ATTRIBUTES</th>
+                                    <th style="width:100px">ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in DiscountScheme.rules">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{SearchRef(DiscountScheme.mode, DiscountModes)}}</td>
+                                    <!--<td ng-show="DiscountScheme.mode==1 || DiscountScheme.applicablemode == 4">{{item.ValueFrom}} - {{item.ValueTo}}</td>-->
+                                    <td>{{GetRuleDetail(item,item.item)}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="EditCondition(item)">Edit</button>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="RemoveCondition(item)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="col-md-5 no-padding">
+
+
+
+                    <div class="row row-padbot-15" ng-show="DiscountScheme.mode==2">
+                        <div class="col-md-12 no-padding">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label "><h4>QTY/RATE CONDITION</h4></label>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">QTY BETWEEN</label>
+                                <div class="col-md-2" style="padding-right:0px">
+                                    <input method="text" class="input-sm form-control" placeholder="From" ng-model="benefit.qtyfrom">
+                                </div>
+                                <div class="col-md-2">
+                                    AND
+                                </div>
+                                <div class="col-md-2" style="padding-left:0px">
+                                    <input method="text" class="input-sm form-control" placeholder="To" ng-model="benefit.qtyto">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12 no-padding">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">RATE BETWEEN</label>
+                                    <div class="col-md-2" style="padding-right:0px">
+                                        <input method="text" class="input-sm form-control" placeholder="From" ng-model="benefit.pricefrom">
+                                    </div>
+                                    <div class="col-md-2">
+                                        AND
+                                    </div>
+                                    <div class="col-md-2" style="padding-left:0px">
+                                        <input method="text" class="input-sm form-control"
+                                               style="padding-top:10px"
+                                               placeholder="To" ng-model="benefit.priceto">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 no-padding" ng-show="benefit.mode==1 || benefit.mode==4 || benefit.mode==2">
+
+
+                                    <label for="inputEmail3" class="col-sm-4 control-label" ng-hide="benefit.mode==2">SIMILIAR PRICE ONLY</label>
+                                    <div class="col-md-2" style="padding-right:0px" ng-hide="benefit.mode==2">
+                                        <input type="checkbox" class="input-sm" ng-model="benefit.similarprice">
+                                    </div>
+                                    <label for="inputEmail3" class="col-sm-4 control-label">ON MRP PRICE</label>
+                                    <div class="col-md-2" style="padding-right:0px">
+                                        <input type="checkbox" class="input-sm" ng-model="benefit.mrpprice">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 no-padding" ng-show="benefit.mode==1 && benefit.qtyfrom>0">
+                                    <label for="inputEmail3" ng-show="benefit.mode==1 && benefit.qtyfrom>0"
+                                           class="col-sm-4 control-label" style="padding-top:10px">SET OF {{benefit.qtyfrom}}</label>
+                                    <div class="col-md-2" ng-show="benefit.mode==1 && benefit.qtyfrom>0" style="padding-right:0px">
+                                        <input type="checkbox" class="input-sm" ng-model="benefit.eachqtyfrom">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-12 control-label"><h4>BENEFITS</h4></label>
+                        <div class="col-md-12 no-padding">
+                            <label for="inputEmail3" class="col-md-4 control-label">MODE</label>
+                            <div class="col-md-8">
+                                <div class="input-group input-group-sm">
+                                    <select class="input-sm form-control" select2=""
+                                            style="width:100%"
+                                            ng-model="benefit.mode" options="item.id as item.name for item in BenefitModes track by item.id"></select>
+                                    <span class="input-group-btn" focusid="add">
+                                        <button class="btn btn-primary btn-sm pull-right" ng-click="Addbenefit()">ADD</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15" ng-show="benefit.mode==1">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-3">
+                                <label>PERCENTAGE</label>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.value">
+                            </div>
+                            <div class="col-md-3">
+                                <label>APPLICABLE QTY</label>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.applicableqty">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15" ng-show="benefit.mode==7">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-5 no-padding">
+
+                                <div class="col-md-3 no-padding">
+                                    <label>Unlimited</label>
+                                    <div class="col-md-12 no-padding">
+                                        <input type="checkbox" ng-model="benefit.unlimited" class="input-sm" />
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <label>Discnt(I)</label>
+
+                                    <div class="col-md-12 no-padding">
+                                        <input type="checkbox" ng-model="benefit.includediscount" class="input-sm" />
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-4 no-padding">
+                                    <label>Promo(I)</label>
+
+                                    <div class="col-md-12 no-padding">
+                                        <input type="checkbox" ng-model="benefit.discountondiscount" class="input-sm" />
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-2 no-padding">
+                                    <label>OTP</label>
+
+
+                                    <div class="col-md-12 no-padding">
+                                        <input type="checkbox" ng-model="benefit.otp" class="input-sm" />
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-7 no-padding">
+                                <div class="col-md-3 no-padding">
+                                    <label>Applicable</label>
+                                    <select class="input-sm form-control" select2=""
+                                            ng-model="benefit.locationid" options="item.id as item.name for item in Location track by item.id"></select>
+
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <label>Discnt(%)</label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.amountaspercentage">
+
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <label>Amount</label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.unit">
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <label>Discnt(Bill%)</label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.value">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+
+                            <div class="col-md-4 no-padding">
+                                <div class="col-md-9 no-padding">
+                                    <div style="height:22px">Validity
+                                        <div style="position:absolute;right:5px;top:0px">
+                                            Tomorrow <input type="checkbox" ng-model="benefit.validitytomorrow" />
+                                        </div>
+                                    </div>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="input-sm form-control datepicker" datemodule="benefit.validity" ng-model="benefit.validity">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <label>Days</label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.validitydays">
+                                </div>
+                            </div>
+                            <div class="col-md-4 no-padding">
+                                <div class="col-md-4 no-padding">
+                                    <label>Bill(Min)</label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.pricefrom">
+
+                                </div>
+                                <div class="col-md-5 no-padding">
+                                    <label>Dsct(Max)%</label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.priceto">
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <label>Copn(E)</label>
+                                    <input type="checkbox"
+                                           class="icheckbox_flat-green" style="position:absolute;top:25px;left:20px"
+                                           ng-model="benefit.ex_coupen">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="col-md-12 no-padding">
+                                    <div class="pull-left">Filter Scheme</div>
+                                    <div class="pull-right"><input type="checkbox" ng-model="benefit.mergecoupon" /> Merge</div>
+                                </div>
+                                <select class="input-sm form-control" select2=""
+                                        style="width:100%"
+                                        ng-model="benefit.filterschemeid" options="item.id as item.name for item in Promotions track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15" ng-show="benefit.mode==1">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-6">
+                                <label>INCLUDE EXISTING DISCOUNT</label>
+                                <input type="checkbox" class="icheckbox_flat-green" ng-model="benefit.includediscount" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-6">
+                                <label>DISCOUNT ON DISCOUNTED PRICE</label>
+                                <input type="checkbox" class="icheckbox_flat-green" ng-model="benefit.discountondiscount" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15" ng-show="benefit.mode==9">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-3">
+                                <label>FLAT PRICE</label>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.value">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15" ng-show="benefit.mode==2">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-3">
+                                <label>DISCOUNT AMT</label>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.value">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15" ng-show="benefit.mode==2">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-6">
+                                <label>INCLUDE EXISTING DISCOUNT</label>
+                                <input type="checkbox" class="icheckbox_flat-green" ng-model="benefit.includediscount" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15" ng-show="benefit.mode==3">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-3">
+                                <label>REWARD POINT</label>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.value">
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <label>PER AMT</label>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.unit">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15" ng-show="benefit.mode==4">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-3">
+                                <label>QTY</label>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.value">
+                            </div>
+                            <!--<div class="col-md-3">
+                                <label>MAX</label>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.max">
+                            </div>-->
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15" ng-show="benefit.mode==5">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-8">
+                                <div class="col-md-4">
+                                    <label>DISCOUNT AMT</label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.value">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Flat Discount</label>
+                                    <input type="checkbox" style="width: 100%;" class="icheckbox_flat-green" ng-model="benefit.flatdiscount">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row row-padbot-15" ng-show="benefit.mode==10">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-4 control-label">MARKER</label>
+                            <div class="col-md-6">
+                                <select class="input-sm form-control" select2=''
+                                        style="width:100%" options="item.id as item.name for item in StockMarkers track by item.id" ng-model="benefit.item.markerid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15" ng-show="benefit.mode==10">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-4 control-label">Include Discounted</label>
+                            <div class="col-md-1">
+                                <input type="checkbox" class="icheckbox_flat-green" ng-model="benefit.includediscount" />
+                            </div>
+                            <div class="col-md-5 no-padding">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Value</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="input-sm form-control" ng-model="benefit.value" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row row-padbot-15" ng-show="benefit.mode==8">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-4 control-label">PRODUCT</label>
+                            <div class="col-md-6">
+                                <select class="input-sm form-control" select2=''
+                                        style="width:100%" options="item.id as item.name for item in Products track by item.id" ng-model="benefit.item.productid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15" ng-show="benefit.mode==6">
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="col-sm-4 control-label">PRODUCT</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2=''
+                                        style="width:100%" options="item.id as item.name for item in Products track by item.id" ng-model="benefit.item.productid"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="col-sm-4 control-label">BRAND</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2=''
+                                        style="width:100%" options="item.id as item.name for item in BrandName track by item.id" ng-model="benefit.item.brandid"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15" ng-show="benefit.mode==6">
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="col-md-4 control-label">MATERIAL</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Material track by item.id" ng-model="benefit.item.materialid"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="col-md-4 control-label">PATTERN</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Pattern track by item.id" ng-model="benefit.item.patternid"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15" ng-show="benefit.mode==6">
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="col-md-4 control-label">COLOUR</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in ColorList track by item.id" ng-model="benefit.item.colourid"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="col-md-4 control-label">STYLE</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Style track by item.id" ng-model="benefit.item.styleid"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15" ng-show="benefit.mode==6">
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="col-md-4 control-label">SIZE</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Sizes track by item.id" startswith="true" ng-model="benefit.item.sizeid"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="col-md-4 control-label">TYPE</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Types track by item.id" startswith="true" ng-model="benefit.item.typeid"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15" ng-show="benefit.mode==6">
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="col-md-4 control-label">SLEEVE</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Sizes track by item.id" startswith="true" ng-model="benefit.item.sleeveid"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="col-md-4 control-label">FIT</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Types track by item.id" startswith="true" ng-model="benefit.item.fitid"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15" ng-show="benefit.mode==6">
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="col-md-4 control-label">Marker</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in StockMarkers track by item.id" startswith="true" ng-model="benefit.item.markerid"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="col-md-4 control-label">Qty/Price</label>
+                            <div class="col-md-8">
+                                <div class="col-md-6" style="padding-left:0px">
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.unit">
+                                </div>
+                                <div class="col-md-6" style="padding-right:0px">
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.value">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row row-padbot-15" ng-show="benefit.mode==8">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label>Bill Value Range</label>
+                            </div>
+                            <div class="col-md-3">
+
+                                <input type="text" class="input-sm form-control" style="width: 100%;"
+                                       placeholder="from"
+                                       ng-model="benefit.pricefrom">
+                            </div>
+                            <div class="col-md-3">
+
+                                <input type="text" class="input-sm form-control"
+                                       placeholder="to"
+                                       style="width: 100%;" ng-model="benefit.priceto">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15" ng-show="benefit.mode==11">
+                        <div class="form-group">
+                            <div class="col-md-5" style="padding-right:0px">
+                                <div class="col-md-12 no-padding">
+                                    <div class="col-md-4 no-padding">
+                                        <label>From</label>
+                                        <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.pricefrom">
+                                    </div>
+                                    <div class="col-md-4 no-padding">
+                                        <label>To</label>
+                                        <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.priceto">
+                                    </div>
+                                    <div class="col-md-4 no-padding">
+                                        <label>Coupon</label>
+                                        <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.value">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-7" style="padding-left:0px">
+                                <div class="col-md-12 no-padding">
+                                    <div class="col-md-3 no-padding">
+                                        <label>Min Bill</label>
+                                        <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.min">
+                                    </div>
+                                    <div class="col-md-2 no-padding">
+                                        <label>Copn(E)</label>
+                                        <input type="checkbox"
+                                               class="icheckbox_flat-green" style="position:absolute;top:25px;left:20px"
+                                               ng-model="benefit.ex_coupen">
+                                    </div>
+                                    <div class="col-md-7 no-padding">
+                                        <div class="col-md-8 no-padding">
+                                            <div style="height:22px">
+                                                Validity
+                                                <div style="position:absolute;right:5px;top:0px">
+                                                    Tomorrow <input type="checkbox" ng-model="benefit.validitytomorrow" />
+                                                </div>
+                                            </div>
+                                            <input type="text" class="input-sm form-control datepicker" datemodule="benefit.validity" ng-model="benefit.validity">
+                                        </div>
+                                        <div class="col-md-4 no-padding">
+                                            <label>Days</label>
+                                            <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.validitydays">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <label for="inputEmail3" class="control-label col-md-12 no-padding">Discounted(I)</label>
+                                <input type="checkbox" class="icheckbox_flat-green" style="padding-left:20px" ng-model="benefit.includediscount" />
+                            </div>
+
+                            <div class="col-md-2 no-padding">
+                                <label for="inputEmail3" class="control-label col-md-12 no-padding">Promotions(I)</label>
+                                <input type="checkbox" class="icheckbox_flat-green" style="padding-left:20px" ng-model="benefit.discountondiscount" />
+                            </div>
+                            <div class="col-md-2 no-padding">
+                                <label for="inputEmail3" class="control-label col-md-12 no-padding">Unlimited</label>
+                                <input type="checkbox" class="icheckbox_flat-green" style="padding-left:20px" ng-model="benefit.unlimited" />
+                            </div>
+                            <div class="col-md-1 no-padding">
+                                <label for="inputEmail3" class="control-label col-md-12 no-padding">OTP</label>
+                                <input type="checkbox" class="icheckbox_flat-green" style="padding-left:20px" ng-model="benefit.otp" />
+                            </div>
+
+                            <div class="col-md-5">
+                                <label for="inputEmail3" class="control-label">Filter Scheme</label>
+                                <select class="input-sm form-control" select2=""
+                                        style="width:100%"
+                                        ng-model="benefit.filterschemeid" options="item.id as item.name for item in Promotions track by item.id"></select>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row row-padbot-15" ng-show="benefit.mode==8">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label>Barcode</label>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.uan">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Qty</label>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.unit">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Price</label>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="benefit.value">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 no-padding">
+                        <table fixed-header="250px" class="fixed_table" additionalheight="400">
+                            <thead>
+                                <tr>
+                                    <th style="width:50px">S.NO</th>
+                                    <th style="width:100px">MODE</th>
+                                    <th style="width:100px">Qty Range</th>
+                                    <th style="width:100px">Price Range</th>
+                                    <th style="width:100px">Value</th>
+                                    <th style="width:100px">Additional</th>
+                                    <th style="width:100px">ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in DiscountScheme.benefit">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{SearchRef(item.mode, BenefitModes)}}</td>
+                                    <td>{{item.qtyfrom}} - {{item.qtyto}}</td>
+                                    <td>{{item.pricefrom}} - {{item.priceto}}</td>
+                                    <td>{{item.value}}</td>
+                                    <td>{{GetBenefitDetail(item,item.item)}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="EditBenefit(item)">Edit</button>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="RemoveBenefit(item)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-2" style="padding-right:0px">
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="control-label">Scheme Name</label>
+                        <div class="col-md-12 no-padding">
+                            <input method="text" class="input-sm form-control" ng-model="SearchCondition.name">
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="control-label">Mode</label>
+                        <div class="col-md-12 no-padding">
+                            <select class="input-sm form-control" select2="" ng-model="SearchCondition.mode"
+                                    style="width:100%"
+                                    options="item.id as item.name for item in DiscountModes track by item.id" ng-change="Clear()"></select>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="control-label">Validity</label>
+                        <div class="col-md-12 no-padding">
+                            <input type="text" class="form-control input-sm" style="width:100%" daterange="SearchCondition.validfrom,SearchCondition.validfrom">
+                        </div>
+                    </div>
+
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="control-label">Location</label>
+                        <div class="col-md-12 no-padding">
+                            <select class="input-sm form-control" select2="" ng-model="SearchCondition.locationid"
+                                    style="width:100%"
+                                    options="item.id as item.name for item in Location track by item.id"></select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-10" style="padding-right:0px">
+
+                    <div class="col-md-12" id="sourcegrid">
+                        <!--<div class="table-responsive mailbox-messages">
+                            <table fixed-header="500px" class="fixed_table" additionalheight="90">
+                                <thead>
+                                    <tr>
+                                        <th style="width:10px">&nbsp;</th>
+                                        <th style="width:250px">NAME</th>
+                                        <th style="width:80px">MODE</th>
+                                        <th style="width:80px">LOCATION</th>
+                                        <th style="width:80px">VALID FROM</th>
+                                        <th style="width:80px">VALID TO</th>
+                                        <th style="width:80px">STATUS</th>
+                                        <th style="width:100px">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SearchResult">
+                                        <td></td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{SearchRef(item.mode, DiscountModes)}}</td>
+                                        <td>{{SearchRef(item.locationid, Location)}}</td>
+                                        <td>{{item.validfrom | date:'dd-MM-yyyy'}}</td>
+                                        <td>{{item.validto | date:'dd-MM-yyyy'}}</td>
+                                        <td>{{item.enabled == true ? 'ACTIVE' : 'DEACTIVATED'}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-default btn-xs" ng-show="UserInfo.p_SALEPROMOTION.modify && item.enabled==true" ng-click="ManageStatus(false,item)">Disable</button>
+                                            <button type="button" class="btn btn-info btn-xs" ng-show="item.enabled==false" ng-click="ManageStatus(true,item)">Enable</button>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-show="UserInfo.p_SALEPROMOTION.delete" ng-click="ManageSearchItem('Delete',item)">Delete</button>
+                                            <button type="button" class="btn btn-primary btn-xs" ng-show="UserInfo.p_SALEPROMOTION.modify" ng-click="ManageSearchItem('Edit',item)">Edit</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>-->
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</div>
+
+<script type="text/ng-template" id="SchemeLocation">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages" style="margin-top:10px">
+                <table fixed-header="200px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">S.No</th>
+                            <th style="width:150px">Location</th>
+                            <th style="width:80px">Allow</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in List">
+                            <td>{{$index+1}}</td>
+                            <td>{{item.name}}</td>
+                            <td tablecell>
+                                <input type="checkbox" ng-model="item.selected" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="ImportPO">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+
+            <div class="table-responsive mailbox-messages" style="margin-top:10px">
+                <table fixed-header="200px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">S.No</th>
+                            <th style="width:150px">Item Code</th>
+                            <th style="width:80px">Discount</th>
+                            <th style="width:80px">From</th>
+                            <th style="width:80px">To</th>
+                            <th style="width:80px">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in List">
+                            <td>{{$index+1}}</td>
+                            <td>{{item.itemcode}}</td>
+                            <td>
+                                <span ng-show="item.discountpercentage>0">
+                                    {{item.discountpercentage}}%
+                                </span>
+                                <span ng-show="item.discountvalue>0">
+                                    {{item.discountvalue}}
+                                </span>
+                            </td>
+                            <td tablecell>
+                                {{item.fromdate}}
+                            </td>
+                            <td tablecell>
+                                {{item.todate}}
+                            </td>
+
+                            <td tablecell>
+                                <button type="button" class="btn btn-xs btn-danger" ng-click="Delete(item)"><i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="md-col-12" style="padding-top:5px;">
+            <div class="col-md-4">
+                Prefix Name
+            </div>
+            <div class="col-md-8">
+                <input type="text" class="form-control input-sm" ng-model="promotionname" style="width:100%" />
+            </div>
+        </div>
+        <div class="md-col-12" style="padding-top:5px;">
+            <div class="col-md-4">
+                Company
+            </div>
+            <div class="col-md-8">
+                <select class="input-sm form-control" select2=""
+                        style="width:100%"
+                        ng-model="companyid" options="item.id as item.name for item in ParentScope.Company track by item.id" focusid="company"></select>
+            </div>
+        </div>
+        <div class="md-col-12" style="padding-top:5px;">
+            <div class="col-md-4">
+                Location
+            </div>
+            <div class="col-md-8">
+                <select class="input-sm form-control" select2=""
+                        style="width:100%"
+                        ng-model="locationid" options="item.id as item.name for item in ParentScope.Location track by item.id" focusid="location"></select>
+            </div>
+        </div>
+
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

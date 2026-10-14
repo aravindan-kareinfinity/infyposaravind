@@ -1,0 +1,147 @@
+﻿
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button> <i class="fa fa-arrow-left" style="font-size:large"> </i>   </a>
+          Settings /  Data Migration
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-show="!UserInfo.RootUser || OrganizationSelected" ng-click="StartMigration()"><a><i class="fa fa-file"></i>Migrate</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-success">
+            <div class="box-body">
+
+                <div class="col-md-12 no-padding" ng-show="UserInfo.RootUser">
+                    <div class="col-md-4 no-padding">
+                        <label for="inputEmail3" class="col-md-4 form-group required control-label"
+                               style="color:brown;padding-left:10px">Organization code</label>
+                        <div class="col-md-8" style="padding-left:10px;padding-right:0px">
+                            <input type="text" class="input-sm form-control" style="width:100%"
+                                   ng-change="OrganizationSelected=false"
+                                   ng-model="organizationcode" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 no-padding">
+                        <button class="btn btn-success btn-sm" ng-click="SearchOrganization()">Search</button>
+                    </div>
+                    <div class="col-md-6 no-padding">
+                        Current Organization : {{OrganizationName}}
+                    </div>
+                </div>
+
+                <div class="col-md-12 no-padding" ng-show="!UserInfo.RootUser || OrganizationSelected">
+
+                    <div class="col-md-12 no-padding" style="margin-bottom:10px;padding-top:10px">
+                        <div class="col-md-4 no-padding">
+                            <label for="inputEmail3" class="col-md-4 form-group required control-label" style="color:brown;padding-left:10px">TYPE</label>
+                            <div class="col-md-8" style="padding-left:10px;padding-right:0px">
+                                <div class="form-group">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;"
+                                            options="item.id  as item.name for item in Tables track by item.id"
+                                            ng-change="TableChanged()"
+                                            ng-model="TableID"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 no-padding">
+                            <select class="input-sm form-control" select2="" style="width: 100%;"
+                                    options="item.id as item.name for item in ExcelSheets track by item.id"
+                                    ng-change="OnSheetChange()"
+                                    ng-model="sheetid"></select>
+                        </div>
+
+                        <div class="col-md-3 no-padding">
+                            <div class="col-md-6">
+                                <file-upload class="btn btn-success btn-rad btn-trans btn-sm file-upload" resize="true" max-width="1280"
+                                             max-height="1280" preview="false" ng-model="filename"
+                                             filemodel="filename"
+                                             uri='File/UploadMigration/{{UserInfo.OrganizationID}}/'
+                                             onuploadcomplete="fileuploadedcomplete"
+                                             multiple="false">
+                                    <i class="fa fa-upload"></i>
+                                    <span>Upload</span>
+                                </file-upload>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="progress" ng-show="Started">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ProgressValue}}"
+                                     aria-valuemin="0" aria-valuemax="100" style="width:{{ProgressValue}}%">
+                                    {{ProgressValue}}% Complete
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 no-padding">
+                            <div class="pull-right">{{UploadedExcel.filename}}</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+
+                        <div class="col-md-12 no-padding" style="background-color:white;">
+                            <div class="form-group no-padding">
+                                <table fixed-header="400px" additionalheight="50">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:500px">COLUMN</th>
+                                            <th style="width:250px">MIGRATION</th>
+                                            <th style="width:500px">DEFAULT</th>
+                                            <th style="width:500px">COLUMN MAP</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in Columns">
+                                            <td tablecell>{{item.display}}</td>
+                                            <td><input type="checkbox" ng-model="item.migrate" /></td>
+                                            <td><input type="text" style="width:100%" class="input-sm" ng-model="item.value" /></td>
+                                            <td tablecell>
+                                                <select class="input-sm form-control" select2="" style="width: 100%;"
+                                                        ng-change="SaveConfig()"
+                                                        options="item.id as item.name for item in ExcelColumns track by item.id" ng-model="item.excelcolunmn"></select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+    </section>
+</div>
+
+<style>
+    .cell-effort-driven {
+        text-align: center;
+    }
+
+    .slick-group-title[level='0'] {
+        font-weight: bold;
+    }
+
+    .slick-group-title[level='1'] {
+        text-decoration: underline;
+    }
+
+    .slick-group-title[level='2'] {
+        font-style: italic;
+    }
+</style>

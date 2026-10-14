@@ -1,0 +1,359 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+           Sales / Retail Reports
+        </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <button class="accordion"><b>SALES REPORTS  (</b><content style="font-size:smaller">13</content>)</button>
+                                <div class="panel">
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALESREPORT" class="atag"> Sales Report</a><span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_UNSETTLEDSALESREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="UNSETTLED" class="atag"> Unsettled Bill Report</a><span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESMANREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALESMANREP" class="atag"> Sales Report - Salesman Wise</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESMANREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALESMANDETREP" class="atag"> Sales Report - Salesman Wise Detail</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_MARGINSALESREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALESMARGIN" class="atag"> Sales Report - Margin</a><span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALEREGISTER" class="atag"> Sales Report - Invoice wise</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="BARCODEREP" class="atag"> Sales Report - Barcode wise</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESCANCELLEDREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="CANCELLEDBILL" class="atag"> Sales Report - Cancelled</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_DAYSALESREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="DAYSALESREPORT" class="atag"> Sales Report - Day Summary (Without OffSet Bill Configuration)</a><span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALEAGEWISE" class="atag"> Sales Report - Age Wise</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_BULKBILLREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="BULKBILL" class="atag"> Approved Bill Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_ESTIMATEBILLREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="ESTIMATEBILLREPORT" class="atag"> Estimate Bill Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_DELIVERYREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="DELIVERYREPORT" class="atag"> Delivery Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_ALTERATIONREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="ALTERATIONREPORT" class="atag"> Alteration Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_MOBILESCHEMEREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SchemeDetails" class="atag"> Promotion Details Report </a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SNAPSHOTSALESREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALESSNAPSHOT" class="atag"> Sales Snapshot</a><span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_TEXTDAYSUMMARY.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="TEXTDAYSUMMARY" class="atag"> Text Day Summary</a><span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                </div>
+                                <button class="accordion"><b>SETTLEMENT REPORTS  (</b><content style="font-size:smaller">8</content>)</button>
+                                <div class="panel">
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SETTLEMENTREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SETTLEMENT" class="atag"> Day End Settlement Summary</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SETTLEMENTREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="CASHIERWISESETTLEMENT" class="atag"> Cashier Wise Settlement Summary</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SETTLEMENTREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SETTLEMENTDETAIL" class="atag"> Settlement Detail Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SETTLEMENTREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SETTLEMENTSUMMARY" class="atag"> Company wise Sale Collection Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SETTLEMENTREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="CREDITSALESUMMARY" class="atag"> Credit Sale Collection Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SETTLEMENTREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="ADVANCESUMMARY" class="atag"> Customer Advance Collection Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SETTLEMENTREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SETTLEMENTRECONCILATION" class="atag"> Settlement Reconcilation</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SETTLEMENTREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SETTLEMENTDAYSUMMARY" class="atag"> Daywise Settlement</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SETTLEMENTOBCLREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="OPENINGCLOSINGREP" class="atag"> Opening/Closing Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                </div>
+                                <button class="accordion"><b>TAX REPORTS  (</b><content style="font-size:smaller">5</content>)</button>
+                                <div class="panel">
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESTAXSUMMARYREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALESTAXSUMMARY" class="atag"> Sales Tax Report (Summary)</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESTAXREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALESTAX" class="atag"> Sales Tax Report (Column wise)</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESTAXREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALESSPLIT" class="atag"> Sales Tax Report (Row wise)</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESHSNREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALESHSN" class="atag"> Sales HSN Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESTAXREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALESSPLITUP" class="atag"> Sales Tax Splitup with Collection Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESTAXSUMMARYREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="GSTRREPORT" class="atag"> GSTR Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+
+                                </div>
+                                <button class="accordion"><b>CUSTOMER REPORTS (13)</b></button>
+                                <div class="panel">
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_CUSTOMERPAYMENTREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="CUSTOMERPAYMENTREP" class="atag"> Credit Customer Outstanding Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_CUSTOMERCREDITNOTEREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="CreditNoteReport" class="atag"> Customer Gift Voucher/Credit Note Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_COUPONS.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SettlementCouponIssueReport" class="atag"> Settlement Coupon Issue Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_COUPONS.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="CouponIssueReport" class="atag"> Coupon Issue Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_COUPONS.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="CouponReport" class="atag"> Coupon Consumption Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_GIFTVOUCHER.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="VoucherReport" class="atag"> Gift Voucher/Credit Note Consumption Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="RewardReport" class="atag"> Loyalty Reward Consumption Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_GIFTISSUEREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="GiftIssueReport" class="atag"> Gift Issue Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_CUSTOMERREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="CustomerBday" class="atag"> Birthday Wishes</a><span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_CUSTOMERREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="CustomerAnniversary" class="atag"> Anniversary Wishes</a><span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_CUSTOMERREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="CustomerActivity" class="atag"> My Customers Report</a><span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_CUSTOMERREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="FeedbackReport" class="atag"> Customer Feedback Report</a><span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_CUSTOMERREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="InactiveCustomer" class="atag"> Inactive Customer Report</a><span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SCHEDULAR.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="ScheduleLog" class="atag"> Scheduled Message Log</a><span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                </div>
+                                <button class="accordion"><b> REPORTS - MOBILE VERTICAL (</b><content style="font-size:smaller">6</content>)</button>
+                                <div class="panel">
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_MOBILEDAYBOOK.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="DAYSUMMARY" class="atag"> Day Book</a><span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_MOBILESWIPEMACHINEREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SWIPINGMACH" class="atag"> Swiping Machine wise Collection Report </a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_MOBILEEMIREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="EMIStatement" class="atag"> EMI Statement </a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_MOBILERECHARGEREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="ECStatement" class="atag"> EC Statement </a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_MOBILEBILLREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="BillItemDetails" class="atag"> Bill Item Details </a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_MOBILESCHEMEREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SchemeDetails" class="atag"> Scheme Details Report </a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="accordion"><b>ANALYSIS REPORTS  (</b><content style="font-size:smaller">3</content>)</button>
+                                <div class="panel">
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESANALYSISREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALESANALYSIS" class="atag"> Sales Analysis Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESVSSETTLEMENTREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALEVSSET" class="atag"> Sales Vs Settlement Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESVSSTOCKREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SALEVSSTOCK" class="atag"> Sales Vs Stock Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_STOCKPURCHASESALEREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="STOCKPURCHASESALE" class="atag"> Sales Vs Purchase Vs Stock</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+
+
+                                </div>
+                                <button class="accordion"><b>STOCK REPORTS  (</b><content style="font-size:smaller">7</content>)</button>
+                                <div class="panel">
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_RETAILSTOCKREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="RETAILSTOCK" class="atag"> Stock Detail Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_RETAILSTOCKREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="RETAILSHELFSTOCK" class="atag"> Stock Report With Shelf Period</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_RETAILSTOCKREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="RETAILSTOCKAGE" class="atag"> Stock Aging Detail Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_RETAILDIRECTSTOCKREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="MISSINGSTOCKREP" class="atag"> Direct Stock Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_RETAILSTOCKMARKERREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="STOCKMARKERREP" class="atag"> Stock Marker Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_RETAILPRICECHANGERREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PCREP" class="atag"> Price Changer Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_RETAILSTOCKAUDITREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="STOCKAUDITREP" class="atag"> Stock Audit Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SPLITBARCODE.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SplitBarcodeReport" class="atag"> Stock Split Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                </div>
+
+                                <button class="accordion"><b>DISCOUNT REPORTS  (</b><content style="font-size:smaller">2</content>)</button>
+                                <div class="panel">
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESBILLERREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="ADDITIONALDISC" class="atag"> Biller Wise Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESCASHIERREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="ADDITIONALCASHDISC" class="atag"> Cashier Wise Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                </div>
+
+                                <button class="accordion"><b>HR REPORTS  (</b><content style="font-size:smaller">4</content>)</button>
+                                <div class="panel">
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESSECTIONINCENTIVEREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="INCSECTION" class="atag"> Incentive Report - Section</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_SALESEMPLOYINCENTIVEREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="INCEMPLOYEE" class="atag"> Incentive Report - Employees</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_EMPLOYEEREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="EMPLOYEEDET" class="atag"> Employee Detail Report </a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_EMPLOYEEADVANCEPENDING.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="Empadvsummary" class="atag"> Employee Advance Pending Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                </div>
+                                <button class="accordion"><b>REPORTS - B2B VERTICAL(</b><content style="font-size:smaller">2</content>)</button>
+                                <div class="panel">
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_B2BSALESREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="B2BSALES" class="atag"> Sales Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_B2BSALESTAXREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="B2BTAX" class="atag"> Sales Tax Report (Column wise)</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_B2BSALESTAXREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="B2BSALESSPLIT" class="atag"> Sales Tax Report (Row wise)</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_B2BSALESHSNREPORT.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="B2BSALESHSN" class="atag"> Sales HSN Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <button class="accordion">Add-ons</button>
+                                <div class="panel">
+                                    <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_ADDON_TARGETWITHMARGIN.view">
+                                        <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="ADDON_TARGETWITHMARGIN" class="atag"> Product Margin Against Target</a><span style="font-size:small;color:#9688A5;">  </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <style>
+        .accordion {
+            background-color: #e4e4e4;
+            color: brown;
+            cursor: pointer;
+            padding: 11px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            transition: 0.4s;
+            font-weight: bold;
+        }
+
+            .active, .accordion:hover {
+                background-color: #ccc;
+            }
+
+            .accordion:after {
+                content: '\002B';
+                color: #777;
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+
+        .active:after {
+            content: "\2212";
+        }
+
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+    </style>
+
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+</div>
+

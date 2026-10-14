@@ -1,0 +1,353 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Finance / Transport Payment
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.print" style="cursor:pointer" ng-click=""><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li ng-show="ShowSearch" style="cursor:pointer" ng-click="exporttoExcel(igrid,'transportpayment', 'transportpayment')"><a><i class="fa fa-download"></i></a></li>
+            <li ng-show="!ShowSearch" style="cursor:pointer" ng-click="exporttoExcel(invgrid,'invoicesummary', 'invoicesummary')"><a><i class="fa fa-download"></i></a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-purple">
+            <div class="box-body" ng-hide="ShowSearch">
+
+                <div class="col-md-4 col-sm-4">
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Mode</label>
+                        <div class="col-md-8 col-sm-8">
+                            <select class="form-control" select2='' ng-model="TransportPayment.sourcemode" style="width: 100%;"
+                                    options="item.id as item.name for item in SourceModes track by item.id"
+                                    focusid="mode" focusonenter="companyid"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Company</label>
+                        <div class="col-md-8 col-sm-8">
+                            <select class="form-control" select2='' ng-model="TransportPayment.companyid" style="width: 100%;"
+                                    options="item.id as item.name for item in BuyingCompany track by item.id"
+                                    focusid="companyid" focusonenter="locationid"></select>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Location</label>
+                        <div class="col-md-8 col-sm-8">
+                            <select class="form-control" select2='' ng-model="TransportPayment.locationid" style="width: 100%;"
+                                    options="item.id as item.name for item in Locations track by item.id"
+                                    focusid="locationid" focusonenter="suppliercomapnyid"></select>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Transport</label>
+                        <div class="col-md-8 col-sm-8">
+
+                            <div class="input-group input-group-sm">
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        onkeyenter="SearchItems()"
+                                        options="item.id as item.name for item in Transports track by item.id"
+                                        ng-model="TransportPayment.transportid" focusid="suppliercomapnyid"></select>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary btn-sm btn-box pull-right" focusid="Save"
+                                            ng-click="SearchItems()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Received Date</label>
+                        <div class="col-md-8 col-sm-8">
+                            <input type="text" class="form-control pull-right input-sm"
+                                   daterange="TransportPayment.fromdate,TransportPayment.todate">
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Payment Date</label>
+                        <div class="col-md-8 col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control input-sm pull-right" datemodule="TransportPayment.paymentdate" ng-model="TransportPayment.paymentdate" id="datepicker" focusid="paymentdate" focusonenter="mode">
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Payment Mode</label>
+                        <div class="col-md-8 col-sm-8">
+                            <select class="form-control" select2='Payment Mode'
+                                    style="width: 100%;" options="item.id as item.name for item in PaymentModes track by item.id"
+                                    ng-model="TransportPayment.paymentmode" focusid="mode" focusonenter="bankid"></select>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Bank</label>
+                        <div class="col-md-8 col-sm-8">
+                            <select class="form-control" select2='Bank'
+                                    style="width: 100%;" options="item.id as item.name for item in Banks track by item.id"
+                                    ng-model="TransportPayment.bankid" focusid="bankid" focusonenter="chequedate"></select>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Cheque Date</label>
+                        <div class="col-md-8 col-sm-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control input-sm pull-right" datemodule="TransportPayment.chequedate" ng-model="TransportPayment.chequedate" id="datepicker" focusid="chequedate" focusonenter="refno">
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 col-sm-4 control-label">Ref. Nos</label>
+                        <div class="col-md-8 col-sm-8">
+                            <div>
+                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="TransportPayment.referencedetail" focusid="refno" focusonenter="paidamount">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+
+                        <label for="inputEmail3" class="col-md-4 col-sm-4 control-label">Paid Amount</label>
+                        <div ng-hide="TransportPayment.paymentmode==3" class="col-md-8 col-sm-8">
+
+                            <input type="text" class="form-control input-sm" id="inputEmail3" placeholder=""
+                                   ng-model="TransportPayment.paidamount" focusid="paidamount" focusonenter="remarks">
+
+                        </div>
+
+                        <div ng-show="TransportPayment.paymentmode==3" class="col-md-8 col-sm-8">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="TransportPayment.chequeamount">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary btn-sm pull-right" ng-click="AddMultipleCheque()">+</button>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 col-sm-4 control-label">Remarks</label>
+                        <div class="col-md-8 col-sm-8">
+                            <div>
+                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="TransportPayment.remarks" focusid="remarks">
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="TransportPayment.paymentmode==3" class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <table fixed-header="140px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:100px">Bank</th>
+                                        <th style="width:100px">Chq.Date</th>
+                                        <th style="width:100px">Chq.No</th>
+                                        <th style="width:100px">Amount</th>
+                                        <th style="width:50px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in TransportPayment.bankcheques">
+                                        <td>{{SearchRef(item.bankid, Banks)}}</td>
+                                        <td>{{item.chequedate|date:'dd/MM/yyyy' }}</td>
+                                        <td>{{item.chequeno}}</td>
+                                        <td>{{item.amount}}</td>
+                                        <td>
+                                            <button type="button" class="btn-danger btn btn-xs"
+                                                    ng-click="ManagePaymentItem('Delete',item)" data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                            <!--<button type="button" class="btn-primary btn btn-xs" ng-click="ManagePaymentItem('Edit',item)"
+                                    data-widget="edit" data-toggle="tooltip" title="Edit">
+                                <i class="fa fa-pencil"></i>
+                            </button>-->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-8 col-sm-8">
+
+                    
+                    <div class="col-md-12 col-sm-12">
+                        <div class="col-md-2 no-padding">
+                            <label class="col-md-12 no-padding control-label"><b>Fright</b></label>
+                            <label class="col-md-12 no-padding control-label">{{AddedAmount}}</label>
+                        </div>
+
+                        <div class="col-md-2 no-padding">
+                            <label class="col-md-12 no-padding control-label"><b>Loading/Others</b></label>
+                            <label class="col-md-12 no-padding control-label">{{LoadingCharges}}/{{OtherCharges}}</label>
+                        </div>
+                        <div class="col-md-1 no-padding">
+                            <label class="col-md-12 no-padding control-label"><b>Total</b></label>
+                            <label class="col-md-12 no-padding control-label">{{AddedAmount+DiscountAmount}}</label>
+                        </div>
+                        <div class="col-md-1 no-padding">
+                            <label class="col-md-12 no-padding control-label"><b>Discount</b></label>
+                            <label class="col-md-12 no-padding control-label">{{DiscountAmount}}</label>
+                        </div>
+                        <div class="col-md-2 no-padding">
+                            <label for="inputEmail3" class="col-md-12 no-padding control-labell"
+                                   style="vertical-align:top;color:brown;font-weight:bold">
+                                &nbsp;
+                                <input type="checkbox" style="margin-left:-10px" ng-model="TransportPayment.hastds" />
+                                TDS
+                            </label>
+
+                            <div class="col-md-12 no-padding" ng-show="TransportPayment.hastds">
+                                <div class="col-md-4 no-padding">
+                                    <input type="text" class="form-control input-sm" ng-change="tdspercentagechanged()"
+                                           style="width:100%" ng-model="TransportPayment.tdspercentage" />
+                                    <label style="position:absolute;right:0px;top:5px">%</label>
+                                </div>
+                                <div class="col-md-8" style="padding-left:0px">
+                                    <input type="text" class="form-control input-sm" style="width:100%"
+                                           ng-readonly="true" ng-model="TransportPayment.tdsamount" />
+                                </div>
+                            </div>
+                            <label class="col-md-12 no-padding control-label"
+                                   style="vertical-align:top;color:brown;" ng-hide="TransportPayment.hastds">No TDS</label>
+                        </div>
+                        <div class="col-md-2 no-padding">
+                            <label class="col-md-12 no-padding control-label"><b>Payable</b></label>
+                            <label class="col-md-12 no-padding control-label">{{AddedAmount-TDSAmount|IndianNumber:0}}</label>
+                        </div>
+
+                        <div class="col-md-2 no-padding">
+                            <label class="col-md-12 no-padding control-label"><b>Paid</b></label>
+                            <div class="col-md-12 no-padding">
+                                <div class="input-group input-group-sm">
+                                    <input type="number" class="form-control input-sm" ng-model="TransportPayment.adjustableamount" focusid="paidamount">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-sm btn-box" focusid="Save" ng-show="SearchCondition.showSearchResult && ShowPendingBills" ng-click="Apply()">
+                                            <i class="fa fa-bolt"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="col-md-12 col-sm-12" style="margin-top:10px">
+
+                            <div class="col-md-12 no-padding" id="gridinvoiceContainer">
+                            </div>
+                            
+
+                        </div>
+
+                    
+
+
+                </div>
+
+            </div>
+
+            
+                <div class="box-body"  ng-show="ShowSearch">
+
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-2 col-sm-2">
+
+                            <div class="col-md-12 col-sm-12 no-padding">
+                                <label for="inputEmail3" class="control-label">Mode</label>
+                                <div class="col-md-12 col-sm-12 no-padding">
+                                    <select class="form-control" select2='' ng-model="SearchCondition.sourcemode" style="width: 100%;"
+                                            options="item.id as item.name for item in SourceModes track by item.id"
+                                            focusid="smode" focusonenter="scompanyid"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 no-padding">
+
+                                <label for="inputEmail3" class="control-label">Transport Name</label>
+                                <div class="col-md-12 col-sm-12 no-padding">
+                                    <select class="form-control" select2="" style="width: 100%;" 
+                                            options="item.id as item.name for item in Transports track by item.id" 
+                                            ng-model="SearchCondition.transportid"
+                                            focusid="scompanyid" focusonenter="srangedate"></select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-12 col-sm-12 no-padding">
+                                <label for="inputEmail3" class="control-label">Payment Date</label>
+
+                                <div class="col-md-12 no-padding">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right input-sm"
+                                               daterange="SearchCondition.fromdate,SearchCondition.todate"
+                                            focusid="srangedate">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 no-padding">
+                                <label for="inputEmail3" class="control-label">Receipt No</label>
+                                <div class="col-md-12 no-padding">
+                                    <input type="text" class="form-control input-sm" id="inputEmail3"
+                                           placeholder="" ng-model="SearchCondition.receiptno " focusid="receiptno">
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-10">
+                            <div id="gridContainer">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- /.col -->
+                </div>
+
+
+        </div>
+
+
+    </section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

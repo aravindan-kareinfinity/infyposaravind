@@ -1,0 +1,223 @@
+﻿
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Expenses
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+<li><a href back-button>Back</a></li>
+            <li><a href="#">Expenses</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-default">
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Expenses Types</h3>
+                    </div>
+                    <br />
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li class="active" ng-repeat="item in ExpensesTypes">
+                                <a href="#" ng-click="Search(item)">
+                                    {{item.name}}
+                                </a>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="col-md-12">
+                        <div class="box-header">
+                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                <select class="form-control input-sm" style="width: 100%;" select2="" options="vendor.id as vendor.name for vendor in VendorTypes track by vendor.id" ng-model="SearchCondiction.vendortypeid" focusid="first"></select>
+                            </div>
+
+                            <div class="col-md-3 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control input-sm datepicker" datemodule="SearchCondiction.expensesdate" ng-model="SearchCondiction.ExpensesDate" focusid="expensesdate" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-2 col-sm-12 col-xs-12">
+                                <button type="button" class="btn btn-sm btn-primary" ng-click="Search()"><i class="fa fa-search"></i></button>
+                            </div>
+                            <div class="box-tools">
+                                <button type="submit" class="btn btn-success btn-sm" ng-click="AddExpensesOpen()"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table">
+                                <thead>
+                                    <tr class="headings">
+
+                                        <th class="column-title">DATE </th>
+                                        <th class="column-title"> EXPENSE TYPE</th>
+                                        <th class="column-title">VENDOR</th>
+                                        <th class="column-title">MODE OF PAYMENT</th>
+                                        <th class="column-title">AMOUNT </th>
+                                        <th class="column-title">NOTES </th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SearchResult | filter:expensesname">
+
+                                        <td>{{item.expensesdate | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{SearchRef(item.expensestypeid,ExpensesTypes)}}</td>
+                                        <td>{{SearchRef(item.vendortypeid,VendorTypes)}}</td>
+                                        <td>{{SearchRef(item.modeofpaymentid,ModeOfPayment)}}</td>
+                                        <td>{{item.amount}}</td>
+                                        <td>{{item.note}}</td>
+                                        <td>
+                                            <a href="#" ng-click="EditExpensesList(item)"><i class="fa fa-pencil"></i></a> &nbsp; &nbsp;
+                                            <a href="#" ng-click="RemoveExpensesList(item)"><i class="fa fa-trash-o"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+
+<script type="text/ng-template" id="ExpensesPlan">
+
+    <div class="ngdialog-message">
+        <button type="button" class="btn btn-xs btn-primary pull-right" ng-click="Clear()">New</button>
+        <div class="modal-header">
+            <h4 class="modal-title">{{Title}} </h4>
+
+
+        </div>
+
+        <div class="box-body table-responsive no-padding">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="200px" style="text-align:center">VENDOR</th>
+                        <th width="200px" style="text-align:center">DATE</th>
+                        <th width="200px" style="text-align:center">MODE OF PAYMENT</th>
+                        <th width="200px" ng-show="isBank" style="text-align:center">BANK NAME</th>
+                        <th width="200px" style="text-align:center">AMOUNT</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <select class="form-control input-sm" style="width: 100%;" select2="" options="vendor.id as vendor.name for vendor in VendorTypes track by vendor.id" ng-model="Expenses.vendortypeid" focusid="first"></select>
+
+                            </div>
+                            <br />
+                            <a class="active" ng-click="Notes = !Notes">Notes</a>
+                            <div class="col-md-12 col-sm-12 col-xs-12" ng-show="Notes">
+                                <input type="text" required="required" class="form-control col-xs-12 input-sm" ng-model="Expenses.note">
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+
+                                <div class="form-group">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control input-sm datepicker" datemodule="Expenses.expensesdate" ng-model="expensesdate">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+                        <td>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in ModeOfPayment track by item.id" ng-model="Expenses.modeofpaymentid" ng-change="CheckPayment()" focusid="modeofpaymentid"></select>
+                            </div>
+
+                        </td>
+                        <td ng-show="isBank">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <input type="text" required="required" class="form-control col-xs-12 input-sm" ng-model="Expenses.bankname">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <input type="text" required="required" class="form-control col-xs-12 input-sm" ng-model="Expenses.amount" focusid="amount">
+                            </div>
+                        </td>
+                        <td><a href="#" ng-click="AddExpenses()"><i class="fa fa-plus"></i></a></td>
+
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+        <div class="box-body table-responsive no-padding">
+            <table class="table">
+                <thead>
+                    <tr><th colspan="5">Expenses List</th> </tr>
+
+                    <tr>
+                        <th>DATE</th>
+                        <th>EXPENSE TYPE</th>
+                        <th>VENDOR</th>
+                        <th>MODE OF PAYMENT</th>
+                        <th>AMOUNT</th>
+                        <th>NOTES</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in ExpensesList">
+
+                        <td>{{item.expensesdate | date:'dd/MM/yyyy'}}</td>
+                        <td>{{SearchRef(item.expensestypeid,ExpensesTypes)}}</td>
+                        <td>{{SearchRef(item.vendortypeid,VendorTypes)}}</td>
+                        <td>{{SearchRef(item.modeofpaymentid,ModeOfPayment)}}</td>
+                        <td>{{item.amount}}</td>
+                        <td>{{item.note}}</td>
+                        <td>
+                            <a href="#" ng-click="EditExpenses(item)"><i class="fa fa-pencil"></i></a> &nbsp; &nbsp;
+                            <a href="#" ng-click="RemoveExpenses(item)"><i class="fa fa-trash-o"></i></a>
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-xs btn-primary" ng-click="SaveExpenses()">Save</button>
+
+        <button type="button" class="btn btn-xs btn-default" ng-click="CloseExpenses()">Cancel</button>
+    </div>
+
+
+</script>

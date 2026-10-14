@@ -1,0 +1,389 @@
+﻿
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            PO Builder
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.print" style="cursor:pointer" ng-click=""><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li style="cursor:pointer" ng-click="Convert2PO()"><a><i class="fa fa-upload"></i>Convert 2 PO</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body no-border">
+
+                    <div class="col-md-3" style="overflow-y:scroll;" ng-style="panelheight">
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-8 control-label no-padding">Supplier</label>
+                                <div class="col-md-4" style="padding-right:0px">
+                                    <button type="button" class="btn-danger btn btn-xs pull-right" ng-click="ManageList('deleteall')" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true">&nbsp;Clear All</i></button>
+                                </div>
+                                <div class="col-md-12 no-padding">
+                                    <select class="form-control" select2='Supplier' ng-model="POBuilder.preferredsupplierid" options="item.id as item.name for item in Suppliers track by item.id" focusid="preferredsupplierid" focusonenter="sizegropid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">Products</label>
+                                <div class="col-md-12 input-group input-group-sm">
+                                    <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.productid" options="item.id as item.name for item in Products track by item.id"></select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info btn-sm btn-flat pull-left "
+                                                ng-click="ManageList('add',SearchCondtion.productid,SearchRef(SearchCondtion.productid, Products),POBuilder.products.items)">
+                                            <i class="glyphicon glyphicon-plus-sign "></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-show="POBuilder.products.items && POBuilder.products.items.length>0">
+
+                                    <table class="fixed_table">
+                                        <thead>
+                                            <tr style="border-bottom:1px solid lightgrey">
+                                                <th style="width:150px">Name</th>
+                                                <th style="width:50px">Reqrd</th>
+                                                <th style="width:50px">Order</th>
+                                                <th width="5px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="border-bottom:1px solid lightgrey" ng-repeat="item in POBuilder.products.items">
+                                                <td>{{SearchRef(item.id,Products)}}</td>
+                                                <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.required" /></td>
+                                                <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.qty" /></td>
+                                                <td><button type="button" class="btn-danger btn btn-xs" ng-click="ManageList('delete',item,'',POBuilder.products.items)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">Brand</label>
+                                <div class="col-md-12 input-group input-group-sm">
+                                    <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.brandid" options="item.id as item.name for item in Brands track by item.id"></select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info btn-sm btn-flat pull-left "
+                                                ng-click="ManageList('add',SearchCondtion.brandid,SearchRef(SearchCondtion.brandid, Brands),POBuilder.brands.items)">
+                                            <i class="glyphicon glyphicon-plus-sign "></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-show="POBuilder.brands.items && POBuilder.brands.items.length>0">
+
+                                    <table class="fixed_table">
+                                        <thead>
+                                            <tr style="border-bottom:1px solid lightgrey">
+                                                <th style="width:150px">Name</th>
+                                                <th style="width:50px">Reqrd</th>
+                                                <th style="width:50px">Order</th>
+                                                <th width="5px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="border-bottom:1px solid lightgrey" ng-repeat="item in POBuilder.brands.items">
+                                                <td>{{SearchRef(item.id,Brands)}}</td>
+                                                <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.required" /></td>
+                                                <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.qty" /></td>
+                                                <td><button type="button" class="btn-danger btn btn-xs" ng-click="ManageList('delete',item,'',POBuilder.brands.items)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">Size</label>
+                                <div class="col-md-12 input-group input-group-sm">
+                                    <input type="text" class="form-control input-sm" placeholder="Start-Jump-End" style="width: 100%;" ng-model="SearchCondtion.sizeid" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info btn-sm btn-flat pull-left"
+                                                ng-click="ManageList('jump',SearchCondtion.sizeid,null,POBuilder.sizes.items)">
+                                            <i class="glyphicon glyphicon-plus-sign "></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-show="POBuilder.sizes.items && POBuilder.sizes.items.length>0">
+
+                                    <table class="fixed_table">
+                                        <thead>
+                                            <tr>
+
+                                                <th style="width:150px">Name</th>
+                                                <th style="width:50px">Reqrd</th>
+                                                <th style="width:50px">Order</th>
+                                                <th width="5px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="border-bottom:1px solid lightgrey" ng-repeat="item in POBuilder.sizes.items">
+                                                <td>{{SearchRef(item.id,Sizes)}}</td>
+                                                <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.required" /></td>
+                                                <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.qty" /></td>
+
+                                                <td><button type="button" class="btn-danger btn btn-xs" ng-click="ManageList('delete',item,'',POBuilder.sizes.items)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">Material</label>
+                                <div class="col-md-12 input-group input-group-sm">
+                                    <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.materialid" 
+                                            options="item.id as item.name for item in Materials track by item.id"></select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info btn-sm btn-flat pull-left "
+                                                ng-click="ManageList('add',SearchCondtion.materialid,SearchRef(SearchCondtion.materialid, materials),POBuilder.materials.items)">
+                                            <i class="glyphicon glyphicon-plus-sign "></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-show="POBuilder.materials.items && POBuilder.materials.items.length>0">
+
+                                    <table class="fixed_table">
+                                        <thead>
+                                            <tr>
+
+                                                <th style="width:150px">Name</th>
+                                                <th style="width:50px">Reqrd</th>
+                                                <th style="width:50px">Order</th>
+                                                <th width="5px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="border-bottom:1px solid lightgrey" ng-repeat="item in POBuilder.materials.items">
+
+                                                <td>{{SearchRef(item.id,materials)}}</td>
+                                                <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.required" /></td>
+                                                <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.qty" /></td>
+                                                <td><button type="button" class="btn-danger btn btn-xs" ng-click="ManageList('delete',item,'',POBuilder.materials.items)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+
+                            <div class="col-md-12 no-padding">
+                                <label for="inputEmail3" class="control-label">Pattern</label>
+                                <!--<button type="button" class="btn btn-box btn-warning pull-right btn-sm" ng-click="SwitchPanel()">Search</button>-->
+                            </div>
+
+                            <div class="col-md-12 input-group input-group-sm">
+                                <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.patternid" options="item.id as item.name for item in Patterns track by item.id"></select>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info btn-sm btn-flat pull-left"
+                                            ng-click="ManageList('add',SearchCondtion.patternid,SearchRef(SearchCondtion.patternid, Patterns),POBuilder.patterns.items)">
+                                        <i class="glyphicon glyphicon-plus-sign "></i>
+                                    </button>
+                                </span>
+                            </div>
+
+                            <div class="col-md-12 no-padding" ng-show="POBuilder.patterns.items && POBuilder.patterns.items.length>0">
+
+                                <table class="fixed_table">
+                                    <thead>
+                                        <tr>
+
+                                            <th style="width:150px">Name</th>
+                                            <th style="width:50px">Reqrd</th>
+                                            <th style="width:50px">Order</th>
+                                            <th width="5px"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border-bottom:1px solid lightgrey" ng-repeat="item in POBuilder.patterns.items">
+
+                                            <td>{{SearchRef(item.id,Patterns)}}</td>
+                                            <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.required" /></td>
+                                            <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.qty" /></td>
+
+                                            <td><button type="button" class="btn-danger btn btn-xs" ng-click="ManageList('delete',item,'',POBuilder.patterns.items)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">Style</label>
+                                <div class="col-md-12 input-group input-group-sm">
+                                    <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.styleid" options="item.id as item.name for item in Styles track by item.id"></select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info btn-sm btn-flat pull-left"
+                                                ng-click="ManageList('add',SearchCondtion.styleid,SearchRef(SearchCondtion.styleid, Styles),POBuilder.styles.items)">
+                                            <i class="glyphicon glyphicon-plus-sign "></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-show="POBuilder.styles.items && POBuilder.styles.items.length>0">
+
+                                    <table class="fixed_table">
+                                        <thead>
+                                            <tr>
+
+                                                <th style="width:150px">Name</th>
+                                                <th style="width:50px">Reqrd</th>
+                                                <th style="width:50px">Order</th>
+                                                <th width="5px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="border-bottom:1px solid lightgrey" ng-repeat="item in POBuilder.styles.items">
+
+                                                <td>{{SearchRef(item.id,Styles)}}</td>
+                                                <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.required" /></td>
+                                                <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.qty" /></td>
+
+                                                <td><button type="button" class="btn-danger btn btn-xs" ng-click="ManageList('delete',item,'',POBuilder.styles.items)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">Type</label>
+                                <div class="col-md-12 input-group input-group-sm">
+                                    <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.typeid" options="item.id as item.name for item in TypeList track by item.id"></select>
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info btn-sm btn-flat pull-left"
+                                                ng-click="ManageList('add',SearchCondtion.typeid,SearchRef(SearchCondtion.typeid, TypeList),POBuilder.types.items)">
+                                            <i class="glyphicon glyphicon-plus-sign "></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-show="POBuilder.materials.items && POBuilder.materials.items.length>0">
+
+                                    <table class="fixed_table">
+                                        <thead>
+                                            <tr>
+
+                                                <th style="width:150px">Name</th>
+                                                <th style="width:50px">Reqrd</th>
+                                                <th style="width:50px">Order</th>
+                                                <th width="5px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="border-bottom:1px solid lightgrey" ng-repeat="item in POBuilder.types.items">
+                                                <td>{{SearchRef(item.id,TypeList)}}</td>
+                                                <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.required" /></td>
+                                                <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.qty" /></td>
+
+                                                <td><button type="button" class="btn-danger btn btn-xs" ng-click="ManageList('delete',item,'',POBuilder.types.items)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-12 control-label no-padding">Colour</label>
+                                <div class="col-md-12 input-group input-group-sm">
+                                    <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.colorid" options="item.id as item.name for item in Colors track by item.id"></select>
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info btn-sm btn-flat pull-left"
+                                                ng-click="ManageList('add',SearchCondtion.colorid,SearchRef(SearchCondtion.colorid, Colors),POBuilder.colours.items)">
+                                            <i class="glyphicon glyphicon-plus-sign "></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-show="POBuilder.colours.items && POBuilder.colours.items.length>0">
+
+                                    <table class="fixed_table">
+                                        <thead>
+                                            <tr>
+
+                                                <th style="width:150px">Name</th>
+                                                <th style="width:50px">Reqrd</th>
+                                                <th style="width:50px">Order</th>
+                                                <th width="5px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="border-bottom:1px solid lightgrey" ng-repeat="item in POBuilder.colours.items">
+                                                <td>{{SearchRef(item.id,Colors)}}</td>
+                                                <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.required" /></td>
+                                                <td><input type="text" class="form-control input-sm" style="width:50px;width: 100%;" ng-model="item.qty" /></td>
+                                                <td><button type="button" class="btn-danger btn btn-xs" ng-click="ManageList('delete',item,'',POBuilder.colours.items)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-9" style="padding-right:0px">
+                        
+                            <div class="col-md-12 no-padding" id="gridContainer">
+
+                            </div>
+                        
+                    </div>
+                
+
+            </div>
+        </div>
+
+    </section>
+</div>
+

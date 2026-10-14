@@ -1,0 +1,360 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Report  |  Sales Report
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+<li><a href back-button>Back</a></li>
+            <li class="active">Sales Statement</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="box no-border">
+                            <div class="box-header no-border">
+                                <h3 class="box-title">FILTER</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- form start -->
+
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">From Date</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="input-sm form-control datepicker" datemodule="fromdate" ng-model="FromDate">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                                                <div class="col-md-8">
+                                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Location track by item.id" ng-model="locationid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Product</label>
+                                                <div class="col-md-8">
+                                                    <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Products track by item.id" ng-model="productid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                                <div class="col-md-8">
+                                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in BUYINGCOMPANY track by item.id" ng-model="companyid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Supplier</label>
+                                                <div class="col-md-8">
+                                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Suppliers track by item.id" ng-model="supplierid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Tax</label>
+                                                <div class="col-md-8">
+                                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Tax track by item.id" ng-model="taxid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Brand</label>
+                                                <div class="col-md-8">
+                                                    <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in BrandName track by item.id" ng-model="brandid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                      
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">To Date</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="input-sm form-control datepicker" datemodule="todate" ng-model="ToDate">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Style</label>
+                                                <div class="col-md-8">
+                                                    <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Styles track by item.id" ng-model="styleid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Pattern</label>
+                                                <div class="col-md-8">
+                                                    <select class="form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Patterns track by item.id" ng-model="patternid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Type</label>
+                                                <div class="col-md-8">
+                                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Types track by item.id" ng-model="typeid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                       
+
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Color</label>
+                                                <div class="col-md-8">
+                                                    <select class="form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Colors track by item.id" ng-model="colourid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Material</label>
+                                                <div class="col-md-8">
+                                                    <select class="form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Material track by item.id" ng-model="materialid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Size Order</label>
+                                                <div class="col-md-8">
+                                                    <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Sizes track by item.id" ng-model="sizeid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box no-border">
+                            <div class="box-header no-border">
+                                <h3 class="box-title">HEADER</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- form start -->
+
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="row col-md-12">
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Brand
+                                            </label>
+                                           
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Pattern
+                                            </label>
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Size
+                                            </label>
+                                         
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> MRP
+                                            </label>
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Cost
+                                            </label>
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Bil No
+                                            </label>
+                                         
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox" ng-model="barcode" /> Barcode
+                                            </label>
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Product
+                                            </label>
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Supplier
+                                            </label>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Color
+                                            </label>
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Matrial
+                                            </label>
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Style
+                                            </label>
+                                         
+                                        </div>
+                                        <!--<div class="row col-md-12">
+                                            <label for="inputEmail3" class="col-md-3 control-label">
+                                                <input type="checkbox"> Invoice Date
+                                            </label>
+                                         
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box no-border">
+                            <div class="box-header no-border">
+                                <h3 class="box-title">VALUES HEADER</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- form start -->
+
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="row col-md-12">
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Net Amount
+                                            </label>
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Sale Qty
+                                            </label>
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Sale Amount
+                                            </label>
+                                           
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Net Qut
+                                            </label>
+                                            <label for="inputEmail3" class="col-md-4 control-label">
+                                                <input type="checkbox"> Sale DisAmt
+                                            </label>
+                                            <label for="inputEmail3" class="col-md-3 control-label">
+                                                <input type="checkbox"> Sale FDisAmt
+                                            </label>
+
+                                        </div>
+                                        <!--<div class="row col-md-12">
+                                            <label for="inputEmail3" class="col-md-3 control-label">
+                                                <input type="checkbox"> Act SalAmt
+                                            </label>
+
+
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-sm btn-success" ng-click="SearchSales()">Grid View</button>
+                            <button class="btn btn-warning" ng-click="printDiv('printdiv', 'Sales Report')" data-widget="print" data-toggle="tooltip" title="Print"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
+                            <button class="btn btn-primary btn-sm btn-primary col-md-3 pull-left" ng-click="exporttoExcel('report','filename')">Export</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row row-padbot-15">
+
+                    <div class="col-md-12" id="report">
+                        <div class="table-responsive mailbox-messages">
+                            <table fixed-header="500px" class="fixed_table" id="printdiv">
+                                <thead>
+                                    <tr>
+                                        <th style="width:100px">Company</th>
+                                        <th style="width:100px">Supplier</th>
+                                        <th style="width:100px">Qty</th>
+                                        <th style="width:100px">Cost</th>
+                                        <th style="width:100px">Bill No</th>
+                                        <th style="width:100px">Brand</th>
+                                        <th style="width:100px">Product</th>
+                                        <th style="width:100px" ng-show="barcode">Barcode</th>
+                                        <th style="width:100px">Price</th>
+                                        <th style="width:100px">Pattern</th>
+                                        <th style="width:100px">Style</th>
+                                        <th style="width:100px">Size</th>
+                                        <th style="width:100px">Material</th>
+                                        <th style="width:100px">Color</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SearchResult">
+                                        <td>{{SearchRef(item.companyid,BuyingCompany)}}</td>
+                                        <td>{{SearchRef(item.supplierid,Suppliers)}}</td>
+                                        <td>{{item.qty}}</td>
+                                        <td>{{item.cost}}</td>
+                                        <td>{{item.billno}}</td>
+                                        <td>{{SearchRef(item.brandid,BrandName)}}</td>
+                                        <td>{{SearchRef(item.productid,Products)}}</td>
+                                        <td ng-show="barcode">{{item.barcode}}</td>
+                                        <td>{{item.price}}</td>
+                                        <td>{{SearchRef(item.patternid,patterns)}}</td>
+                                        <td>{{SearchRef(item.styleid,styles)}}</td>
+                                        <td>{{SearchRef(item.sizeid,sizes)}}</td>
+                                        <td>{{SearchRef(item.materialid,Materials)}}</td>
+                                        <td>{{SearchRef(item.colorid,Color)}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+</div>
+<!-- /.content-wrapper -->

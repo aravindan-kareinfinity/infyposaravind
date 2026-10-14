@@ -1,0 +1,1794 @@
+﻿      <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a> HR / Payroll Processing
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="ShowPayroll" style="cursor:pointer" ng-click="exporttoExcel(ShowCheckList ? 'payrollchecklist':'payroll','salreport',0)"><a><i class="fa fa-download"></i>Export</a></li>
+            <li ng-show="ShowPayroll" style="cursor:pointer" ng-click="Generate()"><a><i class="fa fas fa-search-plus"></i>Generate</a></li>
+            <li ng-show="ShowPayroll" style="cursor:pointer" ng-click="SearchCheckList()"><a><i class="fa fas fa-search-plus"></i>Check List</a></li>
+            <li ng-show="ShowPayroll" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li ng-show="ShowPayroll" style="cursor:pointer" ng-click="printDiv()"><a><i class="fa fa fa-print"></i>Print</a></li>
+
+            <li ng-show="ShowLeave" style="cursor:pointer" ng-click="GenerateLeave()"><a><i class="fa fa fa-print"></i>Generate</a></li>
+            <li ng-show="ShowLeave" style="cursor:pointer" ng-click="exporttoExcel('leave','leavereport',0)"><a><i class="fa fa fa-print"></i>Export</a></li>
+            <li ng-show="ShowLeave" style="cursor:pointer" ng-click="SearchIncentives(1)"><a><i class="fa fa fa-print"></i>Search</a></li>
+
+
+            <li ng-show="ShowIncentive" style="cursor:pointer" ng-click="GenerateIncentive()"><a><i class="fa fa fa-print"></i>Generate</a></li>
+            <li ng-show="ShowIncentive" style="cursor:pointer" ng-click="exporttoExcel('incentive','incentive',0)"><a><i class="fa fa fa-print"></i>Export</a></li>
+            <li ng-show="ShowIncentive" style="cursor:pointer" ng-click="SearchIncentives(2)"><a><i class="fa fa fa-print"></i>Search</a></li>
+
+
+            <li ng-show="ShowBonus" style="cursor:pointer" ng-click="GenerateBonus()"><a><i class="fa fa fa-print"></i>Generate</a></li>
+            <li ng-show="ShowBonus" style="cursor:pointer" ng-click="exporttoExcel('bonus','bonusreport',0)"><a><i class="fa fa fa-print"></i>Export</a></li>
+            <li ng-show="ShowBonus" style="cursor:pointer" ng-click="SearchIncentives(3)"><a><i class="fa fa fa-print"></i>Search</a></li>
+
+
+            <li ng-show="ShowBeta" style="cursor:pointer" ng-click="GenerateBeta()"><a><i class="fa fa fa-print"></i>Generate</a></li>
+            <li ng-show="ShowBeta" style="cursor:pointer" ng-click="exporttoExcel('beta','betareport',0)"><a><i class="fa fa fa-print"></i>Export</a></li>
+            <li ng-show="ShowBeta" style="cursor:pointer" ng-click="SearchIncentives(5)"><a><i class="fa fa fa-print"></i>Search</a></li>
+
+
+            <li ng-show="ShowOvertime" style="cursor:pointer" ng-click="GenerateOT()"><a><i class="fa fa fa-print"></i>Generate</a></li>
+            <li ng-show="ShowOvertime" style="cursor:pointer" ng-click="exporttoExcel('ot','otreport',0)"><a><i class="fa fa fa-print"></i>Export</a></li>
+            <li ng-show="ShowOvertime" style="cursor:pointer" ng-click="SearchIncentives(4)"><a><i class="fa fa fa-print"></i>Search</a></li>
+
+            <li ng-show="ShowSummary" style="cursor:pointer" ng-click="SearchIncentives(0)"><a><i class="fa fa fa-print"></i>Search</a></li>
+            <li ng-show="DailyWages" style="cursor:pointer" ng-click="SearchDailyWages(0)"><a><i class="fa fa fa-print"></i>Search</a></li>
+
+            <li ng-show="ShowPayrollUploader" style="cursor:pointer" ng-click="SaveSalaryChanges()"><a><i class="fa fa fa-save"></i>Save</a></li>
+
+            <li ng-show="ShowPayrollUploader" style="cursor:pointer" ng-click="exporttoExcel('uploadsalary','Salary Uploader',0)"><a><i class="fa fa fa-download"></i>Export</a></li>
+            <li ng-show="ShowPayrollUploader" style="cursor:pointer" ng-click="Searchforploader()"><a><i class="fa fa fa-search-plus"></i>Search</a></li>
+            <li ng-show="ShowPayrollUploader" style="cursor:pointer">
+            <li ng-show="BankReport" style="cursor:pointer" ng-click="exporttoExcel('BankReport','BankReport',0)"><a><i class="fa fa fa-print"></i>Export</a></li>
+            <li ng-show="BankReport" style="cursor:pointer" ng-click="SearchBankReport()"><a><i class="fa fa fa-search-plus"></i>Search</a></li>
+            <li ng-show="BankReport" style="cursor:pointer" ng-click="printDivs()"><a><i class="fa fa fa-print"></i>Print</a></li>
+            <file-upload class="file-upload" ng-hide="BankReport"
+                             style="display:inline-block"
+                             ng-model="uploaderfile"
+                             filemodel="uploaderfile"
+                             filetype="DATA"
+                             onuploadcomplete='uploaderfilecompleted'
+                             uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'>
+                    <i class="fa fa-upload"></i>
+                    <span>Upload</span>
+                </file-upload>
+            </li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info" ng-hide="ShowSearch">
+                    <div class="box-body">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Types Of Payroll</label>
+                                <div class="col-md-8">
+                                    <select class="form-control input-sm" select2="" ng-change="PayrollProce()" style="width: 100%;" options="item.id as item.name for item in ParollProcess track by item.id" ng-model="Payroll.payrolltypeid"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" ng-show="Payroll.payrolltypeid>2 && Payroll.payrolltypeid<6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Configuration</label>
+                                <div class="col-md-8">
+                                    <select class="form-control input-sm" select2="" style="width: 100%;" ng-change="ConfigChanged()" options="item.id as item.name for item in SpecialPayment track by item.id" ng-model="configid"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Your Page Content Here -->
+                        <div class="col-md-12">
+                            <!-- Horizontal Form -->
+                            <div class="" ng-show="ShowPayroll">
+                                <div class="box-body">
+                                    <div class="header">
+                                        <h4 class="box-title">Payroll</h4>
+                                    </div>
+                                    <div class="row row-padbot-15">
+                                        <div class="col-md-12 col-sm-12">
+                                            <!-- basic details starts -->
+                                            <div class="col-md-3">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Locations track by company.id" ng-model="locationid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Pay Date</label>
+                                                        <div class="col-md-8">
+
+                                                            <input type="text" class="form-control input-sm datepicker" datemodule="paydate" ng-model="paydate">
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <!-- basic details ends -->
+                                            <div class="col-md-5">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Department</label>
+                                                        <div class="col-md-8 no-padding">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="departmentid"></select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Floor</label>
+                                                        <div class="col-md-4 col-sm-4 no-padding">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="floor.id as floor.code for floor in Floors track by floor.id" ng-model="floorid"></select>
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-4 no-padding">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="floor.id as floor.name for floor in SalaryModes track by floor.id" ng-model="salarymode"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Filter</label>
+                                                        <div class="col-md-4 no-padding">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in FilterModes track by company.id" ng-model="filtermode"></select>
+                                                        </div>
+
+                                                        <div class="col-md-4 no-padding">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="workingmode.id as workingmode.name for workingmode in WorkingModes track by department.id" ng-model="workingmode"></select>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-3 control-label">Employee</label>
+                                                        <div class="col-md-9">
+                                                            <select class="form-control select2 input-sm" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-3 col-md-3 control-label">Month/Year</label>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <select class="input-sm form-control input-sm" select2="" ng-model="month" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3">
+                                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="year">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-3 col-md-3 control-label">Generation Date</label>
+                                                        <div class="col-md-9 col-sm-9">
+                                                            <input type="text" class="form-control input-sm" style="width:100%" daterange="fromdate,todate">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 no-padding" ng-show="SearchResult.length>0">
+                                        <div class="col-md-6 no-padding">
+                                            <label for="txtname" class="col-md-6">Payslip for the month :</label>
+                                            <div class="col-md-6">
+                                                <label for="txtname" class="control-label">{{SearchResult[0].salarymonth | date:'MMMM, y'}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="txtname" class="col-md-4">Total Working days :</label>
+                                            <div class="col-md-6">
+                                                <label for="txtname" class="control-label">{{SearchResult[0].additionalinfo.workingdays}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="box-body no-padding" ng-show="ShowCheckList == false && SearchResult.length>0">
+
+                                        <div>
+                                            <table id="payroll" style="border-collapse: collapse;">
+                                                <thead>
+                                                    <tr style="border-top: 1pt solid black;border-bottom: 1pt solid black;">
+                                                        <th width="50px" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            S.No
+                                                        </th>
+                                                        <th width="50px">
+                                                            Code
+                                                        </th>
+                                                        <th width="150px">
+                                                            Name
+                                                        </th>
+                                                        <th width="50px" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            P.Days
+                                                        </th>
+                                                        <th width="50px" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            L.Days
+                                                        </th>
+                                                        <th width="50px" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            LE.Days
+                                                        </th>
+                                                        <th ng-repeat="item in refpaycategorylistearnings" width="50px" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            <div>{{item.code}}</div>
+                                                        </th>
+                                                        <th width="100px" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Earn.
+                                                        </th>
+                                                        <th ng-repeat="item in refpaycategorylistdeductions" width="50px"><div>{{item.code}}</div></th>
+                                                        <th width="100px" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Deduct.
+                                                        </th>
+                                                        <th width="70px" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Net
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in SearchResult">
+                                                        <td style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{$index+1}}
+                                                        </td>
+                                                        <td class="text-left">
+                                                            {{item.employeeno}}
+                                                        </td>
+                                                        <td class="text-left">
+                                                            {{item.name}}
+                                                        </td>
+                                                        <td class="text-right" ng-click="ShowDayInfo(item.additionalinfo,item.name)" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{item.workingdays-item.leavedays | number :1}}
+                                                        </td>
+                                                        <td class="text-right" ng-click="ShowDayInfo(item.additionalinfo,item.name)" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{item.leavedays | number :1}}
+                                                        </td>
+                                                        <td class="text-right" ng-click="ShowDayInfo(item.additionalinfo,item.name)" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{item.additionalinfo.leaveencashmentdays | number :1}}
+                                                        </td>
+                                                        <td ng-repeat="refitem in refpaycategorylistearnings" class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;">{{getsalaryitem(refitem,item)}}</td>
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{item.earnings}}
+                                                        </td>
+                                                        <td class="text-right" ng-repeat="refitem in refpaycategorylistdeductions">{{getsalaryitem(refitem,item)}}</td>
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{item.deductions}}
+                                                        </td>
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{item.netsalary}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border: 1pt solid black;">
+
+                                                        <td colspan="6">
+                                                            TOTAL :
+                                                        </td>
+                                                        <td ng-repeat="refitem in refpaycategorylistearnings" class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;">&nbsp;</td>
+                                                        <td class="text-right" style="padding-right:5px">
+                                                            {{totalearning}}
+                                                        </td>
+                                                        <td class="text-right" ng-repeat="refitem in refpaycategorylistdeductions">&nbsp;</td>
+                                                        <td class="text-right" style="padding-right:5px">
+                                                            {{totaldedution}}
+                                                        </td>
+
+                                                        <td class="text-right" style="padding-right:5px">
+                                                            {{totalnetsalary}}
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="box-body no-padding" ng-show="ShowCheckList == true">
+
+                                        <div>
+                                            <table id="payrollchecklist" style="border-collapse: collapse;">
+                                                <thead>
+                                                    <tr style="border-top: 1pt solid black;border-bottom: 1pt solid black;">
+                                                        <th width="50px" rowspan="2" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            S.No
+                                                        </th>
+                                                        <th width="50px" rowspan="2">
+                                                            Code
+                                                        </th>
+                                                        <th width="150px" rowspan="2">
+                                                            Name
+                                                        </th>
+                                                        <th width="50px" rowspan="2" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            P.Days
+                                                        </th>
+                                                        <th width="50px" rowspan="2" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            L.Days
+                                                        </th>
+                                                        <th width="50px" rowspan="2" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            LE.Days
+                                                        </th>
+                                                        <th colspan="{{refpaycategorylistearnings.length}}" width="50px" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Default
+                                                        </th>
+                                                        <th width="100px" rowspan="2" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Gross
+                                                        </th>
+                                                        <th colspan="{{refpaycategorylistearnings.length}}" width="50px" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Current  Earnings.
+                                                        </th>
+                                                        <th width="100px" rowspan="2" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Earn.
+                                                        </th>
+                                                        <th colspan="{{refpaycategorylistdeductions.length}}" width="50px">Deductions</th>
+                                                        <th width="100px" rowspan="2" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Deduct.
+                                                        </th>
+                                                        <th width="70px" rowspan="2" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Net
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th ng-repeat="item in refpaycategorylistearnings" width="50px" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            <div>{{item.code}}</div>
+                                                        </th>
+                                                        <th ng-repeat="item in refpaycategorylistearnings" width="50px" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            <div>{{item.code}}</div>
+                                                        </th>
+                                                        <th ng-repeat="item in refpaycategorylistdeductions" width="50px"><div>{{item.code}}</div></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in SearchCheckResult" style="border-top: 1pt solid black">
+                                                        <td style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{$index+1}}
+                                                        </td>
+                                                        <td class="text-left">
+                                                            {{item.employeeno}}
+                                                        </td>
+                                                        <td class="text-left">
+                                                            {{item.name}}
+                                                        </td>
+                                                        <td class="text-right" ng-click="ShowDayInfo(item.additionalinfo,item.name)" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{item.workingdays-item.leavedays | number :1}}
+                                                        </td>
+                                                        <td class="text-right" ng-click="ShowDayInfo(item.additionalinfo,item.name)" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{item.leavedays | number :1}}
+                                                        </td>
+                                                        <td class="text-right" ng-click="ShowDayInfo(item.additionalinfo,item.name)" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{item.additionalinfo.leaveencashmentdays | number :1}}
+                                                        </td>
+                                                        <td ng-repeat="refitem in refpaycategorylistearnings" class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;">{{getsalarydefault(refitem,item)}}</td>
+                                                        <td class="text-right" ng-click="ShowDayInfo(item.additionalinfo,item.name)" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{item.additionalinfo.gross | number :2}}
+                                                        </td>
+
+                                                        <td ng-repeat="refitem in refpaycategorylistearnings" class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;">{{getsalaryitem(refitem,item)}}</td>
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{item.earnings}}
+                                                        </td>
+                                                        <td class="text-right" ng-repeat="refitem in refpaycategorylistdeductions"style="border-left: 1pt solid black;border-right: 1pt solid black;">{{getsalaryitem(refitem,item)}}</td>
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{item.deductions}}
+                                                        </td>
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{item.netsalary}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border: 1pt solid black;">
+
+                                                        <td colspan="7">
+                                                            TOTAL :
+                                                        </td>
+                                                        <td colspan="{{refpaycategorylistearnings.length}}">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td ng-repeat="refitem in refpaycategorylistearnings" class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;">&nbsp;</td>
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{totalearning}}
+                                                        </td>
+                                                        <td class="text-right" ng-repeat="refitem in refpaycategorylistdeductions">&nbsp;</td>
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{totaldedution}}
+                                                        </td>
+
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{totalnetsalary}}
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Your Page Content Here  ng-show="SearchBankResult.length>0"-->
+                        <div class="col-md-12">
+                            <!-- Horizontal Form -->
+                            <div class="" ng-show="BankReport">
+                                <div class="box-body">
+                                    <div class="header">
+                                        <h4 class="box-title">Bank Report</h4>
+                                    </div>
+                                    <div class="row row-padbot-15">
+                                        <div class="col-md-12 col-sm-12">
+                                            <!-- basic details starts -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-3 control-label">Employee</label>
+                                                        <div class="col-md-9">
+                                                            <select class="form-control select2 input-sm" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <!-- basic details ends -->
+
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-4">
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-3 col-md-3 control-label">Month/Year</label>
+                                                        <div class="col-md-5 col-sm-3">
+                                                            <select class="input-sm form-control input-sm" select2="" ng-model="month" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3">
+                                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="year">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-body no-padding" ng-show="BankResult && BankResult.length>0">
+                                        <!--"-->
+                                        <div class="col-md-12">
+                                            <table id="BankReport" style="border-collapse: collapse;">
+                                                <thead>
+                                                    <tr style="border-top: 1pt solid black;border-bottom: 1pt solid black;">
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            S.No
+                                                        </th>
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Code
+                                                        </th>
+                                                        <th class="col-md-3" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Name
+                                                        </th>
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Bank Name
+                                                        </th>
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Account Name
+                                                        </th>
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Account Number
+                                                        </th>
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            ifsc
+                                                        </th>
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Net Salary
+                                                        </th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in BankResult">
+                                                        <td style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{$index+1}}
+                                                        </td>
+                                                        <td class="text-left" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{item.employeecode}}
+                                                        </td>
+                                                        <td class="text-left" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{item.name}}
+                                                        </td>
+
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{item.bankname}}
+                                                        </td>
+                                                    
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{item.accountname}}
+                                                        </td>
+                                                           
+                                                       
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{item.accountno}}
+                                                        </td>
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{item.ifsc}}
+                                                        </td>
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{item.netsalary}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border: 1pt solid black;">
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr style="border: 1pt solid black;">
+                                                        <th id="total" colspan="7">Total :</th>
+                                                        <td> {{totalnetsalary}}</td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                              
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <!-- Your Page Content Here -->
+                        <div class="col-md-12">
+                            <!-- Horizontal Form -->
+                            <div class="" ng-show="ShowPayrollUploader">
+                                <div class="box-body">
+                                    <div class="header">
+                                        <h4 class="box-title">Payroll</h4>
+                                    </div>
+                                    <div class="row row-padbot-15">
+                                        <div class="col-md-12 col-sm-12">
+                                            <!-- basic details starts -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Locations track by company.id" ng-model="locationid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+                                            <!-- basic details ends -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Department</label>
+                                                        <div class="col-md-8 no-padding">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="departmentid"></select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Month/Year</label>
+                                                        <div class="col-md-5 col-sm-5 no-padding">
+                                                            <select class="input-sm form-control input-sm" select2="" ng-model="month" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 no-padding">
+                                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="year">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Header</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2=""
+                                                                    options="refpay.id as refpay.name for refpay in refpaycategorylist track by refpay.id"
+                                                                    ng-change="UploadResultHeaderChanged(refpaycategorylist,headerid)"
+                                                                    ng-model="headerid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    
+
+                                                    
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Floor / Mode</label>
+                                                                <div class="col-md-4 col-sm-4" style="padding-right:0px">
+                                                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="floor.id as floor.code for floor in Floors track by floor.id" ng-model="floorid"></select>
+                                                                </div>
+                                                                <div class="col-md-4 col-sm-4" style="padding-left:0px">
+                                                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in WorkingModes track by department.id" ng-model="workingmode"></select>
+                                                                </div>
+                                                            </div>
+                                                    
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="box-body no-padding" ng-show="SearchUploadResult && SearchUploadResult.length>0">
+
+                                        <div>
+                                            <table id="uploadsalary" style="border-collapse: collapse;">
+                                                <thead>
+                                                    <tr style="border-top: 1pt solid black;border-bottom: 1pt solid black;">
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            S.No
+                                                        </th>
+                                                        <th class="col-md-1">
+                                                            Code
+                                                        </th>
+                                                        <th class="col-md-3">
+                                                            Name
+                                                        </th>
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            P.Days
+                                                        </th>
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            L.Days
+                                                        </th>
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            LE.Days
+                                                        </th>
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{UploadResultHeader.name}}
+                                                        </th>
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Earn.
+                                                        </th>
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Deduct.
+                                                        </th>
+                                                        <th class="col-md-1" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            Net
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in SearchUploadResult">
+                                                        <td style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{$index+1}}
+                                                        </td>
+                                                        <td class="text-left" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{item.employeeno}}
+                                                        </td>
+                                                        <td class="text-left" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{item.name}}
+                                                        </td>
+                                                        <td class="text-right" ng-click="ShowDayInfo(item.additionalinfo,item.name)" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{item.workingdays-item.leavedays | number :1}}
+                                                        </td>
+                                                        <td class="text-right" ng-click="ShowDayInfo(item.additionalinfo,item.name)" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{item.leavedays | number :1}}
+                                                        </td>
+                                                        <td class="text-right" ng-click="ShowDayInfo(item.additionalinfo,item.name)" style="border-left: 1pt solid black;border-right: 1pt solid black;">
+                                                            {{item.additionalinfo.leaveencashmentdays | number :1}}
+                                                        </td>
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            <input type="number" ng-model="item.updatevalue" 
+                                                                   ng-change="itemvalueupdated(item,'{{item.updatevalue}}')" class="form-control input-sm" style="width:100%" />
+                                                        </td>
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{item.tearnings}}
+                                                        </td>
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{item.tdeductions}}
+                                                        </td>
+                                                        <td class="text-right" style="border-left: 1pt solid black;border-right: 1pt solid black;padding-right:5px">
+                                                            {{item.tnetsalary}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border: 1pt solid black;">
+
+                                                        <td colspan="6">
+                                                            TOTAL :
+                                                        </td>
+                                                        <td class="text-right" style="padding-right:5px">
+                                                            {{totalchanges}}
+                                                        </td>
+                                                        <td class="text-right" style="padding-right:5px">
+                                                            {{totalearning}}
+                                                        </td>
+                                                        <td class="text-right" style="padding-right:5px">
+                                                            {{totaldedution}}
+                                                        </td>
+
+                                                        <td class="text-right" style="padding-right:5px">
+                                                            {{totalnetsalary}}
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Your Page Content Here -->
+                        <div class="col-md-12">
+                            <!-- Horizontal Form -->
+                            <div class="" ng-show="ShowLeave">
+                                <div class="box-body">
+                                    <div class="header">
+                                        <h4 class="box-title">Leave</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <!-- basic details starts -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Month</label>
+                                                        <div class="col-md-5" style="padding-right:0px">
+                                                            <select class="input-sm form-control" select2="" ng-model="month" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                                        </div>
+                                                        <div class="col-md-3" style="padding-left:0px">
+                                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="year">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- basic details ends -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Department</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="departmentid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Location</label>
+                                                        <div class="col-md-8">
+                                                            <select class="input-sm form-control" select2="" ng-model="locationid" options="item.id as item.name for item in Locations track by item.id"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Employee</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control select2 input-sm" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!--<div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <div class="col-md-3"></div>
+
+                                            <div class="col-md-3">
+                                                <button class="btn btn-primary btn-sm btn-primary btn-box" ng-click="GenerateLeave()">Generate</button>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button class="btn btn-primary btn-sm btn-warning btn-ox" ng-click="SearchIncentives(2)" data-widget="go" data-toggle="tooltip" title="Go">Search</button>
+                                            </div>
+                                        <div class="col-md-1">
+                                            <button class="glyphicon glyphicon-download-alt btn btn-info btn-sm" ng-click="exporttoExcel('leave','leavereport',0)"></button>
+                                        </div>
+                                        </div>
+                                </div>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <form class="form-horizontal">
+                                        <div class="box-body no-padding" id="printdiv">
+                                            <div class="row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="txtname" class="col-md-4 control-label">Leave Salary for the month :</label>
+                                                    <div class="col-md-6">
+                                                        <label for="txtname" class="col-md-4 control-label">{{payslipmonth | date:'MMMM, y'}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <table fixed-header="500px" id="leave">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="100px">S.No</th>
+                                                        <th width="100px">Code</th>
+                                                        <th width="250px">Employee Name</th>
+                                                        <th width="100px">Days</th>
+                                                        <th width="100px">Gross</th>
+
+                                                        <th width="100px">Sundays</th>
+                                                        <th width="200px">Sundays Salary</th>
+                                                        <th width="100px">Holidays</th>
+                                                        <th width="200px">Holiday Salary</th>
+                                                        <th width="100px">Total Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in LeaveResult">
+                                                        <td>
+                                                            {{$index+1}}
+                                                        </td>
+                                                        <td>{{item.employeecode}}</td>
+                                                        <td>{{SearchRef(item.employeeid, Employee)}}</td>
+
+                                                        <td>{{item.workingdays}}</td>
+                                                        <td>{{item.grosspay}}</td>
+                                                        <td>{{item.sundaysalarydays}}</td>
+                                                        <td>{{item.sundaysalary}}</td>
+                                                        <td>{{item.holidaysalarydays}}</td>
+                                                        <td>{{item.holidaysalary}}</td>
+                                                        <td>{{item.sundaysalary+item.holidaysalary}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="text-right" colspan="3">
+                                                            TOTAL :
+                                                        </td>
+                                                        <td class="text-right" colspan="1">
+                                                            {{totalsundaysalary}}
+                                                        </td>
+                                                        <td class="text-right" colspan="2">
+                                                            {{totalholidaysalary}}
+                                                        </td>
+
+                                                        <td class="text-right" colspan="1">
+                                                            {{totalleavesalary}}
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Your Page Content Here -->
+                        <div class="col-md-12">
+                            <!-- Horizontal Form -->
+                            <div class="" ng-show="ShowIncentive">
+                                <div class="box-body">
+                                    <div class="header">
+                                        <h4 class="box-title">Incentive</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                                    <div class="col-md-8">
+                                                        <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-md-4 control-label">Department</label>
+                                                    <div class="col-md-8">
+                                                        <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="departmentid"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-md-4 control-label">Month</label>
+                                                    <div class="col-md-5 no-padding">
+                                                        <select class="input-sm form-control" select2="" ng-model="month" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                                    </div>
+                                                    <div class="col-md-3 no-padding">
+                                                        <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="year">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <input type="checkbox" ng-model="includesales" style="margin-left:15px" />
+                                                    <label>Include Sales</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Location</label>
+                                                    <div class="col-md-8">
+                                                        <select class="input-sm form-control" select2="" ng-model="locationid" options="item.id as item.name for item in Locations track by item.id"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <form class="form-horizontal">
+                                        <div class="box-body no-padding" id="printdiv">
+
+                                            <table fixed-header="500px" id="incentive">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width:100px">S.No</th>
+                                                        <th style="width:150px">Employee ID</th>
+                                                        <th style="width:200px">Employee Name</th>
+                                                        <th style="width:200px">Department</th>
+                                                        <th style="width:200px">Section</th>
+                                                        <th style="width:250px">Working days</th>
+                                                        <th style="width:250px">Sold</th>
+                                                        <th style="width:250px">Incentive %</th>
+                                                        <th style="width:200px">Incentive</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr ng-repeat="item in IncentiveResult">
+                                                        <td>
+                                                            {{$index+1}}
+                                                        </td>
+                                                        <td header="Employee ID">{{item.employeecode}}</td>
+                                                        <td header="Employee Name">{{item.employeename}}</td>
+
+                                                        <td header="Employee Name">{{SearchRef(item.departmentid, Departments)}}</td>
+                                                        <td header="Employee Name">{{SearchRef(item.sectionid, Divisions)}}</td>
+
+
+                                                        <td header="Working days" style="text-align:right">{{item.days}}</td>
+                                                        <td header="Sold" style="text-align:right">{{item.salesvalue|IndianNumber:2}}</td>
+                                                        <td header="Incentive ratio" style="text-align:right">{{item.ratio}}</td>
+                                                        <td header="Net Salary" style="text-align:right">{{item.amount | number:2}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Your Page Content Here -->
+                        <div class="col-md-12">
+                            <!-- Horizontal Form -->
+                            <div class="" ng-show="ShowBonus">
+                                <div class="box-body">
+                                    <div class="header">
+                                        <h4 class="box-title">Bonus</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <!-- basic details starts -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+
+                                                        <label for="inputEmail3" class="col-md-4 control-label">From</label>
+                                                        <div class="col-md-5" style="padding-right:0px">
+                                                            <select class="input-sm form-control" select2="" ng-model="frommonth" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                                        </div>
+                                                        <div class="col-md-3" style="padding-left:0px">
+                                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="fromyear">
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- basic details ends -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Department</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="departmentid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">To</label>
+                                                        <div class="col-md-5" style="padding-right:0px">
+                                                            <select class="input-sm form-control" select2="" ng-model="tomonth" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                                        </div>
+                                                        <div class="col-md-3" style="padding-left:0px">
+                                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="toyear">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Employee</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control select2 input-sm" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!--<div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <div class="col-md-4  pull-right">
+                                            <button class="glyphicon glyphicon-download-alt btn btn-success btn-sm btn-block" ng-click="exporttoExcel('bonus','bonusreport',0)">Export</button>
+                                        </div>
+                                        <div class="col-md-4  pull-right">
+                                            <button class="btn btn-primary btn-sm btn-primary btn-block" ng-click="GenerateBonus()">Generate</button>
+                                        </div>
+                                        <div class="col-md-4  pull-right">
+                                            <button class="btn btn-primary btn-sm btn-warning btn-block" ng-click="SearchIncentives(3)" data-widget="go" data-toggle="tooltip" title="Go">Search</button>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                            </div>
+                                        </div>
+                                        <form class="form-horizontal">
+                                            <div class="box-body no-padding" id="printdiv">
+                                                <table fixed-header="500px" id="bonus">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:100px">S.No</th>
+                                                            <th class="col-md-1" style="width:100px">Emp Code</th>
+                                                            <th class="col-md-2" style="width:200px">Name</th>
+                                                            <th class="col-md-2" style="width:150px">Department</th>
+                                                            <th class="col-md-2" style="width:150px">Section</th>
+                                                            <th class="col-md-2" style="width:100px">Actual</th>
+                                                            <th class="col-md-1" style="width:100px">Days</th>
+                                                            <th class="col-md-2" style="width:100px">Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in BonusResult">
+                                                            <td>
+                                                                {{$index+1}}
+                                                            </td>
+                                                            <td class="col-md-1">{{item.employeecode}}</td>
+                                                            <td class="col-md-2">{{item.employeename}}</td>
+                                                            <td class="col-md-2">{{item.departmentid}}</td>
+                                                            <td class="col-md-2">{{item.sectionid}}</td>
+                                                            <td class="col-md-2">{{item.actual}}</td>
+                                                            <td class="col-md-1">{{item.days}}</td>
+                                                            <td class="col-md-2">{{item.amount}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Your Page Content Here -->
+                        <div class="col-md-12">
+                            <!-- Horizontal Form -->
+                            <div class="" ng-show="ShowBeta">
+                                <div class="box-body">
+                                    <div class="header">
+                                        <h4 class="box-title">Beta Processing</h4>
+                                    </div>
+                                    <div class="row">
+                                        <!-- basic details starts -->
+                                        <div class="col-md-12 col-sm-12">
+                                            <!-- basic details starts -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Month</label>
+                                                        <div class="col-md-5" style="padding-right:0px">
+                                                            <select class="input-sm form-control" select2="" ng-model="month" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                                        </div>
+                                                        <div class="col-md-3" style="padding-left:0px">
+                                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="year">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- basic details ends -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Department</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="departmentid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Locations track by company.id" ng-model="locationid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Employee</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control select2 input-sm" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!--<div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <div class="col-md-4 pull-right">
+                                            <button class="glyphicon glyphicon-download-alt btn btn-success btn-sm btn-block" ng-click="exporttoExcel('beta','betareport',0)">Export</button>
+                                        </div>
+                                        <div class="col-md-4 pull-right">
+                                            <button class="btn btn-primary btn-sm btn-primary btn-block" ng-click="GenerateBeta()">Generate</button>
+                                        </div>
+                                        <div class="col-md-4 pull-right">
+                                            <button class="btn btn-primary btn-sm btn-warning btn-block" ng-click="SearchIncentives(5)" data-widget="go" data-toggle="tooltip" title="Go">Search</button>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                            </div>
+                                        </div>
+                                        <form class="form-horizontal">
+                                            <div class="box-body no-padding" id="printbetadiv">
+                                                <table fixed-header="400px" id="beta">
+                                                    <thead>
+
+                                                        <tr>
+                                                            <th width="100px">S.No</th>
+                                                            <th width="100px">Code</th>
+                                                            <th width="250px">Name</th>
+                                                            <th width="200px">Designation</th>
+                                                            <th width="100px">Gender</th>
+                                                            <th width="100px">Total</th>
+                                                            <th width="100px">Full-Bata</th>
+                                                            <th width="100px">Late-Bata</th>
+                                                            <th width="100px">Half-Bata</th>
+                                                            <th width="100px">{{ZeroBata}}</th>
+                                                            <th width="100px">Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in BetaResult">
+                                                            <td>
+                                                                {{$index+1}}
+                                                            </td>
+                                                            <td>{{item.Code}}</td>
+                                                            <td>{{item.Name}}</td>
+                                                            <td>{{item.Designation}}</td>
+                                                            <td>{{item.Gender}}</td>
+                                                            <td>{{item.Total}}</td>
+                                                            <td>{{item.FullBata}}</td>
+                                                            <td>{{item.LateBata}}</td>
+                                                            <td>{{item.HalfBata}}</td>
+                                                            <td>{{item.MinBata}}</td>
+                                                            <td>{{item.Beta}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td class="text-right" colspan="4">
+                                                                TOTAL :
+                                                            </td>
+                                                            <td></td>
+                                                            <td colspan="1">
+                                                                {{totalfullbeta}}
+                                                            </td>
+                                                            <td colspan="1">
+                                                                {{totallatebeta}}
+                                                            </td>
+                                                            <td colspan="1">
+                                                                {{totalhalfbeta}}
+                                                            </td>
+                                                            <td>
+                                                                {{totalminbeta}}
+                                                            </td>
+                                                            <td>
+                                                                {{totalbeta}}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Your Page Content Here -->
+                        <div class="col-md-12">
+                            <!-- Horizontal Form -->
+                            <div class="" ng-show="ShowOvertime">
+                                <div class="box-body">
+                                    <div class="header">
+                                        <h4 class="box-title">OT Processing</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <!-- basic details starts -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Month</label>
+                                                        <div class="col-md-5" style="padding-right:0px">
+                                                            <select class="input-sm form-control" select2="" ng-model="month" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                                        </div>
+                                                        <div class="col-md-3" style="padding-left:0px">
+                                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="year">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- basic details ends -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Department</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="departmentid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Locations track by company.id" ng-model="locationid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Employee</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control select2 input-sm" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!--<div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <button class="glyphicon glyphicon-download-alt btn btn-success btn-sm btn-block" ng-click="exporttoExcel('ot','otreport',0)">Export</button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary btn-sm btn-primary btn-block" ng-click="GenerateOT()">Generate</button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary btn-sm btn-warning btn-block" ng-click="SearchIncentives(4)" data-widget="go" data-toggle="tooltip" title="Go">Search</button>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                            </div>
+                                        </div>
+                                        <form class="form-horizontal">
+                                            <div class="box-body no-padding" id="printotdiv">
+
+
+                                                <table fixed-header="400px" id="ot">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:100px">S.No</th>
+                                                            <th class="col-md-1" style="width:150px">Code</th>
+                                                            <th class="col-md-3" style="width:200px">Employee Name</th>
+                                                            <th class="col-md-3" style="width:150px">Designation</th>
+                                                            <th class="col-md-2" style="width:100px">Morning</th>
+                                                            <th class="col-md-2" style="width:100px">Night</th>
+                                                            <th class="col-md-2" style="width:100px">OT Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in OTResult">
+                                                            <td>
+                                                                {{$index+1}}
+                                                            </td>
+                                                            <td class="col-md-1">{{item.EmployeeCode}}</td>
+                                                            <td class="col-md-3">{{item.Name}}</td>
+                                                            <td class="col-md-3">{{item.Designation}}</td>
+                                                            <td class="col-md-2">{{item.MorningOT |displayMinuteAsHourMinute}}</td>
+                                                            <td class="col-md-2">{{item.NightOT |displayMinuteAsHourMinute}}</td>
+                                                            <td class="col-md-2">{{item.Overtime}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Your Page Content Here -->
+                        <div class="col-md-12">
+                            <!-- Horizontal Form -->
+                            <div class="" ng-show="ShowSummary">
+                                <div class="box-body">
+                                    <div class="header">
+                                        <h4 class="box-title">OT Beta Leave</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <!-- basic details starts -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Month</label>
+                                                        <div class="col-md-5" style="padding-right:0px">
+                                                            <select class="input-sm form-control" select2="" ng-model="month" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                                        </div>
+                                                        <div class="col-md-3" style="padding-left:0px">
+                                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="year">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- basic details ends -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Department</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="departmentid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Locations track by company.id" ng-model="locationid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Employee</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control select2 input-sm" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <form class="form-horizontal">
+                                        <div class="box-body no-padding" id="printsummarydiv">
+
+                                            <div class="col-md-12" ng-repeat="item in SummaryResult">
+
+                                                <table style="margin-left:10px;width:100%;border:10px">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th style="display:none">{{UserInfo.CompanyName}}</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>
+                                                                    Employee:
+                                                                </b>
+                                                            </td>
+                                                            <td>
+                                                                <b>
+                                                                    {{item.employeename}}
+                                                                </b>
+                                                            </td>
+
+                                                            <td>Employee Code</td>
+                                                            <td>{{item.employeecode}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="col-md-3">Leave Salary :</th>
+                                                            <th class="col-md-3">Bata Amount:</th>
+                                                            <th class="col-md-3">OT Amount:</th>
+                                                            <th class="col-md-3">Total Amount :</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="col-md-3">{{item.leavesalary}}</td>
+                                                            <td class="col-md-3">{{item.beta}}</td>
+                                                            <td class="col-md-3">{{item.ot}}</td>
+                                                            <td class="col-md-3">{{item.total}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4">&nbsp;</td>
+                                                        </tr>
+                                                        <tr style="border-bottom:1px solid black;">
+                                                            <td colspan="3">
+                                                                Authorised Signatory
+                                                            </td>
+                                                            <td colspan="3">
+                                                                Employee Signatory
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td colspan="4">&nbsp;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                &nbsp;
+                                            </div>
+                                            <div class="row row-padbot-15">
+                                                &nbsp;
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Your Page Content Here -->
+                        <div class="col-md-12">
+                            <!-- Horizontal Form -->
+                            <div class="" ng-show="DailyWages">
+                                <div class="box-body">
+                                    <div class="header">
+                                        <h4 class="box-title">Daily Wages</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <!-- basic details starts -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Date Range</label>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control input-sm" style="width:100%" daterange="fromdate,todate">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- basic details ends -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Department</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="departmentid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Section</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Divisions track by department.id" ng-model="divisionid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <div class="col-md-9 no-padding">
+                                                            <label for="inputEmail3" class="col-md-4 control-label">Employee</label>
+                                                            <div class="col-md-8">
+                                                                <select class="form-control select2 input-sm" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 pull-right no-padding">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <div class="col-md-9 no-padding">
+                                                            <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                                                            <div class="col-md-8">
+                                                                <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Locations track by company.id" ng-model="locationid"></select>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <form class="form-horizontal">
+                                        <div class="box-body no-padding" id="printbetadiv">
+                                            <table fixed-header="400px" id="beta">
+                                                <thead>
+
+                                                    <tr>
+                                                        <th width="100px">S.No</th>
+                                                        <th width="100px">Code</th>
+                                                        <th width="250px">Name</th>
+                                                        <th width="200px">Designation</th>
+                                                        <th width="100px">Gender</th>
+                                                        <th width="100px">DOJ</th>
+                                                        <th width="100px">Per Day</th>
+                                                        <th width="100px">No.Days</th>
+                                                        <th width="100px">Gross</th>
+                                                        <th width="100px">Advance</th>
+                                                        <th width="100px">Adv-Direct</th>
+                                                        <th width="100px">Payable</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in DailyWagesResult">
+                                                        <td>
+                                                            {{$index+1}}
+                                                        </td>
+                                                        <td>{{item.employeecode}}</td>
+                                                        <td>{{item.name}}</td>
+                                                        <td>{{item.designation}}</td>
+                                                        <td>{{item.gender}}</td>
+                                                        <td>{{item.dateofjoin|date:'dd-MM-yyyy'}}</td>
+                                                        <td>{{item.perday}}</td>
+                                                        <td>{{item.paiddays}}</td>
+                                                        <td>{{item.earnings}}</td>
+                                                        <td>{{item.advance}}</td>
+                                                        <td>{{item.advanceeom}}</td>
+                                                        <td>{{item.salary+item.advanceeom}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+                                v>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script type="text/ng-template" id="ShowAdditionalInfo">
+            <div class="ngdialog-message">
+                <div class="md-col-12">
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> <b>{{additionalinfo.name}}</b></label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> <b>Gross :</b> {{additionalinfo.gross}}</label>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> <b>Date Of Join :</b> {{additionalinfo.doj}}</label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"><b> Releaving On </b>: {{additionalinfo.dor}}</label>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> encashment mode</label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.encashmentmode}}</label>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> encashment days</label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.leaveencashmentdays}}</label>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> totaldays </label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.totaldays}}</label>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> holidays </label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.holidays}}</label>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> sundays </label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.sundays}}</label>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> working days </label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.workingdays}}</label>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> accepted days </label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.acceptedworkday}}</label>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> leave taken</label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.leavetaken}}</label>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> sunday leaves</label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.sundayleaves}}</label>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> holiday leaves</label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.holidayleaves}}</label>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> leave total</label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.leavetotal}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="ngdialog-buttons">
+                    <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+                </div>
+            </div>
+        </script>
+
+    </section>
+</div>

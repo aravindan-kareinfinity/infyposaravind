@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio\2017\enterprise\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="15.0">
+ <Targets>
+  <Target Name="E:\SourceCode\pakshi\InfyCompress\bin\Debug\AjaxMin.dll">
+   <Modules>
+    <Module Name="ajaxmin.dll">
+     <Messages>
+      <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="NonBreaking">
+       <Issue Name="NoStrongName" Certainty="95" Level="CriticalError">Sign 'AjaxMin.dll' with a strong name key.</Issue>
+      </Message>
+     </Messages>
+     <Namespaces>
+      <Namespace Name="Microsoft.Ajax.Utilities">
+       <Types>
+        <Type Name="AstNode" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message Id="Ast" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+           <Issue Name="Type" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Ast' in type name 'AstNode'.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="AstNodeList" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message Id="Ast" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+           <Issue Name="Type" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Ast' in type name 'AstNodeList'.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="CodeSettings" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#AlwaysEscapeNonAscii" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Ascii" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="E:\SourceCode\pakshi\InfyCompress\JavaScript" File="codesettings.cs" Line="629">Correct the spelling of 'Ascii' in member name 'CodeSettings.AlwaysEscapeNonAscii' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#AmdSupport" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Amd" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="E:\SourceCode\pakshi\InfyCompress\JavaScript" File="codesettings.cs" Line="639">Correct the spelling of 'Amd' in member name 'CodeSettings.AmdSupport' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#EvalLiteralExpressions" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Eval" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="E:\SourceCode\pakshi\InfyCompress\JavaScript" File="codesettings.cs" Line="695">Correct the spelling of 'Eval' in member name 'CodeSettings.EvalLiteralExpressions' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#EvalTreatment" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Eval" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="E:\SourceCode\pakshi\InfyCompress\JavaScript" File="codesettings.cs" Line="708">Correct the spelling of 'Eval' in member name 'CodeSettings.EvalTreatment' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ConstantWrapper" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#IsParameterToRegExp" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Exp" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="E:\SourceCode\pakshi\InfyCompress\JavaScript" File="constantwrapper.cs" Line="216">Correct the spelling of 'Exp' in member name 'ConstantWrapper.IsParameterToRegExp' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="CssErrorCode" Kind="Enum" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#ExpectedRgbNumberOrPercentage" Kind="Field" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Rgb" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Rgb' in member name 'CssErrorCode.ExpectedRgbNumberOrPercentage' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="CssParser" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Append(System.Object,Microsoft.Ajax.Utilities.TokenType)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="AvoidExcessiveLocals" Category="Microsoft.Performance" CheckId="CA1809" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="NonBreaking">
+             <Issue Name="Compiler" Certainty="95" Level="Warning" Path="E:\SourceCode\pakshi\InfyCompress\Css" File="CssParser.cs" Line="4046">'CssParser.Append(object, TokenType)' has 86 local variables, 60 of which were generated by the compiler. Refactor 'CssParser.Append(object, TokenType)' so that it uses fewer than 64 local variables.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="CssScanner" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#ScanNum()" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="NonBreaking">
+             <Issue Certainty="90" Level="Error" Path="E:\SourceCode\pakshi\InfyCompress\Css" File="CssScanner.cs" Line="1020">'CssScanner.ScanNum()' has a cyclomatic complexity of 87. Rewrite or refactor the method to reduce complexity to 25.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="EvalTreatment" Kind="Enum" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message Id="Eval" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+           <Issue Name="Type" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Eval' in type name 'EvalTreatment'.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="ForNode" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Incrementer" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Incrementer" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="E:\SourceCode\pakshi\InfyCompress\JavaScript" File="for.cs" Line="48">Correct the spelling of 'Incrementer' in member name 'ForNode.Incrementer' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="IRenameable" Kind="Interface" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message Id="Renameable" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+           <Issue Name="Type" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Renameable' in type name 'IRenameable'.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="JavaScriptFormat" Kind="Enum" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#JSON" Kind="Field" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="JSON" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error">Correct the casing of 'JSON' in member name 'JavaScriptFormat.JSON' by changing it to 'Json'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="JSError" Kind="Enum" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#RegExpSyntax" Kind="Field" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Exp" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Exp' in member name 'JSError.RegExpSyntax' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="JSON" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message Id="JSON" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+           <Issue Name="Type" Certainty="85" Level="Error">Correct the casing of 'JSON' in type name 'JSON' by changing it to 'Json'.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="JSONOutputVisitor" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message Id="JSON" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+           <Issue Name="Type" Certainty="85" Level="Error">Correct the casing of 'JSON' in type name 'JSONOutputVisitor' by changing it to 'Json'.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="JSScanner" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#ScanNextToken()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="AvoidExcessiveLocals" Category="Microsoft.Performance" CheckId="CA1809" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="NonBreaking">
+             <Issue Name="Compiler" Certainty="95" Level="Warning" Path="E:\SourceCode\pakshi\InfyCompress\JavaScript" File="jsscanner.cs" Line="321">'JSScanner.ScanNextToken()' has 78 local variables, 72 of which were generated by the compiler. Refactor 'JSScanner.ScanNextToken()' so that it uses fewer than 64 local variables.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="LocalRenaming" Kind="Enum" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#KeepLocalizationVars" Kind="Field" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Vars" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Vars' in member name 'LocalRenaming.KeepLocalizationVars' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Minifier" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message Id="Minifier" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+           <Issue Name="Type" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Minifier' in type name 'Minifier'.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="OutputVisitor" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#EscapeString(System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="NonBreaking">
+             <Issue Certainty="90" Level="Warning" Path="E:\SourceCode\pakshi\InfyCompress\JavaScript" File="OutputVisitor.cs" Line="4270">'OutputVisitor.EscapeString(string)' has a cyclomatic complexity of 26. Rewrite or refactor the method to reduce complexity to 25.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="RegExpLiteral" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message Id="Exp" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+           <Issue Name="Type" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Exp' in type name 'RegExpLiteral'.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="ScriptVersion" Kind="Enum" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#EcmaScript5" Kind="Field" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Ecma" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Ecma' in member name 'ScriptVersion.EcmaScript5' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#EcmaScript6" Kind="Field" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Ecma" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Ecma' in member name 'ScriptVersion.EcmaScript6' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="SwitchParser" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#BooleanSwitch(System.String,System.Boolean,System.Boolean&amp;)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="NonBreaking">
+             <Issue Certainty="90" Level="Warning" Path="E:\SourceCode\pakshi\InfyCompress" File="SwitchParser.cs" Line="2093">'SwitchParser.BooleanSwitch(string, bool, out bool)' has a cyclomatic complexity of 38. Rewrite or refactor the method to reduce complexity to 25.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Parse(System.String[])" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="AvoidExcessiveLocals" Category="Microsoft.Performance" CheckId="CA1809" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="NonBreaking">
+             <Issue Name="Compiler" Certainty="95" Level="Warning" Path="E:\SourceCode\pakshi\InfyCompress" File="SwitchParser.cs" Line="349">'SwitchParser.Parse(string[])' has 232 local variables, 182 of which were generated by the compiler. Refactor 'SwitchParser.Parse(string[])' so that it uses fewer than 64 local variables.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+     <Resources>
+      <Resource Name="Microsoft.Ajax.Utilities.Css.CssStrings.resources">
+       <Messages>
+        <Message Id="attr" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="NonBreaking">
+         <Issue Name="StringResource" Certainty="50" Level="CriticalWarning">In resource 'Microsoft.Ajax.Utilities.Css.CssStrings.resx', referenced by name 'UnexpectedFunction', correct the spelling of 'attr' in string value 'Unexpected function; only calc( or attr( allowed here, found '{0}''.</Issue>
+        </Message>
+        <Message Id="calc" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="NonBreaking">
+         <Issue Name="StringResource" Certainty="50" Level="CriticalWarning">In resource 'Microsoft.Ajax.Utilities.Css.CssStrings.resx', referenced by name 'UnexpectedFunction', correct the spelling of 'calc' in string value 'Unexpected function; only calc( or attr( allowed here, found '{0}''.</Issue>
+        </Message>
+        <Message Id="progid" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="NonBreaking">
+         <Issue Name="StringResource" Certainty="50" Level="CriticalWarning">In resource 'Microsoft.Ajax.Utilities.Css.CssStrings.resx', referenced by name 'ExpectedProgId', correct the spelling of 'progid' in string value 'Expected progid, found '{0}''.</Issue>
+         <Issue Name="StringResource" Certainty="50" Level="CriticalWarning">In resource 'Microsoft.Ajax.Utilities.Css.CssStrings.resx', referenced by name 'ProgIdIEOnly', correct the spelling of 'progid' in string value ''progid:' is an IE-only construct that generates invalid CSS'.</Issue>
+        </Message>
+        <Message Id="rgb" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="NonBreaking">
+         <Issue Name="StringResource" Certainty="50" Level="CriticalWarning">In resource 'Microsoft.Ajax.Utilities.Css.CssStrings.resx', referenced by name 'ExpectedRgbNumberOrPercentage', correct the spelling of 'rgb' in string value 'Expected number or percentage value in rgb function, found '{0}''.</Issue>
+        </Message>
+       </Messages>
+      </Resource>
+      <Resource Name="Microsoft.Ajax.Utilities.JavaScript.JScript.resources">
+       <Messages>
+        <Message Id="elif" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Status="Active" Created="2018-12-25 05:58:56Z" FixCategory="NonBreaking">
+         <Issue Name="StringResource" Certainty="50" Level="CriticalWarning">In resource 'Microsoft.Ajax.Utilities.JavaScript.JScript.resx', referenced by name 'CCInvalidElseIf', correct the spelling of 'elif' in string value 'Unmatched '@elif'; no '@if' defined'.</Issue>
+        </Message>
+       </Messages>
+      </Resource>
+     </Resources>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210">
+   <Name>Assemblies should have valid strong names</Name>
+   <Description>Either the assembly has no strong name, an invalid one, or the strong name is valid only because of the computer configuration. The assembly should not be deployed in this state. The most common causes of this are: 1) The assembly's contents were modified after it was signed. 2) The signing process failed. 3) The assembly was delay-signed. 4) A registry key existed that allowed the check to pass (where it would not have otherwise).</Description>
+   <Resolution Name="NoStrongName">Sign {0} with a strong name key.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182127.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalError</MessageLevel>
+   <File Name="designrules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502">
+   <Name>Avoid excessive complexity</Name>
+   <Description>Method implementations that are exceedingly complex increase the challenge of understanding and maintaining code.</Description>
+   <Resolution Name="Default">{0} has a cyclomatic complexity of {1}. Rewrite or refactor the method to reduce complexity to {2}.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182212.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="90">Warning</MessageLevel>
+   <File Name="maintainabilityrules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="AvoidExcessiveLocals" Category="Microsoft.Performance" CheckId="CA1809">
+   <Name>Avoid excessive locals</Name>
+   <Description>Method implementations should not contain more than 64 local variables. In order for the run-time to enregister local variables most efficiently, there should be 64 or fewer of them. Enregistering based on flow analysis will not occur for locals in excess of 64, which may result in slower performance.</Description>
+   <Resolution Name="Compiler">{0} has {1} local variables, {2} of which were generated by the compiler. Refactor {0} so that it uses fewer than 64 local variables.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182263.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709">
+   <Name>Identifiers should be cased correctly</Name>
+   <Description>Type, namespace, and member identifiers are Pascal-cased. Parameter identifiers are camel-cased. Two letter acronyms within these identifiers should be upper-cased, for example, use System.IO instead of System.Io. Acronyms of three or more letters should be Pascal-cased, for example, use System.Xml instead of System.XML. The pascal-casing convention capitalizes the first letter of each word, as in BackColor. The camel-casing convention formats the first letter of the first word in lowercase and capitalizes the first letter of all subsequent words, as in backgroundColor. Although it may be common practice for some two letter acronyms to not be fully capitalized, violations of this rule should not be excluded for this reason. For example, 'DbConnection', is common but incorrect; use DBConnection. A violation of this rule might be required for compatibility with existing, non-managed symbol schemes. In general, however, these symbols should not be visible outside the assembly that uses them.</Description>
+   <Resolution Name="Member">Correct the casing of '{0}' in member name {1} by changing it to '{2}'.</Resolution>
+   <Resolution Name="Type">Correct the casing of '{0}' in type name {1} by changing it to '{2}'.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182240.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="85">Error</MessageLevel>
+   <File Name="namingrules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704">
+   <Name>Identifiers should be spelled correctly</Name>
+   <Description>The individual words that make up an identifier should not be abbreviated and should be spelled correctly. If this rule generates a false positive on a term that should be recognized, add the word to the FxCop custom dictionary.</Description>
+   <Resolution Name="Member">Correct the spelling of '{0}' in member name {1} or remove it entirely if it represents any sort of Hungarian notation.</Resolution>
+   <Resolution Name="Type">Correct the spelling of '{0}' in type name {1}.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/bb264492.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">CriticalWarning</MessageLevel>
+   <File Name="namingrules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703">
+   <Name>Resource strings should be spelled correctly</Name>
+   <Description>The individual words that make up a resource string should not be abbreviated and should be spelled correctly. If this rule generates a false positive on a term that should be recognized, add the word to the FxCop custom dictionary.</Description>
+   <Resolution Name="StringResource">In resource {0}, referenced by name '{1}', correct the spelling of '{2}' in string value '{3}'.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/bb264483.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="50">CriticalWarning</MessageLevel>
+   <File Name="namingrules.dll" Version="15.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Category</String>
+  <String Key="Certainty">Certainty</String>
+  <String Key="CollapseAll">Collapse All</String>
+  <String Key="CheckId">Check Id</String>
+  <String Key="Error">Error</String>
+  <String Key="Errors">error(s)</String>
+  <String Key="ExpandAll">Expand All</String>
+  <String Key="Help">Help</String>
+  <String Key="Line">Line</String>
+  <String Key="Messages">message(s)</String>
+  <String Key="LocationNotStoredInPdb">[Location not stored in Pdb]</String>
+  <String Key="Project">Project</String>
+  <String Key="Resolution">Resolution</String>
+  <String Key="Rule">Rule</String>
+  <String Key="RuleFile">Rule File</String>
+  <String Key="RuleDescription">Rule Description</String>
+  <String Key="Source">Source</String>
+  <String Key="Status">Status</String>
+  <String Key="Target">Target</String>
+  <String Key="Warning">Warning</String>
+  <String Key="Warnings">warning(s)</String>
+  <String Key="ReportTitle">Code Analysis Report</String>
+ </Localized>
+</FxCopReport>

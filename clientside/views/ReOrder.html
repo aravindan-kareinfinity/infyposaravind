@@ -1,0 +1,470 @@
+﻿
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Settings / Stock Reorder Configuration
+        </h1>
+        <ol class="breadcrumb" ng-hide="ShowReport">
+            <li style="cursor:pointer" ng-show="DisplayMode == 'Matrix'" ng-click="SaveMatrix()"><a><i class="fa fa-save"></i>Save All</a></li>
+            <li style="cursor:pointer" ng-show="ReOrder.rules && DisplayMode != 'Matrix'" ng-click="Save()"><a><i class="fa fa-save"></i>Save All</a></li>
+            <li style="cursor:pointer" ng-show="ReOrder.rules && ReOrder.rules.length>0 && DisplayMode != 'Matrix'" ng-click="Report(ReOrder.productid,ReOrder.locationid,true)"><a><i class="fa fa-search"></i>Stock Reorder Status</a></li>
+            <li style="cursor:pointer" ng-show="ReOrder.rules && ReOrder.rules.length>0 && DisplayMode != 'Matrix'" ng-click="exportExcel(cgrid, 'configuration', 'configuration')"><a><i class="fa fa-download"></i>Download</a></li>
+        </ol>
+        <ol class="breadcrumb" ng-show="ShowReport">
+            <li style="cursor:pointer" ng-show="IsOnCheck" ng-click="Back()"><a><i class="fa fa-search"></i>Back</a></li>
+            <li style="cursor:pointer" ng-click="Report()"><a><i class="fa fa-search"></i>Search</a></li>
+            <li style="cursor:pointer" ng-click="ReportItems()"><a><i class="fa fa-search"></i>Search Items</a></li>
+            <li style="cursor:pointer" ng-click="Convert2PO()"><a><i class="fa fa-search"></i>Convert 2 PO</a></li>
+            <li style="cursor:pointer" ng-click="exportExcel(igrid, 'reorder', 'reorder')"><a><i class="fa fa-download"></i>Download</a></li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-success">
+            <div class="box-body">
+                <div class="col-md-12 no-padding" ng-hide="ShowReport">
+                    <div class="col-md-12 no-padding" style="margin-bottom:10px;padding-top:10px">
+
+
+                        <div class="col-md-4 no-padding" ng-hide="IsReport || IsOnCheck">
+                            <label for="inputEmail3" class="col-md-4 form-group required  control-label" style="color:brown">DISPLAY MODE</label>
+                            <div class="col-md-8">
+                                <select class="form-control" style="width: 100%;" select2=""
+                                        options="item.id as item.name for item in DisplayModeList track by item.id"
+                                        ng-model="DisplayMode" ng-required="true"
+                                        ng-change="ModeChanged()"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 no-padding" ng-show="DisplayMode=='Upload'">
+                            <file-upload class="btn-xs file-upload" style="display:inline-block"
+                                         resize="true" max-width="1280" uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                                         max-height="1280" preview="false" ng-model="stockadjustmentexcel"
+                                         filemodel="stockadjustmentexcel" onuploadcomplete="fileuploadedcomplete"
+                                         filetype="DATA"
+                                         multiple="false">
+                                <i class="fa fa-upload">Upload</i>
+                            </file-upload>
+                        </div>
+
+
+
+                        <div class="col-md-4 no-padding">
+
+                            <label for="inputEmail3" class="col-md-4 form-group required control-label" style="color:brown;padding-left:10px">LOCATION</label>
+                            <div class="col-md-8" style="padding-left:10px;padding-right:0px">
+                                <div class="form-group">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-change="ReOrder.productid=0;ReOrder.rules=[];ReportConfigGrid(50)"
+                                            options="item.id  as item.name for item in Location track by item.id" ng-model="ReOrder.locationid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 no-padding" ng-hide="DisplayMode=='Upload'">
+                            <label for="inputEmail3" class="col-md-4 form-group required  control-label" style="color:brown">PRODUCT</label>
+                            <div class="col-md-8">
+                                <div class="input-group input-group-sm">
+                                    <select class="form-control" style="width: 100%;" select2="" options="item.id  as item.name for item in Product track by item.id"
+                                            ng-model="ReOrder.productid" ng-required="true" ng-change="SearchRO(ReOrder.productid,ReOrder.locationid)"></select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary btn-box" ng-click="SearchRO(ReOrder.productid,ReOrder.locationid)"><i class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4 no-padding" ng-show="IsReport">
+                            <button class="btn btn-sm btn-warning pull-right btn-flat" ng-click="ShowReport=true">Report</button>
+                        </div>
+
+                        <div class="col-md-4 no-padding" style="background-color:white;" ng-show="!IsReport && IsOnCheck">
+                            <button type="button" class="btn btn-sm btn-success pull-right" ng-click="IsOnCheck = false">Edit</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding" ng-show="ReOrder.productid != 0 && !IsOnCheck && DisplayMode != 'Matrix'">
+                        <div class="col-md-4 no-padding">
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" style="padding-left:25px" class="col-md-4 control-label">SUPPLIER</label>
+                                    <div class="col-md-8">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Supplier track by item.id" startswith="true" ng-model="rule.supplierid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+
+
+                                <label for="inputEmail3" style="padding-left:25px" class="col-md-4 control-label">SIZE</label>
+                                <div class="col-md-8">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Sizes track by item.id" startswith="true" ng-model="rule.sizeid"></select>
+                                </div>
+
+                            </div>
+                            <div class="row row-padbot-15">
+
+
+                                <label for="inputEmail3" style="padding-left:25px" class="col-md-4 control-label">STYLE</label>
+                                <div class="col-md-8">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Style track by item.id" ng-model="rule.styleid"></select>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4" ng-show="ReOrder.productid != 0">
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 control-label">BRAND</label>
+                                    <div class="col-md-8">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Brand track by item.id" ng-model="rule.brandid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 control-label">COLOR</label>
+                                    <div class="col-md-8">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Colors track by item.id" ng-model="rule.colourid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 control-label">PATTERN</label>
+                                    <div class="col-md-8">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Pattern track by item.id" ng-model="rule.patternid"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-4" ng-show="ReOrder.productid != 0">
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 control-label">MATERIAL/TYPE</label>
+                                    <div class="col-md-4" style="padding-right:0px">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Material track by item.id" ng-model="rule.materialid"></select>
+                                    </div>
+                                    <div class="col-md-4" style="padding-left:0px">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in TypeList track by item.id" ng-model="rule.typeid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Design</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control input-sm" ng-model="rule.designid" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Price Range</label>
+                                    <div class="col-md-4" style="padding-right:0px">
+                                        <div class="col-md-12 no-padding">
+                                            <div class="col-md-6 no-padding">
+                                                <input type="text" style="width:100%" class="form-control input-sm" ng-model="rule.fromrate" />
+                                            </div>
+                                            <div class="col-md-6 no-padding">
+                                                <input type="text" style="width:100%" class="form-control input-sm" ng-model="rule.torate" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" style="padding-right:0px">
+                                        <input type="checkbox" ng-model="rule.onpurchaseprice" /> Purchase
+                                    </div>
+                                    <div class="col-md-1" style="padding-left:0px">
+                                        <button class="btn btn-sm btn-warning pull-right btn-flat" ng-click="Add()">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div style="width:100%;" ng-show="IsOnCheck">
+                            <div id="checkmyGrid" style="width:100%;height:500px;"></div>
+                        </div>
+
+                        <div class="col-md-12 no-padding" style="background-color:white;" ng-hide="IsOnCheck">
+                            <div id="configContainer"></div>
+
+                            <!--<div class="form-group no-padding">
+                    <table fixed-header="400px">
+                        <thead>
+                            <tr>
+                                <th style="width:400px">DESCRIPTION</th>
+                                <th style="width:150px">PRIORITY</th>
+                                <th style="width:100px">DESIGN</th>
+                                <th style="width:100px">MIN</th>
+                                <th style="width:100px">MAX</th>
+                                <th style="width:100px">DAYS</th>
+                                <th style="width:100px">A.PRICE</th>
+                                <th style="width:100px">M.ORDER</th>
+                                <th style="width:100px">ENABLED</th>
+                                <th style="width:100px">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ReOrder.rules">
+                                <td tablecell>{{item.description}}</td>
+                                <td tablecell>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in PriorityList track by item.id" ng-model="item.priority"></select>
+                                </td>
+                                <td tablecell><input type="text" class="input-sm form-control" ng-model="item.designid"></td>
+                                <td tablecell><input type="text" class="input-sm form-control" ng-model="item.minro"></td>
+                                <td tablecell><input type="text" class="input-sm form-control" ng-model="item.maxro"></td>
+                                <td tablecell><input type="text" class="input-sm form-control" ng-model="item.expirydays"></td>
+                                <td tablecell><input type="text" class="input-sm form-control" ng-model="item.aprice"></td>
+                                <td tablecell><input type="text" class="input-sm form-control" ng-model="item.minorder"></td>
+                                <td><input type="checkbox" ng-model="item.enable" /></td>
+                                <td>
+                                    <button type="button" class="btn-danger btn btn-xs btn-flat" ng-click="ManageItem('Delete',item)"
+                                            data-widget="delete" data-toggle="tooltip" title="Delete">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>-->
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-12 no-padding" ng-show="ShowReport">
+                    <div class="col-md-3">
+                        <div class="col-md-12">
+                            <div class="no-padding">
+                                <div class="col-md-4 no-padding">
+                                    Location
+                                </div>
+                                <div class="col-md-6 no-padding pull-right">
+                                    <label>Show All</label>
+                                    <input ng-model="ReOrder.showall" class="pull-right" type="checkbox" />
+                                </div>
+                            </div>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Location track by item.id" ng-model="ReOrder.locationid"></select>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Section</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Section track by item.id" ng-model="ReOrder.sectionid"></select>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Product</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Product track by item.id" ng-model="ReOrder.productid"></select>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Brand</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Brand track by item.id" ng-model="ReOrder.brandid"></select>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Material</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Material track by item.id" ng-model="ReOrder.materialid"></select>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Pattern</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Pattern track by item.id" ng-model="ReOrder.patternid"></select>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Style</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Style track by item.id" ng-model="ReOrder.styleid"></select>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Colour</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Colors track by item.id" ng-model="ReOrder.colorid"></select>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Size</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Sizes track by item.id" ng-model="ReOrder.sizeid"></select>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Type</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in TypeList track by item.id" ng-model="ReOrder.typeid"></select>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="no-padding">
+                                <div class="col-md-12 no-padding">
+                                    <label>Sale Date</label>
+                                    <input ng-model="ReOrder.salerange" class="pull-right" type="checkbox" />
+                                </div>
+                            </div>
+                            <input type="text" class="form-control input-sm" style="width:100%"
+                                   ng-disabled="!ReOrder.salerange" drops="up"
+                                   daterange="ReOrder.salefromdate,ReOrder.saletodate">
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="col-md-12 no-padding" id="gridContainer">
+                        </div>
+                    </div>
+
+                    <!--<div class="col-md-12 no-padding" style="margin-bottom:10px;padding-top:10px">
+            <div class="col-md-4 no-padding">
+
+                <label for="inputEmail3" class="col-md-4 required control-label" style="color:brown;padding-left:0px">LOCATION</label>
+                <div class="col-md-8">
+                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-change="ReOrder.productid=0;ReOrder.rules=[]"
+                            options="item.id  as item.name for item in Location track by item.id" ng-model="ReOrder.locationid"></select>
+                </div>
+
+            </div>
+            <div class="col-md-4 no-padding">
+
+                <label for="inputEmail3" class="col-md-4 required control-label" style="color:brown">PRODUCT</label>
+                <div class="col-md-8">
+                    <div class="input-group input-group-sm">
+                        <select class="form-control" style="width: 100%;" select2="" options="item.id  as item.name for item in Product track by item.id"
+                                ng-model="ReOrder.productid" ng-required="true"></select>
+                        <span class="input-group-btn">
+                            <button class="btn btn-sm btn-primary btn-box" ng-click="Report()"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-4 no-padding">
+                <button type="button" class="btn-primary btn btn-sm  pull-right" ng-click="exportExcel(igrid, 'reorder', 'reorder')" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></button>
+            </div>
+        </div>
+
+        <div class="col-md-12 no-padding" style="background-color:white;">
+
+            <div class="grid-header" style="width:100%">
+                <label>Re-Order Report</label>
+            </div>
+            <div id="myGrid" style="width:100%;height:400px;"></div>
+            <div id="pager" style="width:100%;height:20px;"></div>
+
+        </div>
+        <div class="col-md-12 no-padding">
+            <div class="col-md-12 no-padding" id="gridContainer">
+            </div>
+        </div>-->
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+    </section>
+</div>
+
+
+
+
+
+
+
+
+
+<script type="text/ng-template" id="ChooseMatrix">
+    <div class="ngdialog-message">
+        <div class="col-md-12">
+            <div class="col-md-5 no-padding">
+                <div class="form-group">
+                    <label for="inputEmail3" class="control-label">Brand</label>
+                    <input type="checkbox" class="pull-right" ng-model="config.brand" />
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="control-label">Size</label>
+                    <input type="checkbox" class="pull-right" ng-model="config.size" />
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="control-label">Style</label>
+                    <input type="checkbox" class="pull-right" ng-model="config.style" />
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="control-label">Fit</label>
+                    <input type="checkbox" class="pull-right" ng-model="config.fit" />
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="control-label">Sleeve</label>
+                    <input type="checkbox" class="pull-right" ng-model="config.sleeve" />
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="control-label">Colour</label>
+                    <input type="checkbox" class="pull-right" ng-model="config.colour" />
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="control-label">Pattern</label>
+                    <input type="checkbox" class="pull-right" ng-model="config.pattern" />
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="control-label">Design</label>
+                    <input type="checkbox" class="pull-right" ng-model="config.design" />
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="form-group">
+                    <label for="inputEmail3" class="control-label">Location</label>
+                    <input type="checkbox" class="pull-right" ng-model="config.location" />
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="control-label">Type</label>
+                    <input type="checkbox" class="pull-right" ng-model="config.type" />
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="control-label">Material</label>
+                    <input type="checkbox" class="pull-right" ng-model="config.material" />
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="control-label">Price Range</label>
+                    <input type="checkbox" class="pull-right" ng-model="config.pricerange" />
+                </div>
+                <div class="form-group">
+                    <textarea type="text" style="width:100%" rows="4" ng-model="config.pricelist"></textarea>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-md-12">
+            <label for="inputEmail3" class="control-label">Column</label>
+
+            <div class="form-group">
+                <select class="input-sm form-control" select2="" style="width: 100%;"
+                        options="item.id as item.name for item in ColumnList track by item.id"
+                        ng-model="config.column"></select>
+            </div>
+
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+<style>
+    .cell-effort-driven {
+        text-align: center;
+    }
+
+    .slick-group-title[level='0'] {
+        font-weight: bold;
+    }
+
+    .slick-group-title[level='1'] {
+        text-decoration: underline;
+    }
+
+    .slick-group-title[level='2'] {
+        font-style: italic;
+    }
+</style>

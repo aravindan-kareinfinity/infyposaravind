@@ -1,0 +1,77 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Unique Sequence (Gs1-EAN)
+        </h1>
+        <ol class="breadcrumb">
+            <li  style="cursor:pointer" ng-click="Generate()"><a><i class="fa fa-cogs"></i>Generated</a></li>
+            <li  style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li  style="cursor:pointer" ng-click="Delete()"><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li  style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        
+
+        <div class="box box-primary" id="searchBox">
+            <div class="box-body">
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>From</label>
+                            <div class="col-md-12">
+                                <div class="col-md-3 no-padding">
+                                    <input type="text" class="form-control input-sm" id="inputEmail3" 
+                                           placeholder="prefix"
+                                           ng-model="UniqueSequence.prefix">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="start"
+                                           ng-model="UniqueSequence.fromno">
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="suffix"
+                                           ng-model="UniqueSequence.suffix">
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>To</label>
+                            <div class="col-md-12">
+                                <div class="col-md-3 no-padding">
+                                    <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="prefix"
+                                           ng-readonly="true" ng-model="UniqueSequence.prefix">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="start"
+                                           ng-model="UniqueSequence.tono">
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="suffix"
+                                          ng-readonly="true" ng-model="UniqueSequence.suffix">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 no-padding">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.content -->
+    </section>
+</div>
+<!-- /.content-wrapper -->

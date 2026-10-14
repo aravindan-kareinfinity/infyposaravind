@@ -1,0 +1,328 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Organisation
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Organisation.id && Organisation.id>0" style="cursor:pointer" ng-click="CreateDB()"><a><i class="fa fa-trash"></i>Create DB</a></li>
+            <li ng-show="Organisation.id && Organisation.id>0" style="cursor:pointer" ng-click="CreateUsers()"><a><i class="fa fa-trash"></i>Create Users</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+
+            <div class="box box-info" ng-hide="ShowSearch">
+
+                <div class="box-body">
+                    <div class="col-md-6 no-padding">
+                        <div class="col-md-12" style="padding-left:15px;padding-right:5px">
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 form-group required control-label">Code</label>
+                                    <div class="col-md-8">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Organisation.code"
+                                               focusid="first" ng-change="Organisation.code = Organisation.code.toUpperCase()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 form-group required control-label">Name</label>
+                                    <div class="col-md-8">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Organisation.name"
+                                               focusid="name" ng-change="Organisation.name = Organisation.name.toUpperCase()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 form-group required control-label">Contact Person</label>
+                                    <div class="col-md-8">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Organisation.contactperson" focusid="contactperson">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 form-group required control-label">Contact No</label>
+                                    <div class="col-md-8">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Organisation.contactno" focusid="contactno">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 form-group">Address</label>
+                                    <div class="col-md-8">
+                                        <textarea class="form-control input-sm" rows="5" ng-model="Organisation.address" ng-required="true"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 form-group">City</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control input-sm" style="width: 100%;" select2="" options="city.id as city.name for city in Cities track by city.id" ng-model="Organisation.cityid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 form-group">PIN Code</label>
+                                    <div class="col-md-8">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Organisation.pincode">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 form-group">State</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control input-sm" style="width: 100%;" select2="" options="state.id as state.name for state in States track by state.id" ng-model="Organisation.stateid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 form-group">Quanto User</label>
+                                    <div class="col-md-8">
+                                        <div class="col-md-6 no-padding">
+                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Organisation.quantousername">
+                                        </div>
+                                        <div class="col-md-6 no-padding">
+                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Organisation.quantopassword">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 form-group">Admin User</label>
+                                    <div class="col-md-8">
+                                        <div class="col-md-6 no-padding">
+                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Organisation.adminusername">
+                                        </div>
+                                        <div class="col-md-6 no-padding">
+                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Organisation.adminpassword">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Active</label>
+                                    <div class="col-md-1">
+                                        <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Organisation.isactive">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6 no-padding">
+                        <div class="col-md-12" style="padding-left:15px;padding-right:5px">
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 form-group required control-label">Permissions</label>
+                                    <div class="col-md-8">
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.payroll">
+                                            <span style="display:inline">Payroll</span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.manufacture">
+                                            <span style="display:inline">manufacture</span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.basicanalytical">
+                                            <span style="display:inline">basicanalytical</span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.promotions">
+                                            <span style="display:inline">promotions</span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.intray">
+                                            <span style="display:inline">intray</span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.tallyintegration">
+                                            <span style="display:inline">tallyintegration</span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.finance">
+                                            <span style="display:inline">finance</span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.mobile">
+                                            <span style="display:inline">mobile</span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.purchaseorder">
+                                            <span style="display:inline">purchaseorder</span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.itemimage">
+                                            <span style="display:inline">itemimage</span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.fmcgpos">
+                                            <span style="display:inline">fmcgpos</span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.crm">
+                                            <span style="display:inline">crm</span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.fixedlocations">
+                                            <span style="display:inline">fixedlocations</span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.fixedcompany">
+                                            <span style="display:inline">fixedcompany</span>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox" style="display:inline"
+                                                   ng-model="Organisation.modules.cancreatelocation">
+                                            <span style="display:inline">cancreatelocation</span>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group">Company (Nos)</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control input-sm" style="width: 50%;" ng-model="Organisation.noofcompany">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group">Location (Nos)</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control input-sm" style="width: 50%;" ng-model="Organisation.nooflocation">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group">Users (Nos)</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control input-sm" style="width: 50%;" ng-model="Organisation.noofusers">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group">Server</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control input-sm" style="width: 50%;" ng-model="Organisation.dbserver">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group">Database</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control input-sm" style="width: 50%;" ng-model="Organisation.dbname">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group">Account Lock</label>
+                                <div class="col-md-8">
+                                    <input type="checkbox" ng-model="Organisation.accountlock">
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+
+            <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+                <div class="box-body">
+                    <div class="row row-padbot-15">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-6">Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control input-sm" ng-model="SearchCondition.name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-6">Contact Person</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control input-sm" ng-model="SearchCondition.contactperson">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /.col -->
+                    </div>
+
+                    <!-- /.row -->
+                    <div class="col-md-12">
+
+                        <div class="col-md-12 no-padding" id="gridContainer">
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- /.content -->
+            </div>
+
+        </div>
+
+
+    </section>
+</div>
+<!-- /.content-wrapper -->

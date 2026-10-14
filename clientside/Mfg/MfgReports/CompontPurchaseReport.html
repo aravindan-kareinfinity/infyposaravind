@@ -1,0 +1,146 @@
+﻿
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Component Purchase Report
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="SearchComponentPurchase()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'Component Purchase','ComponentPurchase')"><a><i class="fa fa-download"></i>Download</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        
+
+
+        <div class="box box-primary" id="searchBox">
+            <div class="box-body">
+                <div class="col-md-2">
+
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="control-label no-padding">LOCATION</label>
+                                    <div class="col-md-12 no-padding">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;"
+                                                ng-options="item.id  as item.name for item in LocationList track by item.id" ng-model="SearchCondition.deliverylocationid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class=" no-padding control-label">SUPPLIER</label>
+                                    <div class="col-md-12 no-padding">
+                                        <select class="form-control" select2='Supplier' style="width: 100%;" ng-model="SearchCondition.supplierid" ng-options="item.id as item.name for item in Supplier track by item.id"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class=" no-padding control-label">PO NO</label>
+                                    <div class="col-md-12 no-padding">
+                                        <input type="text" class="form-control input-sm" placeholder="" ng-model="SearchCondition.pono">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class=" no-padding control-label">INVOICE DATE </label>
+                                    <div class="col-md-12 no-padding">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker input-sm"
+                                                   daterange="SearchCondition.fromdate,SearchCondition.todate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class=" no-padding control-label">ENTRY DATE</label>
+                                    <div class="col-md-12 no-padding">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control datepicker input-sm"
+                                                   daterange="SearchCondition.entryfromdate,SearchCondition.entrytodate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <div class="col-md-12 no-padding">
+                                        <label for="inputEmail3" class=" no-padding control-label">MODE</label>
+                                        <div class="col-md-12 no-padding">
+                                            <select class="form-control" select2='Status' style="width: 100%;"
+                                                    ng-model="SearchCondition.mode" ng-options="item.id as item.name for item in ReportMode track by item.id"></select>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-10 no-padding">
+                    <div class="col-md-12" id="gridContainer">
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.content -->
+        </div>
+
+
+    </section>
+</div>
+
+
+<script type="text/ng-template" id="ProductSearch">
+    <div class="ngdialog-message">
+        <div class="table-responsive mailbox-messages">
+            <div class="col-md-12" ng-show="ShowCreate">
+                <label for="inputPassword3" class="col-md-4">Printing Name</label>
+                <div class="input-group input-group-sm col-md-8">
+                    <input type="text" class="input-sm form-control" ng-model="printingname">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info btn-flat" ng-click="Create()">Create</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <table fixed-header="150px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:40px">Action</th>
+                            <th style="width:100px">Name</th>
+                            <th style="width:150px">Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in PopupList">
+                            <td><button type="button" class="btn btn-xs btn-primary" ng-click="Selected(item)">Select</button></td>
+                            <td>{{item.printingname}}</td>
+                            <td>{{item.display}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

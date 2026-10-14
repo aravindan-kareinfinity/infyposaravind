@@ -1,0 +1,146 @@
+﻿<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Sales Promotion Activator
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+            <li><a href back-button>Back</a></li>
+            <li class="active"> Refill Sales</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary">
+            <div class="box-body">
+
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">Barcode</label>
+
+                            <div class="col-md-8">
+                                <div class="input-group input-group-sm">
+                                    <input method="text" class="input-sm form-control" style="width: 100%;" ng-model="barcode" onkeyenter="SearchPromotions()" placeholder="Barcode" focusid="first">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-flat" ng-click="SearchPromotions()">Go!</button>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- /.col -->
+                </div>
+                <!-- /.col -->
+                <!-- /.row -->
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="col-md-12" id="gridContainer">
+                        </div>
+                    </div>
+                    <!--<div class="col-md-12">
+        <div class="table-responsive mailbox-messages">
+            <table fixed-header="500px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th width="40%">Name</th>
+                        <th width="200px">Validity</th>
+                        <th width="150px">Enabled</th>
+                        <th width="100px">Status</th>
+                        <th width="100px">Reason</th>
+                        <th width="100px">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in PromotionList">
+                        <td>{{item.name}}</td>
+                        <td>{{item.validfrom | date : "dd-MM-yyyy"}} - {{item.validto | date : "dd-MM-yyyy"}}</td>
+                        <td>{{item.enabled}}</td>
+                        <td>{{item.status}}</td>
+                        <td>{{item.reason}}</td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-xs" ng-show="item.status=='No'" ng-click="ChangePromotion('Add',item)">Add</button>
+                            <button type="button" class="btn btn-danger btn-xs" ng-show="item.status=='Yes'" ng-click="ChangePromotion('Remove',item)">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>-->
+                </div>
+                <!-- /.content -->
+            </div>
+
+
+            <!-- /.content -->
+        </div>
+    </section>
+</div>
+
+
+<script type="text/ng-template" id="ChooseOption">
+    <div class="ngdialog-message">
+        <div class="md-col-12" style="padding-bottom:15px">
+            <div class="md-col-6">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-4 control-label">Filter Mode</label>
+
+                    <div class="col-md-8">
+                        <div class="input-group input-group-sm">
+                            <select class="form-control" select2="" style="width: 100%;" options="size.id as size.name for size in OptionList track by size.id" ng-model="option" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-info btn-flat" ng-click="LoadItems()">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="md-col-12" style="padding-bottom:15px">
+            <table fixed-header="300px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th style="width:50px" ng-hide="option==1">SL</th>
+                        <th style="width:150px">Product</th>
+                        <th style="width:100px" ng-hide="option==2">Barcode</th>
+                        <th style="width:200px">Size</th>
+                        <th style="width:200px" ng-hide="option==1">MRP</th>
+                        <th style="width:150px">Stock</th>
+                        <th style="width:100px">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Select
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in BarcodeList|filter:searchbarcode">
+                        <td ng-hide="option==1">{{item.sno}}</td>
+                        <td>{{item.product}}</td>
+                        <td ng-hide="option==2">{{item.barcode}}</td>
+                        <td>{{item.size}}</td>
+                        <td ng-hide="option==1">{{item.mrp}}</td>
+                        <td>{{item.qty}} / {{item.tqty}}</td>
+                        <td style="text-align:center"><input type="checkbox" ng-model="item.selected" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="ngdialog-buttons">
+            <input ng-model="selectall" type="checkbox" ng-change="SelectAllChanged(BarcodeList)" />
+            <input type="text" ng-model="searchbarcode" style="width:150px" placeholder="Barcode" />
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Add</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>

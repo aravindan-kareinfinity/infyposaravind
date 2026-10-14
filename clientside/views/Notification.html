@@ -1,0 +1,49 @@
+﻿<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    
+    <!-- Main content -->
+    <section class="content" ng-init="SearchNotifications()">
+        <div class="box primary">
+            <div class="box-body">
+
+                <section class="content-header">
+
+                    <h1>
+                        Pending Outwards
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'Pending Outwards')"><a><i class="fa fa-download"></i>Download</a></li>
+                    </ol>
+
+                </section>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12" id="gridContainer">
+
+                    </div>
+
+                </div>
+
+                <section class="content-header">
+
+                    <h1>
+                        Reorders
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li style="cursor:pointer" ng-click="exporttoExcel(sgrid,'Reorder')"><a><i class="fa fa-download"></i>Download</a></li>
+                    </ol>
+
+                </section>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12" id="gridContainerselected">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+

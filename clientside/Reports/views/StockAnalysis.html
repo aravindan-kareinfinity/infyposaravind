@@ -1,0 +1,209 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Warehouse Stock Analysis
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'stock analysis', 'stock')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-click="printInfyGrid(igrid)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-click="SearchStockAnalysis('1')"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box primary">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">COMPANY</label>
+                                <div class="col-md-8">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Company track by item.id" ng-model="SearchCondition.companyid" focusid="first" focusonenter="section" ></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">&nbsp;</label>
+                                <div class="col-md-2">
+                                    <label for="inputEmail3" class="col-md-4 control-label"><b>GROUP</b></label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputEmail3" class="col-md-4 control-label"><b>CONDITION</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">SECTION</label>
+                                <div class="col-md-2">
+                                    <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.section" focusid="section" focusonenter="sectiontext" />
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Division track by item.id" startswith="true" ng-model="SearchCondition.sectionid" focusid="sectiontext" focusonenter="product"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">PRODUCT</label>
+                                <div class="col-md-2">
+                                    <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.product" focusid="product" focusonenter="producttext" />
+                                </div> 
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Product track by item.id" ng-model="SearchCondition.productid" focusid="producttext" focusonenter="brand" ></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">BRAND</label>
+                                <div class="col-md-2">
+                                    <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.brand" focusid="brand" focusonenter="brandtext" />
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Brand track by item.id" ng-model="SearchCondition.brandid" focusid="brandtext" focusonenter="supplier" ></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">SUPPLIER</label>
+                                <div class="col-md-2">
+                                    <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.supplier" focusid="supplier" focusonenter="suppliertext" />
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Supplier track by item.id" startswith="true" ng-model="SearchCondition.supplierid" focusid="suppliertext" focusonenter="sourcesupplier" ></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">SOURCE SUPPLIER</label>
+                                <div class="col-md-2">
+                                    <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.sourcesupplier" focusid="sourcesupplier" focusonenter="sourcesuppliertext" />
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Supplier track by item.id" startswith="true" ng-model="SearchCondition.sourcesupplierid" focusid="sourcesuppliertext" focusonenter="type" ></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">TYPE</label>
+                                <div class="col-md-2">
+                                    <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.type" focusid="type" focusonenter="typetext" />
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Type track by item.id" ng-model="SearchCondition.typeid" focusid="typetext" focusonenter="material" ></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">MATERIAL</label>
+                                <div class="col-md-2">
+                                    <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.material" focusid="material" focusonenter="materialtext" />
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Material track by item.id" ng-model="SearchCondition.materialid" focusid="materialtext" focusonenter="pattern" ></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">PATTERN</label>
+                                <div class="col-md-2">
+                                    <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.pattern" focusid="pattern" focusonenter="patterntext" />
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Pattern track by item.id" ng-model="SearchCondition.patternid" focusid="patterntext" focusonenter="styleid" ></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">STYLE</label>
+                                <div class="col-md-2">
+                                    <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.style" focusid="styleid" focusonenter="styleidtext" />
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Style track by item.id" ng-model="SearchCondition.styleid" focusid="styleidtext" focusonenter="size" ></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">SIZE</label>
+                                <div class="col-md-2">
+                                    <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.size" focusid="size" focusonenter="sizetext" />
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Sizes track by item.id" startswith="true" ng-model="SearchCondition.sizeid" focusid="sizetext" focusonenter="design" ></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">DESIGN</label>
+                                <div class="col-md-2">
+                                    <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.design" focusid="design" focusonenter="designtext" />
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control input-sm" ng-model="SearchCondition.designid" focusid="designtext" focusonenter="barcode" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">BARCODE</label>
+                                <div class="col-md-2">
+                                    <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.isbarcode" focusid="barcode" focusonenter="barcodetext" />
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control input-sm" ng-model="SearchCondition.barcode" focusid="barcodetext" />
+                                </div>
+                            </div>
+                        </div>						
+                        <div class="row row-padbot-15">
+                            <div class="row col-md-12">
+                                <label for="inputEmail3" class="col-md-6 control-label"><u><b>SUMMARY</b></u></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="row col-md-12">
+                                <label for="inputEmail3" class="col-md-6 control-label"><b>TOTAL QTY</b></label>
+                                <label for="inputEmail3" class="col-md-6 control-label pull-right" style="vertical-align:top;font-size:large;color:brown;text-align:right"><b>{{totalqty|number:2}}</b></label>
+                            </div>
+                            <div class="row col-md-12">
+                                <label for="inputEmail3" class="col-md-6 control-label"><b>TOTAL VALUE</b></label>
+                                <label for="inputEmail3" ng-show="Permission.p_SHOWVALUE.view" class="col-md-6 control-label" style="vertical-align:top;font-size:large;color:brown;text-align:right"><b>{{amount|number:2}}</b></label>
+                                <label for="inputEmail3" ng-hide="Permission.p_SHOWVALUE.view" class="col-md-6 control-label" style="vertical-align:top;font-size:large;color:brown;text-align:right"><b>******.**</b></label>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-12  no-padding" id="gridContainer">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+
+
+        </div>
+
+    </section>
+</div>

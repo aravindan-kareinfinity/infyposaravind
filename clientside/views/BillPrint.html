@@ -1,0 +1,251 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            CRM  /   Bill Print
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-show="selectedcount>0 && UserInfo.p_SALES.modify" ng-click="ShowUpdateDialog()"><a><i class="fa fa-edit">({{selectedcount}}) Update Bill</i></a></li>
+            <li style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <!-- Your Page Content Here -->
+            <div class="col-md-12">
+                <!-- Horizontal Form -->
+                <div class="box box-info">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-12 control-label">Location</label>
+                                        <div class="col-md-12">
+                                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Location track by item.id"
+                                                    ng-model="SearchCondition.locationid"></select>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-12 control-label">Bill No</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="SearchCondition.billno" onkeyenter="Search()" ng-maxlength="150" focusid="first">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-12 control-label">Bill Date</label>
+                                        <div class="col-md-12">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control input-sm datepicker"
+                                                       daterange="SearchCondition.fromdate,SearchCondition.todate">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-12 control-label">Loyalty Card No</label>
+                                        <div class="col-md-12 ">
+                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="SearchCondition.cardno" ng-maxlength="150">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-12 control-label">Mobile No</label>
+                                        <div class="col-md-12 ">
+                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="SearchCondition.mobileno" ng-maxlength="150">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12 no-padding">
+                                    <div class="col-md-12 no-padding">
+                                        <label>Bill Value</label>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="FROM" ng-model="SearchCondition.fromprice" ng-maxlength="150">
+
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="TO" ng-model="SearchCondition.toprice" ng-maxlength="150">
+
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-12 control-label">Customer Type</label>
+
+                                        <div class="col-md-12">
+                                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id as item.name for item in CustomerCategory track by item.id" startswith="true" ng-model="SearchCondition.categoryid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-12 control-label">Customer Name</label>
+
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="SearchCondition.customername" ng-maxlength="150">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-12 control-label">Result Limit</label>
+
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control input-sm" id="inputEmail3" placeholder=""
+                                                   ng-model="SearchCondition.limit" onkeyenter="Search()" focusid="billname">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-9">
+                                <div class="row row-padbot-15">
+                                    <div class="col-md-12">
+                                        <b>Bills</b>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-12 no-padding" id="gridContainer">
+                                        </div>
+                                        <!--<div class="table-responsive mailbox-messages">
+                                            <table fixed-header="450px" class="fixed_table" id="payroll">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width:30px">S.No</th>
+                                                        <th style="width:100px">Location</th>
+                                                        <th style="width:100px">Customer Name</th>
+                                                        <th style="width:100px">GST NO</th>
+                                                        <th style="width:100px">Bill No</th>
+                                                        <th style="width:100px">Bill Date</th>
+                                                        <th style="width:100px">Bill Amount</th>
+                                                        <th style="width:60px;text-align:center">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody ng-repeat="item in SearchResult">
+                                                    <tr>
+                                                        <td>{{$index+1}}</td>
+                                                        <td>{{SearchRef(item.locationid, Location)}}</td>
+                                                        <td>{{item.customername}}</td>
+                                                        <td>{{item.gstno}}</td>
+                                                        <td>{{item.billno}}</td>
+                                                        <td>{{item.billdate | date:'dd-MM-yyyy'}}</td>
+                                                        <td>{{item.billvalue}}</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-primary btn-xs" ng-show="UserInfo.p_BILLPRINT.view" ng-click="PrintBill(item)"><i class="fa fa-file-pdf-o"></i></button> 
+                                                            <button type="button" class="btn btn-info btn-xs" ng-show="UserInfo.p_BILLPRINT.view" ng-click="PrintThermalBill(item)"><i class="fa fa-print"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+<script type="text/ng-template" id="UpdateBill">
+    <h4 style="font-size:medium;color:brown">
+        All the selected items will be Updated. Please Use Sales Inbox for B2B Bill Updation.
+    </h4>
+    <div class="ngdialog-message">
+        <!--<div class="md-col-12 row">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Select Customer</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in parent.RetailCustomers track by item.id" ng-model="parent.UpdateBill.customerid"></select>
+                </div>
+            </div>
+        </div>-->
+        <div class="md-col-12 row">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Mobile No</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <input type="text" class="form-control input-sm" ng-model="parent.UpdateBill.mobileno" onkeyenter="SearchCustomer()">
+                    <span class="input-group-btn">
+                        <button class="btn btn-sm btn-primary btn-box" ng-click="SearchCustomer()"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="md-col-12 row" ng-show="parent.UpdateBill.customerid>0">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Name</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <input type="text" class="form-control input-sm" ng-model="parent.UpdateBill.customername" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="md-col-12 row" ng-show="parent.UpdateBill.customerid>0">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">GST No</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <input type="text" class="form-control input-sm" ng-model="parent.UpdateBill.gstno" readonly>
+                </div>
+            </div>
+        </div>
+
+        <div class="md-col-12 row">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Select Bill Date</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control input-sm datepicker" datemodule="parent.UpdateBill.billdate" ng-model="parent.UpdateBill.billdate">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-3">
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-left" ng-click="UpdateBillDate()">Update Bill Date</button>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-left" ng-click="UpdateIGST()">Update IGST</button>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="UpdateHSN()">Update HSN</button>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="UpdateCustomer()">Update Customer</button>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-12">
+            <button type="button" class="ngdialog-button ngdialog-button-info pull-right" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+
+</script>

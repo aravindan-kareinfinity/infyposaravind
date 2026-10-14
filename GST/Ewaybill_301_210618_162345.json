@@ -1,0 +1,59 @@
+{
+     "version": "1.0.0501", 
+     "billLists": [
+          {
+               "userGstin": "33AUQPK4042A1Z1", 
+               "supplyType": "O", 
+               "subSupplyType": 1, 
+               "docType": "INV", 
+               "docNo": "301", 
+               "docDate": "21/06/2018", 
+               "fromGstin": "33AUQPK4042A1Z1", 
+               "fromTrdName": "SRI KARTHIK ENTERPRISES  201618", 
+               "fromAddr1": "Old No179, New No4, Singanna Chetty Street, Chintadaripet", 
+               "fromAddr2": "", 
+               "fromPlace": "", 
+               "fromPincode": 600002, 
+               "fromStateCode": 33, 
+               "actualFromStateCode": 33, 
+               "toGstin": "33AAACH3005M1ZY", 
+               "toTrdName": "Hindustan Coco Cola Beverages Pvt Ltd", 
+               "toAddr1": "Chennai Plant  Pulianthope, Madura -Nemam Villiage Nemam Post", 
+               "toAddr2": "", 
+               "toPlace": "", 
+               "toPincode": 600012, 
+               "toStateCode": 33, 
+               "actualToStateCode": 33, 
+               "totalValue": 100500, 
+               "cgstValue": 6030, 
+               "sgstValue": 6030, 
+               "igstValue": 0, 
+               "cessValue": 0, 
+               "transMode": 1, 
+               "transDistance": 60, 
+               "transporterName": "", 
+               "transporterId": "", 
+               "transDocNo": "", 
+               "transDocDate": "21/06/2018", 
+               "vehicleNo": "TN31AF7604", 
+               "vehicleType": "R", 
+               "totInvValue": 112560, 
+               "mainHsnCode": 22029020, 
+               "itemList": [
+                    {
+                         "itemNo": 1, 
+                         "productName": "MAAZA 15 LTR MRP 75", 
+                         "productDesc": "MAAZA 1.5 LTR MRP 75", 
+                         "hsnCode": 22029020, 
+                         "quantity": 50, 
+                         "qtyUnit": "", 
+                         "taxableAmount": 100500, 
+                         "sgstRate": 6, 
+                         "cgstRate": 6, 
+                         "igstRate": 0, 
+                         "cessRate": 0
+                    }
+               ]
+          }
+     ]
+}

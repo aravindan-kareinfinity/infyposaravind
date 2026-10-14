@@ -1,0 +1,629 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Warehouse Stock Report
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'stock', 'stock')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-click="printInfyGrid(igrid)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-click="SearchStock()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box primary">
+            <div class="box-body">
+                <div class="col-md-3">
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">COMPANY</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Company track by item.id"
+                                        ng-model="SearchCondition.companyid" focusid="company" focusonenter="productgroup" ></select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">PRODUCT GROUP</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in ProductGroups track by item.id" ng-model="SearchCondition.productgroupid" focusid="productgroup" focusonenter="section" ></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">SECTION</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in SalesCounter track by item.id" ng-model="SearchCondition.sectionid" focusid="section" focusonenter="product" ></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">PRODUCT</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Product track by item.id" ng-model="SearchCondition.productid" focusid="product" focusonenter="supplier" ></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">SUPPLIER</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Supplier track by item.id" ng-model="SearchCondition.supplierid" focusid="supplier" focusonenter="brand" ></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">BRAND</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Brand track by item.id" ng-model="SearchCondition.brandid" focusid="brand" focusonenter="stockage" ></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">STOCK AGE</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in StockAge track by item.id" ng-model="SearchCondition.stockage" focusid="stockage" focusonenter="color" ></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">COLOUR</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Colour track by item.id" ng-model="SearchCondition.colourid" focusid="color" focusonenter="material" ></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">MATERIAL</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Material track by item.id" ng-model="SearchCondition.materialid" focusid="material" focusonenter="design"  ></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">DESIGN NO</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="DESIGN NO" ng-model="SearchCondition.designid" focusid="design" focusonenter="size"  >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">SIZE</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Sizes track by item.id" startswith="true" ng-model="SearchCondition.sizeid" focusid="size" focusonenter="pattern" ></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">PATTERN</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Pattern track by item.id" ng-model="SearchCondition.patternid" focusid="pattern" focusonenter="style" ></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">STYLE</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Style track by item.id" ng-model="SearchCondition.styleid" focusid="style" focusonenter="barcode"  ></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">BARCODE</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="Barcode" ng-model="SearchCondition.barcode" focusid="barcode" onkeyenter="SearchStock()">
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                </div>
+
+                <div class="col-md-9 no-padding">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row" ng-show="ShowStockView">
+            <!-- Your Page Content Here -->
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <div class="col-md-11">
+                            <button type="button" class="btn btn-primary btn-sm pull-right" ng-click="printDiv('stockviewprintdiv','BARCODE VIEW')">Print</button>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-primary btn-sm pull-right" ng-click="SwitchPanel()">Cancel</button>
+                        </div>
+                    </div>
+
+                    <div class="box-body" id="stockviewprintdiv">
+                        <div class="row" style="align-content:center">
+                            <div class="col-md-12">
+                                <div class="col-md-12">
+                                    <div class="col-md-12" style="color:brown">
+                                        <label><b>GRN INFORMATION</b></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>COMPANY</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <b>{{Barcodedetail.company}}</b>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>SUPPLIER</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.supplier}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>LR NO</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.lrno}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>LR DATE</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.lrdate |date : 'dd-MM-yyyy'}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>LR ENTRY NO</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.lrentryno}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>INVOICE NO</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.invoiceno}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>INVOICE DATE</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.invoicedate |date : 'dd-MM-yyyy'}}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12" style="color:brown">
+                                                <label><b>BARCODE INFORMATION</b></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>BARCODE</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.barcode}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>PRINTING NAME</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.itemname}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>PRODUCT NAME</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.productname}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>BRAND</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.brandname}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>MATERIAL</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.materialname}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>PATTERN</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.patternname}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>STYLE</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.stylename}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>SIZE</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.sizename}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>DESIGN</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.designname}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>HSN CODE</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.hsncode}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12" style="color:brown">
+                                            <label><b>STOCK INFORMATION</b></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>PURCHASE QTY</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.pqty|number:2}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>WAREHOUSE STOCK</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.wstock|number:2}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>BASE BUYING PRICE</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.basebuyingprice|number:2}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>PURCHASE PRICE</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.buyingprice|number:2}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>MRP</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.mrp|number:2}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>SELLING PRICE</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.sellingprice - Barcodedetail.salediscount|number:2}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>P.DISCOUNT PERCENT</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.pdiscountpercent|number:2}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>P.DISCOUNT</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.pdiscount|number:2}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>P.TAX PERCENT</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.ptaxpercent|number:2}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>P.TAX</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.ptax|number:2}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>S.DISCOUNT PERCENT</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.salediscountpercent|number:2}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label><b>S.DISCOUNT</b></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{Barcodedetail.salediscount|number:2}}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-12" style="color:brown">
+                                    <label><b>RETAIL STOCK INFORMATION</b></label>
+                                </div>
+                            </div>
+                            <table fixed-header="200px" class="fixed_table" id="stockreport">
+                                <thead>
+                                    <tr>
+                                        <th style="width:100px">LOCATION</th>
+
+                                        <th style="width:100px">BARCODE</th>
+                                        <th style="width:150px">ITEM NAME</th>
+                                        <th style="width:120px">INWARD ON</th>
+                                        <th style="width:120px">IN.QTY</th>
+                                        <th style="width:140px">SOLD QTY</th>
+
+                                        <th style="width:140px">DA.GED QTY</th>
+                                        <th style="width:100px">STOCK</th>
+                                        <th style="width:100px">PRICE</th>
+                                        <th style="width:100px">DIST</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in Barcodedetail.retailstock">
+                                        <td>{{SearchRef(item.locationid, Location)}}</td>
+                                        <td>{{item.barcode}}</td>
+                                        <td>{{item.itemname}}</td>
+                                        <td>{{item.inwardon|date:'dd-MM-yyyy'}}</td>
+                                        <td>{{item.iqty| number:2}}</td>
+                                        <td>{{item.oqty| number:2}}</td>
+                                        <td>{{item.dqty| number:2}}</td>
+                                        <td>{{item.qty| number:2}}</td>
+                                        <td>{{item.price| number:2}}</td>
+                                        <td>{{item.discount| number:2}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.content -->
+        </div>
+
+        <div class="row" ng-show="false">
+            <!-- Your Page Content Here -->
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <div class="col-md-11">
+                            <button type="button" class="btn btn-primary btn-sm pull-right" ng-click="printDiv('productviewprintdiv','PRODUCT VIEW')">Print</button>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-primary btn-sm pull-right" ng-click="SwitchPanel()">Cancel</button>
+                        </div>
+                    </div>
+
+                    <div class="box-body" id="productviewprintdiv">
+                        <div class="row" style="align-content:center">
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <label><b>COMPANY</b></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        {{Productdetail.companyname}}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <label><b>SUPPLIER</b></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        {{Productdetail.suppliercompanyname}}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <label><b>LR NO</b></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        {{Productdetail.lrno}}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <label><b>LR ENTRY NO</b></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        {{Productdetail.lrentryno}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <label><b></b></label>
+                                    </div>
+                                    <div class="col-md-8">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <label><b>INVOICE NO</b></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        {{Productdetail.invoiceno}}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <label><b>INVOICE DATE</b></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        {{Productdetail.invoicedate |date : 'dd-MM-yyyy'}}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <label><b>BILL VALUE</b></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        {{Productdetail.Items[0].billvaue|number:2}}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <label><b>GROSS VALUE</b></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        {{Productdetail.Items[0].grossamount|number:2}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12" style="color:brown">
+                                            <label><b>PRODUCT INFORMATION</b></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table fixed-header="500px" class="fixed_table" id="stockreport">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:100px">SL.NO</th>
+                                            <th style="width:100px">BARCODE</th>
+                                            <th style="width:150px">ITEM NAME</th>
+                                            <th style="width:120px">DESIGN NO</th>
+                                            <th style="width:120px">HSN CODE</th>
+                                            <th style="width:140px">QTY</th>
+                                            <th style="width:140px">B.PRICE</th>
+                                            <th style="width:100px">MRP</th>
+                                            <th style="width:100px">S.PRICE</th>
+                                            <th style="width:100px">MARGIN%</th>
+                                            <th style="width:100px">P.DISC</th>
+                                            <th style="width:100px">S.DISC</th>
+                                            <th style="width:100px">SIZE</th>
+                                            <th style="width:100px">BRAND</th>
+                                            <th style="width:100px">MATERIAL</th>
+                                            <th style="width:100px">PATTERN</th>
+                                            <th style="width:100px">STYLE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in Productdetail.Items[0].Lrinvoiceitems">
+                                            <td>{{item.sno}}</td>
+                                            <td>{{item.barcodes}}</td>
+                                            <td>{{SearchRef(item.Details.productid, Product)}}</td>
+                                            <td>{{item.designid}}</td>
+                                            <td>{{item.hsncode}}</td>
+                                            <td>{{item.buyingqty|number:2}}</td>
+                                            <td>{{item.basebuyingprice|number:2}}</td>
+                                            <td>{{item.mrp|number:2}}</td>
+                                            <td>{{item.sellingprice|number:2}}</td>
+                                            <td>{{item.marginpercentage|number:2}}</td>
+                                            <td>{{item.purchasediscount|number:2}}</td>
+                                            <td>{{item.salediscount|number:2}}</td>
+                                            <td>{{SearchRef(item.Details.sizeid, Sizes)}}</td>
+                                            <td>{{SearchRef(item.Details.brandid, Brand)}}</td>
+                                            <td>{{SearchRef(item.Details.materialid, Material)}}</td>
+                                            <td>{{SearchRef(item.Details.patternid, Pattern)}}</td>
+                                            <td>{{SearchRef(item.Details.styleid, Style)}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.content -->
+        </div>
+    </section>
+</div>

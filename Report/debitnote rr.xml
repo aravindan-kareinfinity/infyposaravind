@@ -1,0 +1,148 @@
+<Config>
+  <PageSetting>
+    <Setting topmargin='40' leftmargin='20' bottommargin='30' rightmargin='10' width='700' height='900' style='Verdana,8,regular'></Setting>
+  </PageSetting>
+  <Header LineHeight='15' style='Verdana,8,bold'>
+    <Line>
+      <Content type='Image' src="0G000000000" align='left'>0,30,80,70</Content>
+      <Content type='Field' name='company.name' length='700' align='center' style='Verdana,12,bold'></Content>
+    </Line>
+    <Line>
+      <Content type='Word'  length='100' align='left'></Content>
+      <Content type='Field' name='company.address' length='300' align='left'></Content>
+      <Content type='Word' length='50' align='left'>GSTIN     </Content>
+      <Content type='Field' name='company.tinanddate' length='200' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word'  length='400' align='left'></Content>
+      <Content type='Word' length='50' align='left'>PAN NO     </Content>
+      <Content type='Field' name='company.pan' length='200' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word'  length='100' align='left'></Content>
+      <Content type='Word' length='60' align='left'>Phone No </Content>
+      <Content type='Field' name='company.contactno' length='240' align='left'></Content>
+      <Content type='Word' length='50' align='left'>State Code  </Content>
+      <Content type='Field' name='company.areacode' length='200' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Line' length='580'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='700' align='center' style='Verdana,10,bold'>Debit Note</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='50' align='left'>To</Content>
+      <Content type='Field' name='supplier.name' length='350' align='left'></Content>
+      <Content type='Word' length='80' align='left'>No </Content>
+      <Content type='Field' name='returnno' length='200' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='50' align='left'>Address</Content>
+      <Content type='Field' name='supplier.address' length='350' align='left'></Content>
+      <Content type='Word' length='80' align='left'>Date </Content>
+      <Content type='Field' name='returndate' length='200' align='left' format='dd/MM/yyyy'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='400' align='left'></Content>
+      <Content type='Word' length='80' align='left'>Inv No/Date </Content>
+      <Content type='Field' name='invoiceinfo' length='200' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='50' align='left'>Phone No</Content>
+      <Content type='Field' name='supplier.companycontactno' length='350' align='left'></Content>
+      <Content type='Word' length='80' align='left'>Transport </Content>
+      <Content type='Field' name='transport.name' length='200' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='50' align='left'>GSTIN</Content>
+      <Content type='Field' name='supplier.tinanddate' length='350' align='left'></Content>
+      <Content type='Word' length='80' align='left'>LR No/Date </Content>
+      <Content type='Field' name='lrinfo' length='200' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='400' align='left'></Content>
+      <Content type='Word' length='80' align='left'>Freight </Content>
+      <Content type='Field' name='freightdisplaytext' length='200' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='700' align='center'>ITEM DETAILS</Content>
+    </Line>
+  </Header>
+  <Body Type='Table' length='23' HeaderHeight='40' LineHeight='15' style='Verdana,8,regular'>
+    <Line type='Table'>
+      <Content type='Field' name='sno' text="S.NO" Length='30'/>
+      <Content type='Field' name='hsncode' text="HSN" Length='50' align='left'/>
+      
+      <Content type='Field' name='particulars' text="Particulars" Hide='isinterstatesale' Length='100' align='left'/>
+      <Content type='Field' name='particulars' text="Particulars" Show='isinterstatesale' Length='180' align='left'/>
+      
+      <Content type='Field' name='qty' text="Qty" Length='40' Total='true' align='right'/>
+      <Content type='Field' name='rate' text="Rate" Length='60' align='right' format='N2'/>
+      <Content type='Field' name='amount' text="Amount" Length='70' Total='true' align='right' format='N2'/>
+      <Content type='Field' name='discount' text="Disc" Length='60' Total='true' align='right' format='N2'/>
+      <Content type='Field' name='taxableamount' text="Taxable" Length='60' Total='true' align='right' format='N2'/>
+
+      <Content type='Field' name='taxsplit.cgsttaxpercentage' Show='isinterstatesale' text="Rate" MergeCell='2' MergeText='IGST' Length='40' align='right' format='N2'/>
+      <Content type='Field' name='taxsplit.cgsttaxamount' Show='isinterstatesale' text="Tax" Length='60' align='right' format='N2'/>
+      
+      <Content type='Field' name='taxsplit.cgsttaxpercentage' Hide='isinterstatesale' text="Rate" MergeCell='2' MergeText='CGST' Length='40' align='right' format='N2'/>
+      <Content type='Field' name='taxsplit.cgsttaxamount' Hide='isinterstatesale' text="Tax" Length='60' align='right' format='N2'/>
+      <Content type='Field' name='taxsplit.sgsttaxpercentage' Hide='isinterstatesale' text="Rate" MergeCell='2' Length='40' MergeText='SGST' align='right' format='N2'/>
+      <Content type='Field' name='taxsplit.sgsttaxamount' Hide='isinterstatesale' text="Tax" Length='60' align='right' format='N2'/>
+     
+    </Line>
+  </Body>
+  <Footer>
+    <Line>
+      <Content type='Word' length='50' align='left'>No of Piece</Content>
+      <Content type='Field' name='piece' length='250' align='right'></Content>
+     <Content type='Word' length='50' align='left'></Content>
+      <Content type='Word' length='50' align='left'>Total </Content>
+      <Content type='Field' name='netamount' length='200' align='right' format='N2'></Content>
+    </Line>
+    <Line Show='isinterstatesale'>
+      <Content type='Word' length='350' align='left'>Amount of Tax subject to Reverse Charge</Content>
+      <Content type='Word' length='150' align='left'>IGST </Content>
+      <Content type='Field' name='cgsttaxamount' length='100' align='right' format='N2'></Content>
+    </Line>
+    <Line Hide='isinterstatesale'>
+      <Content type='Word' length='350' align='left'>Amount of Tax subject to Reverse Charge</Content>
+      <Content type='Word' length='150' align='left'>CGST </Content>
+      <Content type='Field' name='cgsttaxamount' length='100' align='right' format='N2'></Content>
+    </Line>
+    <Line Hide='isinterstatesale'>
+      <Content type='Word' length='350' align='left'></Content>
+      <Content type='Word' length='150' align='left'>SGST </Content>
+      <Content type='Field' name='sgsttaxamount' length='100' align='right' format='N2'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='350' align='left'>Amount In Words</Content>
+      <Content type='Word' length='50' align='left'>Rounding</Content>
+      <Content type='Field' name='rounding' length='200' align='right' format='N2'></Content>
+    </Line>
+    <Line>
+      <Content type='Field' name='inwords' length='350' align='left'></Content>
+      <Content type='Word' length='50' align='left'>Invoice Total</Content>
+      <Content type='Field' name='grandtotal' length='200' align='right' format='N2'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='60' align='left'>Remarks </Content>
+    </Line>
+    <Line>
+      <Content type='Field' name='remarks' length='350' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='350' align='left'></Content>
+      <Content type='Word' length='20' align='left'>For </Content>
+      <Content type='Field' name='company.name' length='200' align='left'></Content>
+    </Line>
+    <Line/>
+    <Line/>
+    <Line>
+      <Content type='Word' length='350' align='left'>Electronic Reference Number</Content>
+      <Content type='Word' length='180' align='left'>Authorized Signatory </Content>
+    </Line>
+    <Line/>
+  </Footer>
+</Config>

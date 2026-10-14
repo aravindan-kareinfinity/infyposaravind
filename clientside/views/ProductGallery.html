@@ -1,0 +1,220 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Product Gallery
+        </h1>
+        <ol class="breadcrumb">
+
+            <li style="cursor:pointer">
+
+                <input type="text" class="input-sm form-control" style="width:200px;height:22px;font-size:small"
+                       placeholder="BARCODE"
+                       ng-model="ProductGallery.Barcode"
+                       focusid="tserialno"
+                       onkeyenter="SearchBarcode()">
+
+            </li>
+            <li style="cursor:pointer"
+                ng-click="AllStock2Online()"><a><i class="fa fa-edit"></i>Mark all Online</a></li>
+            <li style="cursor:pointer"
+                ng-click="Sync2Online()"><a><i class="fa fa-edit"></i>Sync Online</a></li>
+            <li style="cursor:pointer">
+
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280"
+                             max-height="1280" preview="false"
+                             ng-model="multipleimage"
+                             filemodel="multipleimage"
+                             onuploadcomplete="MultipleImageUpload"
+                             onuploadstart="MultipleImageStart"
+                             filetype="IMAGE"
+                             multiple="true">
+                    <i class="fa fa-upload">Upload</i>
+                </file-upload>
+            </li>
+            <li style="cursor:pointer"
+                ng-hide="system_ismfgapplication"
+                ng-click="SaveImages()"><a><i class="fa fa-edit"></i>Save Images</a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-2">
+                        <div class="col-md-12 no-padding">
+                            <label class="col-md-12 no-padding">Product</label>
+                            <div class="col-md-12 no-padding">
+                                <select class="form-control" select2='Select Product' style="width:100%;"
+                                        ng-model="ProductGallery.ProductID"
+                                        ng-change="SearchDesignList()"
+                                        options="item.id as item.name for item in ProductList track by item.id"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <label class="col-md-12 no-padding">Supplier</label>
+                            <div class="col-md-12 no-padding">
+
+                                <select class="form-control" select2='Select Supplier' style="width:100%;"
+                                        ng-model="ProductGallery.Supplierid"
+                                        ng-change="SearchDesignList()"
+                                        options="item.id as item.name for item in SupplierList track by item.id"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <label class="col-md-12 no-padding">Online Marker</label>
+                            <div class="col-md-12 no-padding">
+
+                                <select class="form-control" select2='Select Marker' style="width:100%;"
+                                        ng-model="ProductGallery.markerid"
+                                        options="item.id as item.name for item in StockMarkerList track by item.id"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <table class="fixed_table" id="stockanalyser" fixed-header="200px"
+                                   additionalheight="110">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            <div class="col-md-12 no-padding">
+                                                <input 
+                                                       ng-model="filter_name_value" 
+                                                       type="text" class="input-sm"
+                                                       style="border:0px;z-index:3000;width:85%;padding-left:5px;padding-right:20px" 
+                                                       placeholder="Design" />
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in DesignList | filter:filter_name_value">
+                                        <td tablecell><input type="checkbox" ng-model="item.selected" /></td>
+                                        <td tablecell>{{item.name}}</td>
+                                        <td tablecell>
+                                            <button class="btn-xs btn-primary" ng-click="ShowDesign(item.name)">
+                                                <i class="fa fa-arrow-circle-right"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="col-md-2 no-padding" ng-show="ShowImageMap">
+
+                        <div class="col-md-12" style="font-size:large;color:orangered">
+                            {{CurrentDesignwiseStock.designid}}
+                        </div>
+                        <div class="col-md-12" style="overflow-y:scroll;overflow-x:hidden" ng-style="panelheight">
+                            <div ng-repeat="imgitem in ImageList">
+
+                                <div class="col-md-12 no-padding">
+                                    <img style="height: 128px; width: 128px" ng-src="File/Show/0/{{imgitem.imageid}}" />
+                                </div>
+
+                                <div class="col-md-12 no-padding">
+                                    <select class="form-control" select2='Select Colour' style="width:100%;"
+                                            ng-model="imgitem.colourid"
+                                            ng-change="MapImage(imgitem)"
+                                            options="item.colourid as item.colour for item in ColourList track by item.colourid"></select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 no-padding" ng-hide="ShowImageMap">
+                        <div class="col-md-12" style="font-size:large;color:orangered">
+                            {{CurrentDesignwiseStock.designid}}
+                        </div>
+                        <div class="col-md-12" style="overflow-y:scroll;overflow-x:hidden" ng-style="panelheight">
+                            <div ng-repeat="item in ColourList">
+                                <div class="col-md-12 no-padding" ng-show="showsupplier" style="font-size:medium;color:saddlebrown">
+                                    {{item.supplier}}
+                                </div>
+                                <div class="col-md-12 no-padding" ng-show="showproduct" style="font-size:medium;color:rosybrown">
+                                    {{item.product}}
+                                </div>
+                                <div class="col-md-12 no-padding">
+                                    {{item.colour}}
+                                </div>
+
+                                <div class="col-md-12 no-padding">
+                                    <div class="col-md-8 no-padding"
+                                         ng-show="item.imageid && item.imageid != null && item.imageid != ''">
+                                        <img style="height: 128px; width: 128px" ng-src="File/Show/0/{{item.imageid}}" />
+                                    </div>
+                                    <div class="col-md-4 no-padding"
+                                         style="overflow:scroll;height:130px"
+                                         ng-show="item.imagelist && item.imagelist != null">
+                                        <div ng-repeat="imageitem in item.imagelist">
+                                            <div style="position:relative">
+                                                <img style="height: 64px; width: 64px" ng-src="File/Show/0/{{imageitem.imageid}}" />
+                                                <button style="position: absolute; top: 0px; right: 10px;"
+                                                        ng-click="RemoveImage(item,imageitem)">
+                                                    <i class="fa fa-close"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 no-padding">
+                                    <div class="col-md-6 no-padding">
+                                        <file-upload class="btn btn-success btn-rad btn-trans btn-xs file-upload"
+                                                     resize="true" max-width="1280"
+                                                     max-height="1280" preview="false"
+                                                     ng-model="item.timageid"
+                                                     filemodel="item.timageid"
+                                                     filetype="IMAGE"
+                                                     onuploadcomplete='imageLineuploaded'
+                                                     multiple="false">
+                                            <i class="fa fa-upload"></i>
+                                            <span>Upload</span>
+                                        </file-upload>
+                                    </div>
+                                    <file-upload class="btn btn-success btn-rad btn-trans btn-xs file-upload pull-right"
+                                                 resize="true" max-width="1280"
+                                                 max-height="1280" preview="false"
+                                                 ng-model="item.aimageid"
+                                                 filemodel="item.aimageid"
+                                                 filetype="IMAGE"
+                                                 onuploadcomplete='imageLineaddeded'
+                                                 multiple="false">
+                                        <i class="fa fa-upload"></i>
+                                        <span>Add</span>
+                                    </file-upload>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 no-padding">
+
+
+                        <div id="gridResultContainer">
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+

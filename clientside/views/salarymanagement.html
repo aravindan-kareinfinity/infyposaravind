@@ -1,0 +1,460 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a> HR / Salary Management
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer">
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280" uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                             max-height="1280" preview="false" ng-model="uploadfile"
+                             filemodel="uploadfile" onuploadcomplete="fileuploadedcomplete"
+                             filetype="DATA"
+                             multiple="false">
+                    <i class="fa fa-upload">Upload</i>
+                </file-upload>
+            </li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'Salary Management Report')"><a><i class="fa fa-download"></i>Export</a></li>
+            <li style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li style="cursor:pointer" ng-click="SaveAll()"><a><i class="fa fa-save"></i>Save All</a></li>
+            <li style="cursor:pointer" ng-click="ChangeESIPFConfig()"><a><i class="fa fa-gift"></i>ESI/PF</a></li>
+            <li style="cursor:pointer" ng-click="ChangeIncentiveConfig()"><a><i class="fa fa-gift"></i>Incentive</a></li>
+        </ol>
+
+    </section>
+    <section class="content">
+        <div class="row">
+
+            <div class="box">
+                <!-- Your Page Content Here -->
+                <div class="col-md-12">
+                    <div class="box-body no-padding">
+                        <div class="box box-info">
+
+                            <div class="col-md-12 col-sm-12" style="margin-top:10px">
+                                <!-- basic details starts -->
+                                <div class="col-md-3">
+                                    <div class="row row-padbot-15">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-md-4 control-label">Employee</label>
+                                            <div class="col-md-8 no-padding">
+                                                <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.code for item in refemployeelist track by item.id" ng-model="SearchCondition.employeeid"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row row-padbot-15">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-md-4 control-label">D.O.J</label>
+                                            <div class="col-md-8 no-padding">
+
+                                                <input type="text" daterange="SearchCondition.dojfromdate,SearchCondition.dojtodate" onkeyenter="Search()" class="form-control input-sm" startDate="SearchCondition.dojfromdate"
+                                                       endDate="SearchCondition.dojtodate">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- basic details ends -->
+                                <div class="col-md-4">
+                                    <div class="row row-padbot-15">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-md-3 control-label">Company</label>
+                                            <div class="col-md-9">
+                                                <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in companylist track by item.id" ng-model="SearchCondition.companyid"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row row-padbot-15">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-md-3 control-label">Type</label>
+                                            <div class="col-md-9">
+                                                <div class="col-md-6 no-padding">
+                                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in WorkingModes track by item.id" required ng-model="SearchCondition.workingmode"></select>
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in SalaryModes track by item.id" required ng-model="SearchCondition.salarymode"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5">
+
+                                    <div class="row row-padbot-15">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-md-4 control-label">Department/Section</label>
+                                            <div class="col-md-4" style="padding-right:0px">
+                                                <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in refdepartmentlist track by item.id" required ng-model="SearchCondition.departmentid"></select>
+                                            </div>
+                                            <div class="col-md-4" style="padding-left:0px">
+                                                <select class="form-control select2" style="width: 100%;" select2="" options="division.id as division.name for division in Divisions track by division.id" required ng-model="SearchCondition.sectionid"></select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row row-padbot-15">
+
+                                        <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Show All</label>
+                                        <div class="col-md-1 col-sm-1">
+                                            <input type="checkbox" class="icheckbox_minimal-blue" ng-model="SearchCondition.showallyears">
+                                        </div>
+                                        <label for="inputEmail3" class="col-sm-2 col-md-2 control-label">Un&nbsp;Assigned</label>
+                                        <div class="col-md-1 col-sm-1">
+                                            <input type="checkbox" class="icheckbox_minimal-blue" ng-model="SearchCondition.showunassigned">
+                                        </div>
+                                        <label for="inputEmail3" class="col-sm-1 col-md-1 control-label">Left</label>
+                                        <div class="col-md-1 col-sm-1">
+                                            <input type="checkbox" class="icheckbox_minimal-blue" ng-model="SearchCondition.showhasleft">
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" id="gridContainer">
+
+
+
+                            </div>
+
+                            <!-- form start -->
+                            <!--<form class="form-horizontal" ng-hide="UploadingStructure">
+        <table fixed-header="400px" id="salary" additionalheight="50">
+            <thead>
+                <tr>
+                    <th style="display:none">S.No</th>
+                    <th style="width:100px">Code</th>
+                    <th style="width:200px">Name</th>
+                    <th style="width:100px">D.O.J</th>
+                    <th style="width:100px">Fixed On</th>
+                    <th style="width:150px">Incharge</th>
+                    <th style="width:100px">Basic Pay</th>
+                    <th style="width:100px">Gross Pay</th>
+                    <th style="width:150px">Structure</th>
+                    <th style="width:100px">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in SearchResult">
+                    <td style="display:none">{{$index+1}}</td>
+                    <td>{{item.employeecode}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.dateofjoining| date : "dd-MM-yyyy"}}</td>
+                    <td>{{item.fromdate| date : "dd-MM-yyyy"}}</td>
+                    <td>{{SearchRef(item.inchargeid,refemployeelist)}}</td>
+                    <td>{{item.basicpay}}</td>
+                    <td>{{item.grosspay}}</td>
+                    <td>{{item.structurename}}</td>
+                    <td>
+                        <button type="button" class="btn-info btn btn-xs" ng-show="UserInfo.p_SALARYMGMT.modify" ng-click="SalaryManagementOpen('Edit',item)" title="Change">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <button type="button" class="btn-danger btn btn-xs" ng-show="UserInfo.p_SALARYMGMT.delete" ng-click="SalaryManagementOpen('Delete',item)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>-->
+
+
+
+                            <script type="text/ng-template" id="SalaryManagement">
+                                <div class="ngdialog-message" style="height:350px;">
+                                    <div class="col-md-7">
+
+
+                                        <div class="row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Basic Pay</label>
+                                                <div class="col-md-4">
+                                                    <input method="text" class="form-control " style="width: 100%;" ng-model="Item.basicpay">
+                                                </div>
+
+                                            </div>
+                                            <!-- /.col -->
+                                        </div>
+                                        <div class="row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Gross Pay</label>
+                                                <div class="col-md-4">
+                                                    <input method="text" class="form-control " style="width: 100%;" ng-model="Item.grosspay">
+                                                </div>
+                                            </div>
+                                            <!-- /.col -->
+                                        </div>
+
+                                        <div class="row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">CTC</label>
+                                                <div class="col-md-4">
+                                                    <input method="text" class="form-control " style="width: 100%;" ng-model="Item.ctc">
+                                                </div>
+                                            </div>
+                                            <!-- /.col -->
+                                        </div>
+
+                                        <div class="row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Structure</label>
+                                                <div class="col-md-6">
+                                                    <select class="form-control" style="width: 100%;" select2=""
+                                                            options="item.id as item.name for item in refstructurelist track by item.id"
+                                                            ng-change="StructureChanged(refstructurelist,Item.salarystructureid)"
+                                                            ng-model="Item.salarystructureid"></select>
+                                                </div>
+                                                <label for="inputEmail3" class="col-md-2 control-label">{{newgross}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Date</label>
+                                                <div class="col-md-6">
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="form-control pull-right" datemodule="Item.fromdate" ng-model="Item.Fromdate">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Eligble </label>
+                                                <div class="col-md-4">
+                                                    ESI  <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Item.eligibleesi">
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    PF   <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Item.eligiblepf">
+                                                </div>
+                                            </div>
+                                            <!-- /.col -->
+                                        </div>
+                                        <div class="row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Company Pay </label>
+                                                <div class="col-md-4">
+                                                    ESI  <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Item.esiselfpaid">
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    PF   <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Item.pfselfpaid">
+                                                </div>
+                                            </div>
+                                            <!-- /.col -->
+                                        </div>
+
+
+                                        <div class="row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-4 control-label">Incharge</label>
+                                                <div class="col-md-8">
+                                                    <select class="form-control" style="width: 100%;" select2="" options="item.id as item.code for item in refemployeelist track by item.id" ng-model="Item.inchargeid"></select>
+                                                </div>
+                                            </div>
+                                            <!-- /.col -->
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <div class="table-responsive" ng-show="Loaded" style="height:340px;overflow:auto;width:320px;">
+                                            <table class="table">
+                                                <tr>
+                                                    <th style="width: 10px">#</th>
+                                                    <th>Code</th>
+                                                    <th>Formula</th>
+
+                                                </tr>
+                                                <tr ng-repeat="item in Item.configuration">
+                                                    <td></td>
+                                                    <td>{{item.code}}</td>
+
+                                                    <td><input type="text" ng-model="item.formula" /></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ngdialog-buttons" style="margin-top:10px">
+                                    <button type="button" class="ngdialog-button ngdialog-button-primary pull-left" ng-click="ChangeStructure(Item)">Populate</button>
+                                    <button type="button" class="ngdialog-button ngdialog-button-primary pull-left" ng-click="newsalary()">New Salary</button>
+
+                                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Change()">OK</button>
+                                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(null)">Close</button>
+                                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Delete(Item)">Delete</button>
+                                </div>
+                            </script>
+
+                            <script type="text/ng-template" id="IncentiveManagement">
+                                <div class="ngdialog-message">
+                                    <div class="col-md-12"
+                                         style="margin-bottom:20px;padding-right: 30px;">
+                                        <div class="col-md-4 no-padding">
+                                            <b>Configuration</b>
+                                        </div>
+                                        <div class="col-md-8 no-padding">
+                                            <div class="col-md-6 no-padding">
+                                                <input type="checkbox" class="input-sm pull-right" style="width:25px;margin:0px"
+                                                       ng-model="Item.changeincentiveconfig" />
+                                                <div class="pull-right" style="margin-top:5px">
+                                                    Change Incentive
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 no-padding">
+                                                <input type="checkbox" class="input-sm pull-right" style="width: 25px;margin:0px"
+                                                       ng-model="Item.changesupervisor" />
+                                                <div class="pull-right" style="margin-top:5px">
+                                                    Change Incharge
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row-padbot-15" ng-show="Item.changeincentiveconfig">
+                                        <div class="col-md-12 row-padbot-15">
+                                            <label for="inputEmail3" class="col-md-3 control-label">Source</label>
+                                            <div class="col-md-9">
+                                                <select class="form-control" style="width: 100%;" select2=""
+                                                        options="item.id as item.name for item in IncentiveSources track by item.id"
+                                                        ng-model="Item.incentivesource"></select>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-12 row-padbot-15" ng-show="Item.changeincentiveconfig">
+                                            <label for="inputEmail3" class="col-md-3 control-label">Calculation Mode</label>
+
+                                            <div class="col-md-4" style="padding-right:0px">
+                                                <select class="form-control" style="width: 100%;" select2=""
+                                                        options="item.id as item.name for item in CalculationSources track by item.id"
+                                                        ng-model="Item.incentivecalculationsource"></select>
+                                            </div>
+                                            <div class="col-md-3 no-padding">
+                                                <select class="form-control" style="width: 100%;" select2=""
+                                                        options="item.id as item.name for item in ValueTypes track by item.id"
+                                                        ng-model="Item.incentivevaluetype"></select>
+                                            </div>
+                                            <div class="col-md-2" style="padding-left:0px">
+                                                <input method="text" class="form-control input-sm " style="width: 100%;" ng-model="Item.incentivepercentage">
+                                            </div>
+                                        </div>
+                                        <!-- /.col -->
+                                    </div>
+                                    <div class="row-padbot-15" ng-show="Item.changeincentiveconfig">
+                                        <div class="col-md-12 row-padbot-15">
+                                            <label for="inputEmail3" class="col-md-3 control-label">Target</label>
+                                            <div class="col-md-7" style="padding-right:0px">
+                                                <select class="form-control" style="width: 100%;" select2=""
+                                                        options="item.id as item.name for item in TargetMethods track by item.id"
+                                                        ng-model="Item.salestargetmethod"></select>
+                                            </div>
+                                            <div class="col-md-2" style="padding-left:0px">
+                                                <input method="text" class="form-control input-sm " style="width: 100%;" ng-model="Item.salestarget">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row-padbot-15" ng-show="Item.changeincentiveconfig">
+                                        <div class="col-md-12 row-padbot-15">
+                                            <label for="inputEmail3" class="col-md-3 control-label">Minimum Target/ Incentive Ratio</label>
+                                            <div class="col-md-4" style="padding-right:0px">
+                                                <select class="form-control" style="width: 100%;" select2=""
+                                                        options="item.id as item.name for item in TargetMinumumMethods track by item.id"
+                                                        ng-model="Item.salestargetminimummode"></select>
+                                            </div>
+                                            <div class="col-md-3 no-padding">
+                                                <input method="text" class="form-control input-sm " style="width: 100%;" ng-model="Item.salesminimumtarget">
+                                            </div>
+                                            <div class="col-md-2" style="padding-left:0px">
+                                                <input method="text" class="form-control  input-sm" style="width: 100%;" ng-model="Item.incentiveratio">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-padbot-15" ng-show="Item.changesupervisor">
+                                        <div class="col-md-12 row-padbot-15">
+                                            <label for="inputEmail3" class="col-md-3 control-label">Supervisor</label>
+                                            <div class="col-md-9">
+
+                                                <select class="form-control" style="width: 100%;" select2=""
+                                                        options="item.id as item.name for item in Employees track by item.id"
+                                                        ng-model="Item.supervisorid"></select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ngdialog-buttons">
+                                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Change()">OK</button>
+                                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(null)">Close</button>
+                                </div>
+
+                            </script>
+
+                            <script type="text/ng-template" id="ESIPFManagement">
+                                <div class="ngdialog-message">
+                                    
+                                    <div class="row-padbot-15">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <b>Change ESI</b>
+                                            </div>
+                                            <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Item.changeesi">
+                                        </div>
+                                        <div class="col-md-12" ng-show="Item.changeesi">
+                                            <label for="inputEmail3" class="col-md-4 control-label">Eligble </label>
+                                            <div class="col-md-2">
+                                                <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Item.eligibleesi">
+                                            </div>
+                                            <label for="inputEmail3" class="col-md-4 control-label">Company Pay </label>
+                                            <div class="col-md-2">
+                                                <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Item.esiselfpaid">
+                                            </div>
+
+                                        </div>
+                                        <!-- /.col -->
+                                    </div>
+                                    <div class="row-padbot-15">
+                                        <div class="col-md-12">
+                                            
+                                            <div class="col-md-4">
+                                                <b>Change PF</b>
+                                            </div>
+                                            <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Item.changepf">
+                                        </div>
+                                        <div class="col-md-12" ng-show="Item.changepf">
+                                            <label for="inputEmail3" class="col-md-4 control-label">Eligble </label>
+                                            <div class="col-md-2">
+                                                <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Item.eligiblepf">
+                                            </div>
+
+                                            <label for="inputEmail3" class="col-md-4 control-label">Company Pay </label>
+                                            <div class="col-md-2">
+                                                <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Item.pfselfpaid">
+                                            </div>
+                                        </div>
+                                        <!-- /.col -->
+                                    </div>
+                                </div>
+                                <div class="ngdialog-buttons">
+                                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Change()">OK</button>
+                                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(null)">Close</button>
+                                </div>
+
+                            </script>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- /.content -->
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->

@@ -1,0 +1,84 @@
+﻿<Config>
+  <PageSetting>
+	<Setting topmargin='50' leftmargin='50' bottommargin='50' rightmargin='50' width='850' height='1100' landscape='false'></Setting>
+  </PageSetting>
+  <Header>
+    <Line>
+      <Content type='Logo'>50,50,120,120</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='40' align='center' style='bold'>PAKSHI K RAMANATHAM CHETTIAR SON</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='60' align='center'>MUTHYA THEATRE ROAD,</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='60' align='center'>NEAR BUS STAND, CUDDALORE</Content>
+    </Line>    
+    <Line>
+      <Content type='Word' length='60' align='center'>TIN:33954383096     PHONE NO : 236391</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='60' align='center'>(BILL.COPY) CASH BILL</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='15' align='center'>B.NO : </Content>
+      <Content type='Field' name='billno' length='20' align='left' style='bold'/>
+	<Content type='Word' length='10' align='center'>Date</Content>
+       <Content type='Field' name='billdate' length='12' align='left' format='dd-MM-yyyy'/>
+    </Line>
+    <Line>
+      <Content type='Line'>1</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='60'>-----------------------------------+--------+---------+---------+</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='60'> SN   BARCODE   ITEMS           RATE   QTY   DISC     AMOUNT</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='60'>-----------------------------------+--------+---------+---------+</Content>
+    </Line>
+  </Header>
+  <Body Length='1' Type='Table' Height='200'>
+    <Line type='Table'>
+    	<Content type='Field' name='sno' text="SM" Length='5' align='left'/>
+    	<Content type='Field' name='barcode' text="BARCODE" Length='10' align='left'/>
+    	<Content type='Field' name='printingname' text="ITEMS" Length='10' align='left'/>
+    	<Content type='Field' name='price' text="RATE" Length='8' align='right' format='N2'/>
+    	<Content type='Field' name='qty' text="QTY" Length='4' align='right' format='N2'/>
+    	<Content type='Field' name='discount' text="DISC" Length='5' align='right' format='N2'/>
+    	<Content type='Field' name='amount' text="AMOUNT" Length='8' align='right' format='N2'/>
+    </Line>
+  </Body>
+
+  <Footer>
+    <Line>
+      <Content type='Line'>1</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='20' align='left'>Total</Content>
+       <Content type='Field' name='qty' text="" Length='10' align='right' format='N2'/>
+       <Content type='Field' name='receivable' text="" Length='20' align='right' format='N2'/>
+    </Line>
+    <Line>
+      <Content type='Line'>1</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='60' align='center'>GOODS SOLD CANNOT BE TAKEN BACK</Content>
+    </Line>
+    <Line>
+        <Content type='Word' length='60' align='center'>NO GUARANTEE FOR DRY CLEAN WASH WORK, JARI &amp; COLOURS</Content>
+    </Line> 
+     <Line>
+        <Content type='Word' length='60' align='center'>GOODS WILL BE CHANGED IN 15 DAYS FROM BILL DATE</Content>
+    </Line>  
+     <Line>
+        <Content type='Word' length='60' align='center'>THANK YOU VISIT AGAIN</Content>
+    </Line>  
+    <Line/> 
+    <Line>
+        <Content type='Barcode' name='barcode' length='40' align='center'></Content>
+    </Line>
+   </Footer>
+</Config>

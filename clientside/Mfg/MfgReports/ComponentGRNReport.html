@@ -1,0 +1,63 @@
+﻿   <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Component GRN Report
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="ComponentGRN()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'ComponentGRN','ComponentGRN')"><a><i class="fa fa-download"></i>Download</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        
+        <!--End Product details-->
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="col-md-3">
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">SUPPLIER</label>
+                            <div class="col-md-8">
+                                <select class="form-control" select2='Supplier' style="width: 100%;" ng-model="SearchCondition.supplierid" ng-options="item.id as item.name for item in Supplier track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">GRN NO</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control input-sm" placeholder="" ng-model="SearchCondition.invoiceentryno">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">Entry Date</label>
+                            <div class="col-md-8">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" daterange="SearchCondition.fromdate,SearchCondition.todate" class="input-sm form-control pull-right">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-9">
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12 no-padding" id="gridContainer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+

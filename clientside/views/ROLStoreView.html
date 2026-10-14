@@ -1,0 +1,137 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            ROL Store View
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer">
+                <select class="form-control" select2='Location' style="width: 200px"
+                        ng-model="SearchCondition.locationid" 
+                        options="item.id as item.name for item in Locations track by item.id"
+                        ng-change="LocationChanged()"></select>
+            </li>
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="SearchROLStoreView()"><a><i class="fa fa-file"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box box-primary" id="searchBox">
+            <div class="box-body">
+                <!-- /.row -->
+
+                <div class="col-md-12">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.content -->
+
+        </div>
+
+
+    </section>
+
+
+</div>
+
+
+
+<script type="text/ng-template" id="ViewDetails">
+    <div class="ngdialog-message">
+        <table fixed-header="250px">
+            <thead>
+                <tr>
+                    <th width="50px"><input type="checkbox" ng-model="selecteall" ng-change="SelectAll(selecteall)" /></th>
+                    <th width="150px">BARCODE</th>
+                    <th width="200px">PRODUCT NAME</th>
+                    <th width="100px">INWARD</th>
+                    <th width="100px">OUTWARD</th>
+                    <th width="100px">STOCK</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in Rows" style="height:22px">
+                    <td><input type="checkbox" ng-model="item.selected"
+                               ng-change="item.sqty=item.qty" /></td>
+                    <td>{{item.barcode}}</td>
+                    <td>{{item.productname}}</td>
+                    <td>{{item.iqty}}</td>
+                    <td>{{item.oqty}}</td>
+                    <td><label ng-bind="item.qty" ng-hide="item.selected"></label>
+                        <input type="text" ng-model="item.sqty" style="width:75px" ng-show="item.selected"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="ngdialog-buttons" style="margin-top:20px">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-hide="true" ng-click="ChangeSHD()">Change SHD</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="DebitNote()">Debit Note</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-show="AllowTransfer" ng-click="Transfer()">Transfer</button>
+
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+
+</script>
+
+
+<script type="text/ng-template" id="ChooseLocation">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-5 control-label">From Company</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <select class="form-control" select2='Company'
+                            style="width:100%;"
+                            ng-model="fromcompanyid"
+                            options="item.id as item.name for item in BuyingCompany track by item.id"></select>
+                </div>
+            </div>
+        </div>
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-5 control-label">From Location</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <select class="form-control" select2='Purchase Entry Location'
+                            style="width:100%;"
+                            ng-model="fromlocationid"
+                            options="item.id as item.name for item in RetialLocations track by item.id"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-5 control-label">To Company</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <select class="form-control" select2='Company'
+                            style="width:100%;"
+                            ng-model="tocompanyid"
+                            options="item.id as item.name for item in BuyingCompany track by item.id"></select>
+                </div>
+            </div>
+        </div>
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-5 control-label">To Location</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <select class="form-control" select2='Purchase Entry Location'
+                            style="width:100%;"
+                            ng-model="tolocationid"
+                            options="item.id as item.name for item in RetialLocations track by item.id"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+<!-- /.content-wrapper -->

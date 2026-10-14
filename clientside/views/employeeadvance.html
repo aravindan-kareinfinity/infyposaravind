@@ -1,0 +1,238 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a> HR / Salary Deduction
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="AddNew();Navigation.SetMode('EDIT')"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" ng-disabled="SaveRequest" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.searchentity && SearchResult.length>0" style="cursor:pointer" ng-click="exporttoExcel(igrid,'Advance','Advance Report')"><a><i class="fa fa-download"></i>Export</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li ng-show="Navigation.save" ng-disabled="SaveRequest" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-backward"></i>Back</a></li>
+
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row" ng-hide="ShowNew">
+            <!-- Your Page Content Here -->
+            <div class="col-md-12">
+                <div class="box-body no-padding">
+                    <div class="box box-info">
+                        <div class="box-body">
+                            <div class="col-md-3">
+
+
+
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Employee</label>
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                </div>
+
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Company</label>
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="company.id as company.name for company in Company track by company.id" ng-model="companyid"></select>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Section</label>
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="division.id as division.name for division in Divisions track by division.id" ng-model="sectionid"></select>
+                                </div>
+
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Floor</label>
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="floor.id as floor.name for floor in Floors track by floor.id" ng-model="floorid"></select>
+                                </div>
+
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Date</label>
+                                    <input type="text" daterange="from,to" class="form-control input-sm" startDate="from"
+                                           endDate="to">
+
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Working Mode</label>
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in WorkingModes track by item.id" required ng-model="workingmode"></select>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Salary Mode</label>
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in SalaryModes track by item.id" required ng-model="salarymode"></select>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Resigned Employees</label>
+                                    <div class="pull-right"><input type="checkbox" class="icheckbox_minimal-blue" ng-model="Employeesalaryschedule.showhasleft"></div>
+
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Mode</label>
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="mode.id as mode.name for mode in Modes track by mode.id" ng-model="mode"></select>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Salary Head</label>
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in refpaytypelist track by item.id" required ng-model="salaryheaderid"></select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-9">
+
+                                <div id="gridContainer">
+
+                                </div>
+
+                                <!--<table fixed-header="500px" id="deduction">
+                                    <thead>
+                                        <tr>
+                                            <th style="display:none" colspan="7">{{companyname}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:50px">S.No</th>
+                                            <th style="width:200px">Employee Name</th>
+                                            <th style="width:200px">Date</th>
+                                            <th style="width:150px">Salary Head</th>
+                                            <th style="width:100px">Paid</th>
+                                            <th style="width:100px">Receivable</th>
+                                            <th style="width:150px">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in SearchResult">
+
+                                            <td class="col-md-1">{{$index+1}}</td>
+                                            <td class="col-md-3">{{item.name}}</td>
+                                            <td class="col-md-2">{{item.schedulemonth | date : "dd-MM-yyyy"}}</td>
+                                            <td class="col-md-1">{{SearchRef(item.salaryheaderid, refpaytypelist)}}</td>
+                                            <td class="col-md-2">{{item.isreceivable?item.amount:0 | displayNumberOrEmpty}}</td>
+                                            <td class="col-md-2">{{item.isreceivable?0:item.amount | displayNumberOrEmpty}}</td>
+                                            <td>
+                                                <button type="button" ng-show="UserInfo.p_SALARYDEDUCTION.delete" class="btn-danger btn btn-xs" ng-click="ManageSearchItem('Delete',item)"
+                                                        data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                                <button ng-show="UserInfo.p_SALARYDEDUCTION.modify" type="button" class="btn-primary btn btn-xs" ng-click="ManageSearchItem('Edit',item)"
+                                                        data-widget="edit" data-toggle="tooltip" title="Edit">
+                                                    <i class="fa fa-pencil"></i>
+                                                </button>
+                                                <button ng-show="item.isbill" type="button" class="btn-primary btn btn-xs" ng-click="ManageSearchItem('Create',item)"
+                                                        data-widget="edit" data-toggle="tooltip" title="Create">
+                                                    <i class="fa fa-pencil"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" ng-show="ShowNew">
+            <!-- Your Page Content Here -->
+            <div class="col-md-12">
+                <form class="form-horizontal">
+
+                    <div class="box box-info">
+
+                        <div class="box-body">
+
+
+                            <div class="col-md-3">
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Employee</label>
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="Employeesalaryschedule.employeeid" focusid="employeeid"></select>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Description</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employeesalaryschedule.detail">
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Salary Head</label>
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in refpaytypelist track by item.id" required ng-model="Employeesalaryschedule.salaryheaderid"></select>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Disbursed On</label>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" datemodule="Employeesalaryschedule.schedulemonth" ng-model="Employeesalaryschedule.Schedulemonth">
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Amount</label>
+                                    <input type="number" class="form-control input-sm" style="width: 100%;" ng-model="Employeesalaryschedule.amount" ng-change="CalculateEMI()" focusid="amount">
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">Loan Tenure(months)</label>
+                                    <input type="number" class="form-control input-sm" ng-model="Employeesalaryschedule.noofinstallments" ng-change="CalculateEMI()">
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">EMI Amount</label>
+                                    <input type="number" class="form-control input-sm" style="width: 100%;" ng-model="Employeesalaryschedule.emiamount">
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="control-label">From</label>
+
+                                    <div class="input-group input-group-sm" style="width:100%">
+                                        <input type="text" class="form-control pull-right" 
+                                               datemodule="Employeesalaryschedule.firstemi" 
+                                               ng-model="Employeesalaryschedule.firstemi">
+
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="Schedule()">
+                                                <i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Show Schedule
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-9">
+
+                                <div class="col-md-4" ng-repeat="item in DeductionSchedule">
+                                    <div class="row row-padbot-15">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-md-6">{{$index+1}})&nbsp;{{item.schedulemonth |displayAsDate}}</label>
+                                            <div class="col-md-4">
+                                                <input type="number" class="form-control input-sm" id="txtname" ng-model="item.amount">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button type="button" class="btn btn-xs btn-danger" ng-click="ExtendMonth(item)"><i class="fa fa-trash-o"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+
+    </section>
+</div>

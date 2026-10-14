@@ -1,0 +1,309 @@
+﻿<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Closing Cash <span ng-show="ClosingBalance.id && ClosingBalance.id>0">{{ClosingBalance.paidon |date : 'dd-MM-yyyy'}}</span>
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save && !system_cashclosedenomination" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.search && !system_cashclosedenomination" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.save && IsPrint" style="cursor:pointer" ng-click="PrintSettlement(false)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.save && system_cashclosedenomination" style="cursor:pointer" ng-click="PrintDenomination(false)"><a><i class="fa fa-print"></i>Print Denomination</a></li>
+            <li ng-show="Navigation.searchentity && system_canpostdayclose && selectedcount>0 && SearchCondition.locationid && SearchCondition.locationid>0"
+                style="cursor:pointer" ng-click="Post2Finiance(true)"><a><i class="fa  fa-share-alt-square"></i>Post to Finance ({{selectedcount}})</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-4" style="padding-right:0px" ng-hide="true">
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-12 control-label">Location</label>
+                        <div class="col-md-12">
+                            <select class="form-control" select2='Location' style="width: 100%;"
+                                    ng-model="ClosingBalance.locationid"
+                                    options="item.id as item.name for item in Locations track by item.id"></select>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-12 control-label">Date/Time</label>
+                        <div class="col-md-12">
+
+                            <div class="input-group input-group-sm" style="width:100%">
+                                <input type="text" class="form-control datepicker" datemodule="ClosingBalance.returnedon" ng-model="ClosingBalance.returnedon">
+
+                                <span class="input-group-btn" style="width:20px">
+                                    <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="SearchOpening()">
+                                        <i class="fa fa-search"></i>&nbsp;Search
+                                    </button>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12" id="gridPending">
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-12" style="padding-left:0px">
+                    <div class="col-md-12">
+                        <div class="row row-padbot-15">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Counter</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control" select2="Counter" style="width: 100%;" options="item.id as item.name for item in Counters track by item.id" ng-model="ClosingBalance.counterid"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Received By</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control" select2="" style="width: 100%;" options="item.id as item.code for item in Employee track by item.id" ng-model="ClosingBalance.receivedbyemployeid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Cashier</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control" select2="" style="width: 100%;" options="item.id as item.code for item in Employee track by item.id" ng-model="ClosingBalance.cashierid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Opening</label>
+                                    <div class="col-md-8">
+                                        <input type="text" name="name" class="form-control input-sm" ng-readonly="true" id="inputEmail3" placeholder="" ng-model="ClosingBalance.openingamount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Closing Bill No</label>
+                                    <div class="col-md-8">
+                                        <input type="text" name="name" class="form-control" id="inputEmail3" placeholder="" ng-model="ClosingBalance.billno">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Counter Expenses</label>
+                                    <div class="col-md-8">
+                                        <input type="text" name="name" class="form-control" id="inputEmail3" placeholder="" ng-model="ClosingBalance.expenses" ng-change="Edited()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+
+                            <div class="col-md-6">
+                                <label for="inputEmail3" class="col-md-4 control-label">Notes</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="name" class="form-control" id="inputEmail3"
+                                           placeholder="" ng-model="ClosingBalance.notes">
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="col-md-10" ng-show="system_cashclosewithtaken">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Closing/Taken</label>
+                                    <div class="col-md-8">
+                                        <div class="col-md-6 no-padding">
+                                            <input type="text" name="name" class="form-control input-sm"
+                                                   ng-readonly="true" id="inputEmail3" placeholder=""
+                                                   ng-model="ClosingBalance.closingamount">
+                                        </div>
+                                        <div class="col-md-6 no-padding">
+                                            <input type="text" name="name" class="form-control input-sm"
+                                                   ng-readonly="true" id="inputEmail3" placeholder=""
+                                                   ng-model="ClosingBalance.takenamount">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-10" ng-hide="system_cashclosewithtaken">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Closing</label>
+                                    <div class="col-md-8">
+                                        <input type="text" name="name" class="form-control input-sm"
+                                               ng-readonly="true" id="inputEmail3" placeholder=""
+                                               ng-model="ClosingBalance.closingamount">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 control-label">&nbsp;</label>
+                                    <div class="col-md-8">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Card/UPI</label>
+                                    <div class="col-md-8">
+                                        <div class="col-md-6 no-padding">
+                                            <input type="text" name="name" class="form-control input-sm"
+                                                   id="inputEmail3" placeholder=""
+                                                   ng-model="ClosingBalance.cardamount" ng-change="Edited()">
+                                        </div>
+                                        <div class="col-md-6 no-padding">
+                                            <input type="text" name="name" class="form-control input-sm"
+                                                   id="inputEmail3" placeholder=""
+                                                   ng-model="ClosingBalance.upiamount" ng-change="Edited()">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12" ng-hide="system_cashclosewithtaken">
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-2 control-label"><b>Denominations</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="col-md-6" ng-repeat="item in ClosingBalance.closingdinomination">
+                                    <div class="col-md-3 text-right">₹{{item.dinomination}}</div>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control  text-right" ng-model="item.qty" ng-change="AmountChanged(item)" /><br />
+                                    </div>
+                                    <div class="col-md-3  text-right"><b>₹{{item.amount}}</b></div>
+                                    <div class="col-md-3  text-right"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" ng-show="system_cashclosewithtaken">
+                        <div class="col-md-12">
+                            <div class="col-md-6 form-group">
+                                <label for="inputEmail3" class="col-md-6 control-label"><b>Closing Denominations</b></label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="inputEmail3" class="col-md-6 control-label"><b>Taken Denominations</b></label>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-12 no-padding" ng-repeat="item in ClosingBalance.closingdinomination">
+                                <div class="col-md-3 text-right">₹{{item.dinomination}}</div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control  text-right" ng-model="item.qty" ng-change="AmountChanged(item)" /><br />
+                                </div>
+                                <div class="col-md-3  text-right"><b>₹{{item.amount}}</b></div>
+                                <div class="col-md-3  text-right"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-12 no-padding" ng-repeat="takenitem in ClosingBalance.takendinomination">
+                                <div class="col-md-3 text-right">₹{{takenitem.dinomination}}</div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control  text-right" ng-model="takenitem.qty" ng-change="TakenAmountChanged(takenitem)" /><br />
+                                </div>
+                                <div class="col-md-3  text-right"><b>₹{{takenitem.amount}}</b></div>
+                                <div class="col-md-3  text-right"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-2" style="padding-right:3px">
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-12 control-label">Location</label>
+                            <div class="col-md-12">
+                                <select class="form-control" select2='Location' style="width: 100%;"
+                                        ng-model="SearchCondition.locationid" options="item.id as item.name for item in Locations track by item.id"></select>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-12 control-label">Date/Time</label>
+                            <div class="col-md-12">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control datepicker" datemodule="SearchCondition.paidon" ng-model="SearchCondition.paidon">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="col-md-12 control-label">Counter</label>
+                            <div class="col-md-12">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Counters track by item.id" ng-model="SearchCondition.counterid"></select>
+                            </div>
+
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-12 control-label">Paid By</label>
+                            <div class="col-md-12">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.code for item in Employee track by item.id" ng-model="SearchCondition.paidbyemployeeid"></select>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="col-md-12 control-label">Cashier</label>
+                            <div class="col-md-12">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.code for item in Employee track by item.id" ng-model="SearchCondition.cashierid"></select>
+                            </div>
+
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-12 control-label">Received By</label>
+                            <div class="col-md-12">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.code for item in Employee track by item.id" ng-model="SearchCondition.receivedbyemployeid"></select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-10" style="padding-left:3px">
+                        <div class="col-md-12 no-padding" id="gridsearchresult">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

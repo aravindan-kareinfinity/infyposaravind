@@ -1,0 +1,2538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{868F948B-A864-45FB-BD33-B34632A2820C}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InfyPOS</RootNamespace>
+    <AssemblyName>InfyPOS</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AttributeRouting, Version=3.5.6.0, Culture=neutral, PublicKeyToken=c10f85d521a011a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\AttributeRouting.Core.3.5.6\lib\net40\AttributeRouting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AttributeRouting.Web, Version=3.5.6.0, Culture=neutral, PublicKeyToken=c10f85d521a011a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\AttributeRouting.Core.Web.3.5.6\lib\net40\AttributeRouting.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AttributeRouting.Web.Http, Version=3.5.6.0, Culture=neutral, PublicKeyToken=c10f85d521a011a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\AttributeRouting.Core.Http.3.5.6\lib\net40\AttributeRouting.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AttributeRouting.Web.Http.WebHost, Version=3.5.6.0, Culture=neutral, PublicKeyToken=c10f85d521a011a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\AttributeRouting.WebApi.3.5.6\lib\net40\AttributeRouting.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.Core.3.7.7\lib\net45\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.S3.3.7.7.21\lib\net45\AWSSDK.S3.dll</HintPath>
+    </Reference>
+    <Reference Include="ClosedXML, Version=0.80.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>..\packages\EPPlus.4.5.2.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader, Version=3.1.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.1.0\lib\net45\ExcelDataReader.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\ClinicalWeb\ClinicalWeb\bin\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Cors, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Cors.3.0.1\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.FileSystems, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.FileSystems.3.1.0\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.StaticFiles, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.StaticFiles.3.1.0\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Npgsql, Version=3.2.7.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.3.2.7\lib\net451\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PdfSharp">
+      <HintPath>..\..\..\ClinicalWeb\ClinicalWeb\bin\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Cors, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.3\lib\net45\System.Web.Http.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\packages\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Addons\Addondata.cs" />
+    <Compile Include="Addons\AddondataController.cs" />
+    <Compile Include="Addons\AddondataDataService.cs" />
+    <Content Include="clientside\angular\Angular.js" />
+    <Content Include="clientside\angular\angular.min.js" />
+    <Content Include="clientside\angular\angular.ui.router.js" />
+    <Content Include="clientside\assets\css\style.css" />
+    <Content Include="clientside\bootstrap\css\bootstrap.css" />
+    <Content Include="clientside\bootstrap\css\bootstrap.min.css" />
+    <Content Include="clientside\bootstrap\css\font-awesome.min.css" />
+    <Content Include="clientside\bootstrap\css\ionicons.min.css" />
+    <Content Include="clientside\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="clientside\bootstrap\js\bootstrap.js" />
+    <Content Include="clientside\bootstrap\js\bootstrap.min.js" />
+    <Content Include="clientside\bootstrap\js\npm.js" />
+    <Content Include="clientside\controllers\AdvanceController.js" />
+    <Content Include="clientside\controllers\AttributeMappingController.js" />
+    <Content Include="clientside\Feedback\controllers\CustomerDivertController.js" />
+    <Content Include="clientside\controllers\LRInvoicePriceController.js" />
+    <Content Include="clientside\controllers\PurchaseInsightController.js" />
+    <Content Include="clientside\controllers\POBuilder.js" />
+    <Content Include="clientside\controllers\DCtoPOController.js" />
+    <Content Include="clientside\controllers\DeliveryChallanController.js" />
+    <Content Include="clientside\controllers\NotificationController.js" />
+    <Content Include="clientside\controllers\SalesB2BController.js" />
+    <Content Include="clientside\controllers\Submenucontroller.js" />
+    <Content Include="clientside\controllers\AgentController.js" />
+    <Content Include="clientside\controllers\Applicationform.js" />
+    <Content Include="clientside\controllers\BarcodeController.js" />
+    <Content Include="clientside\controllers\BrandController.js" />
+    <Content Include="clientside\controllers\CompanyController.js" />
+    <Content Include="clientside\controllers\DashboardController.js" />
+    <Content Include="clientside\controllers\CountryController.js" />
+    <Content Include="clientside\controllers\CourierController.js" />
+    <Content Include="clientside\controllers\employeeadvancecontroller.js" />
+    <Content Include="clientside\controllers\EmployeeController.js" />
+    <Content Include="clientside\controllers\EmployeeinoutController.js" />
+    <Content Include="clientside\controllers\EmployeeLeaveController.js" />
+    <Content Include="clientside\controllers\formgenerationcontroller.js" />
+    <Content Include="clientside\controllers\LeaveAnalysisController.js" />
+    <Content Include="clientside\controllers\reportformatconfigcontroller.js" />
+    <Content Include="clientside\controllers\DeliveryController.js" />
+    <Content Include="clientside\controllers\incrementmanagement.js" />
+    <Content Include="clientside\controllers\SalesOfferController.js" />
+    <Content Include="clientside\controllers\ShiftAllocationController.js" />
+    <Content Include="clientside\controllers\InvoiceController.js" />
+    <Content Include="clientside\controllers\IssueLRController.js" />
+    <Content Include="clientside\controllers\ItemController.js" />
+    <Content Include="clientside\controllers\LedgerController.js" />
+    <Content Include="clientside\controllers\LREntryController.js" />
+    <Content Include="clientside\controllers\LRInboxController.js" />
+    <Content Include="clientside\controllers\LRInvoiceItems.js" />
+    <Content Include="clientside\controllers\payrollcontroller.js" />
+    <Content Include="clientside\controllers\payslipcontroller.js" />
+    <Content Include="clientside\controllers\PriceController.js" />
+    <Content Include="clientside\controllers\ProductController.js" />
+    <Content Include="clientside\controllers\ProductRequestFormController.js" />
+    <Content Include="clientside\controllers\ProductRequestqueuecontroller.js" />
+    <Content Include="clientside\controllers\PurchaseOrderController.js" />
+    <Content Include="clientside\controllers\ReceiptLRController.js" />
+    <Content Include="clientside\controllers\ReferencelistController.js" />
+    <Content Include="clientside\controllers\salarymanagementController.js" />
+    <Content Include="clientside\controllers\salarystructureController.js" />
+    <Content Include="clientside\controllers\SalesController.js" />
+    <Content Include="clientside\controllers\ScanDocumentController.js" />
+    <Content Include="clientside\controllers\SettlementsController.js" />
+    <Content Include="clientside\controllers\stockadjustmentController.js" />
+    <Content Include="clientside\controllers\tracecontroller.js" />
+    <Content Include="clientside\controllers\ServiceCentersController.js" />
+    <Content Include="clientside\controllers\vouchercontroller.js" />
+    <Content Include="clientside\dist\AdminLTE.css" />
+    <Content Include="clientside\dist\css\AdminLTE-working.css" />
+    <Content Include="clientside\dist\css\FixedHeader.css" />
+    <Content Include="clientside\dist\css\InfyPOS.css" />
+    <Content Include="clientside\dist\css\print.css" />
+    <Content Include="clientside\dist\css\loading-bar.css" />
+    <Content Include="clientside\dist\css\simplebar.css" />
+    <Content Include="clientside\dist\icon\tag.png" />
+    <Content Include="clientside\dist\img\backspace.png" />
+    <Content Include="clientside\dist\img\bringforward.png" />
+    <Content Include="clientside\dist\img\deleteobject.png" />
+    <Content Include="clientside\dist\img\line-1.png" />
+    <Content Include="clientside\dist\img\line-2.png" />
+    <Content Include="clientside\dist\img\line-3.png" />
+    <Content Include="clientside\dist\img\line-4.png" />
+    <Content Include="clientside\dist\img\line-5.png" />
+    <Content Include="clientside\dist\img\rectangle_filled.png" />
+    <Content Include="clientside\dist\img\rectangle_unfilled.png" />
+    <Content Include="clientside\dist\img\sendbackward.png" />
+    <Content Include="clientside\dist\img\tpos-banner.png" />
+    <Content Include="clientside\dist\img\delete.png" />
+    <Content Include="clientside\dist\img\delivery-0.png" />
+    <Content Include="clientside\dist\img\delivery-2.png" />
+    <Content Include="clientside\dist\img\delivery-1.png" />
+    <Content Include="clientside\dist\img\man.png" />
+    <Content Include="clientside\dist\img\pattern.jpg" />
+    <!-- <Content Include="clientside\dist\img\pos.png" /> -->
+    <Content Include="clientside\dist\img\tpos-logo-heading.png" />
+    <Content Include="clientside\dist\img\tpos-logo-heading_white.png" />
+    <Content Include="clientside\dist\img\tpos_logo.png" />
+    <!-- <Content Include="clientside\dist\img\web_smallicon.png" /> -->
+    <Content Include="clientside\dist\js\jquery.nicescroll.js" />
+    <Content Include="clientside\dist\js\simplebar.js" />
+    <Content Include="clientside\dist\js\zoomico.png" />
+    <Content Include="clientside\dist\icon\stiching.png" />
+    <Content Include="clientside\Feedback\controllers\FBConfigController.js" />
+    <Content Include="clientside\Feedback\controllers\FBDashboardController.js" />
+    <Content Include="clientside\Feedback\controllers\FBQuestionController.js" />
+    <Content Include="clientside\Feedback\controllers\FBReportController.js" />
+    <Content Include="clientside\Feedback\views\FBConfig.html" />
+    <Content Include="clientside\Feedback\views\FBDashboard.html" />
+    <Content Include="clientside\Feedback\views\FBQuestion.html" />
+    <Content Include="clientside\Feedback\views\FBReport.html" />
+    <Content Include="clientside\grid\agslick.js" />
+    <Content Include="clientside\grid\InfyGrid.js" />
+    <Content Include="clientside\grid\jquery-ui-1.8.24.custom.min.js" />
+    <Content Include="clientside\grid\jquery.dateFormat.js" />
+    <Content Include="clientside\grid\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="clientside\grid\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="clientside\grid\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="clientside\grid\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="clientside\grid\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="clientside\grid\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="clientside\grid\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="clientside\grid\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="clientside\grid\images\ui-icons_222222_256x240.png" />
+    <Content Include="clientside\grid\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="clientside\grid\images\ui-icons_454545_256x240.png" />
+    <Content Include="clientside\grid\images\ui-icons_888888_256x240.png" />
+    <Content Include="clientside\grid\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="clientside\grid\InfyGrid.css" />
+    <Content Include="clientside\grid\jquery-ui-1.8.16.custom.css" />
+    <Content Include="clientside\grid\jquery.event.drag-2.2.js" />
+    <Content Include="clientside\grid\jquery.event.drop-2.2.js" />
+    <Content Include="clientside\grid\jquery.mousewheel.js" />
+    <Content Include="clientside\grid\jquery.number.js" />
+    <Content Include="clientside\grid\jquery.sparkline.min.js" />
+    <Content Include="clientside\grid\slick-default-theme.css" />
+    <Content Include="clientside\grid\slick.autotooltips.js" />
+    <Content Include="clientside\grid\slick.cellcopymanager.js" />
+    <Content Include="clientside\grid\slick.cellexternalcopymanager.js" />
+    <Content Include="clientside\grid\slick.cellrangedecorator.js" />
+    <Content Include="clientside\grid\slick.cellrangeselector.js" />
+    <Content Include="clientside\grid\slick.cellselectionmodel.js" />
+    <Content Include="clientside\grid\slick.checkboxselectcolumn.js" />
+    <Content Include="clientside\grid\slick.columngroup.js" />
+    <Content Include="clientside\grid\slick.columnpicker.css" />
+    <Content Include="clientside\grid\slick.columnpicker.js" />
+    <Content Include="clientside\grid\slick.core.js" />
+    <Content Include="clientside\grid\slick.dataview.Ex.js" />
+    <Content Include="clientside\grid\slick.dataview.js" />
+    <Content Include="clientside\grid\slick.editors.js" />
+    <Content Include="clientside\grid\slick.formatters.js" />
+    <Content Include="clientside\grid\slick.grid.css" />
+    <Content Include="clientside\grid\slick.grid.Ex.js" />
+    <Content Include="clientside\grid\slick.grid.js" />
+    <Content Include="clientside\grid\slick.groupitemmetadataprovider.js" />
+    <Content Include="clientside\grid\slick.headerbuttons.css" />
+    <Content Include="clientside\grid\slick.headerbuttons.js" />
+    <Content Include="clientside\grid\slick.headermenu.css" />
+    <Content Include="clientside\grid\slick.headermenu.js" />
+    <Content Include="clientside\grid\slick.pager.css" />
+    <Content Include="clientside\grid\slick.pager.js" />
+    <Content Include="clientside\grid\slick.remotemodel.js" />
+    <Content Include="clientside\grid\slick.rowmovemanager.js" />
+    <Content Include="clientside\grid\slick.rowselectionmodel.js" />
+    <Content Include="clientside\grid\slick.printpluggin.js" />
+    <Content Include="clientside\LblDesigner\index.html" />
+    <Content Include="clientside\LblDesigner\index_files\barcode.js" />
+    <Content Include="clientside\LblDesigner\index_files\bootstrap.css" />
+    <Content Include="clientside\LblDesigner\index_files\bootstrap.js" />
+    <Content Include="clientside\LblDesigner\index_files\designer.css" />
+    <Content Include="clientside\LblDesigner\index_files\designer.js" />
+    <Content Include="clientside\LblDesigner\index_files\designer_labelOutlineInspector.js" />
+    <Content Include="clientside\LblDesigner\index_files\designer_labelSizeInspector.js" />
+    <Content Include="clientside\LblDesigner\index_files\designer_propertyInspector.js" />
+    <Content Include="clientside\LblDesigner\index_files\designer_toolbar.js" />
+    <Content Include="clientside\LblDesigner\index_files\file-saver.js" />
+    <Content Include="clientside\LblDesigner\index_files\helper.js" />
+    <Content Include="clientside\LblDesigner\index_files\image.js" />
+    <Content Include="clientside\LblDesigner\index_files\jquery.js" />
+    <Content Include="clientside\LblDesigner\index_files\JsBarcode.js" />
+    <Content Include="clientside\LblDesigner\index_files\loadSaveControl.js" />
+    <Content Include="clientside\LblDesigner\index_files\rectangle.js" />
+    <Content Include="clientside\LblDesigner\index_files\sizeControl.js" />
+    <Content Include="clientside\LblDesigner\index_files\text.js" />
+    <Content Include="clientside\LblDesigner\index_files\tool.js" />
+    <Content Include="clientside\main\angular-route.js" />
+    <Content Include="clientside\main\app.js" />
+    <Content Include="clientside\main\authInterceptorService.js" />
+    <Content Include="clientside\main\authService.js" />
+    <Content Include="clientside\main\Base62.js" />
+    <Content Include="clientside\main\base64.js" />
+    <Content Include="clientside\main\Blob.js" />
+    <Content Include="clientside\main\FileSaver.js" />
+    <Content Include="clientside\main\fixed-table-header.js" />
+    <Content Include="clientside\main\loading-bar.js" />
+    <Content Include="clientside\main\loading-bar.min.js" />
+    <Content Include="clientside\main\homeController.js" />
+    <Content Include="clientside\main\loginController.js" />
+    <Content Include="clientside\main\ContextService.js" />
+    <Content Include="clientside\main\massautocomplete.js" />
+    <Content Include="clientside\main\RESTService.js" />
+    <Content Include="clientside\main\signupController.js" />
+    <Content Include="clientside\main\startup.js" />
+    <Content Include="clientside\controllers\SupplierController.js" />
+    <Content Include="clientside\controllers\TaxController.js" />
+    <Content Include="clientside\controllers\TransportController.js" />
+    <Content Include="clientside\directive\angucomplete-alt.js" />
+    <Content Include="clientside\directive\autocomplete.js" />
+    <Content Include="clientside\dist\css\AdminLTE.css" />
+    <Content Include="clientside\dist\css\AdminLTE.min.css" />
+    <Content Include="clientside\dist\css\skins\skin-black-light.css" />
+    <Content Include="clientside\dist\css\skins\skin-black-light.min.css" />
+    <Content Include="clientside\dist\css\skins\skin-black.css" />
+    <Content Include="clientside\dist\css\skins\skin-black.min.css" />
+    <Content Include="clientside\dist\css\skins\skin-blue-light.css" />
+    <Content Include="clientside\dist\css\skins\skin-blue-light.min.css" />
+    <Content Include="clientside\dist\css\skins\skin-blue.css" />
+    <Content Include="clientside\dist\css\skins\skin-blue.min.css" />
+    <Content Include="clientside\dist\css\skins\skin-green-light.css" />
+    <Content Include="clientside\dist\css\skins\skin-green-light.min.css" />
+    <Content Include="clientside\dist\css\skins\skin-green.css" />
+    <Content Include="clientside\dist\css\skins\skin-green.min.css" />
+    <Content Include="clientside\dist\css\skins\skin-purple-light.css" />
+    <Content Include="clientside\dist\css\skins\skin-purple-light.min.css" />
+    <Content Include="clientside\dist\css\skins\skin-purple.css" />
+    <Content Include="clientside\dist\css\skins\skin-purple.min.css" />
+    <Content Include="clientside\dist\css\skins\skin-red-light.css" />
+    <Content Include="clientside\dist\css\skins\skin-red-light.min.css" />
+    <Content Include="clientside\dist\css\skins\skin-red.css" />
+    <Content Include="clientside\dist\css\skins\skin-red.min.css" />
+    <Content Include="clientside\dist\css\skins\skin-yellow-light.css" />
+    <Content Include="clientside\dist\css\skins\skin-yellow-light.min.css" />
+    <Content Include="clientside\dist\css\skins\skin-yellow.css" />
+    <Content Include="clientside\dist\css\skins\skin-yellow.min.css" />
+    <Content Include="clientside\dist\css\skins\_all-skins.min.css" />
+    <Content Include="clientside\dist\css\skins\_all-skins.min_old.css" />
+    <Content Include="clientside\dist\img\avatar.png" />
+    <Content Include="clientside\dist\img\avatar04.png" />
+    <Content Include="clientside\dist\img\avatar2.png" />
+    <Content Include="clientside\dist\img\avatar3.png" />
+    <Content Include="clientside\dist\img\avatar5.png" />
+    <Content Include="clientside\dist\img\boxed-bg.jpg" />
+    <Content Include="clientside\dist\img\boxed-bg.png" />
+    <Content Include="clientside\dist\img\credit\american-express.png" />
+    <Content Include="clientside\dist\img\credit\cirrus.png" />
+    <Content Include="clientside\dist\img\credit\mastercard.png" />
+    <Content Include="clientside\dist\img\credit\mestro.png" />
+    <Content Include="clientside\dist\img\credit\paypal.png" />
+    <Content Include="clientside\dist\img\credit\paypal2.png" />
+    <Content Include="clientside\dist\img\credit\visa.png" />
+    <Content Include="clientside\dist\img\default-50x50.gif" />
+    <Content Include="clientside\dist\img\icons.png" />
+    <Content Include="clientside\dist\img\photo1.png" />
+    <Content Include="clientside\dist\img\photo2.png" />
+    <Content Include="clientside\dist\img\photo3.jpg" />
+    <Content Include="clientside\dist\img\photo4.jpg" />
+    <!-- <Content Include="clientside\dist\img\user1-128x128.jpg" />
+    <Content Include="clientside\dist\img\user2-160x160.jpg" />
+    <Content Include="clientside\dist\img\user3-128x128.jpg" />
+    <Content Include="clientside\dist\img\user4-128x128.jpg" />
+    <Content Include="clientside\dist\img\user5-128x128.jpg" />
+    <Content Include="clientside\dist\img\user6-128x128.jpg" />
+    <Content Include="clientside\dist\img\user7-128x128.jpg" />
+    <Content Include="clientside\dist\img\user8-128x128.jpg" />
+    <Content Include="clientside\dist\img\user9-160x160.jpg" /> -->
+    <Content Include="clientside\dist\js\app.js" />
+    <Content Include="clientside\dist\js\app.min.js" />
+    <Content Include="clientside\dist\js\demo.js" />
+    <Content Include="clientside\dist\js\pages\dashboard.js" />
+    <Content Include="clientside\dist\js\pages\dashboard2.js" />
+    <Content Include="clientside\main\angular-local-storage.js" />
+    <Content Include="clientside\main\authComplete.js" />
+    <Content Include="clientside\main\tokensManagerService.js" />
+    <Content Include="clientside\Mobile\controllers\EMISchemeController.js" />
+    <Content Include="clientside\Mobile\controllers\RechargeController.js" />
+    <Content Include="clientside\Mobile\controllers\BuyBackController.js" />
+    <Content Include="clientside\Mobile\controllers\RechargeSchemeController.js" />
+    <Content Include="clientside\Mobile\controllers\BuyBackSchemeController.js" />
+    <Content Include="clientside\Mobile\controllers\DailyPriceController.js" />
+    <Content Include="clientside\Mobile\controllers\DeathOnArrivalController.js" />
+    <Content Include="clientside\Mobile\controllers\DOAIssueController.js" />
+    <Content Include="clientside\Mobile\controllers\PriceDropController.js" />
+    <Content Include="clientside\Mobile\controllers\RecycleController.js" />
+    <Content Include="clientside\Mobile\views\EMIScheme.html" />
+    <Content Include="clientside\Mobile\views\Recharge.html" />
+    <Content Include="clientside\Mobile\views\BuyBack.html" />
+    <Content Include="clientside\Mobile\views\RechargeScheme.html" />
+    <Content Include="clientside\Mobile\views\BuyBackScheme.html" />
+    <Content Include="clientside\Mobile\views\DailyPrice.html" />
+    <Content Include="clientside\Mobile\views\DeathOnArrival.html" />
+    <Content Include="clientside\Mobile\views\DOAIssue.html" />
+    <Content Include="clientside\Mobile\views\PriceDrop.html" />
+    <Content Include="clientside\Mobile\views\Recycle.html" />
+    <Content Include="clientside\plugins\bootstrap-slider\bootstrap-slider.js" />
+    <Content Include="clientside\plugins\bootstrap-slider\slider.css" />
+    <Content Include="clientside\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.js" />
+    <Content Include="clientside\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.min.js" />
+    <Content Include="clientside\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.css" />
+    <Content Include="clientside\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.min.css" />
+    <Content Include="clientside\plugins\chartjs\Chart.js" />
+    <Content Include="clientside\plugins\chartjs\Chart.min.js" />
+    <Content Include="clientside\plugins\ckeditor\adapters\jquery.js" />
+    <Content Include="clientside\plugins\ckeditor\build-config.js" />
+    <Content Include="clientside\plugins\ckeditor\ckeditor.js" />
+    <Content Include="clientside\plugins\ckeditor\config.js" />
+    <Content Include="clientside\plugins\ckeditor\contents.css" />
+    <Content Include="clientside\plugins\ckeditor\lang\af.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\ar.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\bg.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\bn.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\bs.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\ca.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\cs.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\cy.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\da.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\de.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\el.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\en-au.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\en-ca.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\en-gb.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\en.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\eo.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\es.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\et.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\eu.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\fa.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\fi.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\fo.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\fr-ca.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\fr.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\gl.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\gu.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\he.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\hi.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\hr.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\hu.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\id.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\is.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\it.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\ja.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\ka.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\km.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\ko.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\ku.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\lt.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\lv.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\mk.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\mn.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\ms.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\nb.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\nl.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\no.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\pl.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\pt-br.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\pt.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\ro.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\ru.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\si.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\sk.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\sl.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\sq.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\sr-latn.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\sr.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\sv.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\th.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\tr.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\ug.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\uk.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\vi.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\zh-cn.js" />
+    <Content Include="clientside\plugins\ckeditor\lang\zh.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\a11yhelp.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ar.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\bg.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ca.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\cs.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\cy.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\da.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\de.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\el.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\en.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\eo.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\es.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\et.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\fa.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\fi.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\fr-ca.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\fr.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\gl.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\gu.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\he.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\hi.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\hr.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\hu.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\id.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\it.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ja.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\km.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ko.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ku.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\lt.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\lv.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\mk.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\mn.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\nb.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\nl.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\no.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\pl.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\pt-br.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\pt.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ro.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ru.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\si.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sk.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sl.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sq.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sr-latn.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sr.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sv.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\th.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\tr.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ug.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\uk.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\vi.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\zh-cn.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\zh.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\_translationstatus.txt" />
+    <Content Include="clientside\plugins\ckeditor\plugins\about\dialogs\about.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\about\dialogs\hidpi\logo_ckeditor.png" />
+    <Content Include="clientside\plugins\ckeditor\plugins\about\dialogs\logo_ckeditor.png" />
+    <Content Include="clientside\plugins\ckeditor\plugins\clipboard\dialogs\paste.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\dialog\dialogDefinition.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\fakeobjects\images\spacer.gif" />
+    <Content Include="clientside\plugins\ckeditor\plugins\icons.png" />
+    <Content Include="clientside\plugins\ckeditor\plugins\icons_hidpi.png" />
+    <Content Include="clientside\plugins\ckeditor\plugins\image\dialogs\image.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\image\images\noimage.png" />
+    <Content Include="clientside\plugins\ckeditor\plugins\link\dialogs\anchor.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\link\dialogs\link.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\link\images\anchor.png" />
+    <Content Include="clientside\plugins\ckeditor\plugins\link\images\hidpi\anchor.png" />
+    <Content Include="clientside\plugins\ckeditor\plugins\magicline\images\hidpi\icon.png" />
+    <Content Include="clientside\plugins\ckeditor\plugins\magicline\images\icon.png" />
+    <Content Include="clientside\plugins\ckeditor\plugins\pastefromword\filter\default.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\scayt\dialogs\options.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\scayt\dialogs\toolbar.css" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\ar.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\bg.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\ca.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\cs.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\cy.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\de.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\el.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\en.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\eo.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\es.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\et.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\fa.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\fi.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\fr-ca.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\fr.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\gl.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\he.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\hr.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\hu.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\id.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\it.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\ja.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\km.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\ku.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\lv.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\nb.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\nl.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\no.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\pl.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\pt-br.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\pt.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\ru.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\si.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\sk.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\sl.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\sq.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\sv.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\th.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\tr.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\ug.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\uk.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\vi.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\zh-cn.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\zh.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\lang\_translationstatus.txt" />
+    <Content Include="clientside\plugins\ckeditor\plugins\specialchar\dialogs\specialchar.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\tabletools\dialogs\tableCell.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\table\dialogs\table.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\wsc\dialogs\ciframe.html" />
+    <Content Include="clientside\plugins\ckeditor\plugins\wsc\dialogs\tmp.html" />
+    <Content Include="clientside\plugins\ckeditor\plugins\wsc\dialogs\tmpFrameset.html" />
+    <Content Include="clientside\plugins\ckeditor\plugins\wsc\dialogs\wsc.css" />
+    <Content Include="clientside\plugins\ckeditor\plugins\wsc\dialogs\wsc.js" />
+    <Content Include="clientside\plugins\ckeditor\plugins\wsc\dialogs\wsc_ie.js" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\dialog.css" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\dialog_ie.css" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\dialog_ie7.css" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\dialog_ie8.css" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\dialog_iequirks.css" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\dialog_opera.css" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\editor.css" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\editor_gecko.css" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\editor_ie.css" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\editor_ie7.css" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\editor_ie8.css" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\editor_iequirks.css" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\icons.png" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\icons_hidpi.png" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\images\arrow.png" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\images\close.png" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\images\hidpi\close.png" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\images\hidpi\lock-open.png" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\images\hidpi\lock.png" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\images\hidpi\refresh.png" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\images\lock-open.png" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\images\lock.png" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\images\refresh.png" />
+    <Content Include="clientside\plugins\ckeditor\styles.js" />
+    <Content Include="clientside\plugins\colorpicker\bootstrap-colorpicker.css" />
+    <Content Include="clientside\plugins\colorpicker\bootstrap-colorpicker.js" />
+    <Content Include="clientside\plugins\colorpicker\bootstrap-colorpicker.min.css" />
+    <Content Include="clientside\plugins\colorpicker\bootstrap-colorpicker.min.js" />
+    <Content Include="clientside\plugins\colorpicker\img\alpha-horizontal.png" />
+    <Content Include="clientside\plugins\colorpicker\img\alpha.png" />
+    <Content Include="clientside\plugins\colorpicker\img\hue-horizontal.png" />
+    <Content Include="clientside\plugins\colorpicker\img\hue.png" />
+    <Content Include="clientside\plugins\colorpicker\img\saturation.png" />
+    <Content Include="clientside\plugins\datatables\dataTables.bootstrap.css" />
+    <Content Include="clientside\plugins\datatables\dataTables.bootstrap.js" />
+    <Content Include="clientside\plugins\datatables\dataTables.bootstrap.min.js" />
+    <Content Include="clientside\plugins\datatables\extensions\AutoFill\css\dataTables.autoFill.css" />
+    <Content Include="clientside\plugins\datatables\extensions\AutoFill\css\dataTables.autoFill.min.css" />
+    <Content Include="clientside\plugins\datatables\extensions\AutoFill\examples\columns.html" />
+    <Content Include="clientside\plugins\datatables\extensions\AutoFill\examples\complete-callback.html" />
+    <Content Include="clientside\plugins\datatables\extensions\AutoFill\examples\fill-both.html" />
+    <Content Include="clientside\plugins\datatables\extensions\AutoFill\examples\fill-horizontal.html" />
+    <Content Include="clientside\plugins\datatables\extensions\AutoFill\examples\index.html" />
+    <Content Include="clientside\plugins\datatables\extensions\AutoFill\examples\scrolling.html" />
+    <Content Include="clientside\plugins\datatables\extensions\AutoFill\examples\simple.html" />
+    <Content Include="clientside\plugins\datatables\extensions\AutoFill\examples\step-callback.html" />
+    <Content Include="clientside\plugins\datatables\extensions\AutoFill\images\filler.png" />
+    <Content Include="clientside\plugins\datatables\extensions\AutoFill\js\dataTables.autoFill.js" />
+    <Content Include="clientside\plugins\datatables\extensions\AutoFill\js\dataTables.autoFill.min.js" />
+    <Content Include="clientside\plugins\datatables\extensions\AutoFill\Readme.txt" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\css\dataTables.colReorder.css" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\css\dataTables.colReorder.min.css" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\alt_insert.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\colvis.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\col_filter.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\fixedcolumns.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\fixedheader.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\index.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\jqueryui.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\new_init.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\predefined.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\realtime.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\reset.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\scrolling.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\server_side.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\simple.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\examples\state_save.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\images\insert.png" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\js\dataTables.colReorder.js" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\js\dataTables.colReorder.min.js" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\License.txt" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\css\dataTables.colVis.css" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\css\dataTables.colvis.jqueryui.css" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\css\dataTables.colVis.min.css" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\examples\button_order.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\examples\exclude_columns.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\examples\group_columns.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\examples\index.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\examples\jqueryui.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\examples\mouseover.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\examples\new_init.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\examples\restore.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\examples\simple.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\examples\text.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\examples\title_callback.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\examples\two_tables.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\examples\two_tables_identical.html" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\js\dataTables.colVis.js" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\js\dataTables.colVis.min.js" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\License.txt" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\css\dataTables.fixedColumns.css" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\css\dataTables.fixedColumns.min.css" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\examples\bootstrap.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\examples\colvis.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\examples\col_filter.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\examples\css_size.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\examples\index.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\examples\index_column.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\examples\left_right_columns.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\examples\right_column.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\examples\rowspan.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\examples\server-side-processing.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\examples\simple.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\examples\size_fixed.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\examples\size_fluid.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\examples\two_columns.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\js\dataTables.fixedColumns.js" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\js\dataTables.fixedColumns.min.js" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\License.txt" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedHeader\css\dataTables.fixedHeader.css" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedHeader\css\dataTables.fixedHeader.min.css" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedHeader\examples\header_footer.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedHeader\examples\index.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedHeader\examples\simple.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedHeader\examples\top_left_right.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedHeader\examples\two_tables.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedHeader\examples\zIndexes.html" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedHeader\js\dataTables.fixedHeader.js" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedHeader\js\dataTables.fixedHeader.min.js" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedHeader\Readme.txt" />
+    <Content Include="clientside\plugins\datatables\extensions\KeyTable\css\dataTables.keyTable.css" />
+    <Content Include="clientside\plugins\datatables\extensions\KeyTable\css\dataTables.keyTable.min.css" />
+    <Content Include="clientside\plugins\datatables\extensions\KeyTable\examples\events.html" />
+    <Content Include="clientside\plugins\datatables\extensions\KeyTable\examples\html.html" />
+    <Content Include="clientside\plugins\datatables\extensions\KeyTable\examples\index.html" />
+    <Content Include="clientside\plugins\datatables\extensions\KeyTable\examples\scrolling.html" />
+    <Content Include="clientside\plugins\datatables\extensions\KeyTable\examples\simple.html" />
+    <Content Include="clientside\plugins\datatables\extensions\KeyTable\js\dataTables.keyTable.js" />
+    <Content Include="clientside\plugins\datatables\extensions\KeyTable\js\dataTables.keyTable.min.js" />
+    <Content Include="clientside\plugins\datatables\extensions\KeyTable\Readme.txt" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\css\dataTables.responsive.css" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\child-rows\column-control.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\child-rows\custom-renderer.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\child-rows\disable-child-rows.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\child-rows\index.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\child-rows\right-column.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\child-rows\whole-row-control.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\display-control\auto.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\display-control\classes.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\display-control\complexHeader.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\display-control\fixedHeader.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\display-control\index.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\display-control\init-classes.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\index.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\initialisation\ajax.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\initialisation\className.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\initialisation\default.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\initialisation\index.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\initialisation\new.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\initialisation\option.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\styling\bootstrap.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\styling\compact.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\styling\foundation.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\styling\index.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\examples\styling\scrolling.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\js\dataTables.responsive.js" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\js\dataTables.responsive.min.js" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\License.txt" />
+    <Content Include="clientside\plugins\datatables\extensions\Scroller\css\dataTables.scroller.css" />
+    <Content Include="clientside\plugins\datatables\extensions\Scroller\css\dataTables.scroller.min.css" />
+    <Content Include="clientside\plugins\datatables\extensions\Scroller\examples\api_scrolling.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Scroller\examples\data\2500.txt" />
+    <Content Include="clientside\plugins\datatables\extensions\Scroller\examples\index.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Scroller\examples\large_js_source.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Scroller\examples\server-side_processing.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Scroller\examples\simple.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Scroller\examples\state_saving.html" />
+    <Content Include="clientside\plugins\datatables\extensions\Scroller\images\loading-background.png" />
+    <Content Include="clientside\plugins\datatables\extensions\Scroller\js\dataTables.scroller.js" />
+    <Content Include="clientside\plugins\datatables\extensions\Scroller\js\dataTables.scroller.min.js" />
+    <Content Include="clientside\plugins\datatables\extensions\Scroller\Readme.txt" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\css\dataTables.tableTools.css" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\css\dataTables.tableTools.min.css" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\ajax.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\alter_buttons.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\bootstrap.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\button_text.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\collection.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\defaults.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\index.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\jqueryui.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\multiple_tables.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\multi_instance.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\new_init.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\pdf_message.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\plug-in.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\select_column.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\select_multi.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\select_os.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\select_single.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\simple.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\examples\swf_path.html" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\collection.png" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\collection_hover.png" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\copy.png" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\copy_hover.png" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\csv.png" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\csv_hover.png" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\pdf.png" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\pdf_hover.png" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\print.png" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\print_hover.png" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\xls.png" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\xls_hover.png" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\js\dataTables.tableTools.js" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\js\dataTables.tableTools.min.js" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\swf\copy_csv_xls.swf" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="clientside\plugins\datatables\images\sort_asc.png" />
+    <Content Include="clientside\plugins\datatables\images\sort_asc_disabled.png" />
+    <Content Include="clientside\plugins\datatables\images\sort_both.png" />
+    <Content Include="clientside\plugins\datatables\images\sort_desc.png" />
+    <Content Include="clientside\plugins\datatables\images\sort_desc_disabled.png" />
+    <Content Include="clientside\plugins\datatables\jquery.dataTables.css" />
+    <Content Include="clientside\plugins\datatables\jquery.dataTables.js" />
+    <Content Include="clientside\plugins\datatables\jquery.dataTables.min.css" />
+    <Content Include="clientside\plugins\datatables\jquery.dataTables.min.js" />
+    <Content Include="clientside\plugins\datatables\jquery.dataTables_themeroller.css" />
+    <Content Include="clientside\plugins\datepicker\angular-datepicker.css" />
+    <Content Include="clientside\plugins\datepicker\angular-datepicker.js" />
+    <Content Include="clientside\plugins\datepicker\bootstrap-datepicker.js" />
+    <Content Include="clientside\plugins\datepicker\datepicker3.css" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.ar.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.az.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.cy.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.da.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.de.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.el.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.es.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.et.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.fa.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.gl.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.he.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.hu.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.id.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.is.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.it.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.ka.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.kk.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.mk.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.nb.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.nl-BE.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.no.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.sq.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.th.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.ua.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.vi.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="clientside\plugins\datepicker\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="clientside\plugins\daterangepicker\daterangepicker-bs3.css" />
+    <Content Include="clientside\plugins\daterangepicker\daterangepicker.js" />
+    <Content Include="clientside\plugins\datepicker\moment.min.js" />
+    <Content Include="clientside\plugins\Dialog\jquery-confirm.css" />
+    <Content Include="clientside\plugins\Dialog\jquery-confirm.js" />
+    <Content Include="clientside\plugins\fastclick\fastclick.js" />
+    <Content Include="clientside\plugins\fastclick\fastclick.min.js" />
+    <Content Include="clientside\plugins\flot\excanvas.js" />
+    <Content Include="clientside\plugins\flot\excanvas.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.colorhelpers.js" />
+    <Content Include="clientside\plugins\flot\jquery.colorhelpers.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.canvas.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.canvas.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.categories.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.categories.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.crosshair.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.crosshair.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.errorbars.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.errorbars.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.fillbetween.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.fillbetween.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.image.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.image.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.navigate.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.navigate.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.pie.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.pie.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.resize.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.resize.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.selection.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.selection.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.stack.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.stack.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.symbol.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.symbol.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.threshold.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.threshold.min.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.time.js" />
+    <Content Include="clientside\plugins\flot\jquery.flot.time.min.js" />
+    <Content Include="clientside\plugins\fullcalendar\fullcalendar.css" />
+    <Content Include="clientside\plugins\fullcalendar\fullcalendar.js" />
+    <Content Include="clientside\plugins\fullcalendar\fullcalendar.min.css" />
+    <Content Include="clientside\plugins\fullcalendar\fullcalendar.min.js" />
+    <Content Include="clientside\plugins\fullcalendar\fullcalendar.print.css" />
+    <Content Include="clientside\plugins\hotkey\hotkeys.css" />
+    <Content Include="clientside\plugins\hotkey\hotkeys.js" />
+    <Content Include="clientside\plugins\iCheck\all.css" />
+    <Content Include="clientside\plugins\iCheck\flat\aero%402x.png" />
+    <Content Include="clientside\plugins\iCheck\flat\aero.css" />
+    <Content Include="clientside\plugins\iCheck\flat\aero.png" />
+    <Content Include="clientside\plugins\iCheck\flat\blue%402x.png" />
+    <Content Include="clientside\plugins\iCheck\flat\blue.css" />
+    <Content Include="clientside\plugins\iCheck\flat\blue.png" />
+    <Content Include="clientside\plugins\iCheck\flat\flat%402x.png" />
+    <Content Include="clientside\plugins\iCheck\flat\flat.css" />
+    <Content Include="clientside\plugins\iCheck\flat\flat.png" />
+    <Content Include="clientside\plugins\iCheck\flat\green%402x.png" />
+    <Content Include="clientside\plugins\iCheck\flat\green.css" />
+    <Content Include="clientside\plugins\iCheck\flat\green.png" />
+    <Content Include="clientside\plugins\iCheck\flat\grey%402x.png" />
+    <Content Include="clientside\plugins\iCheck\flat\grey.css" />
+    <Content Include="clientside\plugins\iCheck\flat\grey.png" />
+    <Content Include="clientside\plugins\iCheck\flat\orange%402x.png" />
+    <Content Include="clientside\plugins\iCheck\flat\orange.css" />
+    <Content Include="clientside\plugins\iCheck\flat\orange.png" />
+    <Content Include="clientside\plugins\iCheck\flat\pink%402x.png" />
+    <Content Include="clientside\plugins\iCheck\flat\pink.css" />
+    <Content Include="clientside\plugins\iCheck\flat\pink.png" />
+    <Content Include="clientside\plugins\iCheck\flat\purple%402x.png" />
+    <Content Include="clientside\plugins\iCheck\flat\purple.css" />
+    <Content Include="clientside\plugins\iCheck\flat\purple.png" />
+    <Content Include="clientside\plugins\iCheck\flat\red%402x.png" />
+    <Content Include="clientside\plugins\iCheck\flat\red.css" />
+    <Content Include="clientside\plugins\iCheck\flat\red.png" />
+    <Content Include="clientside\plugins\iCheck\flat\yellow%402x.png" />
+    <Content Include="clientside\plugins\iCheck\flat\yellow.css" />
+    <Content Include="clientside\plugins\iCheck\flat\yellow.png" />
+    <Content Include="clientside\plugins\iCheck\flat\_all.css" />
+    <Content Include="clientside\plugins\iCheck\futurico\futurico%402x.png" />
+    <Content Include="clientside\plugins\iCheck\futurico\futurico.css" />
+    <Content Include="clientside\plugins\iCheck\futurico\futurico.png" />
+    <Content Include="clientside\plugins\iCheck\icheck.js" />
+    <Content Include="clientside\plugins\iCheck\icheck.min.js" />
+    <Content Include="clientside\plugins\iCheck\line\aero.css" />
+    <Content Include="clientside\plugins\iCheck\line\blue.css" />
+    <Content Include="clientside\plugins\iCheck\line\green.css" />
+    <Content Include="clientside\plugins\iCheck\line\grey.css" />
+    <Content Include="clientside\plugins\iCheck\line\line%402x.png" />
+    <Content Include="clientside\plugins\iCheck\line\line.css" />
+    <Content Include="clientside\plugins\iCheck\line\line.png" />
+    <Content Include="clientside\plugins\iCheck\line\orange.css" />
+    <Content Include="clientside\plugins\iCheck\line\pink.css" />
+    <Content Include="clientside\plugins\iCheck\line\purple.css" />
+    <Content Include="clientside\plugins\iCheck\line\red.css" />
+    <Content Include="clientside\plugins\iCheck\line\yellow.css" />
+    <Content Include="clientside\plugins\iCheck\line\_all.css" />
+    <Content Include="clientside\plugins\iCheck\minimal\aero%402x.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\aero.css" />
+    <Content Include="clientside\plugins\iCheck\minimal\aero.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\blue%402x.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\blue.css" />
+    <Content Include="clientside\plugins\iCheck\minimal\blue.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\green%402x.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\green.css" />
+    <Content Include="clientside\plugins\iCheck\minimal\green.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\grey%402x.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\grey.css" />
+    <Content Include="clientside\plugins\iCheck\minimal\grey.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\minimal%402x.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\minimal.css" />
+    <Content Include="clientside\plugins\iCheck\minimal\minimal.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\orange%402x.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\orange.css" />
+    <Content Include="clientside\plugins\iCheck\minimal\orange.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\pink%402x.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\pink.css" />
+    <Content Include="clientside\plugins\iCheck\minimal\pink.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\purple%402x.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\purple.css" />
+    <Content Include="clientside\plugins\iCheck\minimal\purple.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\red%402x.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\red.css" />
+    <Content Include="clientside\plugins\iCheck\minimal\red.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\yellow%402x.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\yellow.css" />
+    <Content Include="clientside\plugins\iCheck\minimal\yellow.png" />
+    <Content Include="clientside\plugins\iCheck\minimal\_all.css" />
+    <Content Include="clientside\plugins\iCheck\polaris\polaris%402x.png" />
+    <Content Include="clientside\plugins\iCheck\polaris\polaris.css" />
+    <Content Include="clientside\plugins\iCheck\polaris\polaris.png" />
+    <Content Include="clientside\plugins\iCheck\square\aero%402x.png" />
+    <Content Include="clientside\plugins\iCheck\square\aero.css" />
+    <Content Include="clientside\plugins\iCheck\square\aero.png" />
+    <Content Include="clientside\plugins\iCheck\square\blue%402x.png" />
+    <Content Include="clientside\plugins\iCheck\square\blue.css" />
+    <Content Include="clientside\plugins\iCheck\square\blue.png" />
+    <Content Include="clientside\plugins\iCheck\square\green%402x.png" />
+    <Content Include="clientside\plugins\iCheck\square\green.css" />
+    <Content Include="clientside\plugins\iCheck\square\green.png" />
+    <Content Include="clientside\plugins\iCheck\square\grey%402x.png" />
+    <Content Include="clientside\plugins\iCheck\square\grey.css" />
+    <Content Include="clientside\plugins\iCheck\square\grey.png" />
+    <Content Include="clientside\plugins\iCheck\square\orange%402x.png" />
+    <Content Include="clientside\plugins\iCheck\square\orange.css" />
+    <Content Include="clientside\plugins\iCheck\square\orange.png" />
+    <Content Include="clientside\plugins\iCheck\square\pink%402x.png" />
+    <Content Include="clientside\plugins\iCheck\square\pink.css" />
+    <Content Include="clientside\plugins\iCheck\square\pink.png" />
+    <Content Include="clientside\plugins\iCheck\square\purple%402x.png" />
+    <Content Include="clientside\plugins\iCheck\square\purple.css" />
+    <Content Include="clientside\plugins\iCheck\square\purple.png" />
+    <Content Include="clientside\plugins\iCheck\square\red%402x.png" />
+    <Content Include="clientside\plugins\iCheck\square\red.css" />
+    <Content Include="clientside\plugins\iCheck\square\red.png" />
+    <Content Include="clientside\plugins\iCheck\square\square%402x.png" />
+    <Content Include="clientside\plugins\iCheck\square\square.css" />
+    <Content Include="clientside\plugins\iCheck\square\square.png" />
+    <Content Include="clientside\plugins\iCheck\square\yellow%402x.png" />
+    <Content Include="clientside\plugins\iCheck\square\yellow.css" />
+    <Content Include="clientside\plugins\iCheck\square\yellow.png" />
+    <Content Include="clientside\plugins\iCheck\square\_all.css" />
+    <Content Include="clientside\plugins\input-mask\jquery.inputmask.date.extensions.js" />
+    <Content Include="clientside\plugins\input-mask\jquery.inputmask.extensions.js" />
+    <Content Include="clientside\plugins\input-mask\jquery.inputmask.js" />
+    <Content Include="clientside\plugins\input-mask\jquery.inputmask.numeric.extensions.js" />
+    <Content Include="clientside\plugins\input-mask\jquery.inputmask.phone.extensions.js" />
+    <Content Include="clientside\plugins\input-mask\jquery.inputmask.regex.extensions.js" />
+    <Content Include="clientside\plugins\input-mask\phone-codes\readme.txt" />
+    <Content Include="clientside\plugins\Intract\fabric.js" />
+    <Content Include="clientside\plugins\Intract\interact.js" />
+    <Content Include="clientside\plugins\ionslider\img\sprite-skin-flat.png" />
+    <Content Include="clientside\plugins\ionslider\img\sprite-skin-nice.png" />
+    <Content Include="clientside\plugins\ionslider\ion.rangeSlider.css" />
+    <Content Include="clientside\plugins\ionslider\ion.rangeSlider.min.js" />
+    <Content Include="clientside\plugins\ionslider\ion.rangeSlider.skinFlat.css" />
+    <Content Include="clientside\plugins\ionslider\ion.rangeSlider.skinNice.css" />
+    <Content Include="clientside\plugins\jQueryUI\jquery-ui.js" />
+    <Content Include="clientside\plugins\jQueryUI\jquery-ui.min.js" />
+    <Content Include="clientside\plugins\jQuery\jQuery-2.1.4.min.js" />
+    <Content Include="clientside\plugins\jQuery\jquery-ui.min.js" />
+    <Content Include="clientside\plugins\jvectormap\jquery-jvectormap-1.2.2.css" />
+    <Content Include="clientside\plugins\jvectormap\jquery-jvectormap-1.2.2.min.js" />
+    <Content Include="clientside\plugins\jvectormap\jquery-jvectormap-world-mill-en.js" />
+    <Content Include="clientside\plugins\knob\jquery.knob.js" />
+    <Content Include="clientside\plugins\listview\ui-listView.css" />
+    <Content Include="clientside\plugins\listview\ui-listView.js" />
+    <Content Include="clientside\plugins\morris\morris.css" />
+    <Content Include="clientside\plugins\morris\morris.js" />
+    <Content Include="clientside\plugins\morris\morris.min.js" />
+    <Content Include="clientside\plugins\ngdialog\ngDialog-custom-width.css" />
+    <Content Include="clientside\plugins\ngdialog\ngDialog-theme-default.css" />
+    <Content Include="clientside\plugins\ngdialog\ngDialog-theme-default.min.css" />
+    <Content Include="clientside\plugins\ngdialog\ngDialog-theme-plain.css" />
+    <Content Include="clientside\plugins\ngdialog\ngDialog-theme-plain.min.css" />
+    <Content Include="clientside\plugins\ngdialog\ngDialog.css" />
+    <Content Include="clientside\plugins\ngdialog\ngDialog.js" />
+    <Content Include="clientside\plugins\ngdialog\ngDialog.min.css" />
+    <Content Include="clientside\plugins\ngdialog\ngDialog.min.js" />
+    <Content Include="clientside\plugins\pace\pace.js" />
+    <Content Include="clientside\plugins\select2\i18n\ar.js" />
+    <Content Include="clientside\plugins\select2\i18n\az.js" />
+    <Content Include="clientside\plugins\select2\i18n\bg.js" />
+    <Content Include="clientside\plugins\select2\i18n\ca.js" />
+    <Content Include="clientside\plugins\select2\i18n\cs.js" />
+    <Content Include="clientside\plugins\select2\i18n\da.js" />
+    <Content Include="clientside\plugins\select2\i18n\de.js" />
+    <Content Include="clientside\plugins\select2\i18n\el.js" />
+    <Content Include="clientside\plugins\select2\i18n\en.js" />
+    <Content Include="clientside\plugins\select2\i18n\es.js" />
+    <Content Include="clientside\plugins\select2\i18n\et.js" />
+    <Content Include="clientside\plugins\select2\i18n\eu.js" />
+    <Content Include="clientside\plugins\select2\i18n\fa.js" />
+    <Content Include="clientside\plugins\select2\i18n\fi.js" />
+    <Content Include="clientside\plugins\select2\i18n\fr.js" />
+    <Content Include="clientside\plugins\select2\i18n\gl.js" />
+    <Content Include="clientside\plugins\select2\i18n\he.js" />
+    <Content Include="clientside\plugins\select2\i18n\hi.js" />
+    <Content Include="clientside\plugins\select2\i18n\hr.js" />
+    <Content Include="clientside\plugins\select2\i18n\hu.js" />
+    <Content Include="clientside\plugins\select2\i18n\id.js" />
+    <Content Include="clientside\plugins\select2\i18n\is.js" />
+    <Content Include="clientside\plugins\select2\i18n\it.js" />
+    <Content Include="clientside\plugins\select2\i18n\ja.js" />
+    <Content Include="clientside\plugins\select2\i18n\km.js" />
+    <Content Include="clientside\plugins\select2\i18n\ko.js" />
+    <Content Include="clientside\plugins\select2\i18n\lt.js" />
+    <Content Include="clientside\plugins\select2\i18n\lv.js" />
+    <Content Include="clientside\plugins\select2\i18n\mk.js" />
+    <Content Include="clientside\plugins\select2\i18n\ms.js" />
+    <Content Include="clientside\plugins\select2\i18n\nb.js" />
+    <Content Include="clientside\plugins\select2\i18n\nl.js" />
+    <Content Include="clientside\plugins\select2\i18n\pl.js" />
+    <Content Include="clientside\plugins\select2\i18n\pt-BR.js" />
+    <Content Include="clientside\plugins\select2\i18n\pt.js" />
+    <Content Include="clientside\plugins\select2\i18n\ro.js" />
+    <Content Include="clientside\plugins\select2\i18n\ru.js" />
+    <Content Include="clientside\plugins\select2\i18n\sk.js" />
+    <Content Include="clientside\plugins\select2\i18n\sr-Cyrl.js" />
+    <Content Include="clientside\plugins\select2\i18n\sr.js" />
+    <Content Include="clientside\plugins\select2\i18n\sv.js" />
+    <Content Include="clientside\plugins\select2\i18n\th.js" />
+    <Content Include="clientside\plugins\select2\i18n\tr.js" />
+    <Content Include="clientside\plugins\select2\i18n\uk.js" />
+    <Content Include="clientside\plugins\select2\i18n\vi.js" />
+    <Content Include="clientside\plugins\select2\i18n\zh-CN.js" />
+    <Content Include="clientside\plugins\select2\i18n\zh-TW.js" />
+    <Content Include="clientside\plugins\select2\select2.css" />
+    <Content Include="clientside\plugins\select2\select2.full.js" />
+    <Content Include="clientside\plugins\select2\select2.full.min.js" />
+    <Content Include="clientside\plugins\select2\select2.js" />
+    <Content Include="clientside\plugins\select2\select2.min.css" />
+    <Content Include="clientside\plugins\select2\select2.min.js" />
+    <Content Include="clientside\plugins\slimScroll\jquery.slimscroll.js" />
+    <Content Include="clientside\plugins\slimScroll\jquery.slimscroll.min.js" />
+    <Content Include="clientside\plugins\sparkline\jquery.sparkline.js" />
+    <Content Include="clientside\plugins\sparkline\jquery.sparkline.min.js" />
+    <Content Include="clientside\plugins\timepicker\bootstrap-timepicker.css" />
+    <Content Include="clientside\plugins\timepicker\bootstrap-timepicker.js" />
+    <Content Include="clientside\plugins\timepicker\bootstrap-timepicker.min.css" />
+    <Content Include="clientside\plugins\timepicker\bootstrap-timepicker.min.js" />
+    <Content Include="clientside\plugins\tmpl\jquery.tmpl.js" />
+    <Content Include="clientside\plugins\toastr\angular-toastr.css" />
+    <Content Include="clientside\plugins\toastr\angular-toastr.js" />
+    <Content Include="clientside\plugins\toastr\ng-animate.js" />
+    <Content Include="clientside\plugins\toastr\progressbar.html" />
+    <Content Include="clientside\plugins\toastr\toast.html" />
+    <Content Include="clientside\plugins\tree\angular.treeview.css" />
+    <Content Include="clientside\plugins\tree\angular.treeview.js" />
+    <Content Include="clientside\plugins\tree\angular.treeview.min.js" />
+    <Content Include="clientside\plugins\tree\file.png" />
+    <Content Include="clientside\plugins\tree\folder-closed.png" />
+    <Content Include="clientside\plugins\tree\folder.png" />
+    <Content Include="clientside\popup\productsearch.html" />
+    <Content Include="clientside\Reports\views\AdditionalDiscount.html" />
+    <Content Include="clientside\Reports\views\AttributeWisePending.html" />
+    <Content Include="clientside\Reports\views\BarcodeReport.html" />
+    <Content Include="clientside\Reports\views\BrandAgainstSize.html" />
+    <Content Include="clientside\Reports\views\BrandWiseReport.html" />
+    <Content Include="clientside\Reports\views\CouponReport.html" />
+    <Content Include="clientside\Reports\views\AlterationReport.html" />
+    <Content Include="clientside\Reports\views\EstimateBill.html" />
+    <Content Include="clientside\Reports\views\CustomerCreditNote.html" />
+    <Content Include="clientside\Reports\views\DeliveryReport.html" />
+    <Content Include="clientside\Reports\views\BulkBill.html" />
+    <Content Include="clientside\Reports\views\CancelledBill.html" />
+    <Content Include="clientside\Reports\views\CashierWiseAdDiscount.html" />
+    <Content Include="clientside\Reports\views\CustomerPayment.html" />
+    <Content Include="clientside\Reports\views\CustomerPendingPayment.html" />
+    <Content Include="clientside\Reports\views\DeliveryStatus.html" />
+    <Content Include="clientside\Reports\views\DetailedOutward.html" />
+    <Content Include="clientside\Reports\views\Invoice.html" />
+    <Content Include="clientside\Reports\views\InvoiceEntry.html" />
+    <Content Include="clientside\Reports\views\Inward.html" />
+    <Content Include="clientside\Reports\views\InwardItems.html" />
+    <Content Include="clientside\Reports\views\InwardPending.html" />
+    <Content Include="clientside\Reports\views\LREntryDateWise.html" />
+    <Content Include="clientside\Reports\views\LrEntryWiseInvoice.html" />
+    <Content Include="clientside\Reports\views\JobOutward.html" />
+    <Content Include="clientside\Reports\views\RewardReport.html" />
+    <Content Include="clientside\Reports\views\SalesAgewise.html" />
+    <Content Include="clientside\Reports\views\WHEntry.html" />
+    <Content Include="clientside\Reports\views\LRReport.html" />
+    <Content Include="clientside\Reports\views\Outward.html" />
+    <Content Include="clientside\Reports\views\OutwardPending.html" />
+    <Content Include="clientside\Reports\views\PendingLR.html" />
+    <Content Include="clientside\Reports\views\ProductAgainstSize.html" />
+    <Content Include="clientside\Reports\views\ProductWise.html" />
+    <Content Include="clientside\Reports\views\ProductWiseStock.html" />
+    <Content Include="clientside\Reports\views\Purchase.html" />
+    <Content Include="clientside\Reports\views\PurchaseHSN.html" />
+    <Content Include="clientside\Reports\views\PurchaseRetCancelled.html" />
+    <Content Include="clientside\Reports\views\PurchaseReturn.html" />
+    <Content Include="clientside\Reports\views\RetailStockAnalysis.html" />
+    <Content Include="clientside\Reports\views\SalesAnalysis.html" />
+    <Content Include="clientside\Reports\views\SalesHSN.html" />
+    <Content Include="clientside\Reports\views\SalesMan.html" />
+    <Content Include="clientside\Reports\views\SalesReport.html" />
+    <Content Include="clientside\Reports\views\SalesReturn.html" />
+    <Content Include="clientside\Reports\views\SalesSummary.html" />
+    <Content Include="clientside\Reports\views\SalesTax.html" />
+    <Content Include="clientside\Reports\views\SectionWiseSales.html" />
+    <Content Include="clientside\Reports\views\SettlementSummary.html" />
+    <Content Include="clientside\Reports\views\Settlement.html" />
+    <Content Include="clientside\Reports\views\Stock.html" />
+    <Content Include="clientside\Reports\views\StockAnalysis.html" />
+    <Content Include="clientside\Reports\views\SupplierWiseOutward.html" />
+    <Content Include="clientside\Reports\views\UnsettledBills.html" />
+    <Content Include="clientside\views\Advance.html" />
+    <Content Include="clientside\views\Agent.html" />
+    <Content Include="clientside\views\Analytics.html" />
+    <Content Include="clientside\views\ApplicationForm.html" />
+    <Content Include="clientside\views\Barcode.html" />
+    <Content Include="clientside\views\BrandMaster.html" />
+    <Content Include="clientside\views\ClosingCash.html" />
+    <Content Include="clientside\views\Company.html" />
+    <Content Include="clientside\views\Country.html" />
+    <Content Include="clientside\views\Courier.html" />
+    <Content Include="clientside\views\Customer.html" />
+    <Content Include="clientside\views\DCtoPO.html" />
+    <Content Include="clientside\views\DeliveryChallan.html" />
+    <Content Include="clientside\views\LRInvoicePrice.html" />
+    <Content Include="clientside\views\Notification.html" />
+    <Content Include="clientside\views\Dashboard.html" />
+    <Content Include="clientside\views\DebitPayment.html" />
+    <Content Include="clientside\views\Menu.html" />
+    <Content Include="clientside\views\SalesB2B.html" />
+    <Content Include="clientside\views\Sub-Menu.html" />
+    <Content Include="clientside\views\Employee.html" />
+    <Content Include="clientside\views\employeeadvance.html" />
+    <Content Include="clientside\views\Employeeinout.html" />
+    <Content Include="clientside\views\EmployeeLeave.html" />
+    <Content Include="clientside\views\FestivalDiscount.html" />
+    <Content Include="clientside\views\formgeneration.html" />
+    <Content Include="clientside\views\holiday.html" />
+    <Content Include="clientside\views\PurchaseInsight.html" />
+    <Content Include="clientside\views\LRInvoiceItems.html" />
+    <Content Include="clientside\views\MissingStock.html" />
+    <Content Include="clientside\views\ReceiveGoods.html" />
+    <Content Include="clientside\views\LeaveAnalysis.html" />
+    <Content Include="clientside\views\ReturnGoods.html" />
+    <Content Include="clientside\views\incrementmanagement.html" />
+    <Content Include="clientside\views\Sales.html" />
+    <Content Include="clientside\views\SalesBeforeOffer.html" />
+    <Content Include="clientside\views\SalesOffer.html" />
+    <Content Include="clientside\views\Delivery.html" />
+    <Content Include="clientside\views\Settlements_dialog.html" />
+    <Content Include="clientside\views\Settlements.html" />
+    <Content Include="clientside\views\ShiftAllocation.html" />
+    <Content Include="clientside\views\Invoice.html" />
+    <Content Include="clientside\views\Inward.html" />
+    <Content Include="clientside\views\IssueLR.html" />
+    <Content Include="clientside\views\Item.html" />
+    <Content Include="clientside\views\LableTemplate.html" />
+    <Content Include="clientside\views\ledger.html" />
+    <Content Include="clientside\views\LREntry.html" />
+    <Content Include="clientside\views\LRInbox.html" />
+    <Content Include="clientside\views\FULLLRInvoiceItems.html" />
+    <Content Include="clientside\views\OpeningCash.html" />
+    <Content Include="clientside\views\Outward.html" />
+    <Content Include="clientside\views\payroll.html" />
+    <Content Include="clientside\views\payslip.html" />
+    <Content Include="clientside\views\popup.html" />
+    <Content Include="clientside\views\Price.html" />
+    <Content Include="clientside\views\Product.html" />
+    <Content Include="clientside\views\ProductDetalis.html" />
+    <Content Include="clientside\views\ProductRequestForm.html" />
+    <Content Include="clientside\views\ProductRequestQueue.html" />
+    <Content Include="clientside\views\PurchaseOrder.html" />
+    <Content Include="clientside\views\PurchaseReturn.html" />
+    <Content Include="clientside\views\ReceiptLR.html" />
+    <Content Include="clientside\views\Referencelist.html" />
+    <Content Include="clientside\views\reportformatconfig.html" />
+    <Content Include="clientside\views\Reports.html" />
+    <Content Include="clientside\views\salarymanagement.html" />
+    <Content Include="clientside\views\salarystructure.html" />
+    <Content Include="clientside\views\Sales_PLAIN.html" />
+    <Content Include="clientside\views\SalesDashboard.html" />
+    <Content Include="clientside\views\SalesReturn.html" />
+    <Content Include="clientside\views\ScanDocument.html" />
+    <Content Include="clientside\views\SettlementDashboard.html" />
+    <Content Include="clientside\views\Settlements_PLAIN.html" />
+    <Content Include="clientside\views\stockadjustment.html" />
+    <Content Include="clientside\views\Supplier.html" />
+    <Content Include="clientside\views\Tax.html" />
+    <Content Include="clientside\views\trace.html" />
+    <Content Include="clientside\views\ServiceCenters.html" />
+    <Content Include="clientside\views\Transport.html" />
+    <Content Include="clientside\views\User.html" />
+    <Content Include="clientside\views\voucher.html" />
+    <Content Include="Images\profile.png" />
+    <Content Include="index.html" />
+    <Content Include="index_full.html" />
+    <Content Include="clientside\favicon.ico" />
+    <Content Include="JSONFiles\Samples.js" />
+    <Content Include="Report\applicationprintpakshi.xml" />
+    <Content Include="Report\chequeadvice.txt" />
+    <Content Include="Report\debitnote rr.xml" />
+    <Content Include="Report\employeeapplication.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Report\debitnote-format.xml" />
+    <Content Include="Report\Debitnote.xml" />
+    <Content Include="Report\PO-Item.xml" />
+    <Content Include="Report\3inchbillwithexchange.xml" />
+    <Content Include="Report\reorder status.xml" />
+    <Content Include="Report\supplier payment pdf.txt" />
+    <Content Include="Report\TextFile1.txt" />
+    <Content Include="Tally\tallyResult.xml" />
+    <Content Include="login.html" />
+    <Content Include="Migration\TextFile1.txt" />
+    <!-- <Content Include="Video\HtmlPage1.html" />
+    <Content Include="Video\MediaElement.mp4" />
+    <Content Include="Video\mejs-site.css" /> -->
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Analytical\AnalyticalCubs.cs" />
+    <Compile Include="Analytical\MobileInsight.cs" />
+    <Compile Include="Analytical\AnalyticalCubsOLD.cs" />
+    <Compile Include="Analytical\MobileInsightOLD.cs" />
+    <Compile Include="Analytical\PurchaseAnalyser.cs" />
+    <Compile Include="Analytical\PurchasePlannerDataService.cs" />
+    <Compile Include="Analytical\ReportBuilder.cs" />
+    <Compile Include="Analytical\ReportBuilderDataService.cs" />
+    <Compile Include="Analytical\StockMarkerReport.cs" />
+    <Compile Include="App_Data\S3Data.cs" />
+    <Compile Include="App_Data\ScriptCollection.cs" />
+    <Compile Include="App_Data\ImageController.cs" />
+    <Compile Include="App_Data\ImageData.cs" />
+    <Compile Include="App_Data\Cryptor.cs" />
+    <Compile Include="App_Data\NoToWord.cs" />
+    <Compile Include="App_Data\PasswordGenerator.cs" />
+    <Compile Include="App_Data\Token.cs" />
+    <Compile Include="App_Start\APIETag.cs" />
+    <Compile Include="App_Start\AuthRepository.cs" />
+    <Compile Include="App_Start\ChallengeResult.cs" />
+    <Compile Include="App_Start\License.cs" />
+    <Compile Include="App_Start\InfyAuthrorize.cs" />
+    <Compile Include="App_Start\OwinEventsMiddleWare.cs" />
+    <Compile Include="App_Start\SimpleAuthorizationServerProvider.cs" />
+    <Compile Include="App_Start\SimpleRefreshTokenProvider.cs" />
+    <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="barcode\BarcodeXML.Designer.cs" />
+    <Compile Include="barcode\BarcodeXML1.Designer.cs">
+      <DependentUpon>BarcodeXML.xsd</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="barcode\Test\Barcode128M.cs" />
+    <Compile Include="barcode\BarcodeCommon.cs" />
+    <Compile Include="barcode\BarcodeLib.cs" />
+    <Compile Include="barcode\IBarcode.cs" />
+    <Compile Include="barcode\Labels.cs" />
+    <Compile Include="barcode\QR\AbstractQRCode.cs" />
+    <Compile Include="barcode\QR\ASCIIQRCode.cs" />
+    <Compile Include="barcode\QR\Base64QRCode.cs" />
+    <Compile Include="barcode\QR\BitmapByteQRCode.cs" />
+    <Compile Include="barcode\QR\Framework4.0Methods\Stream4Methods.cs" />
+    <Compile Include="barcode\QR\Framework4.0Methods\String4Methods.cs" />
+    <Compile Include="barcode\QR\PayloadGenerator.cs" />
+    <Compile Include="barcode\QR\PngByteQRCode.cs" />
+    <Compile Include="barcode\QR\PostscriptQRCode.cs" />
+    <Compile Include="barcode\QR\QRCode.cs" />
+    <Compile Include="barcode\QR\QRCodeData.cs" />
+    <Compile Include="barcode\QR\QRCodeGenerator.cs" />
+    <Compile Include="barcode\QR\SvgQRCode.cs" />
+    <Compile Include="barcode\QR\UnityQRCode.cs" />
+    <Compile Include="barcode\QR\XamlQRCode.cs" />
+    <Compile Include="barcode\Symbologies\Blank.cs" />
+    <Compile Include="barcode\Symbologies\Codabar.cs" />
+    <Compile Include="barcode\Symbologies\Code11.cs" />
+    <Compile Include="barcode\Symbologies\Code128.cs" />
+    <Compile Include="barcode\Symbologies\Code39.cs" />
+    <Compile Include="barcode\Symbologies\Code93.cs" />
+    <Compile Include="barcode\Symbologies\EAN13.cs" />
+    <Compile Include="barcode\Symbologies\EAN8.cs" />
+    <Compile Include="barcode\Symbologies\FIM.cs" />
+    <Compile Include="barcode\Symbologies\Interleaved2of5.cs" />
+    <Compile Include="barcode\Symbologies\ISBN.cs" />
+    <Compile Include="barcode\Symbologies\ITF14.cs" />
+    <Compile Include="barcode\Symbologies\JAN13.cs" />
+    <Compile Include="barcode\Symbologies\MSI.cs" />
+    <Compile Include="barcode\Symbologies\Pharmacode.cs" />
+    <Compile Include="barcode\Symbologies\Postnet.cs" />
+    <Compile Include="barcode\Symbologies\Standard2of5.cs" />
+    <Compile Include="barcode\Symbologies\Telepen.cs" />
+    <Compile Include="barcode\Symbologies\UPCA.cs" />
+    <Compile Include="barcode\Symbologies\UPCE.cs" />
+    <Compile Include="barcode\Symbologies\UPCSupplement2.cs" />
+    <Compile Include="barcode\Symbologies\UPCSupplement5.cs" />
+    <Compile Include="barcode\Test\Class1.cs" />
+    <Compile Include="App_Data\Base62.cs" />
+    <Compile Include="App_Data\BaseData.cs" />
+    <Compile Include="App_Data\BaseEntity.cs" />
+    <Compile Include="App_Data\ImageManager.cs" />
+    <Compile Include="App_Data\Logging.cs" />
+    <Compile Include="App_Data\ReferencelistController.cs" />
+    <Compile Include="App_Data\SequenceNo.cs" />
+    <Compile Include="App_Data\StringLocker.cs" />
+    <Compile Include="App_Start\UserContext.cs" />
+    <Compile Include="barcode\Test\Code128.cs" />
+    <Compile Include="Controllers\AgentpaymentController.cs" />
+    <Compile Include="Controllers\Analyser.cs" />
+    <Compile Include="Controllers\BankchequetransactionController.cs" />
+    <Compile Include="Controllers\BillcreditnoteController.cs" />
+    <Compile Include="Controllers\BillcreditnoteitemsController.cs" />
+    <Compile Include="Controllers\BillhistoryController.cs" />
+    <Compile Include="Controllers\BillhistoryitemsController.cs" />
+    <Compile Include="Controllers\BillinboxController.cs" />
+    <Compile Include="Controllers\DailypriceController.cs" />
+    <Compile Include="Controllers\DatasecuritygroupController.cs" />
+    <Compile Include="Controllers\DeliveryrackController.cs" />
+    <Compile Include="Controllers\EmployeeinchargesController.cs" />
+    <Compile Include="Controllers\LeadmanagementController.cs" />
+    <Compile Include="Controllers\CustomerdivertController.cs" />
+    <Compile Include="Controllers\BugtrackerController.cs" />
+    <Compile Include="Controllers\BuybackController.cs" />
+    <Compile Include="Controllers\BuybackschemeController.cs" />
+    <Compile Include="Controllers\CustomerorderController.cs" />
+    <Compile Include="Controllers\CustomerpriceController.cs" />
+    <Compile Include="Controllers\CustomerpricelistController.cs" />
+    <Compile Include="Controllers\CustomerwalkinsController.cs" />
+    <Compile Include="Controllers\DeathonarivalController.cs" />
+    <Compile Include="Controllers\EmischemesController.cs" />
+    <Compile Include="Controllers\EmployeetargetController.cs" />
+    <Compile Include="Controllers\FullstocksyncController.cs" />
+    <Compile Include="Controllers\GiftVoucherServiceController.cs" />
+    <Compile Include="Controllers\CustomerrewardsController.cs" />
+    <Compile Include="Controllers\ExpensesController.cs" />
+    <Compile Include="Controllers\Gst_InboxController.cs" />
+    <Compile Include="Controllers\IncentiveconfigController.cs" />
+    <Compile Include="Controllers\IntrayController.cs" />
+    <Compile Include="Controllers\JobworkbillController.cs" />
+    <Compile Include="Controllers\JobworkbillgrnController.cs" />
+    <Compile Include="Controllers\JobworkbillgrnitemsController.cs" />
+    <Compile Include="Controllers\JobworkbillitemsController.cs" />
+    <Compile Include="Controllers\JobworksamplesController.cs" />
+    <Compile Include="Controllers\LedgerstockopeningController.cs" />
+    <Compile Include="Controllers\LoansettlementController.cs" />
+    <Compile Include="Controllers\MobileReportController.cs" />
+    <Compile Include="Controllers\OpeningbalancesController.cs" />
+    <Compile Include="Controllers\OrganisationController.cs" />
+    <Compile Include="Controllers\PackbarcodeController.cs" />
+    <Compile Include="Controllers\PackingslipController.cs" />
+    <Compile Include="Controllers\PermissionSlipController.cs" />
+    <Compile Include="Controllers\PricedropController.cs" />
+    <Compile Include="Controllers\ProductdesignController.cs" />
+    <Compile Include="Controllers\ProductGroupController.cs" />
+    <Compile Include="Controllers\PurchasebudgetController.cs" />
+    <Compile Include="Controllers\RechargebalanceController.cs" />
+    <Compile Include="Controllers\RechargeController.cs" />
+    <Compile Include="Controllers\RechargeschemeController.cs" />
+    <Compile Include="Controllers\ReorderrulesController.cs" />
+    <Compile Include="Controllers\SalablegoodspriceController.cs" />
+    <Compile Include="Controllers\SalesorderController.cs" />
+    <Compile Include="Controllers\SalesorderitemsController.cs" />
+    <Compile Include="Controllers\ScheduleController.cs" />
+    <Compile Include="Controllers\SellablebarcodesController.cs" />
+    <Compile Include="Controllers\ServicecentersController.cs" />
+    <Compile Include="Controllers\SplitbarcodehistoryController.cs" />
+    <Compile Include="Controllers\StockauditController.cs" />
+    <Compile Include="Controllers\StockdumpingController.cs" />
+    <Compile Include="Controllers\StockmarkerController.cs" />
+    <Compile Include="Controllers\StoretransactionController.cs" />
+    <Compile Include="Controllers\SupplierproductgroupsController.cs" />
+    <Compile Include="Controllers\SuppliertradeagreementController.cs" />
+    <Compile Include="Controllers\SystementitymapperController.cs" />
+    <Compile Include="Controllers\TallyController.cs" />
+    <Compile Include="Analytical\AnalyserController.cs" />
+    <Compile Include="Controllers\AutonumberController.cs" />
+    <Compile Include="Controllers\DeliveryController.cs" />
+    <Compile Include="Controllers\DiscountqueueController.cs" />
+    <Compile Include="Controllers\EmployeeinoutController.cs" />
+    <Compile Include="Controllers\ExcelExportController.cs" />
+    <Compile Include="Controllers\HomepageController.cs" />
+    <Compile Include="Controllers\IncentivesController.cs" />
+    <Compile Include="Controllers\PromotionsController.cs" />
+    <Compile Include="Controllers\RetailReportController.cs" />
+    <Compile Include="Controllers\ShiftAllocationController.cs" />
+    <Compile Include="Controllers\AgentController.cs" />
+    <Compile Include="Controllers\BillController.cs" />
+    <Compile Include="Controllers\BillitemsController.cs" />
+    <Compile Include="Controllers\BillmasterController.cs" />
+    <Compile Include="Controllers\BillsettlementController.cs" />
+    <Compile Include="Controllers\BillsettlementmasterController.cs" />
+    <Compile Include="Controllers\BrandController.cs" />
+    <Compile Include="Controllers\BundlesController.cs" />
+    <Compile Include="Controllers\CashController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\ConfigurationController.cs" />
+    <Compile Include="Controllers\CourierController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\CustomerinvoiceController.cs" />
+    <Compile Include="Controllers\CustomerpaymentController.cs" />
+    <Compile Include="Controllers\CustomerstockController.cs" />
+    <Compile Include="Controllers\DiscountschemeController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\EmployeeleavemasterController.cs" />
+    <Compile Include="Controllers\EmployeesalaryController.cs" />
+    <Compile Include="Controllers\EmployeesalaryheaderController.cs" />
+    <Compile Include="Controllers\EmployeesalaryscheduleController.cs" />
+    <Compile Include="Controllers\EmployeesalarystructureController.cs" />
+    <Compile Include="Controllers\HolidayController.cs" />
+    <Compile Include="Controllers\InboxController.cs" />
+    <Compile Include="Controllers\ItemsController.cs" />
+    <Compile Include="Controllers\EmployeeleaveController.cs" />
+    <Compile Include="Controllers\LedgerController.cs" />
+    <Compile Include="Controllers\LrbillamountsController.cs" />
+    <Compile Include="Controllers\LrbilltaxController.cs" />
+    <Compile Include="Controllers\PaymentsController.cs" />
+    <Compile Include="Controllers\PricechangeController.cs" />
+    <Compile Include="Controllers\RefillboxController.cs" />
+    <Compile Include="Controllers\SupplierpaymentController.cs" />
+    <Compile Include="Controllers\SupplierpaymentinvoiceController.cs" />
+    <Compile Include="Controllers\TraceController.cs" />
+    <Compile Include="Controllers\TransportpaymentController.cs" />
+    <Compile Include="Controllers\TransportpaymentinvoiceController.cs" />
+    <Compile Include="Controllers\UnicelVoiceSMS.cs" />
+    <Compile Include="Controllers\Utility.cs" />
+    <Compile Include="Controllers\LrinvoicereturnController.cs" />
+    <Compile Include="Controllers\LrinvoicereturnitemsController.cs" />
+    <Compile Include="Controllers\LrinvoicetaxController.cs" />
+    <Compile Include="Controllers\LREntryController.cs" />
+    <Compile Include="Controllers\LrentryfreightchargesController.cs" />
+    <Compile Include="Controllers\LrinvoiceController.cs" />
+    <Compile Include="Controllers\LrinvoiceitemsController.cs" />
+    <Compile Include="Controllers\LrissueController.cs" />
+    <Compile Include="Controllers\LrissuelistController.cs" />
+    <Compile Include="Controllers\LrreceivedController.cs" />
+    <Compile Include="Controllers\LrreceivedlistController.cs" />
+    <Compile Include="Controllers\PricecontrolController.cs" />
+    <Compile Include="Controllers\ProductrequestformController.cs" />
+    <Compile Include="Controllers\ProductrequestformitemsController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\PurchaseorderController.cs" />
+    <Compile Include="Controllers\PurchaseorderitemsController.cs" />
+    <Compile Include="Controllers\SalablegoodsController.cs" />
+    <Compile Include="Controllers\StockController.cs" />
+    <Compile Include="Controllers\SuppliercompanyController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\TransportController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\UsersessionController.cs" />
+    <Compile Include="Controllers\VoucherController.cs" />
+    <Compile Include="Controllers\VoucheritembillwiseController.cs" />
+    <Compile Include="Controllers\VoucheritemsController.cs" />
+    <Compile Include="Controllers\CustomerCouponsController.cs" />
+    <Compile Include="Controllers\WarehouseReportController.cs" />
+    <Compile Include="Analytical\AnalyserDataService.cs" />
+    <Compile Include="Data\AccesskeysDataService.cs" />
+    <Compile Include="Data\AgentpaymentDataService.cs" />
+    <Compile Include="Data\AgentpaymentinvoiceDataService.cs" />
+    <Compile Include="Data\AutonumberDataService.cs" />
+    <Compile Include="Data\BankchequetransactionDataService.cs" />
+    <Compile Include="Data\BilladditionalchargesDataService.cs" />
+    <Compile Include="Data\BillcreditnoteDataService.cs" />
+    <Compile Include="Data\BillcreditnoteitemsDataService.cs" />
+    <Compile Include="Data\BillhistoryDataService.cs" />
+    <Compile Include="Data\BillhistoryitemsDataService.cs" />
+    <Compile Include="Data\BillinboxDataService.cs" />
+    <Compile Include="Data\BrsstatusDataService.cs" />
+    <Compile Include="Data\DailypriceDataService.cs" />
+    <Compile Include="Data\DatasecuritygroupDataService.cs" />
+    <Compile Include="Data\DeliveryrackDataService.cs" />
+    <Compile Include="Data\EmployeeinchargesDataService.cs" />
+    <Compile Include="Data\EmployeetargetDataService.cs" />
+    <Compile Include="Data\LedgerstockopeningDataService.cs" />
+    <Compile Include="Data\ProductdesignDataService.cs" />
+    <Compile Include="Data\PurchasebudgetDataService.cs" />
+    <Compile Include="Data\SalablegoodspriceDataService.cs" />
+    <Compile Include="Data\StockdumpingDataService.cs" />
+    <Compile Include="Data\StocktransactionDataService.cs" />
+    <Compile Include="Data\BugtrackerDataService.cs" />
+    <Compile Include="Data\BulkBillItemsDataService.cs" />
+    <Compile Include="Data\BulkBillDataService.cs" />
+    <Compile Include="Data\BuybackDataService.cs" />
+    <Compile Include="Data\BuybackschemeDataService.cs" />
+    <Compile Include="Data\LeadmanagementDataService.cs" />
+    <Compile Include="Data\CustomerdivertDataService.cs" />
+    <Compile Include="Data\CustomerorderDataService.cs" />
+    <Compile Include="Data\CustomerpriceDataService.cs" />
+    <Compile Include="Data\CustomerpricelistDataService.cs" />
+    <Compile Include="Data\CustomerwalkinsDataService.cs" />
+    <Compile Include="Data\DeathonarivalDataService.cs" />
+    <Compile Include="Data\EmischemesDataService.cs" />
+    <Compile Include="Data\FullstocksyncDataService.cs" />
+    <Compile Include="Data\GiftCouponDataService.cs" />
+    <Compile Include="Data\CustomerrewardsDataService.cs" />
+    <Compile Include="Data\DeliveryDataService.cs" />
+    <Compile Include="Data\DiscountqueueDataService.cs" />
+    <Compile Include="Data\EmployeeinoutDataService.cs" />
+    <Compile Include="Data\ExpensesDataService.cs" />
+    <Compile Include="Data\GSTPortal.cs" />
+    <Compile Include="Data\Gst_InboxDataService.cs" />
+    <Compile Include="Data\HomepageDataService.cs" />
+    <Compile Include="Data\ICustomerrewardsDataService.cs" />
+    <Compile Include="Data\IncentiveconfigDataService.cs" />
+    <Compile Include="Data\IncentiveDataSource.cs" />
+    <Compile Include="Data\IncentivesDataService.cs" />
+    <Compile Include="Data\IntrayDataService.cs" />
+    <Compile Include="Data\JobworkbillDataService.cs" />
+    <Compile Include="Data\JobworkbillgrnDataService.cs" />
+    <Compile Include="Data\JobworkbillgrnitemsDataService.cs" />
+    <Compile Include="Data\JobworkbillitemsDataService.cs" />
+    <Compile Include="Data\JobworksamplesDataService.cs" />
+    <Compile Include="Data\LoansettlementDataService.cs" />
+    <Compile Include="Data\MobileReportDataService.cs" />
+    <Compile Include="Data\OpeningbalancesDataService.cs" />
+    <Compile Include="Data\OrganisationDataService.cs" />
+    <Compile Include="Data\PackbarcodeDataService.cs" />
+    <Compile Include="Data\PackingslipDataService.cs" />
+    <Compile Include="Data\PermissionSlipDataService.cs" />
+    <Compile Include="Data\PricedropDataService.cs" />
+    <Compile Include="Data\ProductGroupDataService.cs" />
+    <Compile Include="Data\PromotionsDataService.cs" />
+    <Compile Include="Data\RechargebalanceDataService.cs" />
+    <Compile Include="Data\RechargeDataService.cs" />
+    <Compile Include="Data\RechargeschemeDataService.cs" />
+    <Compile Include="Data\ReorderrulesDataService.cs" />
+    <Compile Include="Data\RetailReportDataService.cs" />
+    <Compile Include="Data\SalablegoodshistoryDataService.cs" />
+    <Compile Include="Data\SalesorderDataService .cs" />
+    <Compile Include="Data\SalesorderitemsDataService.cs" />
+    <Compile Include="Data\ScheduleDataService.cs" />
+    <Compile Include="Data\ScheduleditemsDataService.cs" />
+    <Compile Include="Data\SchemebarcodesDataService.cs" />
+    <Compile Include="Data\SchemeExcludedbarcodesDataService.cs" />
+    <Compile Include="Data\SecuritykeysDataService.cs" />
+    <Compile Include="Data\SellablebarcodesDataService.cs" />
+    <Compile Include="Data\ServicecentersDataService.cs" />
+    <Compile Include="Data\ShiftAllocationDataService.cs" />
+    <Compile Include="Data\AgentDataService.cs" />
+    <Compile Include="Data\BillDataService.cs" />
+    <Compile Include="Data\BillItemsDataService.cs" />
+    <Compile Include="Data\BillmasterDataService.cs" />
+    <Compile Include="Data\BillsettlementDataService.cs" />
+    <Compile Include="Data\BillsettlementmasterDataService.cs" />
+    <Compile Include="Data\BrandDataService.cs" />
+    <Compile Include="Data\BundlesDataService.cs" />
+    <Compile Include="Data\CashDataService.cs" />
+    <Compile Include="Data\CompanyDataService.cs" />
+    <Compile Include="Data\ConfigurationDataService.cs" />
+    <Compile Include="Data\CourierDataService.cs" />
+    <Compile Include="Data\CustomerDataService.cs" />
+    <Compile Include="Data\CustomerinvoiceDataService.cs" />
+    <Compile Include="Data\CustomerpaymentDataService.cs" />
+    <Compile Include="Data\CustomerstockDataService.cs" />
+    <Compile Include="Data\DiscountschemeDataService.cs" />
+    <Compile Include="Data\EmployeeDataService.cs" />
+    <Compile Include="Data\EmployeeleavemasterDataService.cs" />
+    <Compile Include="Data\EmployeesalaryDataService.cs" />
+    <Compile Include="Data\EmployeesalaryheaderDataService.cs" />
+    <Compile Include="Data\EmployeesalaryscheduleDataService.cs" />
+    <Compile Include="Data\EmployeesalarystructureDataService.cs" />
+    <Compile Include="Data\HolidayDataService.cs" />
+    <Compile Include="Data\InboxDataService.cs" />
+    <Compile Include="Data\InboxManager.cs" />
+    <Compile Include="Data\ItemsDataService.cs" />
+    <Compile Include="Data\EmployeeLeaveDataService.cs" />
+    <Compile Include="Data\LedgerDataService.cs" />
+    <Compile Include="Data\LrbillamountsDataService.cs" />
+    <Compile Include="Data\LrbilltaxDataService.cs" />
+    <Compile Include="Data\LrinvoicereturnDataService.cs" />
+    <Compile Include="Data\LrinvoicereturnitemsDataService.cs" />
+    <Compile Include="Data\LrinvoicetaxDataService.cs" />
+    <Compile Include="Data\LREntryDataService.cs" />
+    <Compile Include="Data\LrentryfreightchargesDataService.cs" />
+    <Compile Include="Data\LrinvoiceDataService.cs" />
+    <Compile Include="Data\LrinvoiceitemsDataService.cs" />
+    <Compile Include="Data\LrissueDataService.cs" />
+    <Compile Include="Data\LrissuelistDataService.cs" />
+    <Compile Include="Data\LrreceivedDataService.cs" />
+    <Compile Include="Data\LrreceivedlistDataService.cs" />
+    <Compile Include="Data\PaymentsDataService.cs" />
+    <Compile Include="Data\PricechangeDataService.cs" />
+    <Compile Include="Data\PricecontrolDataService.cs" />
+    <Compile Include="Data\ProductrequestformDataService.cs" />
+    <Compile Include="Data\ProductrequestformitemsDataService.cs" />
+    <Compile Include="Data\ProductsDataService.cs" />
+    <Compile Include="App_Data\QueryBuilder.cs" />
+    <Compile Include="App_Data\ReferencelistDataService.cs" />
+    <Compile Include="Data\PurchaseorderDataService.cs" />
+    <Compile Include="Data\PurchaseorderitemsDataService.cs" />
+    <Compile Include="Data\RefillboxDataService.cs" />
+    <Compile Include="Data\SalablegoodsDataService.cs" />
+    <Compile Include="Data\SKUMasterDataService.cs" />
+    <Compile Include="Data\SmshistoryDataService.cs" />
+    <Compile Include="Data\SplitbarcodehistoryDataService.cs" />
+    <Compile Include="Data\StockauditDataService.cs" />
+    <Compile Include="Data\StockDataService.cs" />
+    <Compile Include="Data\StockhistoryDataService.cs" />
+    <Compile Include="Data\StockmarkerDataService.cs" />
+    <Compile Include="Data\StockUANDataService.cs" />
+    <Compile Include="Data\StoretransactionDataService.cs" />
+    <Compile Include="Data\SuppliercompanyDataService.cs" />
+    <Compile Include="Data\SupplierDataService.cs" />
+    <Compile Include="Data\SupplierpaymentDataService.cs" />
+    <Compile Include="Data\SupplierpaymentinvoiceDataService.cs" />
+    <Compile Include="Data\SupplierproductgroupsDataService.cs" />
+    <Compile Include="Data\SuppliertradeagreementDataService.cs" />
+    <Compile Include="Data\SystementitymapperDataService.cs" />
+    <Compile Include="Data\TaxDataService.cs" />
+    <Compile Include="Data\TraceDataService.cs" />
+    <Compile Include="Data\TransportDataService.cs" />
+    <Compile Include="Data\TransportPaymentDataService.cs" />
+    <Compile Include="Data\TransportpaymentinvoiceDataService.cs" />
+    <Compile Include="Data\UsersDataService.cs" />
+    <Compile Include="Data\UsersessionDataService.cs" />
+    <Compile Include="Data\VoucherDataService.cs" />
+    <Compile Include="Data\VoucheritemstockDataService.cs" />
+    <Compile Include="Data\VoucherPODataService.cs" />
+    <Compile Include="Data\VoucherPOitemsDataService.cs" />
+    <Compile Include="Feedback\CRMConfigController.cs" />
+    <Compile Include="Feedback\CRMConfigDataService.cs" />
+    <Compile Include="Feedback\CRMConfig.cs" />
+    <Compile Include="Feedback\CRMHTML.cs" />
+    <Compile Include="Manufacturing\Ecombill.cs" />
+    <Compile Include="Manufacturing\EcombillController.cs" />
+    <Compile Include="Manufacturing\EcombillDataService.cs" />
+    <Compile Include="Manufacturing\Gatepass.cs" />
+    <Compile Include="Manufacturing\GatepassController.cs" />
+    <Compile Include="Manufacturing\GatepassDataService.cs" />
+    <Compile Include="Manufacturing\Mfgsampleorder.cs" />
+    <Compile Include="Manufacturing\MfgsampleorderController.cs" />
+    <Compile Include="Manufacturing\MfgsampleorderDataService.cs" />
+    <Compile Include="Manufacturing\Unicomerce.cs" />
+    <Compile Include="Models\Agentpayment.cs" />
+    <Compile Include="Models\Agentpaymentinvoice.cs" />
+    <Compile Include="Models\Brsstatus.cs" />
+    <Compile Include="Models\Datasecuritygroup.cs" />
+    <Compile Include="Models\Deliveryrack.cs" />
+    <Compile Include="Models\Employeeincharges.cs" />
+    <Compile Include="Models\Ledgerstockopening.cs" />
+    <Compile Include="Models\Productdesign.cs" />
+    <Compile Include="Models\Purchasebudget.cs" />
+    <Compile Include="Data\VoucheritembillwiseDataService.cs" />
+    <Compile Include="Data\VoucheritemsDataService.cs" />
+    <Compile Include="Data\CustomerCouponsDataservice.cs" />
+    <Compile Include="Data\WarehouseReportDataService.cs" />
+    <Compile Include="Feedback\FBConfig.cs" />
+    <Compile Include="Feedback\FBConfigController.cs" />
+    <Compile Include="Feedback\FBConfigDataService.cs" />
+    <Compile Include="Feedback\Feedback.cs" />
+    <Compile Include="Feedback\FeedbackController.cs" />
+    <Compile Include="Feedback\FeedbackDataService.cs" />
+    <Compile Include="Feedback\FeedbackHTML.cs" />
+    <Compile Include="Feedback\Questions.cs" />
+    <Compile Include="Feedback\QuestionsController.cs" />
+    <Compile Include="Feedback\QuestionsDataService.cs" />
+    <Compile Include="GST\GST3B.cs" />
+    <Compile Include="GST\GSTEWAY.cs" />
+    <Compile Include="GST\GSTR1.cs" />
+    <Compile Include="Manufacturing\BOMBundles.cs" />
+    <Compile Include="Manufacturing\BOMBundlesController.cs" />
+    <Compile Include="Manufacturing\BOMBundlesDataService.cs" />
+    <Compile Include="Manufacturing\BOMConsumption.cs" />
+    <Compile Include="Manufacturing\BOMConsumptionController.cs" />
+    <Compile Include="Manufacturing\BOMConsumptionDataService.cs" />
+    <Compile Include="Manufacturing\BOMConsumptionitems.cs" />
+    <Compile Include="Manufacturing\BOMConsumptionitemsController.cs" />
+    <Compile Include="Manufacturing\BOMConsumptionitemsDataService.cs" />
+    <Compile Include="Manufacturing\BOMinvoice.cs" />
+    <Compile Include="Manufacturing\BOMinvoiceController.cs" />
+    <Compile Include="Manufacturing\BOMinvoiceDataService.cs" />
+    <Compile Include="Manufacturing\BOMinvoiceitems.cs" />
+    <Compile Include="Manufacturing\BOMinvoiceitemsController.cs" />
+    <Compile Include="Manufacturing\BOMinvoiceitemsDataService.cs" />
+    <Compile Include="Manufacturing\BOMInvoicereturn.cs" />
+    <Compile Include="Manufacturing\BOMinvoicereturnController.cs" />
+    <Compile Include="Manufacturing\BOMInvoicereturnDataService.cs" />
+    <Compile Include="Manufacturing\BOMInvoicereturnitems.cs" />
+    <Compile Include="Manufacturing\bominvoicereturnitemsController.cs" />
+    <Compile Include="Manufacturing\BOMInvoicereturnitemsDataService.cs" />
+    <Compile Include="Manufacturing\BOMinvoicetax.cs" />
+    <Compile Include="Manufacturing\BOMinvoicetaxController.cs" />
+    <Compile Include="Manufacturing\BOMinvoicetaxDataService.cs" />
+    <Compile Include="Manufacturing\BOMlrentry.cs" />
+    <Compile Include="Manufacturing\BOMLREntryController.cs" />
+    <Compile Include="Manufacturing\BOMLREntryDataService.cs" />
+    <Compile Include="Manufacturing\BOMMaster.cs" />
+    <Compile Include="Manufacturing\BOMMasterController.cs" />
+    <Compile Include="Manufacturing\BOMMasterDataService.cs" />
+    <Compile Include="Manufacturing\Bompricehistory.cs" />
+    <Compile Include="Manufacturing\BompricehistoryController.cs" />
+    <Compile Include="Manufacturing\BompricehistoryDataService.cs" />
+    <Compile Include="Manufacturing\Bomrequest.cs" />
+    <Compile Include="Manufacturing\BomrequestController.cs" />
+    <Compile Include="Manufacturing\BomrequestDataService.cs" />
+    <Compile Include="Manufacturing\Bomstocktransaction.cs" />
+    <Compile Include="Manufacturing\BomstocktransactionController.cs" />
+    <Compile Include="Manufacturing\BomstocktransactionDataService.cs" />
+    <Compile Include="Manufacturing\ComponentPO.cs" />
+    <Compile Include="Manufacturing\ComponentPOController.cs" />
+    <Compile Include="Manufacturing\ComponentPODataService.cs" />
+    <Compile Include="Manufacturing\ComponentPOitems.cs" />
+    <Compile Include="Manufacturing\ComponentPOitemsController.cs" />
+    <Compile Include="Manufacturing\ComponentPOitemsDataService.cs" />
+    <Compile Include="Manufacturing\Mfgbillofmaterial.cs" />
+    <Compile Include="Manufacturing\MfgbillofmaterialController.cs" />
+    <Compile Include="Manufacturing\MfgbillofmaterialDataService.cs" />
+    <Compile Include="Manufacturing\Mfgbillofmaterialitems.cs" />
+    <Compile Include="Manufacturing\MfgbillofmaterialitemsController.cs" />
+    <Compile Include="Manufacturing\MfgbillofmaterialitemsDataService.cs" />
+    <Compile Include="Manufacturing\Mfgbinstorage.cs" />
+    <Compile Include="Manufacturing\MfgbinstorageController.cs" />
+    <Compile Include="Manufacturing\MfgbinstorageDataService.cs" />
+    <Compile Include="Manufacturing\Mfgbinstoragestock.cs" />
+    <Compile Include="Manufacturing\MfgbinstoragestockController.cs" />
+    <Compile Include="Manufacturing\MfgbinstoragestockDataService.cs" />
+    <Compile Include="Manufacturing\Mfgdesign.cs" />
+    <Compile Include="Manufacturing\MfgdesignController.cs" />
+    <Compile Include="Manufacturing\Mfgdesigncost.cs" />
+    <Compile Include="Manufacturing\MfgdesigncostDataService.cs" />
+    <Compile Include="Manufacturing\MfgdesignDataService.cs" />
+    <Compile Include="Manufacturing\Mfgemployeejobwork.cs" />
+    <Compile Include="Manufacturing\MfgemployeejobworkController.cs" />
+    <Compile Include="Manufacturing\MfgemployeejobworkDataService.cs" />
+    <Compile Include="Manufacturing\Mfgjoborder.cs" />
+    <Compile Include="Manufacturing\MfgjoborderController.cs" />
+    <Compile Include="Manufacturing\MfgjoborderDataService.cs" />
+    <Compile Include="Manufacturing\Mfgjoborderitems.cs" />
+    <Compile Include="Manufacturing\MfgjoborderitemsController.cs" />
+    <Compile Include="Manufacturing\MfgjoborderitemsDataService.cs" />
+    <Compile Include="Manufacturing\Mfgjobworkconfig.cs" />
+    <Compile Include="Manufacturing\MfgjobworkconfigController.cs" />
+    <Compile Include="Manufacturing\MfgjobworkconfigDataService.cs" />
+    <Compile Include="Manufacturing\MfgReportController.cs" />
+    <Compile Include="Manufacturing\MfgReportDataService.cs" />
+    <Compile Include="Manufacturing\Mfgtailoring.cs" />
+    <Compile Include="Manufacturing\MfgtailoringController.cs" />
+    <Compile Include="Manufacturing\MfgtailoringDataService.cs" />
+    <Compile Include="Manufacturing\Mfgtailoringreceived.cs" />
+    <Compile Include="Manufacturing\MfgtailoringreceivedController.cs" />
+    <Compile Include="Manufacturing\MfgtailoringreceivedDataService.cs" />
+    <Compile Include="Manufacturing\Mfgtailoringwages.cs" />
+    <Compile Include="Manufacturing\MfgtailoringwagesController.cs" />
+    <Compile Include="Manufacturing\MfgtailoringwagesDataService.cs" />
+    <Compile Include="Manufacturing\Mfgworkfloworchestration.cs" />
+    <Compile Include="Manufacturing\MfgworkfloworchestrationController.cs" />
+    <Compile Include="Manufacturing\MfgworkfloworchestrationDataService.cs" />
+    <Compile Include="Manufacturing\Mfgworkorder.cs" />
+    <Compile Include="Manufacturing\MfgworkorderController.cs" />
+    <Compile Include="Manufacturing\MfgworkorderDataService.cs" />
+    <Compile Include="Manufacturing\Mfgworkordergrn.cs" />
+    <Compile Include="Manufacturing\MfgworkordergrnController.cs" />
+    <Compile Include="Manufacturing\MfgworkordergrnDataService.cs" />
+    <Compile Include="Manufacturing\Mfgworkordergrnitems.cs" />
+    <Compile Include="Manufacturing\MfgworkordergrnitemsController.cs" />
+    <Compile Include="Manufacturing\MfgworkordergrnitemsDataService.cs" />
+    <Compile Include="Manufacturing\mfgworkordergrnitemsizes.cs" />
+    <Compile Include="Manufacturing\mfgworkordergrnitemsizesController.cs" />
+    <Compile Include="Manufacturing\mfgworkordergrnitemsizesDataService.cs" />
+    <Compile Include="Manufacturing\Mfgworkorderinbox.cs" />
+    <Compile Include="Manufacturing\MfgworkorderinboxController.cs" />
+    <Compile Include="Manufacturing\MfgworkorderinboxDataService.cs" />
+    <Compile Include="Manufacturing\Mfgworkorderitems.cs" />
+    <Compile Include="Manufacturing\MfgworkorderitemsController.cs" />
+    <Compile Include="Manufacturing\MfgworkorderitemsDataService.cs" />
+    <Compile Include="Manufacturing\Mfgworkorderitemsizes.cs" />
+    <Compile Include="Manufacturing\MfgworkorderitemsizesController.cs" />
+    <Compile Include="Manufacturing\MfgworkorderitemsizesDataService.cs" />
+    <Compile Include="Manufacturing\Mfg_Samples.cs" />
+    <Compile Include="Manufacturing\Mfg_SamplesController.cs" />
+    <Compile Include="Manufacturing\Mfg_SamplesDataService.cs" />
+    <Compile Include="Manufacturing\Mfg_Swatches.cs" />
+    <Compile Include="Manufacturing\Mfg_SwatchesController.cs" />
+    <Compile Include="Manufacturing\Mfg_SwatchesDataService.cs" />
+    <Compile Include="Manufacturing\Mfg_Swatches_Folder.cs" />
+    <Compile Include="Manufacturing\Mfg_Swatches_FolderController.cs" />
+    <Compile Include="Manufacturing\Mfg_Swatches_FolderDataService.cs" />
+    <Compile Include="Manufacturing\Mfg_Swatches_History.cs" />
+    <Compile Include="Manufacturing\Mfg_Swatches_HistoryController.cs" />
+    <Compile Include="Manufacturing\Mfg_Swatches_HistoryDataService.cs" />
+    <Compile Include="Manufacturing\Uniquesequance.cs" />
+    <Compile Include="Manufacturing\UniquesequanceController.cs" />
+    <Compile Include="Manufacturing\UniquesequanceDataService.cs" />
+    <Compile Include="Models\Bankchequetransaction.cs" />
+    <Compile Include="Models\Billadditionalcharges.cs" />
+    <Compile Include="Models\Billcreditnote.cs" />
+    <Compile Include="Models\Billcreditnoteitems.cs" />
+    <Compile Include="Models\Billhistory.cs" />
+    <Compile Include="Models\Billhistoryitems.cs" />
+    <Compile Include="Models\Billinbox.cs" />
+    <Compile Include="Models\Dailyprice.cs" />
+    <Compile Include="Models\Leadmanagement.cs" />
+    <Compile Include="Models\Bugtracker.cs" />
+    <Compile Include="Models\Buyback.cs" />
+    <Compile Include="Models\Buybackscheme.cs" />
+    <Compile Include="Models\Customerdivert.cs" />
+    <Compile Include="Models\Customerorder.cs" />
+    <Compile Include="Models\Customerprice.cs" />
+    <Compile Include="Models\Customerpricelist.cs" />
+    <Compile Include="Models\Customerrewards.cs" />
+    <Compile Include="Models\Customerwalkins.cs" />
+    <Compile Include="Models\Deathonarival.cs" />
+    <Compile Include="Models\Emischemes.cs" />
+    <Compile Include="Models\Employeetarget.cs" />
+    <Compile Include="Models\Fullstocksync.cs" />
+    <Compile Include="Models\Gst_Inbox.cs" />
+    <Compile Include="Models\GST_Models.cs" />
+    <Compile Include="Models\Intray.cs" />
+    <Compile Include="Models\Jobworkbill.cs" />
+    <Compile Include="Models\Jobworkbillgrn.cs" />
+    <Compile Include="Models\Jobworkbillgrnitems.cs" />
+    <Compile Include="Models\Jobworkbillitems.cs" />
+    <Compile Include="Models\Jobworksamples.cs" />
+    <Compile Include="Models\Loansettlement.cs" />
+    <Compile Include="Models\Openingbalances.cs" />
+    <Compile Include="Models\Organisation.cs" />
+    <Compile Include="Models\Packingslip.cs" />
+    <Compile Include="Models\PermissionSlip.cs" />
+    <Compile Include="Models\Pricedrop.cs" />
+    <Compile Include="Models\Recharge.cs" />
+    <Compile Include="Models\Rechargebalance.cs" />
+    <Compile Include="Models\Rechargescheme.cs" />
+    <Compile Include="Models\Reorderrules.cs" />
+    <Compile Include="Models\ReportDesigner.cs" />
+    <Compile Include="Models\Salablegoodshistory.cs" />
+    <Compile Include="Models\Salablegoodsprice.cs" />
+    <Compile Include="Models\Salesorder.cs" />
+    <Compile Include="Models\Salesorderitems.cs" />
+    <Compile Include="Models\Schedule.cs" />
+    <Compile Include="Models\Scheduleditems.cs" />
+    <Compile Include="Models\Securitykeys.cs" />
+    <Compile Include="Models\Sellablebarcodes.cs" />
+    <Compile Include="Models\Servicecenters.cs" />
+    <Compile Include="Models\SKUMaster.cs" />
+    <Compile Include="Models\Smshistory.cs" />
+    <Compile Include="Models\Smsmessage.cs" />
+    <Compile Include="Models\Splitbarcodehistory.cs" />
+    <Compile Include="Models\Stockaudit.cs" />
+    <Compile Include="Models\Stockdumping.cs" />
+    <Compile Include="Models\Stockhistory.cs" />
+    <Compile Include="Models\Storetransaction.cs" />
+    <Compile Include="Models\Supplierproductgroups.cs" />
+    <Compile Include="Models\SupplierTradeAgreement.cs" />
+    <Compile Include="Models\Systementitymapper.cs" />
+    <Compile Include="Models\Transportpayment.cs" />
+    <Compile Include="Models\Transportpaymentinvoice.cs" />
+    <Compile Include="Models\Voucheritembillwise.cs" />
+    <Compile Include="Payroll\FineCalulation.cs" />
+    <Compile Include="Payroll\IncentiveEngine.cs" />
+    <Compile Include="Payroll\MonthlyPay.cs" />
+    <Compile Include="Payroll\SalaryEngine.cs" />
+    <Compile Include="Analytical\DBViewCache.cs" />
+    <Compile Include="Processors\DataZipService.cs" />
+    <Compile Include="Processors\MfgDesingImport.cs" />
+    <Compile Include="Processors\BillImportManager.cs" />
+    <Compile Include="Processors\BillLog.cs" />
+    <Compile Include="Processors\BI_Server.cs" />
+    <Compile Include="Processors\CacheManager.cs" />
+    <Compile Include="Processors\BarcodeManager.cs" />
+    <Compile Include="Processors\CommandManager.cs" />
+    <Compile Include="Processors\CoreDBListener.cs" />
+    <Compile Include="Processors\ConfigManager.cs" />
+    <Compile Include="Models\Autonumber.cs" />
+    <Compile Include="Models\GiftVoucher.cs" />
+    <Compile Include="Models\Delivery.cs" />
+    <Compile Include="Models\Discountqueue.cs" />
+    <Compile Include="Models\Employeeinout.cs" />
+    <Compile Include="Models\ExcelExport.cs" />
+    <Compile Include="Models\Expenses.cs" />
+    <Compile Include="Models\Homepage.cs" />
+    <Compile Include="Models\Incentiveconfig.cs" />
+    <Compile Include="Models\Incentives.cs" />
+    <Compile Include="Models\Packbarcode.cs" />
+    <Compile Include="Models\ProductGroup.cs" />
+    <Compile Include="Models\Promotions.cs" />
+    <Compile Include="Models\Schemebarcodes.cs" />
+    <Compile Include="Models\ShiftAllocation.cs" />
+    <Compile Include="Models\Agent.cs" />
+    <Compile Include="Models\Bill.cs" />
+    <Compile Include="Models\BillItems.cs" />
+    <Compile Include="Models\Billmaster.cs" />
+    <Compile Include="Models\Billsettlement.cs" />
+    <Compile Include="Models\Billsettlementmaster.cs" />
+    <Compile Include="Models\Brand.cs" />
+    <Compile Include="Models\Bundles.cs" />
+    <Compile Include="Models\Cash.cs" />
+    <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\Configuration.cs" />
+    <Compile Include="Models\Courier.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Customerinvoice.cs" />
+    <Compile Include="Models\Customerpayment.cs" />
+    <Compile Include="Models\Customerstock.cs" />
+    <Compile Include="Models\Denomination.cs" />
+    <Compile Include="Models\Discountscheme.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Employeeleavemaster.cs" />
+    <Compile Include="Models\Employeesalary.cs" />
+    <Compile Include="Models\Employeesalaryheader.cs" />
+    <Compile Include="Models\Employeesalaryschedule.cs" />
+    <Compile Include="Models\Employeesalarystructure.cs" />
+    <Compile Include="Models\Holiday.cs" />
+    <Compile Include="Models\Inbox.cs" />
+    <Compile Include="Models\Items.cs" />
+    <Compile Include="Models\Leaverequest.cs" />
+    <Compile Include="Models\Ledger.cs" />
+    <Compile Include="Models\Lrbillamounts.cs" />
+    <Compile Include="Models\Lrbilltax.cs" />
+    <Compile Include="Models\Lrinvoicereturn.cs" />
+    <Compile Include="Models\Lrinvoicereturnitems.cs" />
+    <Compile Include="Models\Lrinvoicetax.cs" />
+    <Compile Include="Models\lrentry.cs" />
+    <Compile Include="Models\Lrentryfreightcharges.cs" />
+    <Compile Include="Models\Lrinvoice.cs" />
+    <Compile Include="Models\Lrinvoiceitems.cs" />
+    <Compile Include="Models\Lrissue.cs" />
+    <Compile Include="Models\Lrissuelist.cs" />
+    <Compile Include="Models\Lrreceived.cs" />
+    <Compile Include="Models\Lrreceivedlist.cs" />
+    <Compile Include="Models\Payments.cs" />
+    <Compile Include="Models\Pricechange.cs" />
+    <Compile Include="Models\Pricecontrol.cs" />
+    <Compile Include="Models\Productrequestform.cs" />
+    <Compile Include="Models\Productrequestformitems.cs" />
+    <Compile Include="Models\Products.cs" />
+    <Compile Include="Models\Purchaseorder.cs" />
+    <Compile Include="Models\Purchaseorderitems.cs" />
+    <Compile Include="Models\Referencelist.cs" />
+    <Compile Include="Models\Refillbox.cs" />
+    <Compile Include="Models\Salablegoods.cs" />
+    <Compile Include="Models\Stock.cs" />
+    <Compile Include="Models\Stockmarker.cs" />
+    <Compile Include="Models\Supplier.cs" />
+    <Compile Include="Models\Suppliercompany.cs" />
+    <Compile Include="Models\Supplierpayment.cs" />
+    <Compile Include="Models\Supplierpaymentinvoice.cs" />
+    <Compile Include="Processors\CRMInterface.cs" />
+    <Compile Include="Processors\CustomFieldsManager.cs" />
+    <Compile Include="Processors\DataMigration_Sales.cs" />
+    <Compile Include="Processors\DataMigration_Stock.cs" />
+    <Compile Include="Processors\ElasticEmailClient.cs" />
+    <Compile Include="Processors\ExcelImportManager.cs" />
+    <Compile Include="Processors\IntrayManager.cs" />
+    <Compile Include="Processors\DataMigration_Entity.cs" />
+    <Compile Include="Processors\json\BufferedRealtimeCompressionEngine.cs" />
+    <Compile Include="Processors\json\CompressedBinaryFormatter.cs" />
+    <Compile Include="Processors\json\DataTableCustomFormatter.cs" />
+    <Compile Include="Processors\json\QuickLZ.cs" />
+    <Compile Include="Processors\MigrationManager.cs" />
+    <Compile Include="Processors\OfflineClient.cs" />
+    <Compile Include="Processors\OfflineManager.cs" />
+    <Compile Include="Processors\OnlineIntegration.cs" />
+    <Compile Include="Processors\OrganizationManager.cs" />
+    <Compile Include="Processors\Paytm.Checksum.cs" />
+    <Compile Include="Processors\PDFGenerator.cs" />
+    <Compile Include="Processors\ProcessManager.cs" />
+    <Compile Include="Processors\QuantoApi.cs" />
+    <Compile Include="Processors\QuantoApiController.cs" />
+    <Compile Include="Processors\RandomManager.cs" />
+    <Compile Include="Processors\SaleEngine.cs" />
+    <Compile Include="Processors\ScheduledReports.cs" />
+    <Compile Include="Processors\ScheduleManager.cs" />
+    <Compile Include="Processors\Schedule_Actions.cs" />
+    <Compile Include="Processors\Schedule_Reports.cs" />
+    <Compile Include="Processors\SchemeManager.cs" />
+    <Compile Include="Processors\SMSManager.cs" />
+    <Compile Include="Processors\Sync-Server.cs" />
+    <Compile Include="Processors\SyncBI_Controller.cs" />
+    <Compile Include="Processors\SyncController.cs" />
+    <Compile Include="Processors\SyncManager.cs" />
+    <Compile Include="Processors\Sync_Client.cs" />
+    <Compile Include="Processors\WidgetDataManager.cs" />
+    <Compile Include="Processors\WorkflowQueueManager.cs" />
+    <Compile Include="Report\HtmlFormat.cs" />
+    <Compile Include="Report\LaserReporter.cs" />
+    <Compile Include="Report\JSONGraphic.cs" />
+    <Compile Include="Report\PDFLabel.cs" />
+    <Compile Include="Report\JSONPrinter.cs" />
+    <Compile Include="Report\pos\ByteArrayBuilder.cs" />
+    <Compile Include="Report\pos\ByteExtensions.cs" />
+    <Compile Include="Report\pos\ByteSplicer.cs" />
+    <Compile Include="Report\pos\ElginEscPos.cs" />
+    <Compile Include="Report\pos\Emitters\BaseCommandEmitter\ActionCommands.cs" />
+    <Compile Include="Report\pos\Emitters\BaseCommandEmitter\BarcodeCommands.cs" />
+    <Compile Include="Report\pos\Emitters\BaseCommandEmitter\BaseCommandEmitter.cs" />
+    <Compile Include="Report\pos\Emitters\BaseCommandEmitter\CharacterCommands.cs" />
+    <Compile Include="Report\pos\Emitters\BaseCommandEmitter\LineSpacingCommands.cs" />
+    <Compile Include="Report\pos\Emitters\BaseCommandEmitter\OperationalCommands.cs" />
+    <Compile Include="Report\pos\Emitters\BaseCommandEmitter\PrintCommands.cs" />
+    <Compile Include="Report\pos\Emitters\BaseCommandEmitter\StatusCommands.cs" />
+    <Compile Include="Report\pos\Emitters\Enums\Align.cs" />
+    <Compile Include="Report\pos\Emitters\Enums\BarcodeType.cs" />
+    <Compile Include="Report\pos\Emitters\Enums\BarLabelPrintPosition.cs" />
+    <Compile Include="Report\pos\Emitters\Enums\BarWidth.cs" />
+    <Compile Include="Report\pos\Emitters\Enums\PrintStyle.cs" />
+    <Compile Include="Report\pos\Emitters\EPSON.cs" />
+    <Compile Include="Report\pos\Emitters\ICommandEmitter.cs" />
+    <Compile Include="Report\pos\EscPos.cs" />
+    <Compile Include="Report\pos\RawPrinter.cs" />
+    <Compile Include="Report\ThermalImage.cs" />
+    <Compile Include="Tailoring\Tailor.cs" />
+    <Compile Include="Tailoring\TailorController.cs" />
+    <Compile Include="Tailoring\TailorDataService.cs" />
+    <Compile Include="Tailoring\Tailoringdesign.cs" />
+    <Compile Include="Tailoring\TailoringdesignController.cs" />
+    <Compile Include="Tailoring\TailoringdesignDataService.cs" />
+    <Compile Include="Tailoring\Tailoringitems.cs" />
+    <Compile Include="Tailoring\TailoringitemsController.cs" />
+    <Compile Include="Tailoring\TailoringitemsDataService.cs" />
+    <Compile Include="Tailoring\Tailoringitemsdelivered.cs" />
+    <Compile Include="Tailoring\TailoringitemsdeliveredController.cs" />
+    <Compile Include="Tailoring\TailoringitemsdeliveredDataService.cs" />
+    <Compile Include="Tailoring\Tailoringitemsissued.cs" />
+    <Compile Include="Tailoring\TailoringitemsissuedController.cs" />
+    <Compile Include="Tailoring\TailoringitemsissuedDataService.cs" />
+    <Compile Include="Tailoring\Tailoringitemsreceived.cs" />
+    <Compile Include="Tailoring\TailoringitemsreceivedController.cs" />
+    <Compile Include="Tailoring\TailoringitemsreceivedDataService.cs" />
+    <Compile Include="Tailoring\Tailoringmeasurement.cs" />
+    <Compile Include="Tailoring\TailoringmeasurementController.cs" />
+    <Compile Include="Tailoring\TailoringmeasurementDataService.cs" />
+    <Compile Include="Tailoring\Tailoringorder.cs" />
+    <Compile Include="Tailoring\TailoringorderController.cs" />
+    <Compile Include="Tailoring\TailoringorderDataService.cs" />
+    <Compile Include="Tailoring\Tailoringpayment.cs" />
+    <Compile Include="Tailoring\TailoringpaymentController.cs" />
+    <Compile Include="Tailoring\TailoringpaymentDataService.cs" />
+    <Compile Include="Tally\FinanceService.cs" />
+    <Compile Include="Tally\TallyController.cs" />
+    <Compile Include="Tally\TallyDataservice.cs" />
+    <Compile Include="Tally\TallyConfig.cs" />
+    <Compile Include="Models\tax.cs" />
+    <Compile Include="Models\Common\Common.cs" />
+    <Compile Include="App_Data\Utility.cs" />
+    <Compile Include="EnterpriseDB\CachingMechanism.cs" />
+    <Compile Include="EnterpriseDB\ConnectionString.cs" />
+    <Compile Include="EnterpriseDB\Database.cs" />
+    <Compile Include="EnterpriseDB\DatabaseFactory.cs" />
+    <Compile Include="EnterpriseDB\ParameterCache.cs" />
+    <Compile Include="EnterpriseDB\Postgres\GlobalSuppressions.cs" />
+    <Compile Include="EnterpriseDB\Postgres\NpgsqlDatabase.cs" />
+    <Compile Include="EnterpriseDB\Security.cs" />
+    <Compile Include="EnterpriseDB\SqlDatabase.cs" />
+    <Compile Include="EnterpriseDB\TransactionScopeConnections.cs" />
+    <Compile Include="EnterpriseDB\UpdateBehavior.cs" />
+    <Compile Include="Models\Common\Reference.cs" />
+    <Compile Include="Models\Trace.cs" />
+    <Compile Include="Models\Transport.cs" />
+    <Compile Include="Models\Users.cs" />
+    <Compile Include="Models\Usersession.cs" />
+    <Compile Include="Models\Voucher.cs" />
+    <Compile Include="Models\Voucheritems.cs" />
+    <Compile Include="Models\CustomerCoupons.cs" />
+    <Compile Include="Payroll\SalarySummary.cs" />
+    <Compile Include="Payroll\ESIPF.cs" />
+    <Compile Include="Payroll\Overtime.cs" />
+    <Compile Include="Payroll\Beta.cs" />
+    <Compile Include="Payroll\Bonus.cs" />
+    <Compile Include="Payroll\Incentive.cs" />
+    <Compile Include="Payroll\LeaveSalary.cs" />
+    <Compile Include="Payroll\MathParserTK.cs" />
+    <Compile Include="Payroll\SalaryManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\TaxController.cs" />
+    <Compile Include="Report\AsciiControlChars.cs" />
+    <Compile Include="Report\CitizenBarcode.cs" />
+    <Compile Include="Report\DataReader.cs" />
+    <Compile Include="Report\DosFormat.cs" />
+    <Compile Include="Report\DosFormatParser.cs" />
+    <Compile Include="Report\DOSReporter.cs" />
+    <Compile Include="Report\DotMatrixReporter.cs" />
+    <Compile Include="Report\IGraphic.cs" />
+    <Compile Include="Report\IReporter.cs" />
+    <Compile Include="Report\NativeMethods.cs" />
+    <Compile Include="Report\PdfGraphic.cs" />
+    <Compile Include="Report\PDFPrinter.cs" />
+    <Compile Include="Report\pos\PosExtensions.cs" />
+    <Compile Include="Report\PrinterUtility.cs" />
+    <Compile Include="Report\PrintUtility.cs" />
+    <Compile Include="Tally\TallyProxy.cs" />
+    <Compile Include="Tally\tallyResult.cs">
+      <DependentUpon>tallyResult.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Tally\tallyResult.designer.cs">
+      <DependentUpon>tallyResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tally\tallyResult1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>tallyResult.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Tally\TallyXML.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <Content Include="clientside\bootstrap\css\bootstrap.css.map" />
+    <Content Include="clientside\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="clientside\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="clientside\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="clientside\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="clientside\build\bootstrap-less\mixins.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\alerts.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\background-variant.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\border-radius.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\buttons.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\center-block.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\clearfix.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\forms.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\gradients.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\grid-framework.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\grid.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\hide-text.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\image.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\labels.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\list-group.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\nav-divider.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\nav-vertical-align.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\opacity.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\pagination.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\panels.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\progress-bar.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\reset-filter.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\resize.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\responsive-visibility.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\size.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\tab-focus.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\table-row.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\text-emphasis.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\text-overflow.less" />
+    <Content Include="clientside\build\bootstrap-less\mixins\vendor-prefixes.less" />
+    <Content Include="clientside\build\bootstrap-less\variables.less" />
+    <Content Include="clientside\build\less\.csslintrc" />
+    <Content Include="clientside\build\less\404_500_errors.less" />
+    <Content Include="clientside\build\less\AdminLTE.less" />
+    <Content Include="clientside\build\less\alerts.less" />
+    <Content Include="clientside\build\less\bootstrap-social.less" />
+    <Content Include="clientside\build\less\boxes.less" />
+    <Content Include="clientside\build\less\buttons.less" />
+    <Content Include="clientside\build\less\callout.less" />
+    <Content Include="clientside\build\less\carousel.less" />
+    <Content Include="clientside\build\less\control-sidebar.less" />
+    <Content Include="clientside\build\less\core.less" />
+    <Content Include="clientside\build\less\direct-chat.less" />
+    <Content Include="clientside\build\less\dropdown.less" />
+    <Content Include="clientside\build\less\forms.less" />
+    <Content Include="clientside\build\less\fullcalendar.less" />
+    <Content Include="clientside\build\less\header.less" />
+    <Content Include="clientside\build\less\info-box.less" />
+    <Content Include="clientside\build\less\invoice.less" />
+    <Content Include="clientside\build\less\labels.less" />
+    <Content Include="clientside\build\less\lockscreen.less" />
+    <Content Include="clientside\build\less\login_and_register.less" />
+    <Content Include="clientside\build\less\mailbox.less" />
+    <Content Include="clientside\build\less\miscellaneous.less" />
+    <Content Include="clientside\build\less\mixins.less" />
+    <Content Include="clientside\build\less\modal.less" />
+    <Content Include="clientside\build\less\navs.less" />
+    <Content Include="clientside\build\less\print.less" />
+    <Content Include="clientside\build\less\products.less" />
+    <Content Include="clientside\build\less\profile.less" />
+    <Content Include="clientside\build\less\progress-bars.less" />
+    <Content Include="clientside\build\less\select2.less" />
+    <Content Include="clientside\build\less\sidebar-mini.less" />
+    <Content Include="clientside\build\less\sidebar.less" />
+    <Content Include="clientside\build\less\skins\skin-black-light.less" />
+    <Content Include="clientside\build\less\skins\skin-black.less" />
+    <Content Include="clientside\build\less\skins\skin-blue-light.less" />
+    <Content Include="clientside\build\less\skins\skin-blue.less" />
+    <Content Include="clientside\build\less\skins\skin-green-light.less" />
+    <Content Include="clientside\build\less\skins\skin-green.less" />
+    <Content Include="clientside\build\less\skins\skin-purple-light.less" />
+    <Content Include="clientside\build\less\skins\skin-purple.less" />
+    <Content Include="clientside\build\less\skins\skin-red-light.less" />
+    <Content Include="clientside\build\less\skins\skin-red.less" />
+    <Content Include="clientside\build\less\skins\skin-yellow-light.less" />
+    <Content Include="clientside\build\less\skins\skin-yellow.less" />
+    <Content Include="clientside\build\less\skins\_all-skins.less" />
+    <Content Include="clientside\build\less\small-box.less" />
+    <Content Include="clientside\build\less\social-widgets.less" />
+    <Content Include="clientside\build\less\table.less" />
+    <Content Include="clientside\build\less\timeline.less" />
+    <Content Include="clientside\build\less\users-list.less" />
+    <Content Include="clientside\build\less\variables.less" />
+    <Content Include="clientside\plugins\ckeditor\CHANGES.md" />
+    <Content Include="clientside\plugins\ckeditor\LICENSE.md" />
+    <Content Include="clientside\plugins\ckeditor\plugins\scayt\LICENSE.md" />
+    <Content Include="clientside\plugins\ckeditor\plugins\scayt\README.md" />
+    <Content Include="clientside\plugins\ckeditor\plugins\wsc\LICENSE.md" />
+    <Content Include="clientside\plugins\ckeditor\plugins\wsc\README.md" />
+    <Content Include="clientside\plugins\ckeditor\README.md" />
+    <Content Include="clientside\plugins\ckeditor\skins\moono\readme.md" />
+    <Content Include="clientside\plugins\datatables\extensions\ColReorder\Readme.md" />
+    <Content Include="clientside\plugins\datatables\extensions\ColVis\Readme.md" />
+    <Content Include="clientside\plugins\datatables\extensions\FixedColumns\Readme.md" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\css\dataTables.responsive.scss" />
+    <Content Include="clientside\plugins\datatables\extensions\Responsive\Readme.md" />
+    <Content Include="clientside\plugins\datatables\extensions\Scroller\examples\data\ssp.php" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\psd\collection.psd" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\psd\copy document.psd" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\psd\file_types.psd" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\images\psd\printer.psd" />
+    <Content Include="clientside\plugins\datatables\extensions\TableTools\Readme.md" />
+    <Content Include="clientside\plugins\input-mask\phone-codes\phone-be.json" />
+    <Content Include="clientside\plugins\input-mask\phone-codes\phone-codes.json" />
+    <Content Include="App_Start\client_id.json" />
+    <Content Include="clientside\plugins\Dialog\jquery-confirm.less" />
+    <!-- <Content Include="bin\FORM P1.xlsx" /> -->
+    <Content Include="GST\Sample GSTR-1.json" />
+    <Content Include="GST\Sample GSTR-3B.json" />
+    <Content Include="GST\Ewaybill_301_210618_162345.json" />
+    <Content Include="barcode\BarcodeXML.xsc">
+      <DependentUpon>BarcodeXML.xsd</DependentUpon>
+    </Content>
+    <None Include="barcode\BarcodeXML.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>BarcodeXML1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="barcode\BarcodeXML.xss">
+      <DependentUpon>BarcodeXML.xsd</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\ttdnow.pubxml" />
+    <Content Include="Resource\FORMP.xlsx" />
+    <Content Include="Resource\FORMQ.xlsx" />
+    <Content Include="Resource\FORMR.xlsx" />
+    <Content Include="Resource\FORMS.xlsx" />
+    <Content Include="Tally\tallyResult.xsc">
+      <DependentUpon>tallyResult.xsd</DependentUpon>
+    </Content>
+    <Content Include="Report\Debitnote %282%29.pdf" />
+    <Content Include="Report\PO.pdf" />
+    <None Include="Tally\tallyResult.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>tallyResult1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Tally\tallyResult.xss">
+      <DependentUpon>tallyResult.xsd</DependentUpon>
+    </Content>
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="clientside\LblDesigner\js\" />
+    <Folder Include="Templates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.S3.3.7.7.21\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>1704</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:1704/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

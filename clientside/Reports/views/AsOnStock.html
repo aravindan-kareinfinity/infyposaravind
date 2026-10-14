@@ -1,0 +1,111 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            As On Day Stock
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'as on stock', 'asonstock')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-click="printInfyGrid(igrid)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-click="SearchAsOnStock()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box primary">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">COMPANY</label>
+                                <div class="col-md-8">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Company track by item.id" ng-model="SearchCondition.companyid" focusid="location" focusonenter="date"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">DATE</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control input-sm datepicker" datemodule="SearchCondition.fromdate" ng-model="SearchCondition.fromdate" focusid="date" focusonenter="product">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">&nbsp;</label>
+                                <div class="col-md-2">
+                                    <label for="inputEmail3" class="col-md-4 control-label"><b>GROUP</b></label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputEmail3" class="col-md-4 control-label"><b>CONDITION</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">SECTION</label>
+                                <div class="col-md-2">
+                                    <input type="radio" ng-model="SearchCondition.mode" style="padding-left:30px;" value="3" focusid="section" focusonenter="product" />
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Division track by item.id" ng-model="SearchCondition.sectionid" focusid="producttext" focusonenter="supplier"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">PRODUCT</label>
+                                <div class="col-md-2">
+                                    <input type="radio" ng-model="SearchCondition.mode" style="padding-left:30px;" value="1" focusid="product" focusonenter="producttext" />
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Product track by item.id" ng-model="SearchCondition.productid" focusid="producttext" focusonenter="supplier"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="row row-padbot-15">
+        <div class="form-group">
+            <label for="inputEmail3" class="col-md-4 control-label">BRAND</label>
+            <div class="col-md-2">
+                <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.brand" />
+            </div>
+            <div class="col-md-6">
+                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Brand track by item.id" ng-model="SearchCondition.brandid"></select>
+            </div>
+        </div>
+    </div>-->
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">SUPPLIER</label>
+                                <div class="col-md-2">
+                                    <input type="radio" ng-model="SearchCondition.mode" style="padding-left:30px;" value="2" focusid="supplier" focusonenter="suppliertext" />
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Supplier track by item.id" startswith="true" ng-model="SearchCondition.supplierid" focusid="suppliertext"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-12  no-padding" id="gridContainer">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+
+
+        </div>
+
+    </section>
+</div>

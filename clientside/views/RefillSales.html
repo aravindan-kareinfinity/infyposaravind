@@ -1,0 +1,293 @@
+﻿<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Sales | Refill
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+<li><a href back-button>Back</a></li>
+            <li class="active"> Refill Sales</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-6">
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in BuyingCompany track by item.id" ng-model="RefillBox.companyid"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 control-label">Product</label>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <select class="form-control" select2='' ng-model="RefillBox.productid" options="item.id as item.name for item in Products track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 control-label">Supplier</label>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <select class="form-control" select2='Supplier' style="width:100%;" ng-model="RefillBox.supplierid" options="item.id as item.name for item in Suppliers track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">Barcode</label>
+
+                            <div class="col-md-8">
+                                <div class="input-group input-group-sm">
+                                    <input method="text" class="input-sm form-control" style="width: 100%;" ng-model="RefillBox.barcode" placeholder="Barcode">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-flat" ng-click="SearchByBarcode(RefillBox.barcode)">Go!</button>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- /.col -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-6">
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 control-label">Brand</label>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <select class="form-control" select2='' ng-model="RefillBox.brandid" options="item.id as item.name for item in Brand track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 control-label">Material</label>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <select class="form-control" select2='' ng-model="RefillBox.materialid" options="item.id as item.name for item in Material track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 control-label">Size</label>
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <select class="form-control" select2='' ng-model="RefillBox.sizeid" options="item.id as item.name for item in Sizes track by item.id"></select>
+                            </div>
+                            <div class="pull-right col-md-2">
+                                <button type="button" class="btn-sm btn-primary btn-flat" ng-click="SearchItems()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="col-md-4 control-label"></label>
+                        <div class="form-group">
+                            <div class="col-md-4">
+
+                            </div>
+                            <div class="pull-right col-md-4">
+                                <div class="pull-right">
+                                    <button type="button" class="btn-sm btn-success btn-flat" ng-click="Save(true,false)">Dispatch</button>
+                                    <button type="button" class="btn-sm btn-danger btn-flat" ng-click="Save(false,true)">Return</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="table-responsive mailbox-messages">
+                            <table fixed-header="400px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:30px">&nbsp;</th>
+                                        <th width="150px">Product</th>
+                                        <th width="150px">Item</th>
+                                        <th width="150px">Barcode</th>
+                                        <th width="100px">Stock</th>
+                                        <th width="100px">Stock</th>
+                                        <th>Refill</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in ItemList">
+                                        <td><input type="checkbox" class="checkbox-inline col-sm-1" ng-click="item.qty= item.selected ? item.stock : 0" ng-model="item.selected" /></td>
+                                        <td>{{SearchRef(item.productid,Products)}}</td>
+                                        <td>{{item.printingname}}</td>
+                                        <td>{{item.barcode}}</td>
+                                        <td>{{item.stock}}</td>
+                                        <td>
+                                        <input type="number" ng-model="item.qty" style="width:100%" />
+                                        </td>
+                                        <td><select class="form-control" select2='' ng-model="item.refillid" options="item.id as item.name for item in RefillBoxList track by item.id"></select></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.content -->
+            </div>
+
+            <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+                <div class="box-body">
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label"> Name</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.name">
+                                </div>
+                                <div class="col-md-5">
+                                    <button type="button" class="pull-right btnMarginer btn btn-warning" ng-click="SwitchPanel()">Back</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">Brand Name</label>
+                                <div class="col-md-5">
+                                    <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in BrandName track by item.id" ng-model="SearchCondition.brandid"></select>
+                                </div>
+                                <div class="col-sm-5">
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">Pattern Name</label>
+                                <div class="col-md-5">
+                                    <select class="form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Patterns track by item.id" ng-model="SearchCondition.patternid"></select>
+                                </div>
+                                <div class="col-sm-5">
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">Style Name</label>
+                                <div class="col-md-5">
+                                    <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Styles track by item.id" ng-model="SearchCondition.styleid"></select>
+                                </div>
+                                <div class="col-sm-5">
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">Size</label>
+                                <div class="col-md-5">
+                                    <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Sizes track by item.id" ng-model="SearchCondition.sizeid"></select>
+                                </div>
+                                <div class="col-sm-5">
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label"> </label>
+                                <div class="col-md-5">
+
+                                </div>
+                                <div class="col-md-5">
+
+                                    <button type="button" class="pull-right btnMarginer btn btn-primary" ng-click="Search()">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+
+
+                        <div class="col-md-12">
+
+                            <div class="table-responsive mailbox-messages">
+
+                                <table fixed-header="500px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10px">&nbsp;</th>
+
+                                            <th style="width:100px">Brand Name</th>
+
+
+                                            <th>Color</th>
+                                            <th>Size</th>
+                                            <th>Style</th>
+                                            <th>Pattern</th>
+                                            <th>Material</th>
+                                            <th>Disable</th>
+                                            <th colspan="2" style="text-align:center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in SearchResult">
+                                            <td></td>
+                                            <td>{{SearchRef(item.brandid,BrandName)}}</td>
+
+                                            <td>{{SearchRef(item.colourid,Colors)}}</td>
+                                            <td>{{SearchRef(item.sizeid,Sizes)}}</td>
+                                            <td>{{SearchRef(item.styleid,Styles)}}</td>
+                                            <td>{{SearchRef(item.patternid,Patterns)}}</td>
+                                            <td>{{SearchRef(item.materialid,Material)}}</td>
+
+
+
+                                            <td>{{item.isactive}}</td>
+
+                                            <td align="center">
+                                                <button type="button" class="btn btn-danger btn-xs" ng-click="ManageSearchItem('Delete',item)">Delete</button>
+                                                <button type="button" class="btn btn-primary btn-xs" ng-click="ManageSearchItem('Edit',item)">Edit</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- /.content -->
+                </div>
+            </div>
+            <!-- /.content -->
+    </section>
+</div>

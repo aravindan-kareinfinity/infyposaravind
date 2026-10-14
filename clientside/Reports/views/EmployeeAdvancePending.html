@@ -1,0 +1,156 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class=" fa fa-arrow-left" style="font-size:large"></i></a>
+           Sales / Employee Advance Pending Summary Report
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'incentive report', 'incentivetbl')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-click="printInfyGrid(igrid)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-click="SearchPendingAdvanceSummary()"><a><i class="fa fa-search-plus"></i>Search</a></li>
+            <li style="cursor:pointer" ng-click="printDiv('productviewprintdiv','PRODUCT VIEW')"><a><i class="fa fa-print"></i>Print</a></li>
+
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box primary">
+            <div class="box-body">
+
+                <div class="col-md-3">
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label>FROM DATE</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="input-sm form-control"
+                                       datemodule="SearchCondition.fromdate"
+                                       ng-model="SearchCondition.fromdate" focusid="fromdate" focusonenter="todate" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label>TO DATE</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="input-sm form-control" datemodule="SearchCondition.todate" ng-model="SearchCondition.todate" focusid="todate" focusonenter="employee" >
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label>LOCATION</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Location track by item.id"
+                                    ng-model="SearchCondition.locationid"></select>
+                        </div>
+                    </div>-->
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label>EMPLOYEE</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;"
+                                    ng-options="item.id as item.code for item in Employees track by item.id"
+                                    ng-model="SearchCondition.employeeid" focusid="employee" focusonenter="salaryheader" ></select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label>SALARY HEADER</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" 
+                                    ng-options="item.id as item.name for item in refpaytypelist track by item.id" 
+                                    ng-model="SearchCondition.salaryheaderid" focusid="salaryheader" ></select>
+
+                        </div>
+                    </div>
+                    <div class="row" ng-show="SearchCondition.employeeid>0">
+                        <div class="col-md-12">
+                            <div class="col-md-1">SUMMARY</div>
+                            <div class="col-md-11">
+                                <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.summary" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-9 no-padding">
+
+                    <div class="col-md-12 no-padding" id="advsummary" ng-show="SearchCondition.employeeid>0 && SearchCondition.summary">
+                        <div class="row" style="align-content:center">
+                            <div class="col-md-6">
+                                <div class="row no-padding">
+                                    <div class="col-md-3 no-padding">
+                                        <label><b>EMPLOYEE NAME</b></label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        {{AdvanceSummaryList.employeename}}
+                                    </div>
+                                </div>
+                                <div class="row no-padding">
+                                    <div class="col-md-3 no-padding">
+                                        <label><b>EMPLOYEE CODE</b></label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        {{AdvanceSummaryList.employeecode}}
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-12">
+
+                                <div class="col-md-12 no-padding" style="color:brown">
+                                    <label><b>ADVANCE SCHEDULE INFORMATION</b></label>
+                                </div>
+
+                                <table class="fixed_table" id="stockreport">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:100px">PARTICULARS</th>
+                                            <th style="width:100px">DATE</th>
+                                            <th style="width:150px">LOAN AMT</th>
+                                            <th style="width:120px">DEDUCTION AMT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in AdvanceSummaryList.advancedetails">
+                                            <td>{{item.particulars}}</td>
+                                            <td>{{item.date|date:dd-MM-yyyy}}</td>
+                                            <td>{{item.loanamt|number:2}}</td>
+                                            <td>{{item.deductionamt|number:2}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 no-padding" id="gridContainer"
+                         ng-hide="SearchCondition.employeeid>0 && SearchCondition.summary">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

@@ -1,0 +1,267 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Warehouse  / Sales Order - Inbox
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-hide="Mode != 'LIST'" ng-click="SOUIDSummary()"><a><i class="fa fa-list-ol"></i>SO Summary</a></li>
+            <li style="cursor:pointer" ng-hide="Mode != 'LIST'" ng-click="DesignUIDSummary()"><a><i class="fa fa-list"></i>Design Summary</a></li>
+            <li style="cursor:pointer" ng-show="Mode != 'LIST'" ng-click="ShowUIDList(false,false)"><a><i class="fa fa-list"></i>Detail List</a></li>
+
+            <li style="cursor:pointer" ng-show="Mode != 'LIST' && summaryselectedcount>0" ng-click="DownloadSummaryPDF()"><a><i class="fa fa-print"></i>Pack Slip</a></li>
+            <li style="cursor:pointer" ng-show="Mode != 'LIST' && summaryselectedcount>0" ng-click="AssignPONumber()"><a><i class="fa fa-plus"></i>Assign PO</a></li>
+
+            <!--<li style="cursor:pointer" ng-show="Mode != 'LIST'" ng-click="ShowFilterList()"><a><i class="fa fa-list"></i>List Order Items</a></li>
+            <li style="cursor:pointer" ng-show="Mode != 'LIST'" ng-click="ShowSizeList()"><a><i class="fa fa-list"></i>List Size</a></li>-->
+            <li style="cursor:pointer" ng-show="Mode == 'LIST'" ng-click="CancelSO()"><a><i class="fa fas fa-paper-plane"></i>Cancel SO</a></li>
+            <li style="cursor:pointer" ng-show="Mode == 'LIST'" ng-click="CompleteSO()"><a><i class="fa fas fa-paper-plane"></i>Complete SO</a></li>
+            <!--<li style="cursor:pointer" ng-show="Mode == 'LIST'" ng-click="PartialPlan()"><a><i class="fa fas fa-paper-plane-o"></i>Partial Plan</a></li>-->
+            <li style="cursor:pointer" ng-show="Mode == 'LIST' && SearchRequest.statusid==5" ng-click="UIDFixedPlan()"><a><i class="fa fas fa-paper-plane"></i>Full Plan</a></li>
+            <!--<li style="cursor:pointer" ng-hide="Mode == 'LIST'" ng-click="PlanAvailable()"><a><i class="fa fas fa-paper-plane"></i>Plan Available</a></li>-->
+            <li style="cursor:pointer" ng-show="Mode == 'LIST' && SearchRequest.statusid==2" ng-click="ClearPlan()"><a><i class="fa fas fa-paper-plane"></i>Clear Plan</a></li>
+
+            <li ng-show="Navigation.create" style="cursor:pointer">
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280" uri='File/DocumentProcess/SO/'
+                             max-height="1280" preview="false" ng-model="uploadfile"
+                             filetype="DATA"
+                             filemodel="uploadfile" onuploadcomplete="uanpofileuploadedcomplete"
+                             multiple="false">
+                    <i class="fa fa-upload">Upload UAN SO</i>
+                </file-upload>
+            </li>
+
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'whdashboard', 'dashboard')"><a><i class="fa fa-download"></i></a></li>
+            <li style="cursor:pointer" ng-show="Mode == 'LIST'" ng-click="Print()"><a><i class="fa fa-print"></i></a></li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="col-sm-3 col-md-3 no-padding">
+                            <select class="form-control input-sm" select2="Type" options="item.id as item.name for item in Location track by item.id"
+                                    ng-model="SearchRequest.locationid" focusid="Location"
+                                    focusonenter="filter"></select>
+                        </div>
+                        <div class="col-sm-3 col-md-3" style="padding-left:0px">
+                            <select class="form-control input-sm" select2="Type" options="item.id as item.name for item in SearchType track by item.id"
+                                    ng-model="SearchRequest.searchtype" focusid="filter" focusonenter="status"></select>
+                        </div>
+                        <div class="col-md-6 no-padding" ng-show="SearchRequest.searchtype==1">
+                            <select class="form-control input-sm" select2='Supplier' ng-model="SearchRequest.customerid"
+                                    onkeyenter="SearchSOSummary()" style="width:100%"
+                                    options="item.id as item.name for item in Customers track by item.id"></select>
+                        </div>
+                        <div class="col-md-6 no-padding" ng-show="SearchRequest.searchtype==2">
+                            <select class="form-control input-sm" select2='Supplier' ng-model="SearchRequest.agentid"
+                                    onkeyenter="SearchSOSummary()" style="width:100%"
+                                    options="item.id as item.name for item in Agent track by item.id"></select>
+                        </div>
+                        <div class="col-md-6 no-padding" ng-show="SearchRequest.searchtype==3">
+                            <select class="form-control input-sm" select2='Supplier' ng-model="SearchRequest.cityid"
+                                    onkeyenter="SearchSOSummary()" style="width:100%"
+                                    options="item.id as item.name for item in CityList track by item.id"></select>
+                        </div>
+                        <div class="col-md-6 no-padding" ng-show="SearchRequest.searchtype==4">
+                            <select class="form-control input-sm" select2='Supplier' ng-model="SearchRequest.productid"
+                                    onkeyenter="SearchSOSummary()" style="width:100%"
+                                    options="item.id as item.name for item in ProductList track by item.id"></select>
+                        </div>
+                        <div class="col-md-6 no-padding" ng-show="SearchRequest.searchtype==5">
+
+                            <div class="input-group input-group-sm" style="width:100%">
+                                <input type="text" class="form-control input-sm col-md-8"
+                                       onkeyenter="SearchSOSummary()"
+                                       ng-model="SearchRequest.design" />
+                                <span class="input-group-btn" style="width:20px">
+                                    <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="ShowDesignList()">
+                                        <i class="fa fa-filter"></i>
+                                    </button>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Status</label>
+                        <div class="col-sm-4 col-md-4">
+                            <select class="form-control input-sm" select2="Status" focusid="status" focusonenter="date"
+                                    ng-change="statuschanged()"
+                                    options="item.id as item.name for item in StatusList track by item.id" ng-model="SearchRequest.statusid"></select>
+                        </div>
+                        <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Date</label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" daterange="SearchRequest.fromdate,SearchRequest.todate"
+                                   class="form-control pull-right input-sm" focusid="date" focusonenter="search">
+                        </div>
+                        <div class="col-sm-2 col-md-2 no-padding">
+                            <button type="button" class="btn btn-primary btn-sm btn-box pull-right"
+                                    ng-click="SearchSOSummary()" focusid="search">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12" id="gridContainer">
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+<script type="text/ng-template" id="ChooseDesign">
+    <div class="ngdialog-message">
+        <div class="col-md-12">
+            <table fixed-header="300px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th style="width:50px">&nbsp;</th>
+                        <th style="width:200px">Design</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in DesignList">
+                        <td><input type="checkbox" ng-model="item.selected" ng-change="SelectedChanged()" /></td>
+                        <td>{{item.code}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-12" style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-6">
+                <label for="inputEmail3" class="control-label">Selected Designs</label>
+                <div style="font-size:large;position:absolute;top:0px;right:0px">
+                    {{Count}}
+                </div>
+            </div>
+            <div class="col-md-6" style="padding-top:25px">
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Search()">Search</button>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+
+
+<script type="text/ng-template" id="ImportSO">
+    <div class="ngdialog-message">
+        <div class="col-md-12">
+            <table fixed-header="300px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th style="width:50px"> <input type="checkbox" ng-model="selectedall" ng-change="SelectedAll(selectedall)" /></th>
+                        <th style="width:100px">Remark</th>
+                        <th style="width:150px">Customer</th>
+                        <th style="width:80px">SODate</th>
+                        <th style="width:80px">Qty</th>
+                        <th style="width:30px">Rows</th>
+                        <th style="width:30px">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in Orders"
+                        class="ng-style: item.valid == 0 && {backgroundColor:'lightgray'};">
+                        <td>
+                            <input type="checkbox"
+                                   ng-disabled="!item.valid"
+                                   ng-model="item.selected" ng-change="SelectedChanged()" />
+                        </td>
+                        <td>{{item.OrderSplit}}</td>
+                        <td>{{item.Customer}}</td>
+                        <td ng-show="ShowSONO">{{item.SONo}}</td>
+                        <td>{{item.SODate|date:dd-MM-yyyy}}</td>
+                        <td>{{item.Qty}}</td>
+                        <td>{{item.count}}</td>
+                        <td><button class="btn-xs danger" ng-show="item.valid==false" ng-click="ShowReason(item)"><i class="fa fa-info-circle"></i></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-12"
+             ng-show="OrderInfo.sostatus.validso != OrderInfo.sostatus.noofso"
+             style="padding-top:10px;font-size:large;color:orangered">
+            VALID ONLY {{OrderInfo.sostatus.validso}} OUT OF {{OrderInfo.sostatus.noofso}} ORDERS
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.sostatus.missingcustomers.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-4">Missing Customer</div>
+            <div class="col-md-4" ng-repeat="item in OrderInfo.sostatus.missingcustomers">
+                {{item}}
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.sostatus.missingmargin.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-4">Missing Margin Customer</div>
+            <div class="col-md-4" ng-repeat="item in OrderInfo.sostatus.missingmargin">
+                {{item}}
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.sostatus.missinguan.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-3">Missing UAN</div>
+            <div class="col-md-3" ng-repeat="item in OrderInfo.sostatus.missinguan">
+                {{item}}
+            </div>
+        </div>
+        <div class="col-md-12" style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-6">
+                <label for="inputEmail3" class="control-label">Importing Orders</label>
+                <div style="font-size:large" class="pull-right">
+                    {{Count}}/{{OrderInfo.sostatus.noofso}}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-show="OrderInfo.sostatus.stocklist && OrderInfo.sostatus.stocklist.length>0" ng-click="MissingStock()">Stock Failed</button>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-show="Count>0" ng-click="Save()">Save</button>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+
+<script type="text/ng-template" id="AssignPODialog">
+    <div class="ngdialog-message">
+        <div class="table-responsive mailbox-messages">
+
+            <div class="col-md-12">
+                <label>PO No</label>
+                <input type="text" class="form-control input-sm" ng-model="customerpo" />
+            </div>
+
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Save()">Change</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

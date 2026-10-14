@@ -1,0 +1,41 @@
+#labelDesigner {
+    border: 1px solid #CCCCCC;
+}
+
+#toolbar {
+    width: 100%;
+    margin: 20px 0 20px 0;
+}
+
+    #toolbar .form-control {
+        display: inline;
+    }
+
+    #toolbar button {
+        font-size: 2rem;
+        padding: 0.7rem;
+    }
+
+    #toolbar .label-toolbar-group {
+        display: inline;
+    }
+
+    #toolbar .label-size-element {
+        display: inline-table;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+
+#label-tools button {
+    font-size: 2.5rem;
+    padding: 0.6rem;
+    margin: 0.4rem;
+}
+
+.label-inspector-item {
+    cursor: pointer
+}
+
+.tab-pane > div {
+    margin: 10px;
+}

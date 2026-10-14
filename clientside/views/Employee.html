@@ -1,0 +1,2206 @@
+﻿     <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            HR |  Employee
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="exporttoExcel('#deducationandexperiance','Advance Report')"><a><i class="fa fa-download"></i>Export</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="PrintBarcode()"><a><i class="fa fa-barcode"></i>Barcode</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="col-md-12" ng-hide="ShowSearch">
+                    <div class="col-md-6 no-padding">
+
+
+                        <div class="row-padbot-15">
+                            <div class="col-md-6">
+                                <label for="inputEmail3" class="control-label" title="System ID : {{Employee.id}}">Employee Code</label>
+                                <div class="col-md-12 no-padding">
+                                    <div class="input-group input-group-sm">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" tabindex="1" ng-model="Employee.employeecode" onkeyenter="SearchDirect(Employee.employeecode)" ng-required="true" focusid="first">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-sm btn-info" ng-click="SearchDirect(Employee.employeecode)">Go!</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="inputEmail3" class="control-label">Contact No</label>
+                                <div class="col-md-12 no-padding">
+                                    <input type="text" class="form-control input-sm" tabindex="2" ng-model="Employee.contactno">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row-padbot-15">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="control-label">Name</label>
+                                    <div class="col-md-12 no-padding">
+                                        <div class="col-md-4 no-padding">
+                                            <select class="form-control input-sm" style="width: 100%;" tabindex="3" select2="" ng-options="type.id as type.name for type in Title track by type.id" ng-model="Employee.title"></select>
+                                        </div>
+                                        <div class="col-md-8 no-padding" style="padding-left:0px">
+                                            <input method="text" class="form-control input-sm" style="width: 100%;" tabindex="4" ng-model="Employee.name" ng-required="true" ng-change="Employee.name = Employee.name.toUpperCase()">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <div class="col-md-12 no-padding">
+                                        <div class="col-md-8 no-padding">
+                                            <label for="inputEmail3" class="control-label">Surname</label>
+                                            <input method="text" class="form-control input-sm" style="width: 100%;" tabindex="5" ng-model="Employee.surname" ng-change="Employee.surname = Employee.surname.toUpperCase()">
+                                        </div>
+                                        <div class="col-md-4 no-padding">
+                                            <label for="inputEmail3" class="control-label">Gender</label>
+                                            <div>
+                                                <select class="form-control input-sm" tabindex="6" style="width: 100%;" select2="" ng-options="type.id as type.name for type in Gender track by type.id" ng-model="Employee.gender"></select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row-padbot-15">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="control-label">Department</label>
+                                    <div class="col-md-12 no-padding">
+                                        <select class="form-control input-sm" style="width: 100%;" tabindex="8" select2="" ng-options="department.id as department.name for department in Departments track by department.id" ng-model="Employee.departmentid"></select>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="control-label">Company</label>
+                                    <div class="col-md-12 no-padding">
+                                        <select class="form-control input-sm" style="width: 100%;" select2="" tabindex="7" ng-options="company.id as company.name for company in Companies track by company.id" ng-model="Employee.companyid"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="row-padbot-15">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="control-label">Section</label>
+                                    <div class="col-md-12 no-padding">
+                                        <select class="form-control input-sm" style="width: 100%;" select2="" tabindex="9" ng-options="division.id as division.name for division in Divisions track by division.id" ng-model="Employee.sectionid"></select>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="control-label">Desingnation</label>
+                                    <div class="col-md-12 no-padding">
+                                        <select class="form-control input-sm" style="width: 100%;" tabindex="10" select2="" ng-options="type.id as type.name for type in Designations track by type.id" ng-model="Employee.desingnationid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-padbot-15">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="control-label">Working Location</label>
+                                    <div class="col-md-12 no-padding">
+                                        <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="type.id as type.name for type in Locations track by type.id" ng-model="Employee.locationid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="control-label">Floor</label>
+                                    <div class="col-md-12 no-padding">
+                                        <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="type.id as type.name for type in Floors track by type.id" ng-model="Employee.floorid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row-padbot-15">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12 no-padding  control-label no-padding">Manager</label>
+                                    <div class="col-md-12 no-padding">
+                                        <select class="form-control" style="width: 100%;" select2="" ng-options="item.id as item.code for item in refemployeelist track by item.id"
+                                                ng-model="Employee.managerid"></select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="control-label col-sm-12 no-padding ">EmailID</label>
+                                    <div class="col-sm-12 no-padding">
+                                        <input method="text" class="form-control pull-right  input-sm" style="width: 100%;" ng-model="Employee.emailid" focusid="emailid" focusonenter="grosspay">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row-padbot-15">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="control-label">Date Of Birth</label>
+                                    <div class="col-md-12 no-padding">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control input-sm pull-right" datemodule="Employee.dateofbirth" ng-model="Employee.dateofbirth">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="control-label">Date Of Joining</label>
+                                    <div class="col-md-12 no-padding">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control input-sm pull-right no-padding" datemodule="Employee.dateofjoining" ng-model="Employee.DateOfJoining">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row-padbot-15">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="control-label">Hold Salary/Date</label>
+
+                                    <div class="col-sm-12 no-padding">
+                                        <div class="col-md-1 no-padding">
+                                            <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Employee.haswithheld" ng-change="Checked()">
+                                        </div>
+                                        <div class="col-md-11 no-padding">
+                                            <input type="text" class="form-control input-sm"
+                                                   datemodule="Employee.withheldfrom"
+                                                   ng-disabled="!Employee.haswithheld"
+                                                   ng-model="Employee.withheldfrom">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <div class="col-md-2 no-padding">
+                                        <label for="inputEmail3" class="col-md-12 control-label">&nbsp;</label>
+                                        <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Employee.hasleft">
+                                    </div>
+
+                                    <div class="col-sm-10 no-padding">
+                                        <label for="inputEmail3" class="control-label">Reason</label>
+                                        <div class="col-md-12 no-padding">
+                                            <select class="form-control" style="width: 100%;"
+                                                    ng-disabled="!Employee.hasleft"
+                                                    select2="" ng-options="item.id as item.name for item in ResignReasons track by item.id"
+                                                    ng-model="Employee.resignreasonid"></select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class=" control-label">Allow_System/UserName</label>
+
+                                    <div class="col-sm-12 no-padding">
+                                        <div class="col-md-1 no-padding">
+                                            <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Employee.allowsystemaccess">
+                                        </div>
+                                        <div class="col-md-11 no-padding">
+                                            <input method="text" class="form-control pull-right  input-sm" style="width: 100%;" ng-disabled="!Employee.allowsystemaccess" ng-model="Employee.username">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-6" ng-show="Employee.hasleft" >
+
+                                <div class="form-group">
+
+
+                                    <div class="col-sm-6 no-padding">
+                                        <label for="inputEmail3" class="control-label">Last Working</label>
+                                        <div class="col-md-12 no-padding">
+                                            <input type="text" class="form-control input-sm pull-right" style="width:100%" datemodule="Employee.relievingdate" ng-disabled="!Employee.hasleft" ng-model="Employee.RelievingDate">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 no-padding">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="ontrol-label">Resigned/Date</label>
+                                            <!--<div class="col-md-1">
+
+                    </div>-->
+                                            <div class="col-md-12 no-padding">
+                                                <input type="text" class="form-control input-sm pull-right" style="width:100%" datemodule="Employee.resignationdate" ng-disabled="!Employee.hasleft" ng-model="Employee.resignationdate">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row-padbot-15">
+
+
+
+                            
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+
+                                    <div class="col-md-6 no-padding">
+                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Salary Mode</label>
+                                        <select class="form-control no-padding input-sm" style="width: 100%;" select2="" ng-options="item.id as item.name for item in SalaryModes track by item.id" ng-model="Employee.salarymode"></select>
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Salary Structure</label>
+                                        <select class="form-control no-padding input-sm" style="width: 100%;" select2="" ng-options="item.id as item.name for item in refstructurelist track by item.id" ng-model="Employee.salarystructureid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="col-md-3 no-padding">
+                                <div class="row-padbot-15">
+                                    <div class="form-group">
+                                        <img id="img_photo" class="no-border no-padding" style="max-height:170PX;max-width:180PX;padding-left:0px" src="../dist/img/avatar.png">
+                                    </div>
+                                </div>
+                            </div>-->
+
+                        </div>
+
+
+
+
+
+
+                        <div class="row-padbot-15">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <div class="col-md-6 no-padding">
+                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Working Mode</label>
+                                        <select class="form-control no-padding input-sm" select2="" ng-options="item.id as item.name for item in WorkingModes track by item.id" ng-model="Employee.workingmode"></select>
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Working Hour</label>
+                                        <select class="form-control no-padding input-sm" select2="" ng-options="item.id as item.name for item in WorkingHours track by item.id" ng-model="Employee.defaultshiftid"></select>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-4 no-padding ">
+                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">Week Off</label>
+                                    <select class="form-control no-padding input-sm " style="width: 100%;" select2="" ng-options="item.id as item.name for item in LeaveDays track by item.id" ng-model="Employee.fixedleaveday"></select>
+                                </div>
+
+
+                                <div class="col-md-4 no-padding">
+                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">Gross Pay</label>
+                                    <input method="text" class="form-control pull-right  no-padding input-sm"
+                                           style="width: 100%;" ng-model="Employee.grosspay" focusid="grosspay">
+                                </div>
+                                <div class="col-md-4 no-padding">
+
+                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">Incentive %</label>
+                                    <input method="text" class="form-control pull-right  no-padding input-sm"
+                                           style="width: 100%;" ng-model="Employee.incentive" focusid="incentive">
+
+
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="row-padbot-15">
+
+
+                            <div class="col-md-6">
+                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Refered By</label>
+                                <input method="text" class="form-control no-padding  input-sm" style="width: 100%;" ng-model="Employee.refempid">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Leave Encashment</label>
+                                <div class="col-md-12 no-padding">
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="item.id as item.name for item in Encashment track by item.id" ng-model="Employee.lcmode"></select>
+                                </div>
+                                
+                            </div>
+
+
+                            <div class="col-md-6">
+
+
+                                <div class="col-md-4 no-padding">
+                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">E.OT</label>
+                                    <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Employee.hasot" />
+                                </div>
+
+                                <div class="col-md-4 no-padding">
+                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">M.OT</label>
+                                    <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Employee.hasmorningot" />
+                                </div>
+
+                                <div class="col-md-4 no-padding">
+                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">Beta</label>
+                                    <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Employee.hasbeta" />
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="col-md-6 no-padding">
+                        <div class="col-md-12 no-padding">
+
+                            <div class="row-padbot-15">
+                                <!-- Custom Tabs -->
+                                <div class="nav-tabs-custom">
+                                    <ul class="nav nav-tabs">
+                                        <li class="dropdown active">
+                                            <a data-toggle="dropdown" id="dropDownTabsLink"><span id="dropdownTabName">Address</span> <i class="fa fa-sort-desc"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a data-target="#PFandESI" data-toggle="tab">PF and ESI</a></li>
+                                                <li><a data-target="#Personal" data-toggle="tab">Personal</a></li>
+                                                <li><a data-target="#Bank" data-toggle="tab">Bank</a></li>
+                                                <li><a data-target="#IDProof" data-toggle="tab">ID Proof</a></li>
+                                                <li><a data-target="#Family" data-toggle="tab">Family</a></li>
+                                                <li class="active"><a data-target="#Address" data-toggle="tab">Address</a></li>
+                                                <li><a data-target="#Education" data-toggle="tab">Education/Exp</a></li>
+                                                <li><a data-target="#addtionalinfo" data-toggle="tab">Additional Info</a></li>
+                                                <li><a data-target="#training" data-toggle="tab">Training</a></li>
+                                                <li><a data-target="#accident" data-toggle="tab">Accident</a></li>
+                                                <li><a data-target="#classification" data-toggle="tab">Classification</a></li>
+                                                <li><a data-target="#Disciplinary" data-toggle="tab">Disciplinary</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <!--<li class="active"><a data-target="#classification" data-toggle="tab">Classification</a></li>
+                                        <li><a data-target="#Personal" data-toggle="tab">Personal</a></li>
+                                        <li><a data-target="#Family" data-toggle="tab">Family</a></li>
+                                        <li><a data-target="#Address" data-toggle="tab">Address</a></li>
+                                        <li><a data-target="#Education" data-toggle="tab">Education/Exp</a></li>
+                                        <li><a data-target="#addtionalinfo" data-toggle="tab">Additional Info</a></li>
+                                        <li><a data-target="#training" data-toggle="tab">Training</a></li>
+                                        <li><a data-target="#accident" data-toggle="tab">Accident</a></li>
+                                        <li><a data-target="#PFandESI" data-toggle="tab">PF and ESI</a></li>
+                                        <li><a data-target="#Disciplinary" data-toggle="tab">Disciplinary</a></li>-->
+                                    </ul>
+                                    <div class="tab-content" style="height:500px">
+                                        <div class="tab-pane" id="classification">
+                                            <div class="col-md-12">
+
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Valid From</label>
+                                                        <div class="col-md-8">
+                                                            <div class="input-group date">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                                <input type="text" class="form-control  input-sm pull-right" datemodule="Employee.classification.validfrom" ng-model="Employee.classification.validfrom">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Valid To</label>
+                                                        <div class="col-md-8">
+                                                            <div class="input-group date">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                                <input type="text" class="form-control  input-sm pull-right" datemodule="Employee.classification.validto" ng-model="Employee.classification.validto">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Designation</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="designation.id as designation.name for designation in Designations track by designation.id" ng-model="Employee.classification.designation"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Department</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="department.id as department.name for department in Departments track by department.id" ng-model="Employee.classification.department"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Section</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="division.id as division.name for division in Divisions track by division.id" ng-model="Employee.classification.division"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Floor</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="floor.id as floor.name for floor in Floors track by floor.id" ng-model="Employee.classification.floor"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12" style="padding-top:10px;padding-bottom:10px">
+                                                    <button class="pull-right btn btn-primary btn-sm" ng-click="SaveClassification()">Add</button>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-md-12 no-padding">
+                                                <table fixed-header="200px" class="fixed_table" additionalheight="200px">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th style="width:50px">Valid From</th>
+                                                            <th style="width:50px">Valid To</th>
+                                                            <th style="width:50px">Designation</th>
+                                                            <th style="width:50px">Department</th>
+                                                            <th style="width:50px">Division</th>
+                                                            <th style="width:50px">Floor</th>
+                                                            <th style="width:50px">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in Employee.classification.items">
+
+                                                            <td>{{item.validfrom | date:'dd-MM-yyyy'}}</td>
+                                                            <td>{{item.validto | date:'dd-MM-yyyy'}}</td>
+                                                            <td>{{SearchRef(item.designation,Designations)}}</td>
+                                                            <td>{{SearchRef(item.department,Departments)}}</td>
+                                                            <td>{{SearchRef(item.division,Divisions)}}</td>
+                                                            <td>{{SearchRef(item.floor,Floors)}}</td>
+                                                            <!--<td>
+                                                                <button type="button" class="btn-primary btn btn-xs" ng-click="ManageSearchTabItem('classification','Delete',item)">Delete</button>
+                                                                <button type="button" class="btn-danger btn btn-xs" ng-click="ManageSearchTabItem('classification', 'Edit',item)">Edit</button>
+                                                            </td>-->
+                                                            <td>
+                                                                <button type="button" class="btn-primary btn btn-xs" ng-click="DeletefromList(Employee.classification.items,item)">Delete</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane" id="Personal">
+                                            <div class="col-md-12">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 control-label no-padding">Father Name</label>
+                                                        <div class="col-md-8 no-padding">
+                                                            <input method="text" class="col-md-6 form-control no-padding " style="width: 100%;" ng-model="Employee.personal.fathername">
+                                                        </div>
+                                                        <div class="col-md-4 no-padding">
+                                                            Alive <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Employee.personal.alivewithfather" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Father Number</label>
+                                                        <div class="col-md-8 no-padding">
+                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.personal.fatherno">
+                                                        </div>
+                                                        <div class="col-md-4 no-padding">
+                                                            Live With <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Employee.personal.livewithfather" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Mother Name</label>
+                                                        <div class="col-md-8 no-padding">
+                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.personal.mothername">
+                                                        </div>
+                                                        <div class="col-md-4 no-padding">
+                                                            ALive <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Employee.personal.alivewithmother" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Mother Number</label>
+                                                        <div class="col-md-8 no-padding">
+                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.personal.motherno">
+                                                        </div>
+                                                        <div class="col-md-4 no-padding">
+                                                            Live With <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Employee.personal.livewithmother" />
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!-- /.col -->
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Marital Status</label>
+                                                        <div class="col-md-8 no-padding">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="item.id as item.name for item in MaritalStatus track by item.id" ng-model="Employee.personal.maritalstatus"></select>
+
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Marriage date</label>
+                                                        <div class="col-md-12 no-padding">
+                                                            <div class="input-group date">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                                <input type="text" class="form-control pull-right  input-sm" datemodule="Employee.personal.marrieddate" ng-model="Employee.personal.marrieddate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Spouse Name</label>
+                                                        <div class="col-md-8 no-padding">
+                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.personal.spousename">
+                                                        </div>
+                                                        <div class="col-md-4 pull-right no-padding">
+                                                            Alive <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Employee.personal.alivewithwife" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12  no-padding control-label">Spouse MobileNo</label>
+                                                        <div class="col-md-8 no-padding">
+                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.personal.spouseno">
+                                                        </div>
+                                                        <div class="col-md-4 pull-right no-padding">
+                                                            Live With <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Employee.personal.livewithwife" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Languages Known</label>
+                                                        <div class="col-md-12 no-padding">
+                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.personal.languagesknown">
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Strength</label>
+                                                        <div class="col-md-12 no-padding">
+                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.personal.strength">
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+
+
+
+
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Blood Group</label>
+                                                        <div class="col-md-12 no-padding">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="item.id as item.name for item in Bloodgroup track by item.id" ng-model="Employee.personal.bloodgroup"></select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Nationality</label>
+                                                        <div class="col-md-12 no-padding">
+                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.personal.nationality">
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="col-md-6 no-padding">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Expected Salary</label>
+                                                            <div class="col-md-12 no-padding ">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.personal.expsalary">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+
+                                                    <div class="col-md-6 no-padding">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Expected Designation</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.personal.expdesignation">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Religion</label>
+                                                        <div class="col-md-12 no-padding">
+                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.personal.religion">
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Community</label>
+                                                        <div class="col-md-12 no-padding">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="item.id as item.name for item in Community track by item.id" ng-model="Employee.personal.community"></select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Caste</label>
+                                                        <div class="col-md-12 no-padding">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="item.id as item.name for item in Caste track by item.id" ng-model="Employee.personal.caste"></select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.col -->
+                                                </div>
+
+
+
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="tab-pane" id="Bank">
+                                            <div class="box-body">
+                                                <div class="col-md-12 no-padding">
+                                                    <div class="col-md-6">
+                                                        <h4>Bank Details</h4>
+                                                        <div class="row-padbot-15">
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Bank</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="item.id as item.name for item in Banks track by item.id" ng-model="Employee.bank.bankid"></select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row-padbot-15">
+
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">BankAccount Name</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.bank.accountname" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row-padbot-15">
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">BankAccount No</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.bank.accountno">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row-padbot-15">
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Bank IFSC</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.bank.ifsc">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 ">
+                                                        <h4>Driving License Details</h4>
+                                                        <div class="row-padbot-15">
+
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">License Number</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.license.no">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row-padbot-15">
+
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label"> Issue Date</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <div class="input-group date">
+                                                                        <div class="input-group-addon">
+                                                                            <i class="fa fa-calendar"></i>
+                                                                        </div>
+                                                                        <input type="text" class="form-control pull-right  input-sm" datemodule="Employee.license.issuedon" ng-model="Employee.License.issuedon">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row-padbot-15">
+
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding  control-label">Issue At</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.license.issuedat">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row-padbot-15">
+
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Expiry ON </label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <div class="input-group date">
+                                                                        <div class="input-group-addon">
+                                                                            <i class="fa fa-calendar"></i>
+                                                                        </div>
+                                                                        <input type="text" class="form-control pull-right  input-sm" datemodule="Employee.license.expiryon" ng-model="Employee.license.expiryon">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="IDProof">
+                                            <div class="box-body">
+                                                <div class="col-md-12 no-padding">
+                                                    <div class="col-md-6">
+                                                        <h4>ID Card Details</h4>
+                                                        <div class="row-padbot-15">
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Aadhar Number</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.aadharno" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row-padbot-15">
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">VoterID Number</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.pancardno" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                        <div class="row-padbot-15">
+
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">SmartCard Number</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.personal.smartcardno" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row-padbot-15">
+
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">PAN Number</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.personal.panno" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row-padbot-15">
+
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Passport Number</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.passport.number" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row-padbot-15">
+
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Passport Expiry Date</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <div class="input-group date">
+                                                                        <div class="input-group-addon">
+                                                                            <i class="fa fa-calendar"></i>
+                                                                        </div>
+                                                                        <input type="text" class="form-control pull-right  input-sm" datemodule="Employee.passport.expiryon" ng-model="Employee.passport.expiryon">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row-padbot-15">
+
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">NPR Number</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <input method="text" class="form-control no-padding input-sm" style="width: 100%;" ng-model="Employee.personal.nprno" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <h4>Upload Files</h4>
+                                                        <div class="row-padbot-15">
+
+
+
+
+                                                            <div class="col-md-12" style="padding-top:10px">
+                                                                <div class="col-md-12">
+                                                                    <file-upload class="btn btn-success btn-rad btn-trans file-upload" resize="true" max-width="1280"
+                                                                                 max-height="1280" preview="false" ng-model="Employee.personal.Img_Idcard"
+                                                                                 filemodel="Employee.personal.img_idcard"
+                                                                                 filetype="LOGO"
+                                                                                 multiple="false">
+                                                                        <i class="fa fa-upload"></i>
+                                                                        <span>Voter Id</span>
+                                                                    </file-upload>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="col-md-12" style="padding-top:10px">
+
+                                                                <div class="col-md-12">
+                                                                    <file-upload class="btn btn-success btn-rad btn-trans file-upload" resize="true" max-width="1280"
+                                                                                 max-height="1280" preview="true" ng-model="Employee.personal.Img_Photo"
+                                                                                 filemodel="Employee.personal.img_photo"
+                                                                                 filetype="LOGO"
+                                                                                 multiple="false">
+                                                                        <i class="fa fa-upload"></i>
+                                                                        <span>Photo</span>
+                                                                    </file-upload>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="col-md-12" style="padding-top:10px">
+
+
+                                                                <div class="col-md-12">
+                                                                    <file-upload class="btn btn-success btn-rad btn-trans file-upload" resize="true" max-width="1280"
+                                                                                 max-height="1280" preview="true" ng-model="Employee.personal.Img_Aadhar"
+                                                                                 filemodel="Employee.personal.img_aadhar"
+                                                                                 filetype="LOGO"
+                                                                                 multiple="false">
+                                                                        <i class="fa fa-upload"></i>
+                                                                        <span>Aadhar Card</span>
+                                                                    </file-upload>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="col-md-12" style="padding-top:10px">
+
+                                                                <div class="col-md-12">
+                                                                    <file-upload class="btn btn-success btn-rad btn-trans file-upload" resize="true" max-width="1280"
+                                                                                 max-height="1280" preview="true" ng-model="Employee.personal.Img_Bankbook"
+                                                                                 filemodel="Employee.personal.img_bankbook"
+                                                                                 filetype="LOGO"
+                                                                                 multiple="false">
+                                                                        <i class="fa fa-upload"></i>
+                                                                        <span>Bank A/C Book</span>
+                                                                    </file-upload>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="col-md-12" style="padding-top:10px">
+
+
+                                                                <div class="col-md-12">
+                                                                    <file-upload class="btn btn-success btn-rad btn-trans file-upload" resize="true" max-width="1280"
+                                                                                 max-height="1280" preview="true"
+                                                                                 filetype="LOGO"
+                                                                                 ng-model="Employee.personal.Img_Signature"
+                                                                                 filemodel="Employee.personal.img_signature"
+                                                                                 multiple="false">
+                                                                        <i class="fa fa-upload"></i>
+                                                                        <span>Signature</span>
+                                                                    </file-upload>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-md-12" style="padding-top:10px">
+
+                                                                <div class="col-md-12">
+                                                                    <file-upload class="btn btn-success btn-rad btn-trans file-upload" resize="true" max-width="1280"
+                                                                                 max-height="1280" preview="true" ng-model="Employee.personal.Img_Thumb"
+                                                                                 filemodel="Employee.personal.img_thumb"
+                                                                                 filetype="LOGO"
+                                                                                 multiple="false">
+                                                                        <i class="fa fa-upload"></i>
+                                                                        <span>Thumb Impression</span>
+                                                                    </file-upload>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                    </div>
+                                                    <!-- /.tab-content -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane" id="Family">
+                                            <div class="box-body">
+                                                <div class="col-md-12 no-padding">
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Name</label>
+                                                            <div class="col-md-12 no-padding ">
+                                                                <input method="text" class="form-control input-sm" ng-model="Employee.family.name">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Gender</label>
+                                                            <div class="col-md-12 no-padding ">
+                                                                <select class="form-control input-sm" style="width: 100%;" select2="" ng-model="Employee.family.gender" ng-options="type.id as type.name for type in Gender track by type.id"></select>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Age</label>
+                                                            <div class="col-md-12 no-padding ">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.family.age">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Qualification</label>
+                                                            <div class="col-md-12 no-padding ">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.family.qualification">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Date Of Birth</label>
+                                                            <div class="col-md-12 no-padding ">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right  input-sm" datemodule="Employee.family.dateofbirth" ng-model="Employee.Family.DateOfBirth">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Relation</label>
+                                                            <div class="col-md-12 no-padding ">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.family.relation">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Remarks</label>
+                                                            <div class="col-md-12 no-padding ">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.family.remarks">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">&nbsp;</label>
+                                                            <div class="col-md-12 no-padding ">
+                                                                <a class="pull-right btnMarginer btn btn-primary" ng-click="SaveFamilyDetail()">Add</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-12" style="padding-top:10px">
+                                                    <table fixed-header="200px" class="fixed_table" additionalheight="300px">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:10px">&nbsp;</th>
+                                                                <th style="width:50px">Name</th>
+                                                                <th style="width:50px">Date of birth</th>
+                                                                <th style="width:50px">Age</th>
+                                                                <th style="width:50px">Relation</th>
+                                                                <th style="width:50px">Remarks</th>
+
+                                                                <th style="width:50px">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in Employee.family.items">
+                                                                <td></td>
+                                                                <td>{{item.name}}</td>
+                                                                <td>{{item.dateofbirth | date:'dd-MM-yyyy'}}</td>
+                                                                <td>{{item.age}}</td>
+                                                                <td>{{item.relation}}</td>
+                                                                <td>{{item.remarks}}</td>
+
+                                                                <td>
+                                                                    <button type="button" class="btn-primary btn btn-xs" ng-click="DeletefromList(Employee.family.items,item)">Delete</button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane active" id="Address">
+                                            <div class="box-body">
+                                                <div class="col-md-12 no-padding">
+
+
+                                                    <div class="row-padbot-15">
+                                                        <div class="col-md-6">
+                                                            <label for="inputEmail3" style="font-size:large" class="col-md-12 no-padding control-label">Present Address</label>
+                                                            <div class="row-padbot-15">
+                                                                <div class="form-group">
+                                                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">Resident No</label>
+                                                                    <div class="col-md-12 no-padding">
+                                                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.presentaddress.residentno">
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.col -->
+                                                            </div>
+                                                            <div class="row-padbot-15">
+                                                                <div class="form-group">
+                                                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">Resident Name</label>
+                                                                    <div class="col-md-12 no-padding">
+                                                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.presentaddress.residentname">
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.col -->
+                                                            </div>
+                                                            <div class="row-padbot-15">
+                                                                <div class="form-group">
+                                                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">Street</label>
+                                                                    <div class="col-md-12 no-padding">
+                                                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.presentaddress.street">
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.col -->
+                                                            </div>
+                                                            <div class="row-padbot-15">
+                                                                <div class="col-md-6 no-padding">
+                                                                    <div class="form-group">
+                                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Area</label>
+                                                                        <div class="col-md-12 no-padding">
+                                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.presentaddress.area">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.col -->
+                                                                </div>
+                                                                <div class="col-md-6 no-padding">
+
+                                                                    <div class="form-group">
+                                                                        <label for="inputEmail3" class="col-md-12 no-padding  control-label">Village</label>
+                                                                        <div class="col-md-12 no-padding">
+                                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.presentaddress.village">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.col -->
+                                                                </div>
+                                                            </div>
+                                                            <div class="row-padbot-15">
+                                                                <div class="form-group">
+                                                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">City</label>
+                                                                    <div class="col-md-12 no-padding">
+                                                                        <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="city.id as city.name for city in Cities track by city.id" ng-model="Employee.presentaddress.city"></select>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.col -->
+                                                            </div>
+                                                            <div class="row-padbot-15">
+                                                                <div class="form-group">
+                                                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">District</label>
+                                                                    <div class="col-md-12 no-padding">
+                                                                        <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="city.id as city.name for city in Cities track by city.id" ng-model="Employee.presentaddress.district"></select>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.col -->
+                                                            </div>
+
+                                                            <div class="row-padbot-15">
+                                                                <div class="col-md-6 no-padding">
+                                                                    <div class="form-group">
+                                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">State</label>
+                                                                        <div class="col-md-12 no-padding">
+                                                                            <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="state.id as state.name for state in States track by state.id" ng-model="Employee.presentaddress.state"></select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.col -->
+                                                                </div>
+                                                                <div class="col-md-6 no-padding">
+                                                                    <div class="form-group">
+                                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Pincode</label>
+                                                                        <div class="col-md-12 no-padding">
+                                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.presentaddress.pincode">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.col -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="col-md-12 no-padding" ng-show="Employee.personal.img_photo.length>0">
+                                                                <a target="_blank" href="File/Show/{{UserInfo.OrganizationID}}/{{Employee.personal.img_photo}}">
+                                                                    <img style="height:150px" ng-src="File/Thumbnail/{{UserInfo.OrganizationID}}/{{Employee.personal.img_photo}}" />
+                                                                </a>
+                                                            </div>
+                                                            <div class="col-md-12 no-padding" ng-show="Employee.personal.img_photo.length>0">
+                                                                <label for="inputEmail3" style="font-size:large" class="col-md-12 no-padding control-label">Permanant Address</label>
+                                                                <div class="row-padbot-15">
+                                                                    <div class="col-md-6 no-padding">
+                                                                        <div class="form-group">
+                                                                            <label for="inputEmail3" class="col-md-12  control-label">Resident No</label>
+                                                                            <div class="col-md-12 no-padding">
+                                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.permanentaddress.residentno">
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                    </div>
+                                                                    <div class="col-md-6 no-padding">
+                                                                        <div class="form-group">
+                                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Resident Name</label>
+                                                                            <div class="col-md-12 no-padding">
+                                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.permanentaddress.residentname">
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row-padbot-15">
+                                                                    <div class="form-group">
+                                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Street</label>
+                                                                        <div class="col-md-12 no-padding">
+                                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.permanentaddress.street">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.col -->
+                                                                </div>
+                                                                <div class="row-padbot-15">
+                                                                    <div class="col-md-6 no-padding">
+                                                                        <div class="form-group">
+                                                                            <label for="inputEmail3" class="col-md-12  control-label">Area</label>
+                                                                            <div class="col-md-12 no-padding">
+                                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.permanentaddress.area">
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                    </div>
+                                                                    <div class="col-md-6 no-padding">
+                                                                        <div class="form-group">
+                                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Village</label>
+                                                                            <div class="col-md-12 no-padding">
+                                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.permanentaddress.village">
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row-padbot-15">
+                                                                    <div class="col-md-6 no-padding">
+                                                                        <div class="form-group">
+                                                                            <label for="inputEmail3" class="col-md-12  control-label">City</label>
+                                                                            <div class="col-md-12 no-padding">
+                                                                                <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="city.id as city.name for city in Cities track by city.id" ng-model="Employee.permanentaddress.city"></select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                    </div>
+                                                                    <div class="col-md-6 no-padding">
+                                                                        <div class="form-group">
+                                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">District</label>
+                                                                            <div class="col-md-12 no-padding">
+                                                                                <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="city.id as city.name for city in Cities track by city.id" ng-model="Employee.permanentaddress.district"></select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row-padbot-15">
+                                                                    <div class="col-md-6 no-padding">
+                                                                        <div class="form-group">
+                                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">State</label>
+                                                                            <div class="col-md-12 no-padding">
+                                                                                <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="state.id as state.name for state in States track by state.id" ng-model="Employee.permanentaddress.state"></select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                    </div>
+                                                                    <div class="col-md-6 no-padding">
+                                                                        <div class="form-group">
+                                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Pincode</label>
+                                                                            <div class="col-md-12 no-padding">
+                                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.permanentaddress.pincode">
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12 no-padding" ng-hide="Employee.personal.img_photo.length>0">
+                                                                <label for="inputEmail3" style="font-size:large" class="col-md-12 no-padding control-label">Permanant Address</label>
+                                                                <div class="row-padbot-15">
+                                                                    <div class="form-group">
+                                                                        <label for="inputEmail3" class="col-md-12  no-padding control-label">Resident No</label>
+                                                                        <div class="col-md-12 no-padding">
+                                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.permanentaddress.residentno">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.col -->
+                                                                </div>
+                                                                <div class="row-padbot-15">
+                                                                    <div class="form-group">
+                                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Resident Name</label>
+                                                                        <div class="col-md-12 no-padding">
+                                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.permanentaddress.residentname">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.col -->
+                                                                </div>
+                                                                <div class="row-padbot-15">
+                                                                    <div class="form-group">
+                                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Street</label>
+                                                                        <div class="col-md-12 no-padding">
+                                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.permanentaddress.street">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.col -->
+                                                                </div>
+                                                                <div class="row-padbot-15">
+                                                                    <div class="col-md-6 no-padding">
+                                                                        <div class="form-group">
+                                                                            <label for="inputEmail3" class="col-md-12  control-label">Area</label>
+                                                                            <div class="col-md-12 no-padding">
+                                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.permanentaddress.area">
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                    </div>
+                                                                    <div class="col-md-6 no-padding">
+                                                                        <div class="form-group">
+                                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Village</label>
+                                                                            <div class="col-md-12 no-padding">
+                                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.permanentaddress.village">
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row-padbot-15">
+                                                                    <div class="form-group">
+                                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">City</label>
+                                                                        <div class="col-md-12 no-padding">
+                                                                            <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="city.id as city.name for city in Cities track by city.id" ng-model="Employee.permanentaddress.city"></select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.col -->
+                                                                </div>
+                                                                <div class="row-padbot-15">
+                                                                    <div class="form-group">
+                                                                        <label for="inputEmail3" class="col-md-12  no-padding control-label">District</label>
+                                                                        <div class="col-md-12 no-padding">
+                                                                            <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="city.id as city.name for city in Cities track by city.id" ng-model="Employee.permanentaddress.district"></select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.col -->
+                                                                </div>
+
+                                                                <div class="row-padbot-15">
+                                                                    <div class="col-md-6 no-padding">
+                                                                        <div class="form-group">
+                                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">State</label>
+                                                                            <div class="col-md-12 no-padding">
+                                                                                <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="state.id as state.name for state in States track by state.id" ng-model="Employee.permanentaddress.state"></select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                    </div>
+                                                                    <div class="col-md-6 no-padding">
+                                                                        <div class="form-group">
+                                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Pincode</label>
+                                                                            <div class="col-md-12 no-padding">
+                                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.permanentaddress.pincode">
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane" id="Education">
+                                            <div class="box-body">
+                                                <div class="col-md-12 no-padding">
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Mode</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <input type="radio" ng-model="Employee.educationexperiance.mode" style="padding-left:30px;" name="EducationExp" value="Education" /> Education
+                                                                <input type="radio" ng-model="Employee.educationexperiance.mode" value="Experiance" name="EducationExp" /> Experience
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <label class="col-md-12 no-padding control-label">Upload Certificate</label>
+                                                                <file-upload class="btn btn-success btn-rad btn-trans file-upload" resize="true" max-width="1280"
+                                                                             max-height="1280" preview="true"
+                                                                             filetype="LOGO"
+                                                                             ng-model="Employee.educationexperiance.certificate_id"
+                                                                             filemodel="Employee.educationexperiance.certificate_id"
+                                                                             multiple="false">
+                                                                    <i class="fa fa-upload"></i>
+                                                                    <span>Upload Files</span>
+                                                                </file-upload>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-6" ng-show="Employee.educationexperiance.mode=='Education'">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Qualification Type</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="type.id as type.name for type in EducationTypes track by type.id" ng-model="Employee.educationexperiance.educationtype"></select>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Name</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.educationexperiance.name">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Institution</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.educationexperiance.institution">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Place</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.educationexperiance.place">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Year</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.educationexperiance.year">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="col-md-6" ng-show="Employee.educationexperiance.mode=='Experiance'">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Salary</label>
+                                                            <div class="col-md-12 no-padding">
+
+                                                                <div class="col-md-12 no-padding ">
+                                                                    <div class="col-md-12 no-padding">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.educationexperiance.salary">
+                                                                            <span class="input-group-btn">
+                                                                                <button type="button" class="btn btn-sm btn-info" ng-click="SaveEducationQualify()">Add</button>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="col-md-6" ng-show="Employee.educationexperiance.mode=='Education'">
+                                                        <div class="form-group">
+
+
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Percentage</label>
+                                                            <div class="col-md-12 no-padding ">
+                                                                <div class="col-md-12 no-padding">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.educationexperiance.salary">
+                                                                        <span class="input-group-btn">
+                                                                            <button type="button" class="btn btn-sm btn-info" ng-click="SaveEducationQualify()">Add</button>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+
+
+
+
+
+
+
+                                                </div>
+
+                                                <div class="col-md-12" style="padding-top:10px">
+                                                    <table fixed-header="200px" class="fixed_table" additionalheight="280px">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:10px">&nbsp;</th>
+                                                                <th style="width:50px">Type</th>
+                                                                <th style="width:50px">Name</th>
+                                                                <th style="width:50px">Institution</th>
+                                                                <th style="width:50px">Year</th>
+                                                                <th style="width:50px">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in Employee.educationandexperiance.items">
+                                                                <td></td>
+                                                                <td>{{item.mode}}</td>
+                                                                <td>{{item.name}}</td>
+                                                                <td>{{item.institution}}</td>
+                                                                <td>{{item.year}}</td>
+                                                                <td>
+                                                                    <button type="button" class="btn-primary btn btn-xs" ng-click="DeletefromList(Employee.educationandexperiance.items,item)">Delete</button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane" id="addtionalinfo">
+                                            <div class="col-md-12">
+
+                                                <div class="row-padbot-15">
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Date</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <input type="text" class="form-control pull-right  input-sm" datemodule="Employee.addionalinfo.recordedon" ng-model="Employee.Addionalinfo.RecordedOn">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Name</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.addionalinfo.key">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Value</label>
+
+                                                        <div class="col-md-12 no-padding">
+                                                            <div class="input-group input-group-sm">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.addionalinfo.value">
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-sm btn-info" ng-click="SaveAdditionalInfo()">Add</button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-12" style="padding-top:20px;padding-left:0px;padding-right:0px">
+                                                    <table fixed-header="200px" class="fixed_table" additionalheight="200px">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:10px">&nbsp;</th>
+                                                                <th style="width:50px">Description</th>
+                                                                <th style="width:50px">Comments</th>
+                                                                <th style="width:50px">Date</th>
+                                                                <th style="width:50px">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in Employee.addionalinfo.items">
+                                                                <td></td>
+                                                                <td>{{item.key}}</td>
+                                                                <td>{{item.value}}</td>
+                                                                <td>{{item.recordedon | date:'dd-MM-yyyy'}}</td>
+                                                                <td>
+                                                                    <button type="button" class="btn-primary btn btn-xs" ng-click="DeletefromList(Employee.addionalinfo.items,item)">Delete</button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane" id="training">
+                                            <div class="col-md-12">
+
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Training Name</label>
+                                                        <div class="col-md-12 no-padding">
+                                                            <input type="text" class="form-control pull-right  input-sm" ng-model="Employee.trainings.name">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Given On</label>
+                                                        <div class="col-md-12 no-padding">
+                                                            <div class="input-group date">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                                <input type="text" class="form-control pull-right  input-sm" datemodule="Employee.trainings.givenon" ng-model="Employee.trainings.GivenOn">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Remark</label>
+                                                        <div class="col-md-12 no-padding">
+                                                            <input type="text" class="form-control pull-right  input-sm" ng-model="Employee.trainings.remark">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Confirmation Date</label>
+                                                        <div class="col-md-12 no-padding">
+                                                            <div class="input-group date">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                                <input type="text" class="form-control pull-right  input-sm" datemodule="Employee.trainings.confirmationdate" ng-model="Employee.trainings.confirmationdate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Completion Date</label>
+                                                        <div class="col-md-12 no-padding">
+
+                                                            <div class="input-group date">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                                <input type="text" class="form-control pull-right  input-sm" datemodule="Employee.trainings.completiondate" ng-model="Employee.trainings.completiondate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Notice Period</label>
+                                                        <div class="col-md-12 no-padding">
+                                                            <div class="input-group input-group-sm">
+                                                                <input type="text" class="form-control pull-right  input-sm" ng-model="Employee.trainings.noticeperiod">
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-sm btn-info" ng-click="SaveTrainingDetails()">Add</button>
+                                                                </span>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-12" style="padding-top:20px;padding-left:0px;padding-right:0px">
+                                                    <table fixed-header="200px" class="fixed_table" additionalheight="250px">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:10px">&nbsp;</th>
+                                                                <th style="width:150px">Name</th>
+                                                                <th style="width:150px">Confn Date</th>
+                                                                <th style="width:150px">Given On</th>
+                                                                <th style="width:150px">Compn Date</th>
+                                                                <th style="width:150px">Remark</th>
+                                                                <th style="width:150px">Action</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in Employee.trainings.items">
+                                                                <td></td>
+                                                                <td>{{item.name}}</td>
+                                                                <td>{{item.confirmationdate | date:'dd-MM-yyyy'}}</td>
+                                                                <td>{{item.givenon | date:'dd-MM-yyyy'}}</td>
+                                                                <td>{{item.completiondate | date:'dd-MM-yyyy'}}</td>
+                                                                <td>{{item.remark}}</td>
+                                                                <td>
+                                                                    <button type="button" class="btn-primary btn btn-xs" ng-click="DeletefromList(Employee.trainings.items,item)">Delete</button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane" id="accident">
+                                            <div class="row-padbot-15">
+                                                <div class="col-md-12">
+
+                                                    <div class="col-md-6 no-padding">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Name</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.accident.name">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 no-padding">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Accident ON</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right  input-sm" datemodule="Employee.accident.accidenton" ng-model="Employee.accident.AccidentOn">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 no-padding">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Hospital</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.accident.hospital" ng-required="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 no-padding">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Body Location </label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.accident.bodylocation" ng-required="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 no-padding">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">Accident Location </label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <div class="input-group input-group-sm">
+                                                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.accident.accidentlocation " ng-required="true">
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn-sm btn-info" ng-click="SaveEmployeeAccidentDetails()">Go!</button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-12" style="padding-top:20px;padding-left:0px;padding-right:0px">
+                                                        <table fixed-header="200px" class="fixed_table" additionalheight="250px">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width:10px">&nbsp;</th>
+                                                                    <th style="width:50px">Name</th>
+                                                                    <th style="width:50px">Accident On</th>
+                                                                    <th style="width:50px">Hospital</th>
+                                                                    <th style="width:50px">Body Location</th>
+                                                                    <th style="width:50px">Accident Location</th>
+                                                                    <th style="width:50px">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="item in Employee.accident.items">
+                                                                    <td></td>
+                                                                    <td>{{item.name}}</td>
+                                                                    <td>{{item.accidenton | date:'dd-MM-yyyy'}}</td>
+                                                                    <td>{{item.hospital}}</td>
+                                                                    <td>{{item.bodylocation}}</td>
+                                                                    <td>{{item.accidentlocation}}</td>
+                                                                    <td>
+                                                                        <button type="button" class="btn-primary btn btn-xs" ng-click="DeletefromList(Employee.accident.items,item)">Delete</button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="Disciplinary">
+                                            <div class="box-body">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-6 no-padding">
+                                                        <div class="row-padbot-15">
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Disciplinary Name</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.disciplinary.name">
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.col -->
+                                                        </div>
+                                                        <div class="row-padbot-15">
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Identified By</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.disciplinary.identifiedby">
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.col -->
+                                                        </div>
+                                                        <div class="row-padbot-15">
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Occured On</label>
+                                                                <div class="col-md-12 no-padding">
+
+                                                                    <div class="col-md-12 no-padding">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <div class="input-group date">
+                                                                                <div class="input-group-addon">
+                                                                                    <i class="fa fa-calendar"></i>
+                                                                                </div>
+                                                                                <input type="text" class="form-control pull-right  input-sm" datemodule="Employee.disciplinary.occuredon" ng-model="Employee.disciplinary.occuredon">
+                                                                            </div>
+                                                                            <span class="input-group-btn">
+                                                                                <button type="button" class="btn btn-sm btn-info" ng-click="SaveDiciplinary()">Go!</button>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.col -->
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6" style="padding-right:0px">
+                                                        <div class="row-padbot-15">
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Remark</label>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <textarea method="text" class="form-control input-sm" rows="6" ng-model="Employee.disciplinary.remark"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.col -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12" style="padding-top:20px;padding-left:0px;padding-right:0px">
+                                                        <table fixed-header="200px" class="fixed_table" additionalheight="270px">
+
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width:10px">&nbsp;</th>
+                                                                    <th style="width:50px">Name</th>
+                                                                    <th style="width:50px">Identified By</th>
+                                                                    <th style="width:50px">Occured On</th>
+                                                                    <th style="width:50px">Remark</th>
+                                                                    <th style="width:50px">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="item in Employee.disciplinary.items">
+                                                                    <td></td>
+                                                                    <td>{{item.name}}</td>
+                                                                    <td>{{item.identifiedby}}</td>
+                                                                    <td>{{item.occuredon | date:'dd-MM-yyyy' }}</td>
+                                                                    <td>{{item.remark}}</td>
+                                                                    <td>
+                                                                        <button type="button" class="btn-primary btn btn-xs" ng-click="DeletefromList(Employee.disciplinary.items,item)">Delete</button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane" id="PFandESI">
+                                            <div class="box-body">
+
+                                                <div class="col-md-6">
+                                                    <h4>PF Details</h4>
+                                                    <div class="row-padbot-15">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">PF NO</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.pfandesi.pfno">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="row-padbot-15">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">PF Eligible Date</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right  input-sm" datemodule="Employee.pfandesi.pffrom" ng-model="Employee.pfandesi.pffrom">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="row-padbot-15">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">PF UAN</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.pfandesi.pfuan">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="col-md-6">
+                                                    <h4>ESI Details</h4>
+
+                                                    <div class="row-padbot-15">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding control-label">ESI NO</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Employee.pfandesi.esino">
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <div class="row-padbot-15">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-12 no-padding  control-label">ESI Eligible Date</label>
+                                                            <div class="col-md-12 no-padding">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right  input-sm" datemodule="Employee.pfandesi.esienabledon" ng-model="Employee.pfandesi.esienabledon">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <!-- /.box-body -->
+                                        <!-- nav-tabs-custom -->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!--<div class="col-md-3 no-padding">
+                            <div class="row-padbot-15"></div>
+                            <div class="row-padbot-15">
+                                <div class="form-group">
+                                    <input type="checkbox" ng-model="Employee.hasot" />&nbsp;OT
+                                    <input type="checkbox" ng-model="Employee.hasmorningot" />&nbsp;M.OT
+                                    <input type="checkbox" ng-model="Employee.hasbeta" />&nbsp;Beta
+                                </div>
+                            </div>
+
+                            <div class="row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-5 form-group control-label"></label>
+                                    <div class="col-md-7">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-5 form-group control-label"></label>
+                                    <div class="col-md-7">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row-padbot-15">
+                                <div class="form-group">
+                                    <select class="form-control" style="width: 100%;" select2="" ng-options="item.id as item.name for item in WorkingHours track by item.id" ng-model="Employee.workinghour"></select>
+                                </div>
+                            </div>
+                            <div class="row-padbot-15">
+                                <div class="form-group">
+                                    <select class="form-control" style="width: 100%;" select2="" ng-options="item.id as item.name for item in refstructurelist track by item.id" ng-model="Employee.salarystructureid"></select>
+                                </div>
+                            </div>
+                            <div class="row-padbot-15">
+                                <div class="form-group">
+                                    &nbsp;&nbsp;&nbsp; <button class="pull-left btn btn-primary" ng-click="New()">Clear</button>
+                                    <button class="pull-right  btn btn-primary" ng-click="Save()">Save</button>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+
+                <div class="col-md-12" ng-show="ShowSearch">
+                  
+
+                    <div class="col-md-3">
+
+
+                        <div class="row-padbot-15">
+
+                            <label for="inputEmail3">Company</label>
+                            <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="item.id as item.name for item in Companies track by item.id" ng-model="SearchCondition.companyid" onkeyenter="Search()"></select>
+
+                        </div>
+                        <div class="row-padbot-15">
+                            <label for="inputEmail3">Department</label>
+                            <select class="form-control input-sm" style="width: 100%;" select2="" onkeyenter="Search()" ng-options="department.id as department.name for department in Departments track by department.id" ng-model="SearchCondition.departmentid"></select>
+                        </div>
+
+                        <div class="row-padbot-15">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Location</label>
+                                <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="type.id as type.name for type in Locations track by type.id" ng-model="SearchCondition.locationid"></select>
+
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Floor</label>
+                                <select class="form-control input-sm" style="width: 100%;" onkeyenter="Search()" select2="" ng-options="floor.id as floor.name for floor in Floors track by floor.id" ng-model="SearchCondition.floorid"></select>
+
+                            </div>
+
+                        </div>
+                        <div class="row-padbot-15">
+                            <label for="inputEmail3">Section</label>
+                            <select class="form-control input-sm" style="width: 100%;" select2="" onkeyenter="Search()" ng-options="division.id as division.name for division in Divisions track by division.id" ng-model="SearchCondition.sectionid"></select>
+                        </div>
+                        <div class="row-padbot-15">
+                            <label for="inputEmail3">Manager</label>
+                            <select class="form-control input-sm" style="width: 100%;" select2=""
+                                    ng-options="manager.id as manager.name for manager in refemployeelist track by manager.id" ng-model="SearchCondition.managerid"></select>
+                        </div>
+
+                        <div class="row-padbot-15">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Employee Code</label>
+                                <input type="text" class="form-control input-sm" ng-model="SearchCondition.employeecode" onkeyenter="Search()">
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Employee Name</label>
+                                <input type="text" class="form-control input-sm" ng-model="SearchCondition.name" onkeyenter="Search()">
+                            </div>
+                        </div>
+                        <div class="row-padbot-15">
+                            <label for="inputEmail3">Contact No</label>
+                            <input type="text" class="form-control input-sm" ng-model="SearchCondition.contactno" onkeyenter="Search()">
+                        </div>
+
+
+
+                        <div class="row-padbot-15">
+                            <label for="inputEmail3">Salary/Working Mode</label>
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <select class="form-control input-sm" style="width: 100%;padding-right:0px;" select2="" ng-options="item.id as item.name for item in SalaryModes track by item.id" ng-model="SearchCondition.salarymode" onkeyenter="Search()"></select>
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <select class="form-control input-sm" style="width: 100%;padding-left:0px;" select2="" ng-options="item.id as item.name for item in WorkingModes track by item.id" ng-model="SearchCondition.workingmode" onkeyenter="Search()"></select>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+
+                        <div class="row-padbot-15">
+                            <label for="inputEmail3">Resigned</label>
+                            <input type="checkbox" style="padding-left:20px;padding-right:30px;" ng-model="SearchCondition.hasleft" />
+                        </div>
+
+                        <div class="row-padbot-15">
+                            <label for="inputEmail3">Show Address</label>
+                            <input type="checkbox" style="padding-left:20px;padding-right:30px;" ng-model="SearchCondition.showaddress" />
+                            <label for="inputEmail3">Show Bank</label>
+                            <input type="checkbox" style="padding-left:20px;padding-right:30px;" ng-model="SearchCondition.showbank" />
+                            <label for="inputEmail3">Show ID</label>
+                            <input type="checkbox" style="padding-left:20px;padding-right:30px;" ng-model="SearchCondition.showid" />
+                            <label for="inputEmail3">Show Personal</label>
+                            <input type="checkbox" style="padding-left:20px;padding-right:30px;" ng-model="SearchCondition.showpersonal" />
+                        </div>
+                    </div>
+
+
+                            <div class="col-md-9">
+                                <div class="col-md-12 no-padding" id="gridContainer">
+
+                                </div>
+                            </div>
+
+                       
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+</div>
+<!-- /.content-wrapper -->

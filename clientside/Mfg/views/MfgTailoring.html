@@ -1,0 +1,427 @@
+﻿   <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Mfg Employees Jobwork
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-show="SearchResult.length>0" ng-click="exporttoExcel(sgrid,'Summary.xls')"><a><i class="fa fa-download"></i>Summary</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click="DeleteSelected()"><a><i class="fa fa-trash">({{selectedcount}}) Delete Selected</i></a></li>
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.create && selectedcount==1" style="cursor:pointer" ng-click="PrintSettlement()"><a><i class="fa fa-calendar-check-o"></i>Print Slip</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li style="cursor:pointer" ng-show="SavedList.length>0" ng-click="exporttoExcel(igrid,'list.xls')"><a><i class="fa fa-download"></i>List</a></li>
+            <li style="cursor:pointer" ng-show="SavedList.length>0" ng-click="PrintPDF()"><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="SearchResult.length>0 && SearchCondition.status == 'Unpaid'" style="cursor:pointer" ng-click="UpdateCharges()"><a><i class="fa fa-save"></i>Update Rate</a></li>
+
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary">
+            <div class="box-body ">
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-4" style="padding-right:3px">
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-4 col-sm-4 control-label">Date Range</label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text" class="form-control pull-right input-sm"
+                                       daterange="SearchCondition.fromdate,SearchCondition.todate"
+                                       focusid="first" focusonenter="product">
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Product</label>
+                            <div class="col-md-8 col-sm-8">
+                                <select class="input-sm form-control" select2="Select Product" style="width:100%"
+                                        ng-model="SearchCondition.productid"
+                                        ng-options="item.id as item.name for item in Products track by item.id"
+                                        focusid="product" focusonenter="design"></select>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Design</label>
+                            <div class="col-md-8 col-sm-8">
+                                <select class="form-control" select2='' ng-model="SearchCondition.designid" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in DesignList track by item.id" focusid="design" focusonenter="employee"></select>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Employee</label>
+                            <div class="col-md-8 col-sm-8">
+                                <select class="form-control" select2='' ng-model="SearchCondition.employeeid" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in Employee track by item.id" focusid="employee" focusonenter="statusid"></select>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15" ng-hide="ShowPayments">
+                            <label for="inputEmail3" class="col-md-4 col-sm-4 form-group control-label">Mode</label>
+                            <div class="col-md-8 col-sm-8">
+                                <div class="input-group input-group-sm" style="width:100%">
+                                    <select class="form-control" select2='' ng-model="SearchCondition.status" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in StatusList track by item.id"
+                                            focusid="statusid"></select>
+                                    <span class="input-group-btn" style="width:20px">
+                                        <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="SearchOrders()">
+                                            <i class="fa fa-search"></i>&nbsp;Search
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="ShowPayments">
+                            <div class="col-md-4 col-sm-4 no-padding">
+                                <label for="inputEmail3" class="col-md-12">Payment</label>
+                                <div class="col-md-12">
+                                    <input type="radio" ng-model="TailoringOrder.paymode"
+                                           value="full" name="paymentmode" ng-change="paymodechanged()" /> Full
+                                    <input type="radio" ng-model="TailoringOrder.paymode"
+                                           value="partial" name="paymentmode" ng-change="paymodechanged()" /> Partial
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 col-sm-8">
+
+                                <div class="col-md-5 no-padding">
+                                    <label for="inputEmail3" class="form-group required control-label no-margin">Amount</label>
+                                    <input type="text" class="form-control input-sm"
+                                           focusid="paidamount" focusonenter="paidon"
+                                           ng-model="TailoringOrder.paidamount"
+                                           ng-readonly="TailoringOrder.paymode == 'full'">
+                                </div>
+                                <div class="col-md-7 no-padding">
+                                    <label for="inputEmail3" class="form-group required control-label no-margin">Date</label>
+                                    <div class="input-group input-group-sm" style="width:100%">
+                                        <input type="text" class="form-control input-sm"
+                                               focusid="paidon"
+                                               datemodule="TailoringOrder.paidon" ng-model="TailoringOrder.paidon">
+                                        <span class="input-group-btn" style="width:20px">
+                                            <button type="button" class="btn btn-info btn-sm btn-flat"
+                                                    ng-click="PayValidation()">
+                                                <i class="fa fa-calendar-check-o"></i>&nbsp;Pay
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-12 no-padding" id="searchgridContainer">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-8" style="padding-left:3px">
+
+                        <div class="col-md-12" ng-show="mfg_tailoringmode == 1">
+                            
+                            <div class="col-md-12 no-padding" style="padding-left:1px;padding-right:1px">
+
+                                <div class="col-md-2 no-padding">
+                                    <label for="inputEmail3" class="form-group required control-label no-margin">Date</label>
+                                    <input type="text" class="form-control input-sm"
+                                           focusid="wgissuedon" focusonenter="wgremarks"
+                                           ng-change="EmployeeOrdersByDate()"
+                                           datemodule="TailoringOrder.issuedon" ng-model="TailoringOrder.issuedon">
+                                </div>
+
+                                <div class="col-md-1 no-padding">
+                                    <label for="inputEmail3" class="form-group required control-label no-margin">#LOT</label>
+                                    <input type="text" class="form-control input-sm"
+                                           focusid="wgremarks" focusonenter="wgapprovedby"
+                                           ng-model="TailoringOrder.remarks">
+                                </div>
+
+
+                                <div class="col-md-2 no-padding">
+                                    <label for="inputEmail3" class="form-group required control-label no-margin">Recorded By</label>
+                                    <select class="input-sm form-control" select2="Approver Name" style="width:100%"
+                                            ng-model="TailoringOrder.approvedby"
+                                            ng-options="item.id as item.name for item in Employee track by item.id"
+                                            focusid="wgapprovedby" focusonenter="wgjobchargeid"></select>
+                                </div>
+
+                                <div class="col-md-2 no-padding">
+                                    <label for="inputEmail3" class="form-group required control-label no-margin">Job Work</label>
+                                    <select class="input-sm form-control" select2="Approver Name" style="width:100%"
+                                            ng-model="TailoringOrder.jobchargeid"
+                                            ng-options="item.id as item.name for item in JobWorkCharges track by item.id"
+                                            focusid="wgjobchargeid" focusonenter="wgemployeeid"></select>
+                                </div>
+
+                                <div class="col-md-3 no-padding">
+                                    <label for="inputEmail3" class="form-group required control-label no-margin">Employee</label>
+                                    <select class="input-sm form-control" select2="Tailor Name" style="width:100%"
+                                            ng-model="TailoringOrder.employeeid"
+                                            ng-options="item.id as item.name for item in Employee track by item.id"
+                                            focusid="wgemployeeid" focusonenter="wgqty"></select>
+                                </div>
+
+                                <div class="col-md-2 no-padding">
+                                    <label for="inputEmail3" class="control-label no-margin">Qty</label>
+
+                                    <div class="input-group input-group-sm">
+
+                                        <input type="text" class="input-sm form-control" style="width: 100%;"
+                                               placeholder="Qty"
+                                               ng-model="TailoringOrder.qty"
+                                               focusid="wgqty"
+                                               selectAllOnFocus="true"
+                                               onkeyenter="Save()">
+
+                                        <span class="input-group-btn" style="width:10px">
+                                            <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="Save()">
+                                                <i class=" glyphicon glyphicon-plus-sign"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+
+                          
+
+
+                        </div>
+
+                        <div class="col-md-12" ng-show="mfg_tailoringmode == 0">
+                            <div class="row-padbot-15">
+                                <div class="col-md-10 no-padding" style="padding-left:1px;padding-right:1px">
+
+                                    <div class="col-md-3 no-padding">
+                                        <label for="inputEmail3" class="form-group required control-label no-margin">Employee</label>
+                                        <select class="input-sm form-control" select2="Tailor Name" style="width:100%"
+                                                ng-model="TailoringOrder.employeeid"
+                                                ng-options="item.id as item.name for item in Employee track by item.id"
+                                                focusid="first" onkeyenter="EmployeeOrders()"></select>
+                                    </div>
+                                    <div class="col-md-3 no-padding">
+                                        <label for="inputEmail3" class="form-group required control-label no-margin">Given By</label>
+                                        <select class="input-sm form-control" select2="Approver Name" style="width:100%"
+                                                ng-model="TailoringOrder.approvedby"
+                                                ng-options="item.id as item.name for item in Employee track by item.id"
+                                                focusid="approvedby" focusonenter="jobworkchargeid"></select>
+                                    </div>
+                                    <div class="col-md-3 no-padding">
+                                        <label for="inputEmail3" class="form-group required control-label no-margin">Job Work</label>
+                                        <select class="input-sm form-control" select2="Approver Name" style="width:100%"
+                                                ng-model="TailoringOrder.jobchargeid"
+                                                ng-options="item.id as item.name for item in JobWorkCharges track by item.id"
+                                                focusid="jobchargeid" focusonenter="issuedon"></select>
+                                    </div>
+                                    <div class="col-md-3 no-padding pull-right">
+                                        <label for="inputEmail3" class="form-group required control-label no-margin">Date</label>
+                                        <input type="text" class="form-control input-sm"
+                                               focusid="issuedon" focusonenter="approvedby"
+                                               datemodule="TailoringOrder.issuedon" ng-model="TailoringOrder.issuedon">
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-2 no-padding">
+                                    <label for="inputEmail3" class="pull-right">
+                                        {{IsSize?'Size Based':'Size Group'}}
+                                    </label>
+
+                                    <div class="col-md-12 no-padding">
+                                        <label class="switch pull-right" style="margin-right:5px;">
+                                            <input type="checkbox" ng-model="IsSize" ng-change="ChangeMode()">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-10 no-padding" style="padding-left:1px;padding-right:1px">
+
+                                <div class="col-md-3 no-padding">
+                                    <label for="inputEmail3" class="form-group required control-label no-margin">Product</label>
+                                    <select class="input-sm form-control" select2="Select Product" style="width:100%"
+                                            ng-model="TailoringOrder.productid"
+                                            ng-options="item.id as item.name for item in Products track by item.id"
+                                            ng-change="ProductChanged()"
+                                            focusid="product"></select>
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <label for="inputEmail3" class="control-label no-margin">Design</label>
+                                    <select class="input-sm form-control" select2="Select Design"
+                                            ng-model="TailoringOrder.designid"
+                                            ng-options="item.id as item.name for item in DesignList track by item.id"
+                                            style="width:100%"
+                                            ng-change="Designchanged()"
+                                            focusid="design" focusonenter="sizecolour"></select>
+                                </div>
+
+                                <div class="col-md-3 no-padding">
+                                    <label for="inputEmail3" class="control-label no-margin">Colour</label>
+                                    <select class="input-sm form-control" select2="Select Colour" style="width:100%"
+                                            ng-model="TailoringOrder.colourid"
+                                            ng-options="item.id as item.name for item in ColourList track by item.id"
+                                            focusid="sizecolour"
+                                            ng-change="ColourChanged()"></select>
+                                </div>
+
+                                <div class="no-padding col-md-3">
+                                    <label for="inputEmail3" class="control-label no-margin">
+                                        {{IsSize?'Size':'Size Group'}}
+                                    </label>
+
+                                    <select class="input-sm form-control" select2="Select Size" style="width:100%"
+                                            ng-model="TailoringOrder.sizeorgroupid"
+                                            ng-options="item.id as item.name for item in SizeOrGroupList track by item.id"
+                                            focusid="sizegroup" focusonenter="qty"></select>
+
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-2 no-padding">
+                                <label for="inputEmail3" class="control-label no-margin">Qty</label>
+
+                                <div class="input-group input-group-sm">
+
+                                    <input type="text" class="input-sm form-control" style="width: 100%;"
+                                           placeholder="Qty"
+                                           ng-model="TailoringOrder.qty"
+                                           focusid="qty"
+                                           selectAllOnFocus="true"
+                                           onkeyenter="Save()">
+
+                                    <span class="input-group-btn" style="width:10px">
+                                        <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="Save()">
+                                            <i class=" glyphicon glyphicon-plus-sign"></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-12" style="padding-top:10px;" id="gridContainer">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <script type="text/ng-template" id="TailoringRecieved">
+        <div class="ngdialog-message">
+
+            <div class="col-md-12">
+                <table fixed-header="250px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:100px">Size</th>
+                            <th style="width:80px">Pending</th>
+                            <th style="width:80px">Completed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in Item.sizelist">
+                            <td>{{item.name}}</td>
+                            <td>
+                                {{item.iqty - (item.rqty+item.cqty)}}
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm"
+                                       ng-change="QtyChanged()"
+                                       ng-model="item.nrqty" style="width:100%" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <div class="col-md-12" style="padding-top:10px;padding-left:0px;padding-right:0px">
+                <div class="col-md-6">
+                    <div class="col-md-6 no-padding">
+                        <label for="inputEmail3" class="control-label">All Qty</label>
+                        <div style="font-size:large">
+                            <input type="number" class="form-control input-sm"
+                                   ng-change="AllQtyChanged()"
+                                   ng-model="allqty" style="width:100%" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputEmail3" class="control-label">Total Qty</label>
+                        <div style="font-size:large">
+                            {{TotalQty}}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6" style="padding-top:25px">
+                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Save()">Receive</button>
+                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="TailoringPayment">
+        <div class="ngdialog-message">
+
+            <div class="col-md-12">
+                <table fixed-header="250px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:200px">Tailor</th>
+                            <th style="width:80px">Payable</th>
+                            <th style="width:80px">Payment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in SearchResult">
+                            <td>{{SearchRef(item.employeeid,Employee)}}</td>
+                            <td>
+                                {{item.jobcharge - item.paidcharge}}
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm"
+                                       ng-change="PaidChanged()"
+                                       ng-model="item.paidamount" style="width:100%" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <div class="col-md-12" style="padding-top:10px;padding-left:0px;padding-right:0px">
+                <div class="col-md-6">
+                    <label for="inputEmail3" class="control-label">Allocated Amount</label>
+                    <div style="font-size:large">
+                        {{PaidAmount}}
+                    </div>
+                </div>
+                <div class="col-md-6" style="padding-top:25px">
+                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Save()">Pay</button>
+                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+                </div>
+            </div>
+        </div>
+    </script>
+</div>

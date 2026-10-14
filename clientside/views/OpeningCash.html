@@ -1,0 +1,255 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->    
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Opening Cash
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.print" style="cursor:pointer" ng-click=""><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-purple" ng-hide="ShowSearch">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 form-group required control-label">Location</label>
+                            <div class="col-md-8">
+                                <select class="form-control" select2='Location' ng-model="OpeningBalance.locationid" focusid="first" options="item.id as item.name for item in Locations track by item.id" ng-change="FilterCounter()"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-10">
+                            <label for="inputEmail3" class="col-md-4 control-label">Date/Time</label>
+                            <div class="col-md-8">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control datepicker" datemodule="OpeningBalance.paidon" ng-model="OpeningBalance.paidon">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <!--<button type="button" class="pull-right btnMarginer btn btn-warning" ng-click="SwitchPanel()">Search</button>-->
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 form-group required control-label">Counter</label>
+                            <div class="col-md-8">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in FilterdCounterList track by item.id" focusid="second"  ng-model="OpeningBalance.counterid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-10">
+                            <label for="inputEmail3" class="col-md-4 form-group required control-label">Paid By</label>
+                            <div class="col-md-8">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.code for item in Employee track by item.id" focusid="third" ng-model="OpeningBalance.paidbyemployeeid"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 form-group required control-label">Cashier</label>
+                            <div class="col-md-8">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.code for item in Employee track by item.id" focusid="fourth" ng-model="OpeningBalance.cashierid"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-6">
+                        <div class="col-md-10">
+                            <label for="inputEmail3" class="col-md-4 control-label">Amount</label>
+                            <div class="col-md-8">
+                                <input type="text" name="name" class="form-control" ng-readonly="true" id="inputEmail3" placeholder="" ng-model="OpeningBalance.openingamount">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label"><b>Denominations</b></label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="col-md-6" ng-repeat="item in OpeningBalance.openingdinomination">
+                            <div class="col-md-3 text-right">₹{{item.dinomination}}</div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control  text-right" ng-model="item.qty" ng-change="AmountChanged(item)" /><br />
+                            </div>
+                            <div class="col-md-3  text-right"><b>₹{{item.amount}}</b></div>
+                            <div class="col-md-3  text-right"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15" ng-show="SettlementPrint != null">
+                    <textarea rows="10" cols="80" ng-model="SettlementPrint">
+
+                    </textarea>
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <!--<div class="col-md-2 pull-left">
+                            <button type="button" class="pull-left btnMarginer btn btn-primary"
+                                    ng-show="UserInfo.p_CASHOPENING.modify" ng-click="ShowStatus()">
+                                Status
+                            </button>
+                        </div>-->
+                        <div class="col-md-2 pull-right">
+                            <!--<button type="button" class="pull-right btnMarginer btn btn-primary"
+                                    ng-show="item.id==0 || UserInfo.p_CASHOPENING.modify" ng-click="Save()">
+                                Save
+                            </button>-->
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+
+        </div>
+
+
+
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                            <div class="col-md-8">
+                                <select class="form-control" select2='Location' style="width: 100%;" ng-model="SearchCondition.locationid" options="item.id as item.name for item in Locations track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="col-md-10">
+                            <label for="inputEmail3" class="col-md-4 control-label">Date/Time</label>
+                            <div class="col-md-8">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control datepicker" datemodule="SearchCondition.paidon" ng-model="SearchCondition.PaidOn">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">Counter</label>
+                            <div class="col-md-8">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Counters track by item.id" ng-model="SearchCondition.counterid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-10">
+                            <label for="inputEmail3" class="col-md-4 control-label">Paid By</label>
+                            <div class="col-md-8">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.code for item in Employee track by item.id" ng-model="SearchCondition.paidbyemployeeid"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">Cashier</label>
+                            <div class="col-md-8">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.code for item in Employee track by item.id" ng-model="SearchCondition.cashierid"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-6 pull-right">
+                        <!--<button type="button" class="pull-right btnMarginer btn btn-primary" ng-click="Search()">Search</button>-->
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <table fixed-header="370px" class="fixed_table" id="cash">
+                            <thead>
+                                <tr>
+                                    <th style="display:none">S.No</th>
+                                    <th width="100px">LOCATION</th>
+                                    <th width="100px">COUNTER</th>
+                                    <th width="100px">CASHIER</th>
+                                    <th width="100px">PAID BY</th>
+                                    <th width="100px">DATE</th>
+                                    <th width="100px">OPENING</th>
+                                    <th width="100px">CLOSING</th>
+                                    <th width="100px">ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in SearchResult">
+                                    <td style="display:none">{{$index+1}}</td>
+                                    <td>{{SearchRef(item.locationid, Locations)}}</td>
+                                    <td>{{SearchRef(item.counterid, Counters)}}</td>
+                                    <td>{{SearchRef(item.cashierid,Employee)}}</td>
+                                    <td>{{SearchRef(item.paidbyemployeeid,Employee)}}</td>
+                                    <td>{{item.paidon| date : "dd-MM-yyyy"}}</td>
+                                    <td>{{item.openingamount}}</td>
+                                    <td>{{item.closingamount}}</td>
+                                    <td align="center">
+                                        <button type="button" class="btn-primary btn btn-xs" ng-show="UserInfo.p_CASHOPENING.modify" ng-click="ManageSearchItem('Edit',item)"
+                                                data-widget="edit" data-toggle="tooltip" title="Edit">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                        <!--<button type="button" class="btn btn-primary btn-xs" ng-show="UserInfo.p_CASHOPENING.modify" ng-click="ManageSearchItem('Edit',item)">Edit</button>-->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<!-- Page script -->

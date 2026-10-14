@@ -1,0 +1,10 @@
+# Ignore Visual Studio files
+.vs/
+*.suo
+*.user
+*.sln.cache
+
+# Ignore build output
+obj/
+download/
+Video/

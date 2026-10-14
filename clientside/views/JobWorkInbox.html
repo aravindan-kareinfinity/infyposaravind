@@ -1,0 +1,70 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Store / Job Work Inbox
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-show="UserInfo.p_STOREJOBWORK.view"><a href="#" ui-sref="JobWork"><i class="fa fa-gg"></i>New Job Work</a></li>
+            <li style="cursor:pointer" ng-show="UserInfo.p_STOREJOBWORKGRN.view" ng-click="CreateJobGRN()"><a><i class="fa fa-gg"></i>Job Work GRN</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'jobworks', 'jobworks')"><a><i class="fa fa-file-excel-o"></i>Download</a></li>
+            <li style="cursor:pointer" ng-click="ManageItem('PDF')"><a><i class="fa fa-file-pdf-o"></i>PDF</a></li>
+            
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-6 col-sm-6">
+                        <label for="inputEmail3" class="col-sm-1 col-md-2 control-label no-padding">Company</label>
+                        <div class="col-sm-4 col-md-4">
+                            <select class="form-control input-sm" select2="Type" ng-change="typechanged()"
+                                    options="item.id as item.name for item in Company track by item.id"
+                                    ng-model="SearchCondition.companyid"></select>
+
+                        </div>
+                        <label for="inputEmail3" class="col-sm-1 col-md-2 control-label no-padding">Job Worker</label>
+                        <div class="col-sm-4 col-md-4">
+                            <select class="form-control input-sm" select2='Supplier'
+                                    ng-model="SearchCondition.supplierid" options="item.id as item.name for item in Suppliers track by item.id"
+                                    ng-change="supplierchanged()"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Status</label>
+                        <div class="col-sm-4 col-md-4">
+                            <select class="form-control input-sm" select2='status'
+                                    ng-model="SearchCondition.status"
+                                    options="item.id as item.name for item in Status track by item.id"></select>
+
+                        </div>
+                        <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Date</label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" daterange="SearchCondition.addedfrom,SearchCondition.addedto" class="form-control pull-right input-sm">
+                        </div>
+                        <div class="col-sm-2 col-md-2 no-padding">
+                            <button type="button" class="btn btn-primary btn-sm btn-box pull-right" ng-click="SearchInbox()">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-12" id="gridContainer">
+
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+

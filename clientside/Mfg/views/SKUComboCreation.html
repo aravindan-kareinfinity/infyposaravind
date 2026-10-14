@@ -1,0 +1,480 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content-->
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="col-md-4 no-padding">
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Code</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;"
+                                           ng-model="SKU.code"
+                                           focusid="designcode"
+                                           focusonenter="designname">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Name</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;"
+                                           ng-model="SKU.name"
+                                           focusid="designname"
+                                           focusonenter="supplierid">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Supplier</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in Supplier track by item.id"
+                                            ng-model="SKU.supplierid"
+                                            focusid="supplierid"
+                                            focusonenter="productid"></select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Product</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in Products track by item.id"
+                                            ng-model="SKU.productid" focusid="productid"
+                                            focusonenter="fabricid"></select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Fabric</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in Fabrics track by item.id"
+                                            ng-model="SKU.fabricid" focusid="fabricid"
+                                            ng-change="fabricchanged()"
+                                            focusonenter="brandid"></select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Brand</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in BrandName track by item.id"
+                                            ng-model="SKU.brandid" focusid="brandid" focusonenter="fitid"></select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Fit</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in FitList track by item.id"
+                                            ng-model="SKU.fitid" focusid="fitid" focusonenter="seasonid"></select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+
+                                <label for="inputEmail3" class="col-md-4 control-label">Season/Class</label>
+                                <div class="col-md-4" style="padding-right:0px">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in SeasonList track by item.id"
+                                            ng-model="SKU.seasonid" focusid="seasonid" focusonenter="classid"></select>
+                                </div>
+                                <div class="col-md-4" style="padding-left:0px">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in Classification track by item.id"
+                                            ng-model="SKU.classid" focusid="classid" focusonenter="typeid"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+
+                    <!-- /.row -->
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Type/Style</label>
+                                <div class="col-md-4" style="padding-right:0px">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in TypeList track by item.id" ng-model="SKU.typeid"
+                                            focusid="typeid" focusonenter="styleid"></select>
+                                </div>
+                                <div class="col-md-4" style="padding-left:0px">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in Styles track by item.id"
+                                            ng-model="SKU.styleid" focusid="styleid" focusonenter="patternid"></select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Pattern/Material</label>
+                                <div class="col-md-4" style="padding-right:0px">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id  as item.name for item in Patterns track by item.id"
+                                            ng-model="SKU.patternid" focusid="patternid"
+                                            focusonenter="materialid"></select>
+                                </div>
+                                <div class="col-md-4" style="padding-left:0px">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id  as item.name for item in Material track by item.id"
+                                            ng-model="SKU.materialid" focusid="materialid" focusonenter="sizemode"></select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Size Mode/Tax</label>
+                                <div class="col-md-4" style="padding-right:0px">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id  as item.name for item in SizeMode track by item.id"
+                                            ng-model="SKU.sizemode" focusid="sizemode"
+                                            focusonenter="taxid"></select>
+                                </div>
+                                <div class="col-md-4" style="padding-left:0px">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id  as item.name for item in TaxList track by item.id"
+                                            ng-model="SKU.taxid" focusid="taxid" focusonenter="racknumber"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Rack</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;"
+                                           ng-model="SKU.racknumber"
+                                           focusid="racknumber"
+                                           focusonenter="mfgyear">
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Year/Month</label>
+                                <div class="col-md-8">
+
+                                    <div class="col-md-6 no-padding">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="SKU.mfgyear"
+                                               focusid="mfgyear"
+                                               focusonenter="mfgmonth">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="SKU.mfgmonth"
+                                               focusid="mfgmonth"
+                                               focusonenter="pack">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Pack/Cut Ratio</label>
+                                <div class="col-md-4" style="padding-right:0px">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;"
+                                           ng-model="SKU.pack"
+                                           focusid="pack"
+                                           focusonenter="cutratio">
+                                </div>
+                                <div class="col-md-4" style="padding-left:0px">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;"
+                                           ng-model="SKU.cutratio"
+                                           focusid="cutratio"
+                                           focusonenter="colourid">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Image</label>
+                                <div class="col-md-8" style="padding-right:0px">
+                                    <div class="col-md-12 no-padding">
+                                        <div class="col-md-3 no-padding">
+                                            <file-upload class="btn btn-success btn-rad btn-trans btn-xs file-upload"
+                                                         resize="true" max-width="1280"
+                                                         max-height="1280" preview="false"
+                                                         ng-model="SKU.imageid"
+                                                         filemodel="SKU.imageid"
+                                                         filetype="IMAGE"
+                                                         onuploadcomplete='imageuploaded'
+                                                         multiple="false">
+                                                <i class="fa fa-upload"></i>
+                                                <span>Upload</span>
+                                            </file-upload>
+                                        </div>
+
+                                        <div class="col-md-3 no-padding" ng-repeat="item in SKU.imageidlist">
+                                            <img style="height:32px" ng-src="File/Thumbnail/0/{{item}}" />
+                                            <div class="pull-right" style="margin-right:5px;margin-top:5px">
+                                                <button type="button" class="btn btn-xs btn-danger"
+                                                        ng-click="DeleteImage(item)">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-8">
+
+
+
+
+                    <div class="row row-padbot-15">
+
+
+                        <div class="col-md-12 no-padding">
+
+                            <div class="col-md-4 no-padding">
+
+                                <div class="col-md-5 no-padding">
+
+                                    <label>Color</label>
+
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.displayname as item.displayname for item in ColorList track by item.displayname"
+                                            ng-model="SKU.colourdisplayname" ng-change="colourchanged()"
+                                            focusid="colourid" focusonenter="sleeveid"></select>
+
+                                </div>
+
+                                <div class="col-md-4 no-padding">
+                                    <label for="inputEmail3">Sleeve</label>
+
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in SleeveList track by item.id"
+                                            ng-model="SKU.sleeveid"
+                                            focusid="sleeveid" focusonenter="jobrate"></select>
+                                </div>
+                                <div class="col-md-3 no-padding">
+
+                                    <label>Charge</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;"
+                                           ng-model="SKU.jobcharge"
+                                           focusid="jobrate"
+                                           focusonenter="cost">
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 no-padding">
+
+                                <label>Cost</label>
+                                <input method="text" class="form-control input-sm" style="width: 100%;"
+                                       ng-model="SKU.cost"
+                                       focusid="cost"
+                                       focusonenter="wsrate">
+                            </div>
+
+                            <div class="col-md-5 no-padding">
+
+
+
+
+
+                                <div class="col-md-3 no-padding">
+
+                                    <label>Wholesale</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;"
+                                           ng-model="SKU.wsrate"
+                                           focusid="wsrate"
+                                           focusonenter="dealerprice">
+                                </div>
+
+                                <div class="col-md-3 no-padding">
+
+                                    <label>Franchise</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;"
+                                           ng-model="SKU.dealerprice"
+                                           focusid="dealerprice"
+                                           focusonenter="salerate">
+                                </div>
+
+                                <div class="col-md-3 no-padding">
+
+                                    <label>Retail</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;"
+                                           ng-model="SKU.salerate"
+                                           focusid="salerate"
+                                           focusonenter="mrp">
+                                </div>
+
+                                <div class="col-md-3 no-padding">
+
+                                    <label>MRP</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;"
+                                           ng-model="SKU.mrp"
+                                           focusid="mrp"
+                                           onkeyenter="FocusSize()">
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-2" style="padding-left:0px">
+                                <div class="col-md-12 no-padding" ng-show="SKU.sizemode==3">
+                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">SIZE GROUP</label>
+                                    <div class="col-md-12 input-group input-group-sm">
+                                        <select class="form-control" select2="" style="width: 100%;"
+                                                ng-options="item.id as item.name for item in SizeGroupList track by item.id"
+                                                ng-model="SKU.sizegroupid"
+                                                focusid="sizegroupid"></select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-info btn-sm btn-flat pull-left"
+                                                    ng-click="ManageSizeGroup()">
+                                                <i class="glyphicon glyphicon-plus-sign "></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-show="SKU.sizemode==1">
+                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">SIZE</label>
+                                    <div class="col-md-12 input-group input-group-sm">
+                                        <select class="form-control" select2="" style="width: 100%;"
+                                                ng-options="item.id as item.name for item in Sizes track by item.id"
+                                                ng-model="SKU.sizeid"
+                                                focusid="sizeid"></select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-info btn-sm btn-flat pull-left"
+                                                    ng-click="ManageSize()">
+                                                <i class="glyphicon glyphicon-plus-sign "></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-show="SKU.sizemode==0">
+                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">STYLE</label>
+                                    <div class="col-md-12 input-group input-group-sm">
+                                        <select class="form-control" select2="" style="width: 100%;"
+                                                ng-options="item.id as item.name for item in Styles track by item.id"
+                                                ng-model="SKU.styleid"
+                                                focusid="dstyleid"></select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-info btn-sm btn-flat pull-left"
+                                                    ng-click="ManageSizeGroup()">
+                                                <i class="glyphicon glyphicon-plus-sign "></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-show="SKU.sizemode==2">
+                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">RANGE</label>
+                                    <div class="col-md-12 input-group input-group-sm">
+                                        <input type="text" class="form-control input-sm" placeholder="Start-Jump-End"
+                                               style="width: 100%;" ng-model="SKU.size"
+                                               focusid="sizerangeid"
+                                               onkeyenter="ManageList(SKU.size,SKU.sizegroup.items)" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-info btn-sm btn-flat pull-left"
+                                                    ng-click="ManageList(SKU.size,SKU.sizegroup.items)">
+                                                <i class="glyphicon glyphicon-plus-sign "></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="row row-padbot-15" id="gridEdit">
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+
+        
+    </section>
+
+</div>

@@ -1,0 +1,65 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class=" fa fa-arrow-left" style="font-size:large"></i></a>
+          Sales /   Cashier Wise Detail Report
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'settlement details')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-click="printInfyGrid(igrid)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-click="SearchCashierSettlementDetail()"><a><i class="fa fa-search-plus"></i>Search</a></li>
+            <!--<li><a href="#"><i class="fa fa-dashboard"></i> Reports</a></li>
+            <li class="active">Reports</li>-->
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box primary">
+            <div class="box-body">
+
+                <div class="col-md-3">
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>COMPANY</label>
+                            <select class="form-control" select2='Company' ng-options="item.id as item.name for item in Company track by item.id" ng-model="SearchCondition.companyid" focusid="company" focusonenter="date" ></select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>DATE BETWEEN</label>
+                            <input type="text" class="form-control input-sm" style="width:100%" daterange="SearchCondition.fromdate,SearchCondition.todate" focusid="date" focusonenter="location" >
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label>LOCATION</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Location track by item.id"
+                                    ng-model="SearchCondition.locationid" focusid="location" focusonenter="receivedby" ></select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label>CASHIER</label>
+                            <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondition.cashierid" ng-options="item.id as item.name for item in Employees track by item.id" focusid="receivedby" focusonenter="description"></select>
+                        </div>
+                    </div>
+                
+                </div>
+
+                <div class="col-md-9 no-padding">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

@@ -1,0 +1,318 @@
+﻿<div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+                Store / Stock Inward
+            </h1>
+            <ol class="breadcrumb">
+                <li ng-show="Inwards.cansave && !Inwards.inward2warehouse && IsUANBased" style="cursor:pointer" ng-click="ShowStock()"><a><i class="fa fa-sticky-note"></i>Show Stock</a></li>
+                <li ng-show="Inwards.cansave" style="cursor:pointer" ng-click="Print()"><a><i class="fa fa-print"></i>Print</a></li>
+                <li ng-show="Inwards.id>0" style="cursor:pointer" ng-click="PrintBarcode()"><a><i class="fa fa-file"></i>Print Barcode</a></li>
+                <li ng-show="Inwards.id>0 && Inwards.canreject" style="cursor:pointer" ng-click="Reject()"><a><i class="fa fa-remove"></i>Reject</a></li>
+                <li ng-show="Inwards.id && Inwards.id>0 && SupportPriceTypes && Inwards.status==0" style="cursor:pointer" ng-click="ChoosePriceType()"><a><i class="fa fa-file"></i>Update Price</a></li>
+                <li ng-show="Inwards.cansave && !Inwards.inward2warehouse" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-angle-down"></i>Inward from showroom</a></li>
+                <li ng-show="Inwards.cansave && Inwards.inward2warehouse" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-angle-down"></i>Inward from Warehouse</a></li>
+                <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'whdashboard', 'dashboard')"><a><i class="fa fa-download"></i></a></li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <!-- first row starts  -->
+            <div class="box box-primary">
+                <div class="box-body">
+                    <form name="supplier">
+                        <div class="col-md-3 no-padding">
+                            <div class="row row-padbot-15">
+
+                                <label for="inputPassword3" class="col-md-12">Package code</label>
+                                <div class="col-md-12">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control input-sm"
+                                               id="inputPassword3" placeholder="" onkeyenter="SearchPackage()" ng-model="SearchCondition.code" focusid="first">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="SearchPackage()">
+                                                <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- basic details starts -->
+
+                            <div class="row row-padbot-15" ng-show="Inwards.id>0">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12" style="text-align:left;color:brown"><b>From Location</b></label>
+                                    <div class="col-md-12">
+                                        {{SearchRef(Inwards.fromlocationid, Location)}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15" ng-show="Inwards.id>0">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12" style="text-align:left;color:brown"><b>To Location</b></label>
+                                    <div class="col-md-12">
+                                        {{SearchRef(Inwards.tolocationid, Location)}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="Inwards.id>0">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12" style="text-align:left;color:brown"><b>From Company</b></label>
+                                    <div class="col-md-12">
+                                        {{SearchRef(Inwards.companyid, Company)}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15" ng-show="Inwards.id>0">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12" style="text-align:left;color:brown"><b>To Company</b></label>
+                                    <div class="col-md-12">
+                                        {{SearchRef(Inwards.tocompanyid, Company)}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15" ng-show="Inwards.id>0">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12" style="text-align:left;color:brown"><b>Packed By / On</b></label>
+                                    <div class="col-md-12">
+                                        {{SearchRef(Inwards.packedby, Employee)}}&nbsp;@&nbsp; {{Inwards.packedon|date:'dd-MM-yyyy'}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+
+                                <label for="inputEmail3" ng-show="Inwards.showapprove || Inwards.approvedby>0"
+                                       class="col-md-12" style="text-align:left;color:brown">Approved By</label>
+
+                                <div class="col-sm-12" ng-show="Inwards.showapprove || Inwards.approvedby>0">
+                                    <select class="form-control"
+                                            select2="" options="type.id  as type.name for type in Employee track by type.id" ng-model="Inwards.approvedby"></select>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row row-padbot-15" ng-show="Inwards.id>0">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12" style="text-align:left;color:brown"><b>Received By</b></label>
+                                    <div class="col-sm-12">
+                                        <select class="form-control" select2="" style="width:100%"
+                                                options="type.id  as type.code for type in Employee track by type.id"
+                                                ng-model="Inwards.receivedby"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="Inwards.id>0">
+                                <div class="form-group">
+                                    <div class="col-md-6 no-padding">
+                                        <label for="inputPassword3" class="col-md-12" style="text-align:left;color:brown"><b>Received On</b></label>
+                                        <div class="col-md-12">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control input-sm" placeholder="" datemodule="Inwards.receivedon" ng-model="Inwards.ReceivedOn">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label for="inputPassword3" class="col-md-12" style="text-align:left;color:brown"><b>Mode</b></label>
+                                        <div class="col-md-12">
+                                            <select class="form-control" select2="" style="width:100%"
+                                                    ng-disabled="system_enableinwardmode"
+                                                    options="mode.id as mode.name for mode in Modes track by mode.id"
+                                                    ng-model="Inwards.mode" ng-change="ScanModeChanged()"></select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="Inwards.iscompanytransfer">
+                                <div class="col-md-12" style="color:orangered;font-size:large"> {{fromcompany}} </div>
+                                <div class="col-md-12" style="font-size:large"> &nbsp;&nbsp; to &nbsp;&nbsp; </div>
+                                <div class="col-md-12" style="color:lawngreen;font-size:large"> {{tocompany}} </div>
+                                <div class="col-md-12" style="color:red;font-size:small;margin-top:5px">&nbsp;&nbsp;**Can't Reject the bundle </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="Inwards.id>0">
+                                <div class="col-md-6">Total Qty </div>
+                                <div class="col-md-6" style="text-align:center;font-size:large;color:brown"><b>{{Inwards.totaliqty}}</b></div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="Inwards.id>0">
+                                <div class="col-md-6">Inwared Qty </div>
+                                <div style="text-align:center;font-size:large;color:brown"><b>{{Inwards.totalaqty}}</b></div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="Inwards.cansave && Inwards.status == -1">
+                                Unapproved Bundles
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-9">
+
+
+                            <div class="row row-padbot-15" ng-hide="Inwards.cansave">
+
+                                <div class="col-md-2" ng-show="Inwards.id && Inwards.id>0 && SupportPriceTypes && Inwards.pricetype>0">
+                                    Price :
+                                    <label class="text-green" style="text-align:left;font-size:large;color:indianred">{{SearchRef(Inwards.pricetype, PriceTags)}}</label>
+                                </div>
+                                <div class="col-md-10 no-padding">
+                                    <div class="col-md-12 no-padding" ng-show="ErrorMessage.length>0">
+                                        <label class="text-green col-md-12" style="text-align:left;font-size:large;color:seagreen">{{ErrorMessage}}</label>
+                                    </div>
+                                    <div class="col-md-12 no-padding" ng-hide="ErrorMessage.length>0">
+                                        <label class="text-red col-md-12" style="text-align:left;font-size:large;color:brown">{{Inwards.statusdisplay}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="Inwards.cansave">
+
+                                <div class="col-md-3 pull-right">
+                                    <div class="input-group input-group-sm">
+                                        <input method="text"
+                                               class="input-sm form-control"
+                                               style="width: 100%;"
+                                               onkeyenter="SearchStock(true, SearchCondition.directbarcode)"
+                                               ng-model="SearchCondition.directbarcode"
+                                               placeholder="Barcode"
+                                               focusid="directbarcode">
+
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info btn-sm btn-flat"
+                                                    ng-click="SearchStock(true, SearchCondition.directbarcode)">
+                                                <i class="glyphicon glyphicon-qrcode" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-sm btn-flat"
+                                                     ng-show="Inwards.showpackingslip && Inwards.currentpackingcode && Inwards.currentpackingcode!=''"
+                                                    ng-click="ClearScan()">
+                                                <i class="glyphicon glyphicon-remove-sign" aria-hidden="true"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 no-padding">
+                                   
+                                    <div class="col-md-12" ng-show="ErrorMessage.length>0">
+                                        <label class="text-green col-md-12" style="text-align:left;font-size:large;color:seagreen">{{ErrorMessage}}</label>
+                                    </div>
+                                    <div class="col-md-12" ng-hide="ErrorMessage.length>0">
+                                        <div class="col-md-2 pull-left" ng-show="Inwards.id && Inwards.id>0 && SupportPriceTypes && Inwards.pricetype>0">
+                                            Price :
+                                            <label class="text-green" style="text-align:left;font-size:large;color:indianred">{{SearchRef(Inwards.pricetype, PriceTags)}}</label>
+                                        </div>
+                                        <label class="text-red col-md-4" style="text-align:left;font-size:large;color:brown">{{Inwards.statusdisplay}}</label>
+                                        <div class="col-md-8" ng-show="Inwards.showpackingslip">
+                                            <div class="col-md-12 no-padding" ng-show="Inwards.showpackingslip">
+
+                                                <div class="col-md-5"><b>Packing Slip</b></div>
+
+                                                <div class="col-md-7">
+
+                                                    <div class="input-group input-group-sm">
+                                                        <select class="form-control input-sm" select2="Status" focusid="status" focusonenter="date"
+                                                                options="item.code as item.code for item in Inwards.packslip track by item.id"
+                                                                ng-change="ScanPackingSlip()" style="width:100%"
+                                                                ng-model="Inwards.currentpackingcode"></select>
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="SavePackingSlip()">
+                                                                <i class="glyphicon glyphicon-check" aria-hidden="true"></i>
+                                                            </button>
+                                                           
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="col-md-12" id="gridContainer">
+                                </div>
+                            </div>
+
+                            <!--<table fixed-header="320px" additionalheight="50" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:10px">&nbsp;</th>
+                                        <th style="width:100px">Barcode</th>
+                                        <th style="width:100px">Item Name</th>
+                                        <th style="width:100px">Supplier</th>
+                                        <th style="width:100px">LR Reference</th>
+                                        <th style="width:100px">Transfered</th>
+                                        <th ng-hide="Inwards.cansave" style="width:100px">Inwarded</th>
+                                        <th style="width:100px" ng-show="Inwards.cansave"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in Inwards.items" ng-style="item.rowstyle">
+                                        <td></td>
+                                        <td>{{item.barcode}}</td>
+                                        <td>{{item.printingname}}</td>
+                                        <td>{{item.suppliername}}</td>
+                                        <td>{{item.lrreference}}</td>
+                                        <td>{{item.iqty}}</td>
+                                        <td ng-hide="Inwards.cansave">{{item.aqty}}</td>
+                                        <td ng-show="Inwards.cansave">
+                                            <input type="text" placeholder=""
+                                                   ng-model="item.aqty"
+                                                   ng-change="aqtychanged(item)" ng-readonly="item.oqty>0 || item.received || Inwards.status>0">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>-->
+
+                        </div>
+
+
+                    </form>         <!-- inner second div ends -->
+                </div>
+            </div>
+            <!-- main box box-primary ends -->
+        </section><!-- /.content -->
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="ChoosePriceType">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            cl
+            
+            <div class="form-group">
+                tE
+                <label for="inputEmail3" class="col-md-3 control-label">Price Type</label>
+                ab
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <select class="form-control" select2='Price'
+                            style="width:100%;"
+                            ng-model="pricetype"
+                            options="item.id as item.name for item in PriceTags track by item.id"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="md-col-12">
+            &nbsp;
+        </div>
+
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+

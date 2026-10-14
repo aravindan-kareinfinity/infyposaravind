@@ -1,0 +1,403 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Master / Transport
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.print" style="cursor:pointer" ng-click=""><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+
+                <div class="col-md-6">
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-5 form-group required control-label">Business Mode</label>
+                                <div class="col-md-7">
+                                    <select class="form-control" select2='' ng-model="Transports.transportertype"
+                                            style="width: 100%;"
+                                            options="item.id as item.name for item in BusinessModes track by item.id"
+                                            focusid="transporttype" focusonenter="transportname"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-5 form-group required control-label">Name</label>
+                                <div class="col-md-7">
+                                    <input type="text" name="name" class="form-control input-sm" style="width: 100%;"
+                                           ng-model="Transports.name" ng-maxlength="150"
+                                           focusid="transportname" ng-change="Transports.name = Transports.name.toUpperCase()"
+                                           focusonenter="contactperson">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-5 form-group required control-label">Contact Person</label>
+                                <div class="col-md-7">
+                                    <input type="text" name="contactperson" class="form-control input-sm" style="width: 100%;"
+                                           ng-model="Transports.contactperson" ng-maxlength="150" ng-required="true"
+                                           focusid="contactperson" focusonenter="contactno">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-5 form-group required control-label">Contact No/Email ID</label>
+                                <div class="col-md-7">
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="Transports.contactno" ng-maxlength="150" ng-required="true" focusid="contactno" focusonenter="emailid">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <input type="email" name="emailid" class="form-control input-sm" style="width: 100%;" ng-model="Transports.emailid" ng-required="true" focusid="emailid" focusonenter="address">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-5 control-label">Address</label>
+                                <div class="col-md-7">
+                                    <textarea class="form-control input-sm" rows="3" ng-model="Transports.address" focusid="address" focusonenter="cityid"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-5 control-label">City/State</label>
+                                <div class="col-md-7">
+                                    <div class="col-md-6 no-padding">
+                                        <select class="form-control" style="width: 100%;" select2="" options="item.id as item.name for item in Cities track by item.id" ng-model="Transports.cityid" focusid="cityid" focusonenter="stateid"></select>
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <select class="form-control" style="width: 100%;" select2="" options="item.id as item.name for item in States track by item.id" ng-model="Transports.stateid" focusid="stateid" focusonenter="countryid"></select>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                    <!-- /.row -->
+
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-5 control-label">PAN/GST</label>
+                                <div class="col-md-7">
+                                    <div class="col-md-6 no-padding">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Transports.pan"
+                                               focusid="pan" focusonenter="gst">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Transports.gst"
+                                               focusid="gst" focusonenter="basetransportid">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-5 control-label">Bank/Branch</label>
+                                <div class="col-md-7">
+                                    <div class="col-md-6 no-padding">
+
+                                        <select class="input-sm form-control" select2="" style="width: 100%;"
+                                                ng-model="Transports.BankID"
+                                                options="item.id as item.name for item in Banks track by item.id"
+                                                focusid="BankID" focusonenter="bankbranch"></select>
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" class="form-control input-sm"
+                                               id="inputPassword3" placeholder=""
+                                               ng-model="Transports.bankbranch"
+                                               focusid="bankbranch" focusonenter="bankaccountname">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+
+                    </div>
+
+
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-5 form-group required control-label">Bank Account Name</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder=""
+                                           ng-model="Transports.bankaccountname" focusid="bankaccountname" focusonenter="bankifci">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-5 control-label">IFSC/Account No</label>
+                                <div class="col-md-7">
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="" ng-model="Transports.bankifci" focusid="bankifci"
+                                               focusonenter="bankaccountno">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="" ng-model="Transports.bankaccountno"
+                                               focusid="bankaccountno"
+                                               focusonenter="basetransportid">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-5 control-label">Price/Tax</label>
+                                <div class="col-md-7">
+                                    <div class="col-md-6 no-padding">
+                                        <select class="form-control" style="width: 100%;" select2=""
+                                                options="item.id as item.name for item in TransportList track by item.id"
+                                                ng-model="Transports.basetransportid" focusid="basetransportid" focusonenter="taxid"></select>
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <select class="form-control" select2="" style="width: 100%;" ng-model="Transports.taxid"
+                                                options="item.id as item.name for item in TaxList track by item.id" focusid="taxid" focusonenter="vehicles"></select>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-5 control-label">Vahicles</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="" ng-model="Transports.vehicles"
+                                           focusid="vehicles"
+                                           focusonenter="loadingchargeperbox">
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-5 control-label">Loading Charges</label>
+                                <div class="col-md-7">
+                                    <div class="col-md-6 no-padding">
+                                        <label for="inputEmail3" class="control-label">Per Box</label>
+                                        <input type="text" name="contactperson" class="form-control input-sm"
+                                               style="width: 100%;" ng-model="Transports.loadingchargeperbox"
+                                               ng-maxlength="150" ng-required="true" focusid="loadingchargeperbox" focusonenter="contactno">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label for="inputEmail3" class="control-label">Per Bundle</label>
+                                        <input type="text" name="contactperson" class="form-control input-sm" style="width: 100%;" ng-model="Transports.loadingchargeperbundle" ng-maxlength="150" ng-required="true" focusid="loadingchargeperbundle" focusonenter="contactno">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-5 control-label">Allowed Payment Mode</label>
+                                <div class="col-md-7">
+                                    <div class="col-md-6 no-padding">
+                                        <select class="form-control" select2="" style="width: 100%;" ng-model="Transports.paymentmode"
+                                                options="item.id as item.name for item in PaymentModes track by item.id" focusid="taxid" focusonenter="vehicles"></select>
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+
+                                        <div class="col-md-6 no-padding">
+                                            <label for="inputEmail3" class="control-label">RCM</label>
+                                            
+
+                                            <input type="checkbox" class="pull-right" ng-model="Transports.rcm" />
+
+                                        </div>
+                                        <div class="col-md-6 no-padding">
+                                            <label for="inputEmail3" style="padding-left:5px" class="control-label">Active</label>
+                                            <input type="checkbox" class="pull-right" ng-model="Transports.isactive" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="inputEmail3" class="col-md-5 control-label text-green" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="col-md-12">
+                            <div class="col-md-10"></div>
+                            <div class="col-md-1">
+                                <a class="btn btn-block btn btn-sm btn btn-primary" ng-click="Clear()">Clear</a>
+                            </div>
+                            <div class="col-md-1">
+                                <a class="pull-right btn btn-block btn btn-sm btn btn-primary" ng-click="Save()">Save</a>
+                            </div>
+                        </div>-->
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+
+                            <div class="row-padbot-15">
+                                <div class="col-md-4" style="padding-right:0px">
+                                    <label for="inputEmail3" class="col-md-12 form-group control-label">City</label>
+                                    <div class="col-md-12 no-padding">
+                                        <select class="form-control" style="width: 100%;"
+                                                select2="" options="item.id as item.name for item in Cities track by item.id"
+                                                ng-model="addcityid" focusid="addcityid" focusonenter="chargeperkg"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-8" style="padding-left:0px">
+                                    <div class="col-md-4 no-padding">
+                                        <label for="inputEmail3" class="col-md-12 form-group control-label">Per Kg</label>
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="chargeperkg"
+                                               focusid="addcityid" focusonenter="chargeperkg">
+                                    </div>
+                                    <div class="col-md-4 no-padding">
+                                        <label for="inputEmail3" class="col-md-12 form-group control-label">Per Box</label>
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="chargeperbox"
+                                               focusid="chargeperbox" focusonenter="chargeperbundle">
+                                    </div>
+
+                                    <div class="col-md-4 no-padding">
+                                        <label for="inputEmail3" class="col-md-12 form-group control-label">Per Bundle</label>
+                                        <div class="input-group input-group-sm col-md-12">
+                                            <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="chargeperbundle"
+                                                   focusid="chargeperbundle" onkeyenter="AddCity()">
+                                            <span class="input-group-btn" style="width:10px">
+                                                <button type="button" class="btn btn-info btn-sm btn-flat"
+                                                        ng-click="AddCity()">
+                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-12" id="gridchargecontainer">
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+
+            <div class="box-body">
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Name</label>
+                            <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Contact No</label>
+                            <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.contactno">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>In Active</label>
+                            <input type="checkbox" class="icheckbox_minimal-blue" ng-model="SearchCondition.inactive">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 no-padding">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.content -->
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<!-- Page script -->

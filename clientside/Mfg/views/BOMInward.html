@@ -1,0 +1,250 @@
+﻿<div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+                BOM Inward&nbsp;<span ng-show="BOMInwards.id>0" style="font-size:large;color:saddlebrown">({{BOMInwards.statusdisplay}})</span>
+            </h1>
+            <ol class="breadcrumb">
+                <li style="cursor:pointer" ng-show="BOMInwards.id>0 && BOMInwards.status==0" ng-click="Save()"><a><i class="fa fa-file"></i>Inward Partial</a></li>
+                <li style="cursor:pointer" ng-show="BOMInwards.id>0 && BOMInwards.status==0" ng-click="AcceptAllQty()"><a><i class="fa fa-file"></i>Inward All</a></li>
+                <li style="cursor:pointer" ng-show="BOMInwards.id>0 && BOMInwards.status!=0 && CanReject" ng-click="Reject()"><a><i class="fa fa-file"></i>Reject Now</a></li>
+                <li style="cursor:pointer" ng-show="BOMInwards.id>0 && BOMInwards.status!=0 && !CanReject" ng-click="CanReject=true"><a><i class="fa fa-file"></i>Enable Reject</a></li>
+                <li style="cursor:pointer" ng-show="BOMInwards.id>0" ng-click="Clear()"><a><i class="fa fa-file"></i>New</a></li>
+                <li style="cursor:pointer" ng-show="BOMInwards.id>0 && $scope.BOMInwards.status != 9" ng-click="PrintPDF()"><a><i class="fa fa-print"></i>Print</a></li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <!-- first row starts  -->
+            <div class="box box-primary">
+                <div class="box-body">
+                    <form name="supplier">
+                        <div class="col-md-12">
+                            <!-- basic details ends -->
+                            <div class="col-md-3" style="padding-left:0px;padding-right:5px">
+                                <div class="row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="control-label">Package code</label>
+                                        <div class="col-sm-12 no-padding">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control input-sm"
+                                                       id="inputPassword3" placeholder="" onkeyenter="SearchByCode()"
+                                                       ng-model="BOMInwards.code" focusid="first">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="SearchByCode()">
+                                                        <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-padbot-15" ng-show="BOMInwards.id>0">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="control-label" style="color:brown;font-weight:bolder"><b>From Location</b></label>
+                                        <div class="col-sm-12" style="font-weight:bolder;color:green">
+                                            {{SearchRef(BOMInwards.fromlocationid, Location)}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-padbot-15" ng-show="BOMInwards.id>0">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="control-label" style="color:brown;font-weight:bolder"><b>To Location</b></label>
+                                        <div class="col-sm-12" style="font-weight:bolder;color:green">
+                                            {{SearchRef(BOMInwards.tolocationid, Location)}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-padbot-15" ng-show="BOMInwards.id>0">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="control-label" style="color:brown;font-weight:bolder"><b>Company</b></label>
+                                        <div class="col-sm-12" style="font-weight:bolder;color:green">
+                                            {{SearchRef(BOMInwards.companyid, CompanyList)}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15" ng-show="BOMInwards.id>0 && CanReject">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="control-label"><b>Rejected By</b></label>
+                                        <div class="col-sm-12">
+                                            <select class="form-control" select2="" style="width:100%"
+                                                    ng-options="type.id  as type.name for type in Employee track by type.id"
+                                                    ng-model="BOMInwards.receivedby"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-padbot-15" ng-show="BOMInwards.id>0 && CanReject">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="control-label"><b>Rejected On</b></label>
+                                        <div class="col-sm-12">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control input-sm" placeholder="" datemodule="BOMInwards.receivedon" ng-model="BOMInwards.ReceivedOn">
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15" ng-show="BOMInwards.id>0 && !CanReject">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="control-label"><b>Received By</b></label>
+                                        <div class="col-sm-12">
+                                            <select class="form-control" select2="" style="width:100%"
+                                                    ng-options="type.id  as type.name for type in Employee track by type.id"
+                                                    ng-model="BOMInwards.receivedby"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-padbot-15" ng-show="BOMInwards.id>0 && !CanReject">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="control-label"><b>Received On</b></label>
+                                        <div class="col-sm-12">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control input-sm" placeholder="" datemodule="BOMInwards.receivedon" ng-model="BOMInwards.ReceivedOn">
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15" ng-show="BOMInwards.id>0">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="control-label"><b>Packed By/On</b></label>
+                                        <div class="col-sm-12">
+                                            {{SearchRef(BOMInwards.packedby, Employee)}}&nbsp;@&nbsp; {{BOMInwards.packedon|date:'dd-MM-yyyy'}}
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <!--<div class="row-padbot-15" ng-show="BOMInwards.id>0">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="control-label" style="color:brown;font-weight:bolder"><b>Issued/Received</b></label>
+                                        <div class="col-sm-12">
+                                            {{TotalCounts}}/{{TotalAccepted}}
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <div class="row-padbot-15">
+                                    <div class="row">
+                                        <label class="text-green" style="margin-left:7px;padding-left:0px" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+                                    </div>
+                                </div>
+                                <div class="row-padbot-15" ng-show="BOMInwards.showapprove || BOMInwards.approvedby>0">
+
+                                    <div class="col-md-6">
+                                        <label for="inputEmail3"
+                                               class="control-label">Approved By</label>
+
+                                        <div class="col-sm-12" ng-show="BOMInwards.showapprove || BOMInwards.approvedby>0">
+                                            <select class="form-control" select2="" ng-options="type.id  as type.name for type in Employee track by type.id" ng-model="BOMInwards.approvedby"></select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-9 no-padding">
+                                <div id="gridContainer">
+
+                                </div>
+                                <!--<div class="row row-padbot-15">
+                                    <div class="col-md-12">
+
+                                        <table fixed-header="320px" additionalheight="50" class="fixed_table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:10px">&nbsp;</th>
+                                                    <th style="width:100px">Category</th>
+                                                    <th style="width:100px">Component</th>
+                                                    <th style="width:100px">Colour</th>
+                                                    <th style="width:100px">Width</th>
+                                                    <th style="width:100px">Issued</th>
+                                                    <th style="width:100px">
+
+                                                        <div style="padding-left:20px">Received</div>
+
+                                                        <input type="checkbox" ng-model="SelectAll" ng-change="ChangeSelectAll(SelectAll)" />
+
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in BOMInwards.items" ng-style="item.rowstyle">
+                                                    <td>{{item.sno}}</td>
+                                                    <td>{{SearchRef(item.bomcategoryid,BOMCategoryList)}}</td>
+                                                    <td>{{SearchRef(item.bomid,BOMAllListtd)}}</td>
+                                                    <td>{{SearchRef(item.colourid,ColorList)}}</td>
+                                                    <td>{{item.width}}</td>
+                                                    <td>{{item.qty}}</td>
+                                                    <td>
+                                                        <span ng-hide="BOMInwards.status==0">{{item.aqty}}</span>
+                                                        <input type="text" ng-show="BOMInwards.status==0" placeholder=""
+                                                               ng-model="item.aqty" ng-change="AQtyChanged()">
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>-->
+                            </div>
+                            <!-- basic details starts -->
+
+
+                        </div>
+
+
+                        <div class="box-footer clearfix">
+                            <div class="row row-padbot-15">
+
+                                <div class="col-md-8" ng-show="BOMInwards.iscompanytransfer">
+                                    <div class="pull-left" style="color:orangered;font-size:large"> {{fromcompany}} </div>
+                                    <div class="pull-left" style="font-size:large"> &nbsp;&nbsp; to &nbsp;&nbsp; </div>
+                                    <div class="pull-left" style="color:lawngreen;font-size:large"> {{tocompany}} </div>
+
+                                    <div class="pull-left" style="color:red;font-size:small;margin-top:5px">&nbsp;&nbsp;**Can't Reject the bundle </div>
+                                </div>
+
+                                <div class="col-sm-2 pull-right">
+                                    <div class="col-md-6 text-right" style="text-align:center;font-size:large;color:brown"><b>{{BOMInwards.totalaqty}}</b></div>
+                                </div>
+
+                                <div class="col-sm-2 pull-right" ng-hide="BOMInwards.cansave">
+                                    <div class="col-md-6 text-right" style="text-align:center;font-size:large;color:brown"><b>{{BOMInwards.totaliqty}}</b></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>         <!-- inner second div ends -->
+                </div>
+            </div>
+            <!-- main box box-primary ends -->
+        </section><!-- /.content -->
+    </div>
+</div>
+
+<!-- /.content-wrapper -->
+<!-- Page script -->
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        //$(".select2").select2();
+
+    });
+</script>

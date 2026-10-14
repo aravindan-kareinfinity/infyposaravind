@@ -1,0 +1,113 @@
+name: Quanto-4.5-Build
+
+on:
+  workflow_run:
+    workflows: ["Quanto-4.8-Build"]  # Must match the exact 'name' of Workflow 1
+    types:
+      - completed
+
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  NEXUS_REPOSITORY: quanto-release  
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: NuGet Delete Packages
+        shell: pwsh
+        run: |
+          $packagesPath = "${{ runner.workspace }}\packages"
+          if (Test-Path $packagesPath) {
+            Remove-Item -Path "$packagesPath\*" -Recurse -Force
+            Write-Host "Packages cleared."
+          } else {
+            Write-Host "Packages folder does not exist, skipping."
+          }
+
+      - name: Clone InfyPOS-4.5
+        uses: actions/checkout@v6
+        with:
+          repository: QuantoERP/InfyPOS-4.5
+          token: ${{ secrets.GH_PAT }}
+          path: InfyPOS-4.5-src
+
+      - name: Copy InfyPOS-4.5 Files
+        shell: pwsh
+        run: |
+          Copy-Item -Path "${{ github.workspace }}\InfyPOS-4.5-src\*" -Destination "${{ github.workspace }}" -Recurse -Force
+          Write-Host "InfyPOS-4.5 files copied."
+
+      - name: NuGet Restore
+        shell: cmd
+        run: nuget restore InfyPOS.sln -o "${{ runner.workspace }}\packages"
+
+      - name: MSBuild Clean
+        shell: cmd
+        run: |
+          "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" InfyPOS.sln /t:Clean /p:Configuration=Release /p:OutputPath="${{ runner.workspace }}\bin" /p:ReferencePath=".\bin"
+
+      - name: MSBuild Build
+        shell: cmd
+        run: |
+          "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" InfyPOS.sln /t:Build /p:Configuration=Release /p:OutputPath="${{ runner.workspace }}\bin" /p:ReferencePath=".\bin"
+
+      - name: Compress (AjaxMin)
+        shell: cmd
+        working-directory: compress
+        continue-on-error: true
+        run: call run.bat
+
+      - name: Copy Release
+        shell: pwsh
+        run: .\FinalBuildCompressScript\InfyPOS-4.5-Release.ps1
+
+      - name: Push Release-4.5 to Nexus
+        shell: pwsh
+        run: |
+          $zipFile = Get-ChildItem -Path "${{ runner.workspace }}\release\ZipFiles\Release-4.5\" -Filter "*.zip" |
+            Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          if (-not $zipFile) { Write-Error "No zip file found for Release-4.5"; exit 1 }
+          Write-Host "Uploading $($zipFile.Name) to Nexus..."
+          $uri = "${{ secrets.NEXUS_URL }}/repository/${{ env.NEXUS_REPOSITORY }}/Release-4.5/$($zipFile.Name)"
+          curl -u "${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }}" --upload-file $zipFile.FullName $uri --fail
+          Write-Host "Upload complete: $uri"
+
+      # - name: Send success email
+      #   if: success()
+      #   uses: dawidd6/action-send-mail@v3
+      #   with:
+      #     server_address: ${{ secrets.SMTP_SERVER }}
+      #     server_port: ${{ secrets.SMTP_PORT }}
+      #     username: ${{ secrets.SMTP_USERNAME }}
+      #     password: ${{ secrets.SMTP_PASSWORD }}
+      #     to: ${{ secrets.QUANTO_RECIPIENT_EMAILS }}
+      #     from: ${{ secrets.SMTP_FROM }}
+      #     subject: Quanto-4.5 Latest Build
+      #     body: URL - https://qk-local.quantosaas.com/release/
+
+      # - name: Send failure email
+      #   if: failure()
+      #   uses: dawidd6/action-send-mail@v3
+      #   with:
+      #     server_address: ${{ secrets.SMTP_SERVER }}
+      #     server_port: ${{ secrets.SMTP_PORT }}
+      #     username: ${{ secrets.SMTP_USERNAME }}
+      #     password: ${{ secrets.SMTP_PASSWORD }}
+      #     to: ${{ secrets.DEVOPS_ADMIN_EMAIL }}
+      #     from: ${{ secrets.SMTP_FROM }}
+      #     subject: Failed Quanto-4.5 Pipeline
+      #     body: The pipeline has failed. Please check the GitHub Actions run for more details.

@@ -1,0 +1,138 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Report
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li style="cursor:pointer" ng-click="Search()"><a><i class="fa fa-search"></i>Search</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(rgrid,'Customer Feedback','customerfeedback')"><a><i class="fa fa-download"></i>Download</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-4">
+
+                    <div class="col-md-12" style="overflow-y:scroll;overflow-x:hidden" ng-style="panelheight">
+                        <div class="row row-padbot-15">
+                            <div class="col-md-4 no-padding">
+                                <label>Report Type</label>
+                            </div>
+                            <div class="col-md-4 no-padding">
+
+                                <input type="radio" name="rpttype" ng-model="Report.rpttype" value="SUMMARY" />
+                                <label>Summary</label>
+                            </div>
+                            <div class="col-md-4 no-padding">
+
+                                <input type="radio" name="rpttype" ng-model="Report.rpttype" value="DETAIL" />
+                                <label>Detail</label>
+                            </div>
+
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-md-4 no-padding">
+                                <label>Rating Range</label>
+                            </div>
+                            <div class="col-md-4 no-padding">
+                                <div class="input-group date" style="margin-right:10px">
+
+                                    <input type="number" class="form-control input-sm"
+                                           style="width:100%;margin-right:10px" ng-model="Report.fromrating" />
+                                </div>
+                            </div>
+                            <div class="col-md-4 no-padding">
+                                <div class="input-group date" style="margin-right:10px">
+                                    <input type="number" class="form-control input-sm"
+                                           style="width:100%;margin-right:10px" ng-model="Report.torating" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-4 no-padding">
+                                <label>Complaint/Suggesion</label>
+                            </div>
+                            <div class="col-md-4 no-padding">
+                                <div class="input-group date" style="margin-right:10px">
+
+                                    <input type="checkbox"  ng-model="Report.hascomplaint" />
+                                </div>
+                            </div>
+                            <div class="col-md-4 no-padding">
+                                <div class="input-group date" style="margin-right:10px">
+                                    <input type="checkbox" ng-model="Report.hassuggesion" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-4 no-padding">
+                                <label>Date Range</label>
+                            </div>
+                            <div class="col-md-4 no-padding">
+                                <div class="input-group date" style="margin-right:10px">
+
+                                    <input type="text" class="form-control input-sm pull-right"
+                                           datemodule="Report.fromdate" ng-model="Report.fromdate">
+                                </div>
+                            </div>
+                            <div class="col-md-4 no-padding">
+                                <div class="input-group date" style="margin-right:10px">
+
+                                    <input type="text" class="form-control input-sm pull-right"
+                                           datemodule="Report.todate" ng-model="Report.todate">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-4 no-padding">
+                                <label>Question</label>
+                            </div>
+                            <div class="col-md-8 no-padding">
+                                <select class="form-control" style="width: 100%;" select2=""
+                                        ng-options="item.id as item.code for item in QuestionList track by item.id"
+                                        ng-model="questionid" ng-change="QuestionChanged()"></select>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-md-4 no-padding">
+                                <label>Answers</label>
+                            </div>
+                            <div class="col-md-8 no-padding">
+                                <select class="form-control" style="width: 100%;" select2=""
+                                        ng-options="item.id as item.answer for item in AnswerList track by item.id"
+                                        ng-model="answerid"></select>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <button class="btn btn-primary btn-xs pull-right" ng-click="AddClicked()">
+
+                                <i class="glyphicon-plus"></i>Add
+
+                            </button>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12 no-padding" id="gridCreteria">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+

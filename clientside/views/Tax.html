@@ -1,0 +1,258 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Master /  Tax
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.print" style="cursor:pointer" ng-click=""><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-12">
+                    <div class="col-md-5">
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-sm-4 form-group required control-label">Tax Code</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="Tax.code" focusid="first" ng-change="Tax.code = Tax.code.toUpperCase()" focusonenter="name">
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <label for="inputPassword3" class="col-sm-4 form-group required control-label">Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="Tax.name" ng-change="Tax.name = Tax.name.toUpperCase()" focusid="name" focusonenter="type">
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputPassword3" class="col-sm-4 control-label">Tax / Charges</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in TaxTypes track by item.id" ng-model="Tax.type" focusid="type" focusonenter="issalestax"></select>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Tax.type>2">
+                            <label for="inputPassword3" class="col-sm-4 control-label">Tax Percentage</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder=""
+                                       ng-model="Tax.taxpercentage">
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Tax.type==1">
+                            <label for="inputPassword3" class="col-sm-4 control-label">Tax Percentage</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder=""
+                                       ng-model="Tax.taxpercentage" ng-change="taxpercentagechanged(Tax.taxpercentage,TaxItem)">
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Tax.type==1">
+                            <label for="inputPassword3" class="col-sm-4 control-label">CGST</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control input-sm"
+                                       ng-readonly="true"
+                                       id="inputEmail3" placeholder="" ng-model="TaxItem.cgst"
+                                       ng-change="TaxItem.sgst=TaxItem.igst=TaxItem.cgst">
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Tax.type==1">
+                            <label for="inputPassword3" class="col-sm-4 control-label">SGST</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control input-sm" id="inputEmail3"
+                                       ng-readonly="true"
+                                       placeholder="" ng-model="TaxItem.sgst">
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputPassword3" class="col-sm-4 control-label">Sales Tax</label>
+                            <div class="col-sm-1">
+                                    <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Tax.issalestax" focusid="issalestax" focusonenter="ispurchasetax">
+                            </div>
+                            <div class="col-md-7" ng-show="Tax.type==2">
+                                <div class="col-md-4 no-padding">
+                                    Exclude
+                                </div>
+                                <div class="col-md-4 no-padding">
+                                    <input type="text" class="form-control input-sm" id="inputEmail3"
+                                           placeholder="From" ng-model="Tax.taxsplit.avoidrangefrom">
+                                </div>
+                                <div class="col-md-4 no-padding">
+                                    <input type="text" class="form-control input-sm" id="inputEmail3"
+                                           placeholder="To" ng-model="Tax.taxsplit.avoidrangeto">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <label for="inputPassword3" class="col-sm-4 control-label">Purchase Tax</label>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Tax.ispurchasetax" focusid="ispurchasetax" focusonenter="disable">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <label for="inputPassword3" class="col-sm-4 control-label">Disable</label>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Tax.disable" focusid="disable">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5" ng-show="Tax.type==2">
+
+                        <table fixed-header="400px" class="fixed_table">
+                            <thead>
+                                <tr>
+
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>TAX %</th>
+                                    <th>CGST %</th>
+                                    <th>SGST %</th>
+                                    <!--<th>IGST %</th>-->
+                                    <th width="50px">IN Cost</th>
+                                    <th width="50px"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="TaxItem.fromamount"></td>
+                                    <td><input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="TaxItem.toamount"></td>
+                                    <td><input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-change="taxpercentagechanged(TaxItem.taxpercentage,TaxItem)" ng-model="TaxItem.taxpercentage"></td>
+                                    <td><input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-readonly="true" ng-change="TaxItem.sgst=TaxItem.igst=TaxItem.cgst" ng-model="TaxItem.cgst"></td>
+                                    <td><input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-readonly="true" ng-model="TaxItem.sgst"></td>
+                                    <!--<td><input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="TaxItem.igst"></td>-->
+                                    <td><input type="checkbox" ng-model="TaxItem.incost"></td>
+                                    <td><input value="Add" type="button" class="pull-right btnMarginer btn btn-primary" ng-click="AddTaxItem()" />
+                                </tr>
+                                <tr ng-repeat="item in Tax.taxsplit.items">
+                                    <td>{{item.fromamount}}</td>
+                                    <td>{{item.toamount}}</td>
+                                    <td>{{item.taxpercentage}}</td>
+                                    <td>{{item.cgst}}</td>
+                                    <td>{{item.sgst}}</td>
+                                    <!--<td>{{item.igst}}</td>-->
+                                    <td><input ng-model="item.incost" type="checkbox" /></td>
+                                    <td><input value="Remove" type="button" class="pull-right btnMarginer btn btn-primary" ng-click="RemoveTaxItem(item)" />
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-2 no-padding">
+                    <div class="col-md-12 no-padding">
+                        <label for="inputEmail3" class="control-label">Tax Code</label>
+                        <div class="col-md-12 no-padding">
+                            <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.code">
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+
+                        <label for="inputEmail3" class="control-label">Name</label>
+                        <div class="col-md-12 no-padding">
+                            <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.name">
+                        </div>
+
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <label for="inputPassword3" class="control-label">Tax %</label>
+                        <div class="col-md-12 no-padding">
+                            <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.taxpercentage">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <label for="inputPassword3" class="control-label">Tax / Charges</label>
+                        <div class="col-md-12 no-padding">
+                            <select class="form-control" select2="" style="width: 100%;"
+                                    options="item.id  as item.name for item in TaxTypes track by item.id" ng-model="SearchCondition.type"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-10">
+
+
+                    <table fixed-header="390px" class="fixed_table" additionalheight="20">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Code</th>
+                                <th style="width:100px">Name</th>
+                                <th style="width:80px">Tax %</th>
+                                <th style="width:150px">Split</th>
+                                <th style="width:80px">Is Purchase Tax</th>
+                                <th style="width:80px">Is Sales Tax</th>
+                                <th style="width:80px">Is Disabled</th>
+                                <th style="width:100px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in SearchResult">
+                                <td>{{item.code}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.taxpercentage}}</td>
+                                <td ng-show="item.taxsplit != null && item.taxsplit.items != null && item.taxsplit.items.length>
+                                    0">
+                                    CGST:{{item.taxsplit.items[0].cgst}}&nbsp;CGST:{{item.taxsplit.items[0].sgst}}&nbsp;CGST:{{item.taxsplit.items[0].igst}}
+                                </td>
+                                <td ng-hide="item.taxsplit != null && item.taxsplit.items != null && item.taxsplit.items.length>
+                                    0">
+                                    Nil
+                                </td>
+                                <td>{{item.ispurchasetax?'No':'Yes'}}</td>
+                                <td>{{item.issalestax?'No':'Yes'}}</td>
+                                <td>{{item.isactive?'No':'Yes'}}</td>
+                                <td>
+                                    <button type="button" class="btn-danger btn btn-xs" ng-show="UserInfo.p_TAXMASTER.delete"
+                                            ng-click="ManageSearchItem('Delete',item)" data-widget="delete" data-toggle="tooltip" title="Delete">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn-primary btn btn-xs" ng-show="UserInfo.p_TAXMASTER.modify" ng-click="ManageSearchItem('Edit',item)"
+                                            data-widget="edit" data-toggle="tooltip" title="Edit">
+                                        <i class="fa fa-pencil"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+        <!-- /.content -->
+    </section>
+
+
+
+</div>
+
+<!-- /.content-wrapper -->

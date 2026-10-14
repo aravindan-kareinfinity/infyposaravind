@@ -1,0 +1,689 @@
+﻿        <!-- Left side column. contains the logo and sidebar -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-info">
+
+            Clasification
+            
+            Clearance
+            New Design
+            Old Design
+            Regular
+
+            Clasification Grid
+            Name ,Pending SO, New SO , WI , Stock , Sale
+
+            Employee/Agent Clasication wise ,NEW SO, PENding SO ,Sale
+
+            Unused Fabric , Get more SO
+            Required Fabric 
+
+            Excess Stock , Get More SO
+
+            Excess SO,Schedule Production.
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-8 col-sm-6">
+                        <h4 class="box-title">Dashboard</h4>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group" style="padding-top:10px">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control input-sm" style="width:100%" daterange="SearchCondition.fromdate,SearchCondition.todate">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary btn-sm" ng-click="Search(true)" data-widget="go" data-toggle="tooltip" title="Go"><i class="fa fa-search"></i></button>
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                        <!-- small box -->
+                        <div class="panel-stat3 bg-danger">
+                            <h2 class="m-top-none" id="userCount">{{totalbillvalue|IndianNumber:2}}</h2>
+                            <h5 class="dashboard_h5">{{totalbillcount}} Bills ({{unsettlebillcount}} Unsettled)</h5>
+                            <div class="stat-icon">
+                                <i class="fa fa-money fa-2x"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                        <!-- small box -->
+                        <div class="panel-stat3 bg-info">
+                            <h2 class="m-top-none" id="userCount">{{totalsettlement|IndianNumber:2}}</h2>
+                            <h5 class="dashboard_h5">Settlement</h5>
+
+                            <div class="stat-icon">
+                                <i class="fas fa-rupee-sign fa-2x"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                        <!-- small box -->
+                        <div class="panel-stat3 bg-warning">
+                            <div class="col-md-6 no-padding">
+                                <h2 class="m-top-none" id="userCount">{{availableemployee}} / {{totalemployee}}</h2>
+                                <h5 class="dashboard_h5">Employees</h5>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <div ng-show="totalwalkin>0">
+                                    <h2 class="m-top-none" ng-click="GetWalkin()">{{totalwalkin}}</h2>
+                                    <h5 class="dashboard_h5">Walk-in</h5>
+                                </div>
+                                <div ng-hide="totalwalkin>0" class="pull-right"
+                                     style="margin-right:-5px;margin-top:-15px">
+                                    <i class="fa fa-users" ng-click="GetWalkin()"></i>
+                                </div>
+                            </div>
+
+                            <div class="stat-icon">
+                                <i class="fa fa-user fa-2x"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                        <!-- small box -->
+                        <div class="panel-stat3 bg-success">
+                            <h2 class="m-top-none" id="userCount">{{stockvalue|IndianNumber:2}}</h2>
+                            <h5 class="dashboard_h5">{{totalsalevalue|IndianNumber:2}}</h5>
+
+                            <div class="stat-icon">
+                                <i class="fa fa-bar-chart-o fa-2x"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- ./col -->
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="box box-solid">
+                            <div class="box-header">
+                                <i class="fa fa-th"></i>
+                                <h3 class="box-title">Sales Graph</h3>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn bg-teal btn-sm" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn bg-teal btn-sm" data-widget="remove">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="box-body border-radius-none">
+                                <canvas id="line" class="chart chart-bar"
+                                        chart-data="data"
+                                        chart-labels="labels"
+                                        chart-series="saleseries"
+                                        chart-options="options"
+                                        chart-dataset-override="datasetOverride"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box box-solid">
+                            <div class="box-header">
+                                <i class="fa fa-th"></i>
+                                <h3 class="box-title">Business Trend</h3>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn bg-teal btn-sm" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn bg-teal btn-sm" data-widget="remove">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="box-body border-radius-none">
+                                <canvas id="canvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon" style="background-color:transparent">
+                                <img src="clientside/dist/img/total_sale.png" style="height:80px;width:80px" />
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">TODAY SALE</span><span class="info-box-text pull-right">{{SearchCondition.fromdate |displayAsDate}}</span>
+                                <span class="info-box-number" style="vertical-align:top;font-size:large;color:brown">{{totalbillvalue |number:0}} ({{totalbillcount |number:0}})</span>
+                            </div>
+                            <div>
+                                <div class="table-responsive">
+                                    <table class="table no-margin">
+                                        <thead>
+                                            <tr>
+                                                <th>COMPANY</th>
+                                                <th>LOCATION</th>
+                                                <!--<th>BILL TYPE</th>-->
+                                                <th style="text-align:right">COUNT</th>
+                                                <th style="text-align:right">QTY</th>
+                                                <th style="text-align:right">VALUE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in Sales">
+                                                <td>{{item.company}}</td>
+                                                <td>{{item.location}}</td>
+                                                <!--<td>{{SearchRef(item.billtype, BillType)}}</td>-->
+                                                <td align="right">{{item.billcount |IndianNumber:0}}</td>
+                                                <td align="right">{{item.billqty |IndianNumber:2}}</td>
+                                                <td align="right">{{item.billvalue |IndianNumber:2}}</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon" style="background-color:transparent">
+                                <img src="clientside/dist/img/wharehouse_status.png" style="height:80px;width:80px" />
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Warehouse Status</span><span class="info-box-text pull-right">{{SearchCondition.fromdate |displayAsDate}}</span>
+                                <span class="info-box-number" style="vertical-align:top;font-size:large;color:brown">{{warehouse.total |number:0}}</span>
+                            </div>
+                            <div>
+                                <div class="table-responsive">
+                                    <table class="table no-margin">
+                                        <thead>
+                                            <tr>
+                                                <th>Status</th>
+                                                <th style="text-align:right">Today</th>
+                                                <th style="text-align:right">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in warehouse.items">
+                                                <td>{{item.statusname}}</td>
+                                                <td align="right">{{item.todaycount |number:0}}</td>
+                                                <td align="right">{{item.totalcount |number:0}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon" style="background-color:transparent">
+                                <img src="clientside/dist/img/settlement.png" style="height:80px;width:80px" />
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">SETTLEMENT</span><span class="info-box-text pull-right">{{SearchCondition.fromdate |displayAsDate}}</span>
+                                <span class="info-box-number" style="vertical-align:top;font-size:large;color:brown">{{totalsettlement |IndianNumber:2}}</span>
+                            </div>
+                            <div>
+                                <div class="table-responsive">
+                                    <table class="table no-margin">
+                                        <thead>
+                                            <tr>
+                                                <th>LOCATION</th>
+                                                <th style="text-align:right">CASH</th>
+                                                <th style="text-align:right">CARD</th>
+                                                <th style="text-align:right">UPI</th>
+                                                <th style="text-align:right" ng-show="hasLoan">LOAN</th>
+                                                <th style="text-align:right">CREDIT</th>
+                                                <th style="text-align:right">RETURN</th>
+                                                <th style="text-align:right">DISCOUNT</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in Settlement">
+                                                <td>{{item.location}}</td>
+                                                <td align="right">{{item.cash |IndianNumber:2}}</td>
+                                                <td align="right">{{item.card |IndianNumber:2}}</td>
+                                                <td align="right">{{item.upi |IndianNumber:2}}</td>
+                                                <td ng-show="hasLoan" align="right">{{item.loan |IndianNumber:2}}</td>
+                                                <td align="right">{{item.credit |IndianNumber:2}}</td>
+                                                <td align="right">{{item.cashreturn |IndianNumber:2}}</td>
+                                                <td align="right">{{item.discount |IndianNumber:2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon" style="background-color:transparent">
+                                <img src="clientside/dist/img/stock_value.png" style="height:80px;width:80px" />
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">STOCK VALUE</span><span class="info-box-text pull-right"></span>
+                                <span class="info-box-number" style="vertical-align:top;font-size:large;color:brown">{{stockvalue|IndianNumber:2}}</span>
+                            </div>
+                            <div>
+                                <div class="table-responsive">
+                                    <table class="table no-margin">
+                                        <thead>
+                                            <tr>
+                                                <th>LOCATION</th>
+                                                <th style="text-align:right">STOCK VALUE</th>
+                                                <th style="text-align:right">SALE VALUE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in StockValueList">
+                                                <td>{{item.location}}</td>
+                                                <td align="right">{{item.stockvalue |IndianNumber:2}}</td>
+                                                <td align="right">{{item.salevalue |IndianNumber:2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon" style="background-color:transparent">
+                                <img src="clientside/dist/img/fast_moving_section.png" style="height:80px;width:80px" />
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">
+                                    FAST MOVING <a href="#" ng-click="SaleList=Salesection" style="color:black">SECTION</a>
+                                    <span class="info-box-text pull-right"><a href="#" ng-click="SaleList=Saleproductgroups" style="color:black">PRODUCT GROUP</a></span>
+                                </span>
+                            </div>
+                            <div>
+                                <div class="table-responsive">
+                                    <table fixed-header="250px" class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th width="150px">NAME</th>
+                                                <th style="text-align:right">SALE QTY</th>
+                                                <th style="text-align:right">VALUE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in SaleList">
+                                                <td>{{item.section}}</td>
+                                                <td align="right">{{item.qty |IndianNumber:2}}</td>
+                                                <td align="right">{{item.amount |IndianNumber:2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon" style="background-color:transparent">
+                                <img src="clientside/dist/img/sales_person_of_the_day.png" style="height:80px;width:80px" />
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">SALES PERSON OF THE DAY</span><span class="info-box-text pull-right"></span>
+                            </div>
+                            <div>
+                                <div class="table-responsive">
+                                    <table fixed-header="250px" class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th width="150px">NAME</th>
+                                                <th style="text-align:right">SALE QTY</th>
+                                                <th style="text-align:right">VALUE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in Salesman">
+                                                <td>{{item.employeename}}</td>
+                                                <td align="right">{{item.qty |IndianNumber:2}}</td>
+                                                <td align="right">{{item.amount |IndianNumber:2}}</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-show="ShowB2BDashboard">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon" style="background-color:transparent">
+                                <img src="clientside/dist/img/stock_value.png" style="height:80px;width:80px" />
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">TRIGGERS</span>
+                            </div>
+                            <div>
+                                <div class="table-responsive">
+                                    <table fixed-header="200x" class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th style="text-align:right">Count</th>
+                                                <th style="text-align:right">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in B2BDashBoard.triggers">
+                                                <td>{{item.title}}</td>
+                                                <td align="right" style="padding-right:10px">{{item.noofbills |IndianNumber:2}}</td>
+                                                <td align="right" style="padding-right:10px">{{item.balance |IndianNumber:2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon" style="background-color:transparent">
+                                <img src="clientside/dist/img/stock_value.png" style="height:80px;width:80px" />
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">
+                                    SUPPLIER TRANSACTION
+                                </span>
+                            </div>
+                            <div>
+                                <div class="table-responsive">
+                                    <table fixed-header="200px" class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th style="text-align:right">Qty</th>
+                                                <th style="text-align:right">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in B2BDashBoard.suppliertransaction">
+                                                <td>{{item.type}}</td>
+                                                <td align="right" style="padding-right:10px">{{item.qty}}</td>
+                                                <td align="right" style="padding-right:10px">{{item.amount |IndianNumber:2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-show="ShowB2BDashboard">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon" style="background-color:transparent">
+                                <img src="clientside/dist/img/stock_value.png" style="height:80px;width:80px" />
+                            </span>
+                            <div class="info-box-content">
+
+                                <span class="info-box-text">
+                                    SALES
+                                </span>
+                            </div>
+                            <div>
+                                <div class="table-responsive">
+                                    <table fixed-header="250px" class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th style="text-align:right">Qty</th>
+                                                <th style="text-align:right">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in B2BDashBoard.sales">
+                                                <td>{{item.type}}</td>
+                                                <td align="right" style="padding-right:10px">{{item.qty |IndianNumber:2}}</td>
+                                                <td align="right" style="padding-right:10px">{{item.receivable |IndianNumber:2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon" style="background-color:transparent">
+                                <img src="clientside/dist/img/stock_value.png" style="height:80px;width:80px" />
+                            </span>
+                            <div class="info-box-content">
+
+
+
+                                <span class="info-box-text">
+                                    JOBWORK
+                                </span>
+                            </div>
+                            <div>
+                                <div class="table-responsive">
+                                    <table fixed-header="250px" class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th>Supplier</th>
+                                                <th>Mode</th>
+                                                <th style="text-align:right">Qty</th>
+                                                <th style="text-align:right">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in B2BDashBoard.jobwork">
+                                                <td>{{item.supplier}}</td>
+                                                <td>{{item.mode}}</td>
+                                                <td align="right" style="padding-right:10px">{{item.receiveddqty |IndianNumber:2}}</td>
+                                                <td align="right" style="padding-right:10px">{{item.receivedamount |IndianNumber:2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon" style="background-color:transparent">
+                                <img src="clientside/dist/img/SECTION_WISE_EMPLOYEES.png" style="height:80px;width:80px" />
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">SECTION WISE EMPLOYEES</span><span class="info-box-text pull-right"></span>
+                            </div>
+
+                            <div>
+                                <div class="table-responsive">
+                                    <table fixed-header="250px" class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th width="60%">NAME</th>
+                                                <th style="text-align:right" width="100px">Total</th>
+                                                <th style="text-align:right" width="100px">Leave</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat-start="item in Employees" style="border-bottom:1px solid lightgrey">
+                                                <td>{{item.section}}</td>
+                                                <td>{{item.total}}</td>
+                                                <td>
+                                                    {{item.absent}}
+                                                    <div class="pull-right" style="display:inline">
+                                                        <button type="button" class="btn-xs"
+                                                                ng-hide="item.showdetail"
+                                                                ng-click="item.showdetail=true" data-widget="go" data-toggle="tooltip" title="Go">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                        <button type="button" class="btn-xs"
+                                                                ng-click="item.showdetail=false"
+                                                                ng-show="item.showdetail">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr ng-repeat-end ng-show="item.showdetail">
+                                                <td colspan="3">
+                                                    <table>
+                                                        <tr ng-repeat="ditem in item.absentemployees track by $index">
+                                                            <td width="50px">
+                                                                &nbsp;&nbsp;
+                                                            </td>
+                                                            <td>
+                                                                {{ditem}}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon" style="background-color:transparent">
+                                <img src="clientside/dist/img/EMPLOYEES_SUMMARY.png" style="height:80px;width:80px" />
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">EMPLOYEES SUMMARY</span><span class="info-box-text pull-right"></span>
+                            </div>
+
+                            <div>
+                                <div class="table-responsive">
+                                    <table fixed-header="250px" class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th width="80%">Description</th>
+                                                <th width="100px">Count</th>
+                                                <th width="30px">..</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat-start="item in TodayEvents.list"
+                                                style="border-bottom:1px solid lightgrey">
+                                                <td>{{item.name}}</td>
+                                                <td>
+                                                    {{item.count}}<div class="pull-right" style="display:inline">
+                                                        <button type="button" class="btn-xs"
+                                                                ng-hide="item.showdetail"
+                                                                ng-click="item.showdetail=true" data-widget="go" data-toggle="tooltip" title="Go">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                        <button type="button" class="btn-xs"
+                                                                ng-click="item.showdetail=false"
+                                                                ng-show="item.showdetail">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr ng-repeat-end ng-show="item.showdetail">
+                                                <td colspan="2">
+                                                    <table>
+                                                        <tr ng-repeat="ditem in item.detail">
+                                                            <td width="50px">
+                                                                &nbsp;&nbsp;
+                                                            </td>
+                                                            <td>
+                                                                {{ditem.employeename}}({{ditem.sectionname}})
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </section>
+
+    <!-- /.content -->
+</div>

@@ -1,0 +1,482 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Setting  /    User
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.print" style="cursor:pointer" ng-click=""><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li ng-show="Navigation.searchentity && selectedcount>0" style="cursor:pointer" ng-click="SetGlobalUser(true)"><a><i class="fa fas fa-edit"></i>Add Global Permission {{selectedcount}}</a></li>
+            <li ng-show="Navigation.searchentity && selectedcount>0" style="cursor:pointer" ng-click="SetGlobalUser(false)"><a><i class="fa fas fa-edit"></i>Remove Global Permission {{selectedcount}}</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+
+                <div class="col-md-6 no-padding">
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group control-label">Employee</label>
+                                <div class="col-md-8">
+                                    <select class="form-control input-sm" select2="" style="width: 100%;" ng-model="User.employeeid" options="item.id as item.code for item in Employes track by item.id"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">User Name</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;" focusid="first" ng-model="User.username" focusid="username">
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label for="inputEmail3" class="control-label">Password/Re-Confirm</label>
+                                    <input type="checkbox" ng-show="User.id>0" ng-model="User.changepassword" class="pull-right" />
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="col-md-6 no-padding">
+
+                                        <input type="password" class="form-control input-sm" focusid="password"
+                                               ng-readonly="User.id>0 && !User.changepassword" style="width: 100%;" ng-model="User.password" ng-required="true">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <input type="password" class="form-control input-sm" focusid="confirmpassword"
+                                               ng-readonly="User.id>0 && !User.changepassword" style="width: 100%;" ng-model="User.confirmpassword" ng-required="true">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label for="inputEmail3" class="control-label">Role/Profile</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="col-md-6 no-padding">
+
+                                        <select class="form-control" style="width: 100%;" select2=""
+                                                ng-options="item.code as item.name for item in refuserrole track by item.code"
+                                                ng-change="RoleBasedPermission()" ng-model="User.roleprofileid"></select>
+
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <select class="form-control input-sm" focusid="role" style="width: 100%;" select2=""
+                                                options="item.id as item.name for item in Roles track by item.id"
+                                                ng-model="User.role"></select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group control-label">AccessKey</label>
+                                <div class="col-md-8">
+                                    <input type="text" ng-readonly="true" class="form-control input-sm"
+                                           style="width: 100%;" ng-model="User.accesskey">
+                                    <button class="btn btn-info btn-sm"
+                                            ng-show="User.id && User.id>0"
+                                            style="position:absolute;right:10px;top:0px"
+                                            ng-click="GenerateAccessKey()">
+                                        <i class="fa fa-flash"></i> &nbsp;Generate
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Landing Page</label>
+                                <div class="col-md-8">
+                                    <div class="col-md-6 no-padding">
+                                        <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in Landingscreens track by item.id" ng-model="User.landingscreen"></select>
+
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <div class="pull-left" style="padding-top:10px;padding-left:10px">
+                                            Active
+                                        </div>
+                                        <input type="checkbox" class="icheckbox_minimal-blue pull-right" ng-model="User.isactive" focusid="isactive">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15" ng-show="User.landingscreen == 'Sales'">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Default Location/Counter</label>
+                                <div class="col-md-8">
+                                    <div class="col-md-6 no-padding">
+                                        <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in reflocation track by item.id" ng-model="User.security.locationid"></select>
+
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in Counters track by item.id" ng-model="User.security.counterid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12" style="padding-right:25px">
+                            <table fixed-header="330px" additionalheight="250">
+                                <thead>
+                                    <tr>
+                                        <th style="min-width:250px">Description</th>
+                                        <th style="width:100px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View<input type="checkbox" ng-model="allview" ng-click="SelectAll('View')"></th>
+                                        <th style="width:100px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create<input type="checkbox" ng-model="allcreate" ng-click="SelectAll('Create')"></th>
+                                        <th style="width:100px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Modify<input type="checkbox" ng-model="allmodify" ng-click="SelectAll('Modify')"></th>
+                                        <th style="width:100px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delete<input type="checkbox" ng-model="alldelete" ng-click="SelectAll('Delete')"></th>
+                                        <th style="width:100px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Print<input type="checkbox" ng-model="allprint" ng-click="SelectAll('Print')"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr ng-repeat-start="item in permissionlist" style="border-bottom:1px solid lightgrey">
+                                        <td width="50%" style="font-size:medium">
+                                            <div class="pull-left" style="display:inline;margin-right:10px">
+                                                <button type="button" class="btn-xs"
+                                                        ng-hide="item.showdetail"
+                                                        ng-click="item.showdetail=true" data-widget="go" data-toggle="tooltip" title="Go">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn-xs"
+                                                        ng-click="item.showdetail=false"
+                                                        ng-show="item.showdetail">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                            </div>
+                                            {{item.name}}
+
+                                        </td>
+                                        <td><input type="checkbox" ng-model="item.view" ng-click="SelectAllPermission(item,'View',item.view)"></td>
+                                        <td><input type="checkbox" ng-model="item.create" ng-click="SelectAllPermission(item,'Create',item.create)"></td>
+                                        <td><input type="checkbox" ng-model="item.modify" ng-click="SelectAllPermission(item,'Modify',item.modify)"></td>
+                                        <td><input type="checkbox" ng-model="item.delete" ng-click="SelectAllPermission(item,'Delete',item.delete)"></td>
+                                        <td><input type="checkbox" ng-model="item.print" ng-click="SelectAllPermission(item,'Print',item.print)"></td>
+                                    </tr>
+
+                                    <tr ng-repeat-end ng-show="item.showdetail">
+                                        <td colspan="6">
+                                            <table style="width:100%;padding:0px;margin:0px">
+                                                <tr ng-repeat="ditem in item.list track by $index"
+                                                    style="border-bottom: 1px solid lightgrey;">
+                                                    <td width="50%" style="padding-left:35px" title="{{ditem.code}}">{{ditem.name}}</td>
+                                                    <td><input type="checkbox" ng-model="ditem.view"></td>
+                                                    <td><input type="checkbox" ng-model="ditem.create"></td>
+                                                    <td><input type="checkbox" ng-model="ditem.modify"></td>
+                                                    <td><input type="checkbox" ng-model="ditem.delete"></td>
+                                                    <td><input type="checkbox" ng-model="ditem.print"></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 no-padding">
+
+
+                    <div class="col-md-6 no-padding">
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-6">
+                                <h5 ng-click="isCompanyTab=false" style="cursor:pointer" class="box-title"><b>Location</b></h5>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <h5 ng-click="isCompanyTab=true" style="cursor:pointer" class="box-title pull-right"><b>Company&nbsp;</b></h5>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <div class="table-responsive mailbox-messages" ng-hide="isCompanyTab">
+                                <table fixed-header="230px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th style="width:50px">&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" ng-model="User.alllocation" ng-click="SelectAll('Location')"></th>
+                                        </tr>
+                                    </thead>
+                                    <tr ng-repeat="item in reflocation">
+                                        <td>{{item.name}}</td>
+                                        <td><input type="checkbox" ng-model="item.view"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="table-responsive mailbox-messages" ng-show="isCompanyTab">
+                                <table fixed-header="230px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th style="width:50px">&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" ng-model="User.allcompany" ng-click="SelectAll('Company')"></th>
+                                        </tr>
+                                    </thead>
+                                    <tr ng-repeat="item in refcompany">
+                                        <td>{{item.name}}</td>
+                                        <td><input type="checkbox" ng-model="item.view"></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6  no-padding">
+
+
+                        <div class="col-md-12 no-padding">
+                            <h5 class="box-title pull-right"><b>&nbsp;Section</b></h5>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <div class="table-responsive mailbox-messages">
+
+                                <table fixed-header="230px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th style="width:50px">&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" ng-model="User.allsection" ng-click="SelectAll('Section')"></th>
+                                        </tr>
+                                    </thead>
+                                    <tr ng-repeat="item in refsection">
+                                        <td>{{item.name}}</td>
+                                        <td><input type="checkbox" ng-model="item.view"></td>
+                                    </tr>
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 no-padding">
+
+                </div>
+
+                <div class="col-md-6 no-padding">
+                    <div class="col-md-6 no-padding">
+                        <table fixed-header="200px" additionalheight="250">
+                            <thead>
+                                <tr>
+                                    <th width="250px">Special Permissions</th>
+                                    <th>
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <input type="checkbox" ng-model="allspecial" ng-click="SelectAll('Special')">
+                                            </div>
+
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in refspppermission">
+                                    <td title="{{item.code}}">{{item.name}}</td>
+                                    <td>
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <input type="checkbox" ng-model="item.view">
+                                            </div>
+                                            <div class="col-md-8 no-padding">
+                                                <input type="text" placeholder="Max Discount %"
+                                                       ng-show="item.view && item.code == 'CANAPPROVEDISCOUNT'"
+                                                       ng-model="User.alloweddiscount" style="width:100px">
+                                                <input type="text" placeholder="Max Discount %"
+                                                       ng-show="item.view && item.code == 'CANAPPROVECREDIT'"
+                                                       ng-model="User.allowedcredit" style="width:100px">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-6 no-padding">
+                        <table fixed-header="130px" additionalheight="250">
+                            <thead>
+                                <tr>
+                                    <th width="250px">Data Permissions</th>
+                                    <th>
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <input type="checkbox" ng-model="alldata" ng-click="SelectAll('Data')">
+                                            </div>
+
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in refdatpermission">
+                                    <td title="{{item.code}}">{{item.name}}</td>
+                                    <td>
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <input type="checkbox" ng-model="item.view">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="col-md-6 no-padding" ng-show="item.view && item.code == 'SECURITY_TIME'">
+                                                    <input type="text" placeholder="from" ng-model="User.security.from" style="width:100%">
+                                                </div>
+                                                <div class="col-md-6 no-padding" ng-show="item.view && item.code == 'SECURITY_TIME'">
+                                                    <input type="text" placeholder="to" ng-model="User.security.to" style="width:100%">
+                                                </div>
+                                                <div class="col-md-6 no-padding" ng-show="item.view && User.id && User.id>0 && item.view && item.code == 'RESTRICTEDCUSTOMER'">
+                                                    <button class="btn btn-info btn-xs"
+                                                            ng-click="ShowCustomerAccess()">
+                                                        <i class="fa fa-user-secret"></i> &nbsp;List
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Employee</label>
+                            <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondition.employeeid" options="item.id as item.name for item in Employes track by item.id"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>User Name</label>
+                            <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.username">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Role </label>
+                            <select class="form-control input-sm" focusid="role" style="width: 100%;" select2=""
+                                    options="item.id as item.name for item in Roles track by item.id"
+                                    ng-model="SearchCondition.role"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>InActive</label>
+                            <input type="checkbox" placeholder="" ng-model="SearchCondition.inactive" focusid="inactive">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-9 no-padding">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.content -->
+        </div>
+    </section>
+</div>
+
+<script type="text/ng-template" id="CustomerList">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Customer</label>
+                <div class="input-group input-group-sm col-sm-9 no-padding">
+
+                    <div class="input-group input-group-sm col-md-12">
+                        <select class="form-control" select2='Company'
+                                style="width:100%;"
+                                ng-model="customerid"
+                                options="item.id as item.name for item in Customers track by item.id"></select>
+                        <span class="input-group-btn" style="width:10px">
+                            <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddCustomer(customerid)">
+                                <i class="glyphicon glyphicon-plus-sign"></i>
+                            </button>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="md-col-12">
+            <table fixed-header="200px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in accessiblecustomerSorted track by item">
+                        <td>{{SearchRef(item,Customers)}}</td>
+                        <td>
+                            <button type="button" class="btn-xs btn-danger"
+                                    ng-click="RemoveCustomer(item)" data-widget="go" data-toggle="tooltip" title="Go">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+<!-- /.content-wrapper -->

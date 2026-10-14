@@ -1,0 +1,926 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Sales \ B2B Sales Dashboard
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-show="SelectedCount >0 && ismfgapplication && SearchRequest.status!=10" ng-click="PrintBarcode()"><a><i class="fa fa-barcode"></i>Print Barcode</a></li>
+            <li style="cursor:pointer" ng-show="SelectedCount >0 && SearchRequest.status!=10" ng-click="ChangeStatus()"><a><i class="fa fa-thumbs-up"></i>Status<span ng-show="SelectedCount>0">({{SelectedCount}})</span></a></li>
+            <li style="cursor:pointer" ng-show="ApproveItem != null && SearchRequest.status!=10" ng-click="statuschanged(2)"><a><i class="fa fa-thumbs-up"></i>Approve</a></li>
+            <li style="cursor:pointer" ng-show="SelectedCount >0 && SearchRequest.status!=10" ng-click="statuschanged(3)"><a><i class="fa  fa-check-square-o"></i>Completed<span ng-show="SelectedCount>0">({{SelectedCount}})</span></a></li>
+            <li style="cursor:pointer" ng-show="!EnableDelivery" ng-click="exporttoExcel(igrid,'salesinvoice', 'dashboard')"><a><i class="fa fa-download"></i></a></li>
+            <li style="cursor:pointer" ng-show="EnableDelivery" ng-click="exporttoExcel(igriddelivery,'delivery', 'dashboard')"><a><i class="fa fa-download"></i></a></li>
+            <li style="cursor:pointer" ng-show="SearchRequest.status!=10 && !EnableDelivery" ng-click="addbill2inbox()"><a><i class="fa fa-plus"></i>Bill</a></li>
+            <li style="cursor:pointer" ng-show="SearchRequest.status==10" ng-click="CreatePerson()"><a><i class="fa fa-plus"></i>Person</a></li>
+            <li style="cursor:pointer" ng-show="!EnableDelivery" ng-click="ShowDelivery()"><a><i class="fa fa-plus"></i>Delivery</a></li>
+
+            <li style="cursor:pointer" ng-show="EnableDelivery && CreateDelivery" ng-click="CreateHandover()"><a><i class="fa fa-trash"></i>Clear</a></li>
+            <li style="cursor:pointer" ng-show="EnableDelivery && !CreateDelivery" ng-click="CreateHandover()"><a><i class="fa fa-plus"></i>Create Delivery</a></li>
+            <li style="cursor:pointer" ng-show="EnableDelivery && CreateDelivery" ng-click="SaveBill4Handover()"><a><i class="fa fa-save"></i>Save Delivery</a></li>
+            <li style="cursor:pointer" ng-show="EnableDelivery && HandOverList && HandOverList.length>0" ng-click="PrintHandover()"><a><i class="fa fa-print"></i>Print Delivery</a></li>
+            <li style="cursor:pointer" ng-show="EnableDelivery && CreateDelivery" ng-click="CreateDelivery=false"><a><i class="fa fa-search-plus"></i>Search Delivery</a></li>
+            <li style="cursor:pointer" ng-show="EnableDelivery" ng-click="EnableDelivery=false;SearchRequest.status=-1"><a><i class="fa fa-arrow-left"></i>Back</a></li>
+
+            <li ng-show="Unicommerce && SearchRequest.status!=10" style="cursor:pointer">
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280" uri='File/DocumentProcess/ECOM/'
+                             max-height="1280" preview="false" ng-model="uploadfile"
+                             filetype="DATA"
+                             filemodel="uploadfile" onuploadcomplete="uanpofileuploadedcomplete"
+                             multiple="false">
+                    <i class="fa fa-upload">Upload E-Commerce Orders</i>
+                </file-upload>
+            </li>
+
+            <li style="cursor:pointer" ng-show="SelectedCount == 1 && SearchRequest.status!=10" ng-click="BillAttributeChange()"><a><i class="fa  fa-edit"></i>Change Attribute</a></li>
+            <li style="cursor:pointer" ng-show="SelectedCount == 1 && SearchRequest.status!=10" ng-click="DownloadPDF()"><a><i class="fa  fa-file-pdf-o"></i>Download PDF</a></li>
+            <li style="cursor:pointer" ng-show="SelectedCount >1 && SearchRequest.status!=10" ng-click="mergePDF()"><a><i class="fa  fa-file-pdf-o"></i>Merge PDF<span ng-show="SelectedCount>1">({{SelectedCount}})</span></a></li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+
+            <div class="col-md-12 no-padding" ng-show="EnableDelivery">
+                <div class="col-md-3" style="padding-left:5px;padding-right:5px">
+                    <!--<div class="col-md-12 no-padding">
+                        Transport
+                        <select class="form-control input-sm" select2="Status"
+                                style="width:100%"
+                                ng-disabled="CreateDelivery && HandOverList && HandOverList.length && HandOverList.length>0"
+                                options="item.id as item.name for item in Transports track by item.id"
+                                ng-model="SearchRequest.transportid"></select>
+                    </div>-->
+                    <div class="col-md-12 no-padding">
+                        Hand over to
+                        <select class="form-control input-sm" select2="Status"
+                                style="width:100%"
+                                ng-disabled="CreateDelivery && HandOverList && HandOverList.length && HandOverList.length>0"
+                                options="item.id as item.name for item in Persons track by item.id"
+                                ng-model="SearchRequest.handedtoid"></select>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        Date
+                        <div class="col-md-12 no-padding input-group input-group-sm" ng-hide="CreateDelivery">
+                            <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto"
+                                   class="form-control pull-right input-sm">
+
+                            <span class="input-group-btn" style="width:10px">
+                                <button type="button" class="btn btn-primary btn-sm btn-box pull-right" ng-click="Search4HandOver()">Search</button>
+                            </span>
+
+                        </div>
+                        <div class="col-md-12 no-padding input-group input-group-sm" ng-show="CreateDelivery">
+                            <input type="text" datemodule="SearchRequest.handeddate"
+                                   ng-model="SearchRequest.handeddate"
+                                   ng-disabled="CreateDelivery && HandOverList && HandOverList.length && HandOverList.length>0"
+                                   class="form-control pull-right input-sm">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding" ng-show="CreateDelivery">
+                        Hand over to
+                        <div class="col-md-12 no-padding input-group input-group-sm">
+                            <input type="text" class="form-control input-sm" placeholder="LR No"
+                                   onkeyenter="SearchBill4Handover($event)"
+                                   ng-model="handover.billno">
+
+                            <span class="input-group-btn" style="width:10px">
+                                <button type="button" class="btn btn-primary btn-sm btn-box pull-right" ng-click="SearchBill4Handover()"><i class="fa  fa-plus"></i> Add</button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12" style="padding-right:0px;padding-left:0px;padding-top:10px" id="gridBillhandedContainer">
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-9" style="padding-left:0px">
+                    
+                    <div class="col-md-12" style="padding-top:10px">
+                        <div class="col-md-12 no-padding" id="gridBillListContainer">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 no-padding" ng-hide="EnableDelivery">
+                <div class="col-md-12" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px">
+                    <div class="col-md-4 col-sm-4">
+                        <label for="inputEmail3" class="col-sm-4 col-md-4 control-label no-padding">Status</label>
+                        <div class="col-sm-8 col-md-8">
+                            <select class="form-control input-sm" select2="Status"
+                                    options="item.id as item.name for item in StatusList track by item.id"
+                                    ng-model="SearchRequest.status"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 col-sm-8">
+                        <div class="col-md-6 col-sm-6">
+
+                        </div>
+                        <div class="col-md-6 col-sm-6 no-padding">
+                            <label for="inputEmail3" class="col-sm-2 col-md-2 control-label no-padding">Date</label>
+                            <div class="col-sm-8 col-md-8">
+                                <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto"
+                                       class="form-control pull-right input-sm">
+                            </div>
+                            <div class="col-sm-2 col-md-2 no-padding">
+                                <button type="button" class="btn btn-primary btn-sm btn-box pull-right" ng-click="Search()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-12" id="gridContainer">
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</div>
+
+
+<script type="text/ng-template" id="ManageLR">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+
+                <div class="col-md-9">
+                    <div class="md-col-12">
+                        <label for="inputEmail3" class="col-md-6 control-label">LR No / Date</label>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="col-md-6 no-padding">
+                                <input type="text" class="form-control input-sm" placeholder="LR No"
+                                       ng-model="entity.lrno">
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="text" class="form-control input-sm"
+                                       datemodule="entity.lrdate"
+                                       ng-model="entity.lrdate">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md-col-12">
+                        <label for="inputEmail3" class="col-md-6 control-label">Transport</label>
+                        <div class="col-sm-6 col-md-6">
+                            <select class="form-control input-sm" style="width: 100%;" select2="" ng-change="TransportChanged()"
+                                    options="report.id as report.name for report in Parent.Transports track by report.id"
+                                    ng-model="entity.transportid"></select>
+                        </div>
+                    </div>
+                    <div class="md-col-12">
+                        <label for="inputEmail3" class="col-md-6 control-label">City</label>
+                        <div class="col-sm-6 col-md-6">
+                            <select class="form-control input-sm" style="width: 100%;" select2=""
+                                    options="report.id as report.name for report in Parent.City track by report.id"
+                                    ng-model="entity.tolocationid"></select>
+                        </div>
+                    </div>
+                    <div class="md-col-12">
+                        <label for="inputEmail3" class="col-md-6 control-label">Qty (Pieces / Bundles)</label>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="col-md-6 no-padding">
+                                <input type="text" class="form-control input-sm" placeholder="Pieces"
+                                       ng-model="entity.noofpieces">
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="text" class="form-control input-sm" placeholder="Bundles"
+                                       ng-model="entity.noofbundles">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md-col-12">
+                        <label for="inputEmail3" class="col-md-6 control-label">Charges (Loading / Fright)</label>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="col-md-6 no-padding">
+                                <input type="text" class="form-control input-sm" placeholder="Loading"
+                                       ng-model="entity.loadingcharges">
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="text" class="form-control input-sm" placeholder="Fright"
+                                       ng-model="entity.frightcharges">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md-col-12" ng-show="ismfgapplication">
+                        <label for="inputEmail3" class="col-md-6 control-label">Stitched By/Date</label>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="col-md-6 no-padding">
+                                <select class="form-control input-sm" style="width: 100%;" select2=""
+                                        options="report.id as report.name for report in Parent.Employees track by report.id"
+                                        ng-model="entity.stitchedby"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="text" class="form-control input-sm"
+                                       datemodule="entity.stitchededon"
+                                       ng-model="entity.stitchededon">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md-col-12">
+                        <label for="inputEmail3" class="col-md-6 control-label">Packed By/Date</label>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="col-md-6 no-padding">
+                                <select class="form-control input-sm" style="width: 100%;" select2=""
+                                        options="report.id as report.name for report in Parent.Employees track by report.id"
+                                        ng-model="entity.packedby"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="text" class="form-control input-sm"
+                                       datemodule="entity.packedon"
+                                       ng-model="entity.packedon">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md-col-12">
+                        <div class="col-sm-6 col-md-6" ng-hide="entity.einvoice && entity.einvoice != null && entity.einvoice != ''">
+                            &nbsp;&nbsp;&nbsp;&nbsp;E-Invoice
+                            <input type="checkbox"
+                                   style="position:absolute;top:0px;left:15px" ng-model="editeinvoice" />
+                            <div class="pull-right" ng-show="editeinvoice">
+                                <lable class="pull-left">HSN 4 Digit</lable>
+                                <input type="checkbox" ng-model="entity.hsn4digit" />
+                                <lable class="pull-left">8 Digit</lable>
+                                <input type="checkbox" ng-model="entity.hsn8digit" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6" ng-show="entity.einvoice && entity.einvoice != null && entity.einvoice != ''">
+                            E-Invoice Generated
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="text" class="form-control input-sm" placeholder="E-Invoice"
+                                   ng-model="entity.einvoice" ng-readonly="true">
+                        </div>
+                    </div>
+
+                    <div class="md-col-12">
+                        <div class="col-sm-6 col-md-6" ng-hide="entity.ewb && entity.ewb != null && entity.ewb != ''">
+                            &nbsp;&nbsp;&nbsp;&nbsp;E-Way
+                            <input type="checkbox" style="position:absolute;top:0px;left:15px" ng-model="editeway" />
+                        </div>
+                        <div class="col-sm-6 col-md-6" ng-show="entity.ewb && entity.ewb != null && entity.ewb != ''">
+                            E-Way Generated
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="text" class="form-control input-sm" placeholder="EWay No"
+                                   ng-model="entity.ewb" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="md-col-12">
+                        <label for="inputEmail3" class="col-md-6 control-label">Mode/Distance</label>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="col-md-6 no-padding">
+                                <select class="form-control input-sm" style="width: 100%;" select2=""
+                                        options="report.id as report.name for report in Parent.TransportModes track by report.id"
+                                        ng-model="entity.modeofdelivery"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="checkbox" class="icheckbox_flat-green" ng-model="ShowDistance" style="position:absolute;left:5px;top:2px" />
+                                <input type="text" style="padding-left:30px"
+                                       class="form-control input-sm" placeholder="Distance"
+                                       ng-model="entity.distance"
+                                       ng-readonly="!ShowDistance">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md-col-12">
+                        <label for="inputEmail3" class="col-md-6 control-label">Vehicle No</label>
+                        <div class="col-sm-6 col-md-6">
+
+                            <input type="text" style="width:100%" class="form-control input-sm" placeholder="Vehicle No"
+                                   ng-model="entity.vehicleno">
+
+                        </div>
+                    </div>
+
+                    <!--<div class="md-col-12">
+                        <label for="inputEmail3" class="col-md-6 control-label">Order ref Id</label>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="text" class="form-control input-sm" placeholder="Order ref Id"
+                                   ng-model="entity.orderrefid">
+                        </div>
+                    </div>
+
+                    <div class="md-col-12">
+                        <label for="inputEmail3" class="col-md-6 control-label">Ordered By</label>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="text" class="form-control input-sm" placeholder="Ordered By"
+                                   ng-model="entity.orderby">
+                        </div>
+                    </div>
+
+                    <div class="md-col-12">
+                        <label for="inputEmail3" class="col-md-6 control-label">Remark</label>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="text" class="form-control input-sm" placeholder="Remark"
+                                   ng-model="entity.remark">
+                        </div>
+                    </div>-->
+                </div>
+
+                <div class="col-md-3 no-padding">
+                    <div class="col-md-12 no-padding" style="height:200px;width:190px;overflow-x:hidden;overflow-y:auto;margin:0px;padding:0px">
+                        <div style="height:200px;width:190px;float:left" ng-repeat="item in imagelist">
+
+                            <div style="height:16px;width:16px;position:relative;left:150px;top:5px;" ng-show="UserInfo.p_B2BINBOX.delete">
+                                <i ng-click="RemoveImage(item)"
+                                   style="font-size:larger;color:orangered" class="fa fa-close"></i>
+                            </div>
+                            <a target="_blank" href="File/Show/{{UserInfo.OrganizationID}}/{{item}}">
+                                <img style="height:150px;width:150px" ng-src="File/Show/{{UserInfo.OrganizationID}}/{{item}}" />
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-5">
+
+            <button class="btn btn-success btn-rad btn-trans btn-xs pull-left"
+                    ng-click="CaptureImage('IMAGE',BillImageChanged)">
+                <i class="fa fa-camera"></i>
+                <span>Capture</span>
+            </button>
+            <div class="col-md-9 no-padding">
+                <div class="col-md-6">
+                    <file-upload class="btn btn-success btn-rad btn-trans btn-xs file-upload"
+                                 resize="true" max-width="1280"
+                                 max-height="1280" preview="true"
+                                 ng-model="billimg"
+                                 filemodel="billimg"
+                                 onuploadcomplete="BillImageChanged"
+                                 multiple="false">
+                        <i class="fa fa-upload"></i>
+                        <span>Upload Bill</span>
+                    </file-upload>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="publish()">Share</button>
+
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+
+        <div ng-hide="entity.hascancel">
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="Save()">Save</button>
+            <button class="ngdialog-button ngdialog-button-primary"
+                    ng-show="editeinvoice && editeway"
+                    ng-click="GenerateEInvoice('INVEW')">
+                <i class="fa fa-download"></i>
+                <span>Eway&amp;Invoice</span>
+            </button>
+            <button class="ngdialog-button ngdialog-button-primary"
+                    ng-show="editeinvoice && !editeway"
+                    ng-click="GenerateEInvoice('INV')">
+                <i class="fa fa-download"></i>
+                <span>E-Invoice</span>
+            </button>
+
+            <button class="ngdialog-button ngdialog-button-primary"
+                    ng-show="!editeinvoice && editeway && entity.einvoice && entity.einvoice != null && entity.einvoice != ''"
+                    ng-click="GenerateEInvoice('EWIRN')">
+                <i class="fa fa-download"></i>
+                <span>E-Way</span>
+            </button>
+
+            <button class="ngdialog-button ngdialog-button-primary"
+                    ng-show="!editeinvoice && editeway && (entity.einvoice == undefined || entity.einvoice == null || entity.einvoice == false)"
+                    ng-click="GenerateEWay('EW')">
+                <i class="fa fa-download"></i>
+                <span>E-Way</span>
+            </button>
+
+            <button class="btn btn-danger btn-rad btn-trans btn-xs pull-right"
+                    ng-show="entity.ewb && entity.ewb != null && entity.ewb != ''"
+                    ng-click="CancelEway()">
+                <i class="fa fa-trash-o"></i>
+                <span>Cancel Eway</span>
+            </button>
+
+            <button class="btn btn-danger btn-rad btn-trans btn-xs pull-right"
+                    ng-show="entity.einvoice && entity.einvoice != null && entity.einvoice != ''"
+                    ng-click="CancelEInvoice()">
+                <i class="fa fa-trash-o"></i>
+                <span>Cancel EInvoice</span>
+            </button>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="ChangeStatus">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <div class="md-col-12" style="margin-bottom:40px">
+                    <label for="inputEmail3" class="col-md-4 control-label">Status</label>
+                    <div class="col-sm-8 col-md-8">
+                        <select class="form-control input-sm" style="width: 100%;" select2=""
+                                options="report.id as report.name for report in Parent.StatusList track by report.id"
+                                ng-model="statusid"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <div class="md-col-12" style="padding-bottom: 30px;padding-top: 40px;padding-right: 15px;">
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Save()">OK</button>
+                <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="EditBill">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+
+                <table class="fixed_table" style="border:1px solid black" id="billdetails" fixed-header="300px">
+                    <thead>
+                        <tr style="border:1px solid black">
+                            <th style="width:40px; border-right:1px solid black">SL</th>
+                            <th style="width:30px; border-right:1px solid black">&nbsp;</th>
+                            <th style="width:90px; border-right:1px solid black">BARCODE</th>
+                            <th style="width:120px; border-right:1px solid black">BRAND</th>
+                            <th style="width:100px; border-right:1px solid black">DESIGN</th>
+                            <th style="width:80px; border-right:1px solid black">COST</th>
+                            <th style="width:80px; border-right:1px solid black">MARGIN</th>
+                            <th style="width:50px; border-right:1px solid black">Tax %</th>
+                            <th style="width:60px; border-right:1px solid black">QTY</th>
+                            <th style="width:80px; border-right:1px solid black">PRICE</th>
+                            <th style="width:60px">A.DIS %</th>
+                            <th style="width:70px; border-right:1px solid black">T.DIS %</th>
+                            <th style="width:80px; border-right:1px solid black">DISOUNT</th>
+                            <th style="width:80px; border-right:1px solid black">GROSS</th>
+                            <th style="width:80px; border-right:1px solid black">TAX</th>
+                            <th style="width:90px; border-right:1px solid black">AMOUNT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr ng-repeat="item in CurrentBill.Billitems" ng-style="item.style">
+                            <td title="{{item.scheme}}" style="font-size:x-small;border-right:1px solid black">{{$index+1}}</td>
+                            <td style="font-size:x-small;border-right:1px solid black">
+                                <button type="button" style="margin-right:5px" class="btn btn-danger btn-xs pull-right"
+                                        ng-hide="CurrentBill.HasPromotionApplied"
+                                        ng-click="Deleteitem(item)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+
+                            <td style="font-size:x-small;border-right:1px solid black">{{item.barcode}}</td>
+                            <td style="font-size:x-small;border-right:1px solid black">{{item.attributes.brand}}</td>
+                            <td style="font-size:x-small;border-right:1px solid black">{{item.attributes.designid}}</td>
+
+                            <td align="right" style="font-size:x-small;border-right:1px solid black">
+                                <input type="text" style="border:0px;margin:0px;padding:0px;width:100%"
+                                       ng-model="item.attributes.cost" ng-change="MarginChanged(item)" />
+                            </td>
+
+                            <td align="right" style="font-size:x-small;border-right:1px solid black">
+                                <input type="text" style="border:0px;margin:0px;padding:0px;width:100%"
+                                       ng-model="item.attributes.margin" ng-change="MarginChanged(item)" />
+                            </td>
+                            <td align="right" style="font-size:x-small;border-right:1px solid black">
+                                <input type="text" style="border:0px;margin:0px;padding:0px;width:100%"
+                                       ng-model="item.taxpercentage" ng-change="MarginChanged(item)" />
+                            </td>
+
+                            <td align="right" style="font-size:x-small;border-right:1px solid black">
+                                <input type="text" style="border:0px;margin:0px;padding:0px;width:100%"
+                                       ng-model="item.qty" ng-change="MarginChanged(item)" />
+                            </td>
+
+                            <td align="right" style="font-size:x-small;color:orangered;border-right:1px solid black">
+                                {{item.attributes.gross|number:2}}
+                            </td>
+
+                            <td align="right" style="font-size:x-small;border-right:1px solid black">
+
+                                <input type="text"
+                                       style="border:0px;margin:0px;padding:0px;width:100%"
+                                       ng-model="item.additionaldiscountpercentage" ng-change="MarginChanged(item)" />
+
+                            </td>
+                            <td align="right" style="color:brown;font-size:x-small;border-right:1px solid black">
+                                {{item.discountpercentage+item.schemediscountpercentage|number:2}}%
+                            </td>
+                            <td align="right" style="font-size:x-small;border-right:1px solid black">{{(item.additionaldiscount)+item.schemediscount|number:2}}</td>
+
+
+                            <td align="right" style="font-size:x-small;color:orangered;border-right:1px solid black">{{item.salerate|number:2}}</td>
+
+                            <td align="right" style="font-size:x-small;color:orangered;border-right:1px solid black">{{item.tax|number:2}}</td>
+
+                            <td align="right" style="font-size:x-small;color:orangered;border-right:1px solid black">{{item.salerate*item.qty|number:2}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+
+            <div class="col-md-12 no-padding">
+                <div class="col-md-2" style="padding-left:0px">
+                    <label class="col-md-12 no-padding">Customer Name</label>
+                    <div class="input-group input-group-sm col-md-12">
+                        <select class="input-sm form-control " select2="Select Customers"
+                                ng-model="CurrentBill.customerid"
+                                options="item.id as item.name for item in Customers track by item.id"
+                                style="width:100%"></select>
+                    </div>
+                </div>
+                <div class="col-md-2" style="padding-left:2px;padding-right:2px">
+                    <label class="col-md-12 no-padding">Shipt To</label>
+                    <div class="input-group input-group-sm col-md-12">
+                        <select class="input-sm form-control " select2="Select Customers"
+                                ng-model="CurrentBill.billattributes.shiptoid"
+                                options="item.id as item.name for item in Customers track by item.id"
+                                style="width:100%"></select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4 no-padding">
+                        <label class="col-md-12 no-padding">&nbsp;Bill Date</label>
+                        <div class="input-group date">
+                            <input type="text" class="form-control pull-right" datemodule="CurrentBill.billdate" ng-model="CurrentBill.billdate">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 no-padding">
+                        <div class="col-md-12 no-padding">
+                            &nbsp;IGST
+                            <input type="checkbox" focusid="closeit"
+                                   style="position:absolute;top:5px;right:2px"
+                                   class="icheckbox_flat-green"
+                                   ng-model="CurrentBill.isinterstatesale" />
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            &nbsp;Credit
+                            <input type="checkbox"
+                                   class="icheckbox_flat-green"
+                                   style="position:absolute;top:5px;right:2px"
+                                   ng-model="CurrentBill.iscreditbill" />
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            &nbsp;Discount
+                            <input type="checkbox"
+                                   class="icheckbox_flat-green"
+                                   style="position:absolute;top:5px;right:2px"
+                                   ng-model="CurrentBill.billattributes.showdiscount" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 no-padding">
+                        <label class="col-md-12 no-padding">&nbsp;Add.Disc %</label>
+                        <div class="col-md-12 no-padding input-group input-group-sm">
+                            <input type="text" class="form-control input-sm"
+                                   ng-model="CurrentBill.newadditionaldiscount"
+                                   style="width:100%" />
+                            <span class="input-group-btn" style="width:10px">
+                                <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="ApplyDiscount()">
+                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="col-md-4 no-padding">
+                        <label class="col-md-12 no-padding">&nbsp;Bill Value</label>
+                        <label class="col-md-12 no-padding"><span style="font-size:x-large;font-weight:bolder;color:orangered">{{CurrentBill.total|number:0}}</span></label>
+                    </div>
+                    <div class="col-md-8 no-padding">
+                        <label class="col-md-12 no-padding">&nbsp;</label>
+                        <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="DownloadExcel()"><i class="fa fa-download"></i></button>
+                        <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="Save()">Save</button>
+                        <button type="button" class="ngdialog-button ngdialog-button-secondary pull-right" ng-click="closeThisDialog()">Close</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="BillAttributeChange">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="col-md-12 no-padding">
+                <div class="col-md-12 no-padding">
+                    <label class="col-md-12 no-padding">Customer Name</label>
+                    <div class="input-group input-group-sm col-md-12">
+                        <select class="input-sm form-control " select2="Select Customers"
+                                ng-model="CurrentBill.customerid"
+                                options="item.id as item.name for item in Customers track by item.id"
+                                style="width:100%"></select>
+                    </div>
+                </div>
+                <div class="col-md-12 no-padding">
+                    <label class="col-md-12 no-padding">Shipt To</label>
+                    <div class="input-group input-group-sm col-md-12">
+                        <select class="input-sm form-control " select2="Select Customers"
+                                ng-model="CurrentBill.billattributes.shiptoid"
+                                options="item.id as item.name for item in Customers track by item.id"
+                                style="width:100%"></select>
+                    </div>
+                </div>
+                <div class="col-md-4 no-padding">
+                    <label style="margin-top:8px">IGST</label>
+                    <input type="checkbox" focusid="closeit"
+                           style="position:absolute;top:5px;right:4px"
+                           class="icheckbox_flat-green"
+                           ng-model="CurrentBill.isinterstatesale" />
+                </div>
+                <div class="col-md-4 no-padding">
+                    <label style="margin-top:8px">Credit</label>
+                    <input type="checkbox"
+                           class="icheckbox_flat-green"
+                           style="position:absolute;top:5px;right:4px"
+                           ng-model="CurrentBill.iscreditbill" />
+                </div>
+                <div class="col-md-4 no-padding">
+                    <label style="margin-top:8px">B2B</label>
+                    <input type="checkbox" focusid="closeit"
+                           style="position:absolute;top:5px;right:4px"
+                           class="icheckbox_flat-green"
+                           ng-model="CurrentBill.isb2b" />
+                </div>
+                <div class="col-md-4 no-padding">
+                    <label style="margin-top:8px">Transfer</label>
+                    <input type="checkbox" focusid="closeit"
+                           style="position:absolute;top:5px;right:4px"
+                           class="icheckbox_flat-green"
+                           ng-model="CurrentBill.istransfer" />
+                </div>
+                <div class="col-md-4 no-padding">
+                    <label style="margin-top:8px">Export</label>
+                    <input type="checkbox" focusid="closeit"
+                           style="position:absolute;top:5px;right:4px"
+                           class="icheckbox_flat-green"
+                           ng-model="CurrentBill.isexport" />
+                </div>
+                <div class="col-md-12" style="padding-top:10px;padding-bottom:10px;padding-left:0px;padding-right:0px;margin-top:10px">
+
+                    <label class="col-md-12 no-padding">Bill Value</label>
+                    <label style="position:absolute;top:5px;right:2px"><span style="font-size:x-large;font-weight:bolder;color:orangered">{{CurrentBill.total|number:0}}</span></label>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Save()">Change</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="ChooseStatus">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Status</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <select class="form-control"
+                            style="width:100%;"
+                            ng-model="statusid"
+                            ng-options="item.id as item.name for item in StatusList track by item.id"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Change</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="ChooseReportFormat">
+    <div class="ngdialog-message" style="height:120px">
+        <div class="col-md-12">
+            <h4>Printing Format</h4>
+        </div>
+        <div class="col-md-12" style="padding-top:10px">
+            <select class="input-sm form-control " select2="Format"
+                    ng-model="printingformatid"
+                    options="item.id as item.name for item in ReportList track by item.id"
+                    style="width:100%"></select>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Select</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+
+
+</script>
+
+<script type="text/ng-template" id="ChooseBarecodes">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <table fixed-header="300px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">&nbsp;<input type="checkbox" ng-model="sall" ng-change="SelectAll(sall)" /></th>
+                            <th style="width:50px">SL</th>
+                            <th style="width:200px">Design</th>
+                            <th style="width:120px">Barcode</th>
+                            <th style="width:75px">Copy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in currentlist|filter:searchbarcode">
+                            <td>&nbsp;<input type="checkbox" ng-model="item.selected" ng-change="selectchanged()" /></td>
+                            <td>{{item.sno}}</td>
+                            <td>{{item.designcode}}/{{item.size}}</td>
+                            <td>{{item.uid}}</td>
+                            <td><input type="number" ng-model="item.qty" ng-change="selectchanged()" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <input type="text" ng-model="searchbarcode" style="width:125px" placeholder="Barcode" />
+            <input type="text" ng-model="fixcopy" style="width:70px" onkeyenter="SetCopy()" placeholder="Copies" />
+            <label ng-bind="TotalCopy" style="color:brown;font-size:large;padding-left:5px"></label>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Select</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>
+
+
+
+<script type="text/ng-template" id="ImportPO">
+    <div class="ngdialog-message">
+        <div class="col-md-12">
+            <table fixed-header="300px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th ng-hide="Running" style="width:30px"> <input type="checkbox" ng-model="selectedall" ng-change="SelectedAll(selectedall)" /></th>
+                        <th style="width:100px">Order ID</th>
+                        <th style="width:150px">Location</th>
+                        <th style="width:80px">Date</th>
+                        <th style="width:80px" ng-show="ShowBillNo">Bill NO</th>
+                        <th ng-hide="Running" style="width:80px">Qty</th>
+                        <th ng-hide="Running" style="width:80px">UAN</th>
+                        <th ng-show="Running" style="width:80px">Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in Orders"
+                        class="ng-style: item.valid == 0 && {backgroundColor:'lightgray'};">
+                        <td ng-hide="Running">
+                            <input type="checkbox" ng-model="item.selected"
+                                   ng-disabled="!item.valid"
+                                   ng-change="SelectedChanged()" />
+                        </td>
+                        <td>{{item.MOrderNo	}}</td>
+                        <td>{{item.Location	}}</td>
+                        <td>{{item.BillDate	|date:dd-MM-yyyy}}</td>
+                        <td ng-show="ShowBillNo">{{item.BillNo}}</td>
+                        <td ng-hide="Running">{{item.Qty}}</td>
+                        <td ng-hide="Running">{{item.count}}</td>
+                        <td ng-show="Running">{{item.errormessage}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-12"
+             ng-show="OrderInfo.ecomstatus.validpo != OrderInfo.ecomstatus.noofbill"
+             style="padding-top:10px;font-size:large;color:orangered">
+            VALID ONLY {{OrderInfo.ecomstatus.validbill}} OUT OF {{OrderInfo.ecomstatus.noofbill}} ORDERS
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.ecomstatus.missingcompany.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-4">Missing Company</div>
+            <div class="col-md-4" ng-repeat="item in OrderInfo.ecomstatus.missingcompany">
+                {{item}}
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.ecomstatus.missinglocation.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-4">Missing Locations</div>
+            <div class="col-md-4" ng-repeat="item in OrderInfo.ecomstatus.missinglocation">
+                {{item}}
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.ecomstatus.missingcustomers.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-3">Missing Customer</div>
+            <div class="col-md-9">
+                <div class="col-md-6" ng-repeat="item in OrderInfo.ecomstatus.missingcustomers">{{item}}</div>
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.ecomstatus.missinguan.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-3">Missing UAN</div>
+            <div class="col-md-9">
+                <div class="col-md-6" ng-repeat="item in OrderInfo.ecomstatus.missinguan">{{item}}</div>
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.ecomstatus.missingqty.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-3">Missing QTY UAN</div>
+            <div class="col-md-9">
+                <div class="col-md-6" ng-repeat="item in OrderInfo.ecomstatus.missingqty">{{item}}</div>
+            </div>
+        </div>
+        <div class="col-md-12" style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-4" ng-hide="Running">
+                <label for="inputEmail3" class="control-label">Importing Orders</label>
+                <div style="font-size:large" class="pull-right">
+                    {{Count}}/{{OrderInfo.ecomstatus.noofbill}}
+                </div>
+            </div>
+            <div class="col-md-4" ng-show="Running">
+                <label for="inputEmail3" class="control-label">Importing</label>
+                <div style="font-size:large" class="pull-right">
+                    {{UploadedingStatus.status}}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-show="stockfailed" ng-click="MissingStock()">Stock Failed</button>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-show="Count>0 && Running == false" ng-click="Save()">Save</button>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="ManagePersons">
+    <div class="ngdialog-message">
+
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Code</label>
+                <div class="input-group input-group-sm col-sm-9 no-padding">
+                    <input type="text" class="input-sm form-control" placeholder="Code"
+                           ng-model="code" focusid="code" focusonenter="name">
+                </div>
+            </div>
+        </div>
+
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Name</label>
+                <div class="input-group input-group-sm col-sm-9 no-padding">
+                    <input type="text" class="input-sm form-control" placeholder="Name"
+                           ng-model="name" focusid="name" focusonenter="name">
+
+                </div>
+            </div>
+        </div>
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="txtname" class="col-md-3 control-label">Role</label>
+
+                <div class="input-group input-group-sm col-sm-9 no-padding">
+                    <select class="form-control select2" style="width: 100%;" select2=""
+                            options="item.id as item.name for item in PersonRoles track by item.id"
+                            ng-model="Referencelist.referenceid"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

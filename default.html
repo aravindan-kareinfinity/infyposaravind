@@ -1,0 +1,348 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="InfinityLab" ng-controller="DefaultController">
+<head>
+    <meta charset="utf-8">
+    <title>{{Data.schoolname}}</title>
+
+    <meta http-equiv="Content-Type" content="type/html; charset=utf-8" />
+    <meta name="google-site-verification" content="84CjqXdbt9IkjILiIXbW1TNwh-iapAZJMI1IiOV9Xi8" />
+    <meta name="description" content="K2B is a new start-up in Bangalore the silicon valley of India, aiming to provide international quality of systems integration and maintenance services, to the corporate houses at large. We are specialized in providing personalized, user-friendly, innovative and integrated solutions for your business in the field of security.  Our aim is to deliver services that, meet the needs of customers in a variety of applications." />
+    <meta name="keywords" content="">
+    <meta name="robots" content="index,follow" />
+    <meta name="DC.title" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <meta name="author" content="Prakasam Mathaiyan">
+
+    <!--[if IE]>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="assets/plugins/lib/modernizr-custom.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="assets/css/responsive.css" media="screen">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/style-default.css" title="red" media="screen" />
+    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+
+    <!-- Angular Js -->
+    <script src="Clientside/angular/Angular.js"></script>
+
+    
+    <script src="Clientside/angular/angular.ui.router.js"></script>
+    <script src="clientside/main/angular-local-storage.js"></script>
+    <script src="clientside/main/angular-route.js"></script>
+    <script src="Clientside/angular/angular-sanitize.js"></script>
+    
+    
+
+    <link rel="stylesheet" href="clientside/plugins/ngdialog/ngDialog-theme-default.css" />
+    <link href="clientside/plugins/ngdialog/ngDialog.css" rel="stylesheet" />
+    <link href="clientside/plugins/ngdialog/ngDialog-theme-plain.css" rel="stylesheet" />
+    <script src="clientside/plugins/ngdialog/ngDialog.js"></script>
+
+    
+    <script src="clientside/main/app.js"></script>
+    <script src="clientside/main/loading-bar.js"></script>
+    <script src="clientside/main/authService.js"></script>
+    <script src="clientside/main/authInterceptorService.js"></script>
+    <script src="clientside/main/RESTService.js"></script>
+    <script src="clientside/main/loginController.js"></script>
+    <script src="Clientside/main/DefaultController.js?V=10"></script>
+</head>
+<body>
+    <div id="preloader"><div id="status">&nbsp;</div></div>
+
+    <div id="container">
+
+        <header class="clearfix">
+            <nav class="navbar navbar-default navbar-static-top">
+                <nav class="navigation">
+                    <div class="container">
+
+                        <div class="logo">
+                            <img ng-src="{{Data.logo}}">
+                        </div>
+
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="navbar-collapse collapse">
+                            <ul class="nav navbar-nav">
+                                <li><a class="active" href="#home">Home</a></li>
+                                <li><a href="#welcome" data-scroll="about">About Us</a></li>
+                                <li><a href="#solutions">Facilities</a></li>
+                                <!--<li><a href="#services">Services</a></li>-->
+                                <li><a href="#work">Image Gallery</a></li>
+                                <!--<li><a href="blog/">Blog</a></li>-->
+                                <li><a href="#contact">Contact Us</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </nav>
+            </nav>
+        </header>
+
+        <section id="home" class="sliderwrapper clearfix section">z
+            <div class="tp-banner-container">
+                <div class="tp-banner">
+                    <ul>
+
+                        <li data-transition="fade" data-slotamount="7" data-masterspeed="1500" ng-repeat="item in Data.slides">
+                            <!-- MAIN IMAGE -->
+                            <img ng-src="{{item.image}}"/>
+                            
+
+                            <div class="tp-dottedoverlay twoxtwo"></div>
+
+                            <div class="caption very_big_white"
+                                 data-x="250"
+                                 data-y="240"
+                                 data-speed="300"
+                                 data-start="2200"
+                                 data-easing="easeOutExpo">
+                                {{item.title}}
+                            </div>
+
+                            <!-- THE CAPTIONS IN THIS SLDIE -->
+                            <div class="caption small_text"
+                                 data-x="480"
+                                 data-y="320"
+                                 data-speed="300"
+                                 data-start="2000"
+                                 data-easing="easeOutExpo">
+                                {{item.subtitle}}
+                            </div>
+                        </li>
+
+                    </ul>
+                    <div class="tp-bannertimer"></div>
+                </div>
+            </div>
+
+            <div class="get-start">
+                <a href="#welcome">
+                    <img src="assets/images/mouse.svg" alt="">
+                </a>
+            </div>
+        </section><!-- end slider-wrapper -->
+
+        <div id="onepage-content">
+
+            <div class="container">
+                <div class="welcome" id="welcome">
+                    <h1 class="main-title">{{Data.welcome.title}}</h1>
+                    <div class="main-border"></div>
+                    <p ng-bind-html="Data.welcome.display"></p>
+                </div>
+            </div>
+
+
+            <div class="our-team section black-bg" id="about" data-anchor="about">
+                <div class="container">
+
+                    <div class="col-md-12 mb50" ng-repeat="item in Data.aboutus">
+                        <h1 class="main-title">{{item.title}}</h1>
+                        <div class="main-border"></div>
+                        <p ng-bind-html="item.display"></p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="our-work section" id="solutions">
+                <div class="container">
+                    <h1 class="main-title">{{Data.ftitle}}<br><small style="font-size: 12px;">Out-of-the-Box security integration</small></h1>
+                    <!--<h1 class="main-title">Facilities<br><small style="font-size: 12px;">{{Data.title}}</small></h1>-->
+                    <div class="main-border"></div>
+
+                    <div class="row text-center mb30">
+
+                        <div class="col-md-4 col-sm-6" ng-repeat="item in Data.facilities" style="height:300px;">
+                            <div class="adv-item mb30">
+                                <img src="{{item.icon}}">
+                                <div class="right-feat">
+                                    <h4>{{item.heading}}</h4>
+                                    <p ng-bind-html="item.description"></p>
+                               </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="blog section" id="work">
+            <div class="container">
+
+                <h1 class="main-title">{{Data.ititle}}</h1>
+                <div class="main-border"></div>
+               
+                <div class="row">
+
+                    <div class="col-md-4 mb20">
+                        <div class="blog-item">
+                            <div class="flexslider">
+                                <ul class="slides">
+                                    <li ng-repeat="item in Data.image_1"> <img ng-src="{{item.image}}"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb20">
+                        <div class="blog-item">
+                            <div class="flexslider">
+                                <ul class="slides">
+                                    <li ng-repeat="item in Data.image_2"> <img ng-src="{{item.image}}"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>              
+
+                    <div class="col-md-4 mb20">
+                        <div class="blog-item">
+                            <div class="flexslider">
+                                <ul class="slides">
+                                    <li ng-repeat="item in Data.image_3"> <img ng-src="{{item.image}}"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <em class="text-muted" style="font-size: 9px;">*The above mentioned images are purely for representation purposes only.  Exact solutions may vary as per individual client's requirement.</em>
+            </div>
+        </div>
+
+
+        <div class="contact parallax2 section" id="contact">
+            <div class="container">
+
+                <h1 class="main-title">{{Data.ctitle}}</h1>
+                <div class="main-border"></div>
+                <!--              <p class="main-subtitle">General contact form</p>
+                <!-->
+                <div class="row">
+
+                    <div class="col-md-4 mb20 ">
+                        <div class="contact-item">
+                            <i class="fa fa-phone"></i>
+                            <h5>Call Us</h5>
+                            <!--<a href="#" ng-repeat="item in Data.mobilenumber">{{item.callus}}</a>-->
+                            <p>{{Data.mobilenumber}}</p>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb20">
+                        <div class="contact-item">
+                            <i class="fa fa-envelope"></i>
+                            <h5>Mail Us</h5>
+                            <a href="#" target="_top">{{Data.emailid}}</a>
+                            <span>Or just fill the form below</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb20">
+                        <div class="contact-item">
+                            <i class="fa fa-map-marker"></i>
+                            <h5>Reach Us</h5>
+                            <p>{{Data.address}}</p>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="contact-form container section blog" style="background-color: #fff;">
+
+            <h1 class="main-title">Write to<span style="color: #d43d44;">us</span></h1>
+            <div class="main-border"></div>
+
+            <form id="contact-form" action="contact-form/send.php" method="post">
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <label>Name</label>
+                        <input name="name" id="name" type="text" ng-model="Form.name">
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <label>Email</label>
+                        <input name="email" id="mail" type="text" ng-model="Form.email">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Subject</label>
+                        <input name="subject" id="subject" type="text" ng-model="Form.subject">
+                    </div>
+
+                </div>
+
+                <label>Message</label>
+                <textarea name="message" id="message" ng-model="Form.message"></textarea>
+                <div>
+                    <center><button type="button" class="btnMarginer btn btn-danger" ng-click="Save()">Submit</button></center>
+                </div>
+                <!-- <input type="submit" value="Submit" id="submit">
+                 <div class="form-success clearfix">
+                     <p><i class="fa fa-check"></i> Thank you, your message has been sent.</p>
+                 </div>-->
+            </form>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="inner-footer container">
+
+            <div id="back-to-top"><a href="#top">Back to Top</a></div>
+
+            <div class="foot-logo">
+                <img ng-src="{{Data.logo}}">
+            </div>
+
+            <ul class="foot-socials">
+                <li><a href="https://www.linkedin.com/in/k2b-secure-access-control-solutions-3a7903123/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                <li><a href="https://www.youtube.com/channel/UCrvI92Unid2X7dzE3P6h6Sg/" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                <li><a href="https://www.facebook.com/K2B-Secure-Solutions-Pvt-Ltd-283085935415597/" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="https://plus.google.com/109070219086268880395/" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                <li><a href="https://www.instagram.com/k2b_secure_solutions/" target="_blank"><i class="fa fa-instagram"></i></a></li>
+            </ul>
+
+            <div class="copyright">© 2017 {{Data.companyname}}</div>
+
+        </div>
+        <!-- end contanir & inner-footer -->
+    </footer>
+
+
+
+
+    <script type="text/javascript" src="assets/plugins/lib/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/slider-revolution/jquery.themepunch.plugins.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/slider-revolution/jquery.themepunch.revolution.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/lib/jquery.parallax.js"></script>
+    <script type="text/javascript" src="assets/plugins/lib/plugins.js"></script>
+    
+
+    <script type="text/javascript" src="assets/js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,522 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a> Analytical / 
+            Purchase Return Analyser
+
+        </h1>
+        <ol class="breadcrumb">
+            
+            <li ng-click="history(null)"><i class="fa fa-asterisk"></i> Home</li>
+            <li ng-repeat="item in SecondaryCondtions" ng-click="history(item,$index)"><i class="fa fa-angle-double-down"></i> {{item.primary.name}}</li>
+
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+                <!-- STOCK ANALYSIS Report -->
+                <div class="col-md-12" ng-show="SearchCondition.ShowAnalyis">
+                    
+                        <div class="box-body">
+
+                            <div class="row">
+                                <div class="col-md-4">
+
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-5 control-label">Date Range</label>
+                                        <div class="col-sm-7 col-md-7 no-padding">
+                                            <input type="text" daterange="SearchCondition.fromdate,SearchCondition.todate" class="form-control pull-right input-sm">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="row row-padbot-15">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-md-2 control-label">Reports</label>
+                                            <div class="col-md-8">
+                                                <select class="form-control input-sm" style="width: 100%;" select2="" options="report.id as report.name for report in ReportList track by report.id" ng-model="reportid"></select>
+                                            </div>
+                                            <button type="button" class="fa fa-dashboard btn btn-success btn-sm" ng-show="reportid>0" ng-click="ShowCurrentReport()"></button>
+                                            <button type="button" class="fa fa-bar-chart btn btn-success btn-sm" ng-show="reportid>0" ng-click="ShowSaveDialog(GetCurrentReport())"></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <button type="button" class="fa fa-image btn btn-info btn-sm pull-right"
+                                            ng-show="License.imagegallery && ShowImage && UserInfo.p_IMAGEGALLERY.view"
+                                            ng-click="ShowImageDialog()">
+                                        &nbsp;Gallery
+                                    </button>
+                                    <button type="button" class="fa fa-file-excel-o btn btn-primary btn-sm pull-right" ng-click="exporttoExcel(irgrid,'Debit Note Analyser')">&nbsp;Excel</button>
+                                    <button type="button" class="fa fa-recycle btn btn-primary btn-sm pull-right" ng-click="Clear()">&nbsp;Clear</button>
+                                    <button type="button" class="fa fa-columns btn btn-primary btn-sm pull-right" ng-click="ShowSaveDialog(null)">&nbsp;Report</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="row row-padbot-15">
+                                        <div class="col-md-12" id="report">
+                                            <div class="table-responsive mailbox-messages">
+                                                <table class="fixed_table" id="stockanalyser" additionalheight="0" fixed-header="445px">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="col-md-12 no-padding">
+                                                                    <span ng-hide="filter_name" style="z-index:3000">Name</span>
+                                                                    <input ng-show="filter_name" ng-model="filter_name_value" type="text" class="input-sm" style="border:0px;z-index:3000;width:85%;padding-left:5px;padding-right:20px" placeholder="Name" />
+                                                                    <button type="button" class="btn btn-box-tool pull-right" style="z-index:3001;padding-right:10px" ng-click="headerclick('filter_name')">
+                                                                        <i class="fa" ng-class="filter_name_style"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in Options | filter:filter_name_value" ng-click="selected(item)" ng-style="item.style">
+                                                            <td tablecell>{{item.name}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="row row-padbot-15">
+                                        <div class="col-md-12" id="report">
+
+                                            <div class="col-md-12 no-padding" id="gridResultContainer">
+
+                                            </div>
+
+                                            <!--<div class="table-responsive mailbox-messages">
+                                                <table class="fixed_table" id="stockanalyser" fixed-header="500px">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="col-md-12 no-padding" ng-dblclick="headerclick('filter_value')">
+                                                                    <span ng-hide="filter_value" style="z-index:3000">Name</span>
+                                                                    <input ng-show="filter_value" ng-model="filter_value_value" type="text" class="input-sm" style="border:0px;z-index:3000;width:85%;padding-left:5px;padding-right:20px" placeholder="Name" />
+
+                                                                    <button type="button" ng-hide="true" class="btn btn-box-tool pull-left" style="z-index:3001;padding-right:3px" ng-click="headerclick('filter_all_value')">
+                                                                        <i class="fa" ng-class="filter_all_style"></i>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-box-tool pull-left" style="z-index:3001;padding-right:10px" ng-click="headerclick('filter_value')">
+                                                                        <i class="fa" ng-class="filter_value_style"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </th>
+                                                            <th style="width:125px">
+                                                                <div class="col-md-12 no-padding">
+                                                                    <button type="button" class="btn btn-box-tool" style="z-index:3001;" ng-click="SortField('qty',SearchResult,$event)">
+                                                                        <i class="fa fa-sort-amount-asc"></i>
+                                                                    </button>
+                                                                    <span style="z-index:3000">Qty</span>
+                                                                </div>
+                                                            </th>
+                                                            <th style="width:125px">
+                                                                <div class="col-md-12 no-padding" ng-dblclick="headerclick('filter_all_value')">
+
+                                                                    <button type="button" class="btn btn-box-tool" style="z-index:3001;" ng-click="SortField('value',SearchResult,$event)">
+                                                                        <i class="fa fa-sort-amount-asc"></i>
+                                                                    </button>
+
+                                                                    <span style="z-index:3000">Cost</span>
+                                                                </div>
+                                                            </th>
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in SearchResult | filter:filter_value_value" ng-click="secondaryselected(item)" ng-style="item.style">
+                                                            <td>{{item.name}}</td>
+                                                            <td class="text-right" style="padding-right:5px">{{item.qty|IndianNumber:2}}</td>
+                                                            <td class="text-right" style="padding-right:5px">{{item.value|IndianNumber:2}}</td>
+                                                        </tr>
+                                                    </tbody>
+
+                                                </table>
+                                            </div>-->
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+
+                        
+                    </div>
+                </div>
+
+
+                <!--<div class="col-md-12" ng-show="SearchCondition.ShowReport">
+                    <div class="box no-border">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-2 pull-right">
+                                    <button type="button" class="fa fa-reply btn btn-primary btn-sm pull-right" ng-click="Back()">&nbsp;Back</button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <table class="fixed_table" id="rptstockanalyser" fixed-header="500px">
+                                    <thead>
+                                        <tr>
+                                            <th ng-repeat="item in SearchCondition.Columns">
+                                                <div class="th-inner" style="background-color:white">{{item}}</div>
+                                            </th>
+                                            <th ng-repeat="item in SearchCondition.AdditionalColumns">
+                                                <div class="th-inner" style="background-color:white">{{item.headername}}</div>
+                                            </th>
+                                            <th style="width:100px">
+                                                Stock
+                                            </th>
+                                            <th style="width:100px">
+                                                Cost
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in ReportResult">
+                                            <td ng-repeat="idx in SearchCondition.ColumnIndex">
+                                                {{item.String[idx]}}
+                                            </td>
+                                            <td ng-repeat="idx in SearchCondition.AdditionalColumns">
+                                                {{item.String[idx.index]}}
+                                            </td>
+                                            <td>{{item.qty|IndianNumber:2}}</td>
+                                            <td class="text-right" style="padding-right:5px">{{item.value|IndianNumber:2}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+
+
+                <div class="col-md-12" ng-show="SearchCondition.ShowGroup || SearchCondition.ShowReport">
+                    <div class="box no-border">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-2 pull-right row-padbot-15">
+                                    <button type="button" class="fa fa-file-excel-o btn btn-primary btn-sm pull-right" ng-click="exporttoExcel(igrid,'Stock')">&nbsp;Excel</button>
+                                    <button type="button" class="fa fa-reply btn btn-primary btn-sm pull-right" ng-click="Back()">&nbsp;Back</button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-12 no-padding" id="gridContainer">
+
+                                </div>
+
+                                <!--<table class="fixed_table" id="groupstockanalyser" fixed-header="500px">
+                                    <thead>
+                                        <tr>
+                                            <th ng-repeat="item in GroupResult.Columns" width="100px">
+                                                <div class="th-inner" style="text-align:center;border-right:1px solid #ccc">{{item.Header}}</div>
+                                            </th>
+                                            <th ng-repeat="item in GroupResult.Groups" width="100px">
+                                                <div class="th-inner" style="text-align:center;border-right:1px solid #ccc"><span>{{item.Header}}</span></div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in GroupResult.Items">
+                                            <td ng-repeat="idx in GroupResult.Columns" width="100px" style="padding-right:2px;border-right:1px solid #ccc">
+
+                                                {{item.String[idx.Index]}}
+                                            </td>
+                                            <td ng-repeat="idx in GroupResult.ResultGroups" width="50px" style="text-align:right;border-right:1px solid #ccc;padding-right:2px">
+                                                {{item.GroupValues[idx.Index]|IndianNumber:2}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+<script type="text/ng-template" id="SaveReport">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <div class="md-col-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-4 control-label">Title</label>
+                        <div class="col-sm-8 col-md-8">
+                            <input type="text" style="width:100%" ng-model="Report.Title" />
+                        </div>
+                    </div>
+                </div>
+                <div class="md-col-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-4 control-label">Description</label>
+                        <div class="col-sm-8 col-md-8">
+                            <textarea type="text" style="width:100%" ng-model="Report.Description" rows="2" />
+                        </div>
+                    </div>
+                </div>
+                <div class="md-col-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-4 control-label">Column Group</label>
+                        <div class="col-sm-8 col-md-8">
+                            <select class="form-control input-sm" style="width: 100%;" select2="" options="report.id as report.name for report in GroupColumns track by report.id" ng-model="Report.GroupCoumn"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-4 control-label">Columns</label>
+                        <div class="col-sm-8 col-md-8">
+                            <div style="display:inline;padding-right:10px"><input type="checkbox" ng-model="Report.ResultColumn.qty" /> Qty</div>
+                            <div style="display:inline;padding-right:10px" ng-show="SHOWVALUE"><input type="checkbox" ng-model="Report.ResultColumn.value" /> Value</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md-col-12">
+                    <div class="form-group">
+
+                        <div class="col-sm-12 col-md-12">
+                            <table class="fixed_table" id="stockanalyser" fixed-header="200px">
+                                <thead>
+                                    <tr>
+                                        <th width="30px">&nbsp;</th>
+                                        <th width="150px">Type</th>
+                                        <th>Values</th>
+                                        <th width="20px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SecondaryCondtions">
+                                        <td><input type="checkbox" ng-model="item.ShowColumn" /></td>
+                                        <td>{{item.typeName}}</td>
+                                        <td>
+                                            <div style="width:400px;height:30px;overflow:hidden">
+                                                <span ng-repeat="itm in item.nameList track by $index |limitTo: 5">{{itm}}&nbsp;</span>
+                                            </div>
+                                        </td>
+                                        <td><i class="fa fa-trash-o" aria-hidden="true" ng-click="DeleteItem(item)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="md-col-12">
+                    <div class="form-group">
+                        <div class="col-sm-12 col-md-12">
+
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">PRODUCT</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Product" /></div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">BRAND</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Brand" /></div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">STYLE</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Style" /></div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">PATTERN</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Pattern" /></div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">SIZE</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Size" /></div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">COLOUR</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Colour" /></div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">TYPE</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Type" /></div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">DESIGN</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Design" /></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <hr />
+            <div class="col-md-4">
+                <div class="col-md-8 no-padding">ALL COLUMN</div>
+                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.All" ng-change="SelectAll(Report.Column.All)" /></div>
+            </div>
+            <button type="button" class="ngdialog-button btn-danger" ng-show="Report.id>0" ng-click="Delete()">Delete</button>
+            <button type="button" class="ngdialog-button btn-success" ng-click="ShowReport()">View</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Save()">Save</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="ImageReport">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+
+                <div class="md-col-12">
+                    <div class="form-group">
+
+                        <div class="col-sm-12 col-md-12">
+                            <table class="fixed_table" id="stockanalyser" fixed-header="200px">
+                                <thead>
+                                    <tr>
+                                        <th width="30px">&nbsp;</th>
+                                        <th width="150px">Type</th>
+                                        <th width="20px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SecondaryCondtions">
+                                        <td><input type="checkbox" ng-model="item.ShowColumn" /></td>
+                                        <td>{{item.typeName}}</td>
+                                        <td>
+                                            <div style="width:400px;height:30px;overflow:hidden">
+                                                <span ng-repeat="itm in item.nameList track by $index |limitTo: 5">{{itm}}&nbsp;</span>
+                                            </div>
+                                        </td>
+                                        <td><i class="fa fa-trash-o" aria-hidden="true" ng-click="DeleteItem(item)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="md-col-12">
+                    <div class="form-group">
+                        <div class="col-sm-12 col-md-12">
+
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">PRODUCT</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Product" /></div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">BRAND</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Brand" /></div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">STYLE</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Style" /></div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">PATTERN</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Pattern" /></div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">SIZE</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Size" /></div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">COLOUR</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Colour" /></div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">TYPE</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Type" /></div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-8 no-padding">DESIGN</div>
+                                <div class="col-md-4"><input type="checkbox" ng-model="Report.Column.Design" /></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <div class="col-md-12" style="padding-top: 20px;padding-left: 0px;padding-right: 0px;">
+                <div class="col-md-6">
+                    <div class="col-md-4 no-padding">
+                        <label class="col-md-12 no-padding">Rows</label>
+                        <div class="col-md-12 no-padding">
+
+                            <select class="input-sm" style="width:100%" ng-model="RowCount">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 no-padding">
+                        <label class="col-md-12 no-padding">Columns</label>
+                        <div class="col-md-12 no-padding">
+                            <select class="input-sm" style="width:100%" ng-model="ColumnCount">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 no-padding">
+                        <label class="col-md-12 no-padding">Details</label>
+                        <select class="input-sm" style="width:100%" ng-model="DetailPosition">
+                            <option value="0">None</option>
+                            <option value="1">Top</option>
+                            <option value="2">Bottom</option>
+                            <option value="3">Left</option>
+                            <option value="4">Right</option>
+                        </select>
+                        <!--<input type="checkbox" ng-model="ShowDescription" /><label style="padding-left:10px">Detail Cell</label>-->
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-12 no-padding">
+                        <label>&nbsp;</label>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <button type="button" class="btn btn-sm btn-primary pull-right" ng-click="closeThisDialog()">
+                            <i class="fa fa-remove">&nbsp;Close</i>
+                        </button>
+
+                        <button type="button" style="margin-right:10px" class="btn btn-sm btn-primary pull-right" ng-click="DownloadReport()">
+                            <i class="fa fa-file-pdf-o">&nbsp;Download</i>
+                        </button>
+                        <button type="button" style="margin-right:10px" class="btn btn-sm btn-primary pull-right" ng-click="ShowReport()">
+                            <i class="fa fa-file-image-o">&nbsp;View</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

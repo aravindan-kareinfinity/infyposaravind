@@ -1,0 +1,503 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+
+
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Analytical / Report Builder
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-hide="ShowPivot" ng-click="Load()"><a><i class="fa fa-edit"></i>Load</a></li>
+            <li style="cursor:pointer" ng-hide="ShowPivot" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li style="cursor:pointer" ng-hide="ShowPivot" ng-click="GenerateReport()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li style="cursor:pointer" ng-hide="!ShowSearchResult || ShowSearchResult==null || ShowPivot" ng-click="exporttoExcel(igrid,'LR')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-show="!ShowPivot && !ShowSearchResult" ng-click="DownloadDump()"><a><i class="fa fa-download"></i>{{DownloadDumpStatus}}</a></li>
+            <li style="cursor:pointer" ng-show="ShowSearchResult && !ShowPivot" ng-click="Pivot()"><a><i class="fa fa-database"></i>Pivot</a></li>
+            <li style="cursor:pointer" ng-show="ShowSearchResult && !ShowPivot" ng-click="DynamicPivot()"><a><i class="glyphicon glyphicon-random"></i>Dynamic Pivot</a></li>
+            <li style="cursor:pointer" ng-show="ShowPivot" ng-click="SaveWidget()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li style="cursor:pointer" ng-show="ShowPivot" ng-click="HideTool()"><a><i class="fa fa-bar-chart"></i></a></li>
+            <li style="cursor:pointer" ng-show="ShowPivot" ng-click="ShowTool()"><a><i class="fa fa-connectdevelop"></i></a></li>
+            <li style="cursor:pointer" ng-show="ShowSearchResult" ng-click="ShowSearchResult=false;ShowPivot=false"><a><i class="fa fa-arrow-left"></i>Back</a></li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box box-primary" ng-hide="ShowSearchResult">
+            <div class="box-body">
+                <div class="col-md-12">
+                    <div class="col-md-3 no-padding">
+
+                        <label for="inputEmail3" class="control-label" style="color:green"><b>SOURCE</b></label>
+                        <div class="col-md-12 no-padding">
+                            <select class="form-control" select2="" style="width: 100%;" ng-model="reportmode"
+                                    ng-change="reportmodechanged()"
+                                    ng-options="item.code as item.name for item in ReportTypes track by item.code"></select>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 no-padding">
+                        <label for="inputEmail3" ng-show="reportmode=='SALES' || reportmode=='STOCK'" class="control-label" style="color:green"><b>LOCATION</b></label>
+                        <div class="col-md-12 no-padding" ng-show="reportmode=='SALES' || reportmode=='STOCK'">
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Location track by item.id" ng-model="locationid"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 no-padding">
+                        <label for="inputEmail3" ng-hide="reportmode=='STOCK'" class="control-label" style="color:green"><b>DATE RANGE</b></label>
+                        <div class="col-md-12 no-padding" ng-hide="reportmode=='STOCK'">
+
+                            <div class="input-group date" style="width:100%">
+
+                                <div class="col-md-12" style="padding-left:0px; padding-right:40px" ng-show="defaultdate">
+                                    <input ng-show="defaultdate"
+                                           type="text" class="form-control input-sm datepicker"
+                                           daterange="fromdate,todate" ng-model="creteriadate">
+                                </div>
+
+                                <div class="col-md-12" style="padding-left:0px; padding-right:40px" ng-hide="defaultdate">
+                                    <select ng-hide="defaultdate"
+                                            class="form-control input-sm"
+                                            style="width: 100%;"
+                                            ng-model="defaultdatrange"
+                                            ng-options="item.code as item.name for item in DateRanges track by item.code"></select>
+                                </div>
+
+                                <div style="position:absolute;right:1px;top:1px">
+                                    <button ng-show="defaultdate"
+                                            style="position:absolute;right:0px;z-index:100"
+                                            class="btn-info btn-sm" ng-click="defaultdate=!defaultdate">
+                                        <i class="fa fa-arrow-left" style="font-size:small"></i>
+                                    </button>
+
+                                    <button ng-hide="defaultdate"
+                                            style="position:absolute;right:0px;z-index:100"
+                                            class="btn-info btn-sm" ng-click="defaultdate=!defaultdate">
+                                        <i class="fa fa-arrow-right" style="font-size: small "></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 no-padding">
+                        <div class="col-md-12 no-padding">
+                            <label for="inputEmail3" class="col-md-6 no-padding"><b>REPORT</b></label>
+                            <div class="col-md-6 no-padding">
+                                <button type="button" class="fa fa-trash btn btn-primary btn-xs pull-right" ng-show="reportid && reportid>0" ng-click="DeleteReport()">&nbsp;Delete</button>
+                                <button type="button" class="fa fa-save btn btn-primary btn-xs pull-right" ng-click="ShowSaveDialog(reportid)">&nbsp;Save</button>
+                                <button type="button" class="fa fa-file btn btn-primary btn-xs pull-right" ng-show="reportid && reportid>0" ng-click="LoadReport()">&nbsp;Load</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <select class="form-control input-sm" style="width: 100%;" select2="" options="report.id as report.name for report in ReportList track by report.id" ng-model="reportid"></select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12" style="padding-top:10px">
+                    <div class="col-md-3 no-padding">
+
+
+
+                        <div class="table-responsive mailbox-messages">
+                            <table fixed-header="250px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="color:brown">ATTRIBUTES</th>
+                                        <th style="width:50px">&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" ng-model="allattribute" ng-click="SelectAll(frefattributes,allattribute)" ng-change="AddColumns()"></th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="item in frefattributes">
+                                    <td>{{item.name}}</td>
+                                    <td><input type="checkbox" ng-model="item.selected"></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3 no-padding">
+
+
+                        <div class="table-responsive mailbox-messages">
+                            <table fixed-header="250px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="color:brown">FIELDS</th>
+                                        <th style="width:50px">&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" ng-model="allbusiness" ng-click="SelectAll(frefbusiness,allbusiness)"></th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="item in frefbusiness">
+                                    <td>{{item.name}}</td>
+                                    <td><input type="checkbox" ng-model="item.selected"></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3 no-padding">
+
+
+                        <div class="table-responsive mailbox-messages">
+                            <table fixed-header="250px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="color:brown">AGGREGATOR</th>
+                                        <th style="width:50px">&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" ng-model="allaggregate" ng-click="SelectAll(frefaggregate,allaggregate)"></th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="item in frefaggregate">
+                                    <td>{{item.name}}</td>
+                                    <td><input type="checkbox" ng-model="item.selected"></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3 no-padding">
+
+
+                        <div class="table-responsive mailbox-messages">
+                            <table fixed-header="250px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="color:brown">CONDITIONS</th>
+                                        <th style="width:50px">&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" ng-model="allsuppliers" ng-click="SelectAll(refconditions,allsuppliers)"></th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="item in frefconditions">
+                                    <td>{{item.name}}</td>
+                                    <td><input type="checkbox" ng-model="item.selected"></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    &nbsp;
+                </div>
+
+                <div class="col-md-12 no-padding">
+
+                    <div class="col-md-4 no-padding">
+                        <label for="inputEmail3" class="col-md-12 control-label" style="color:green"><b>CONDITION</b></label>
+                        <div class="col-md-12 control-label">
+                            <select class="form-control" select2="" style="width: 100%;" ng-change="ChangeCreteriaList(reporttype)"
+                                    ng-model="reporttype" options="item.id as item.name for item in Options track by item.id"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 no-padding" ng-show="CurrentOption.type && CurrentOption.type>0">
+                        <label for="inputEmail3" class="col-md-12 control-label" style="color:green"><b>Creteria</b></label>
+                        <button style="position:absolute;top:22px;right:10px;z-index:1000" class="btn btn-sm btn-warning pull-right btn-flat" ng-click="Add()">Add</button>
+
+                        <div class="col-md-12" style="padding-right:35px;padding-left:0px">
+                            <div class="col-md-12" ng-show="CurrentOption.type == 2">
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-model="creteriaid" options="item.id as item.name for item in CreteriaList track by item.id"></select>
+                            </div>
+                            <div class="col-md-12" ng-show="CurrentOption.type == 1">
+                                <input type="text" class="form-control input-sm" ng-model="creteriatext">
+                            </div>
+                            <div class="col-md-12" ng-show="CurrentOption.type == 4">
+                                <div class="col-md-6 no-padding">
+                                    <input type="text" placeholder="From" class="form-control input-sm" ng-model="creterianumberfrom">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <input type="text" placeholder="to" class="form-control input-sm" ng-model="creterianumberto">
+                                </div>
+                            </div>
+                            <div class="col-md-12" ng-show="CurrentOption.type == 0">
+                                <div class="col-md-6 no-padding">
+                                    <input type="text" placeholder="START-INCREMENT-END" class="form-control input-sm" ng-model="creteriatext">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" placeholder="From" class="form-control input-sm" ng-model="creterianumberfrom">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" placeholder="to" class="form-control input-sm" ng-model="creterianumberto">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" ng-show="CurrentOption.type == 3">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input ng-show="CurrentOption.defaultdate"
+                                           type="text" class="form-control input-sm datepicker"
+                                           daterange="creteriadatefrom,creteriadateto" ng-model="creteriadate">
+
+                                    <select ng-hide="CurrentOption.defaultdate"
+                                            class="form-control input-sm"
+                                            style="width: 100%;"
+                                            ng-model="CurrentOption.defaultdatrange"
+                                            ng-options="item.code as item.name for item in DateRanges track by item.code"></select>
+
+                                    <button ng-show="CurrentOption.defaultdate"
+                                            style="position:absolute"
+                                            class="btn-info btn-sm" ng-click="CurrentOption.defaultdate=!CurrentOption.defaultdate">
+                                        <i class="fa fa-arrow-left" style="font-size:small"></i>
+                                    </button>
+
+                                    <button ng-hide="CurrentOption.defaultdate"
+                                            style="position:absolute"
+                                            class="btn-info btn-sm" ng-click="CurrentOption.defaultdate=!CurrentOption.defaultdate">
+                                        <i class="fa fa-arrow-right" style="font-size: small "></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-12" ng-show="CurrentOption.type == 5">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" daterange="creteriadate.fromdate,creteriadate.todate" class="form-control input-sm" startDate="creteriadate.fromdate" endDate="creteriadate.todate">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 no-padding">
+
+                        <label for="inputEmail3" class="col-md-12 control-label" style="color:green"><b>GROUPING</b></label>
+                        <div class="col-md-12 control-label">
+                            <select class="form-control" select2="" style="width: 100%;"
+                                    ng-model="groupcolumn" options="item.index as item.name for item in currentresult.columnlist track by item.id"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    &nbsp;
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-12 no-padding" style="background-color:white;">
+                        <div class="form-group no-padding">
+                            <table class="fixed_table" id="stockanalyser" additionalheight="350" fixed-header="445px">
+                                <thead>
+                                    <tr>
+                                        <th style="width:1000px;color:darkolivegreen">REPORT DESCRIPTION</th>
+                                        <th style="width:100px;color:darkolivegreen">ACTION</th>
+
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in AddedCreteria">
+                                        <td tablecell>{{item.display}}</td>
+                                        <td>
+                                            <button type="button" class="btn-danger btn btn-xs btn-flat" ng-click="ManageItem('Delete',item)"
+                                                    data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary col-md-12" ng-show="ShowSearchResult">
+            <div class="box no-border">
+                <div class="box-body">
+                    <div class="col-md-12 no-padding"
+                         ng-hide="ShowPivot"
+                         id="gridContainer">
+                    </div>
+                    <div class="col-md-12 no-padding"
+                         ng-show="ShowPivot"
+                         style="overflow-y:auto;" ng-style="panelheight"
+                         id="pivotContainer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+
+<script type="text/ng-template" id="SaveReport">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <div class="md-col-12" style="margin-bottom:40px">
+
+                    <label for="inputEmail3" class="col-md-4 control-label">Column Group</label>
+                    <div class="col-sm-8 col-md-8">
+                        <select class="form-control input-sm" style="width: 100%;" select2=""
+                                options="report.id as report.name for report in GroupColumns track by report.id"
+                                ng-model="selectedcolumn"></select>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <div class="md-col-12" style="padding-bottom: 30px;padding-top: 40px;padding-right: 15px;">
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Save()">OK</button>
+                <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="SaveWidget">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <div class="col-md-6 no-padding">
+                    <div class="md-col-12">
+
+                        <label for="inputEmail3" class="col-md-12 control-label">Name</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control input-sm" ng-model="name" />
+                        </div>
+
+                    </div>
+                    <div class="md-col-12">
+
+                        <label for="inputEmail3" class="col-md-12 control-label">Title</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control input-sm" ng-model="title" />
+                        </div>
+
+                    </div>
+                    <div class="md-col-12">
+
+                        <label for="inputEmail3" class="col-md-12 control-label">Storage</label>
+                        <div class="col-sm-12">
+                            <select class="form-control input-sm" style="width: 100%;" select2=""
+                                    options="report.code as report.name for report in StorageModes track by report.code"
+                                    ng-model="datastorage"></select>
+                        </div>
+
+                    </div>
+                    <div class="md-col-12">
+
+                        <label for="inputEmail3" class="col-md-12 control-label">Mode</label>
+                        <div class="col-sm-12">
+                            <select class="form-control input-sm" style="width: 100%;" select2=""
+                                    options="report.code as report.name for report in DisplayModes track by report.code"
+                                    ng-model="displaymode"></select>
+                        </div>
+
+                    </div>
+                    <div class="md-col-12" ng-hide="displaymode=='SINGLE' || displaymode=='DUAL'">
+
+                        <label for="inputEmail3" class="col-md-12 control-label">Hight/Width</label>
+                        <div class="col-sm-12">
+                            <div class="col-sm-6 no-padding">
+                                <select class="form-control input-sm" style="width: 100%;" select2=""
+                                        options="report.code as report.name for report in SIZES track by report.code"
+                                        ng-model="height"></select>
+                            </div>
+                            <div class="col-sm-6 no-padding">
+                                <select class="form-control input-sm" style="width: 100%;" select2=""
+                                        options="report.code as report.name for report in SIZES track by report.code"
+                                        ng-model="width"></select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="md-col-12" ng-show="displaymode=='SINGLE' || displaymode=='DUAL'">
+
+                        <label for="inputEmail3" class="col-md-12 control-label">Hight/Width</label>
+                        <div class="col-sm-12">
+                            <div class="col-sm-6 no-padding">
+                                <input type="text" class="form-control input-sm"
+                                       ng-model="height"
+                                       style="width: 100%;" />
+                            </div>
+                            <div class="col-sm-6 no-padding">
+                                <select class="form-control input-sm" style="width: 100%;" select2=""
+                                        options="report.code as report.name for report in SINGLESIZES by report.code"
+                                        ng-model="width"></select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="md-col-12" ng-show="displaymode=='SINGLE'">
+                        <label for="inputEmail3" class="col-md-12 control-label">VALUE</label>
+                        <div class="col-sm-12">
+                            <select class="form-control input-sm" style="width: 100%;" select2=""
+                                    options="report.name as report.name for report in aggregatelist track by report.name"
+                                    ng-model="firstvalue"></select>
+                        </div>
+                    </div>
+
+                    <div class="md-col-12" ng-show="displaymode=='DUAL'">
+                        <label for="inputEmail3" class="col-md-12 control-label">TOP/BOTTOM</label>
+                        <div class="col-sm-12">
+                            <div class="col-sm-6 no-padding">
+                                <select class="form-control input-sm" style="width: 100%;" select2=""
+                                        options="report.name as report.name for report in aggregatelist track by report.name"
+                                        ng-model="firstvalue"></select>
+                            </div>
+                            <div class="col-sm-6 no-padding">
+                                <select class="form-control input-sm" style="width: 100%;" select2=""
+                                        options="report.name as report.name for report in aggregatelist track by report.name"
+                                        ng-model="secondvalue"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md-col-12">
+                        <label for="inputEmail3" class="col-md-12 control-label">TOP</label>
+                        <div class="col-sm-3" style="padding-right:0px">
+                            <input type="text" class="form-control input-sm" ng-model="topcount" />
+                        </div>
+                        <div class="col-sm-9" style="padding-left:0px">
+                            <select class="form-control input-sm" style="width: 100%;" select2=""
+                                    options="report.name as report.name for report in aggregatelist track by report.name"
+                                    ng-model="topfield"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 no-padding">
+                    <div class="md-col-12" style="padding-left:0px">
+                        <label for="inputEmail3" class=" no-padding col-md-12 control-label">User Access</label>
+                        <div class="col-sm-12 no-padding">
+                            <input type="checkbox" ng-model="accessall"
+                                   class="pull-right" style="margin-right:40px" /> ALL Users
+                        </div>
+                    </div>
+                    <table fixed-header="280px" class="fixed_table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th style="width:50px">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="item in UserList">
+                            <td>{{item.title}}</td>
+                            <td><input type="checkbox" ng-disabled="accessall" ng-model="item.access"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <div class="md-col-12" style="padding-bottom: 30px;padding-top: 40px;padding-right: 15px;">
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Select()">OK</button>
+                <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+</script>

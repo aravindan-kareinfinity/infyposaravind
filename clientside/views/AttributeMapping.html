@@ -1,0 +1,437 @@
+﻿
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Master / Attribute Mapping
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer"><input type="checkbox" ng-model="SearchCondtion.autorefresh" /></li>
+            <li>
+                <select class="input-sm form-control" select2='Product'
+                        style="width:250px"
+                        options="item.id as item.name for item in Products track by item.id"
+                        ng-model="SearchCondtion.productid" ng-change="Show(false)"></select>
+            </li>
+
+            <li style="cursor:pointer" ng-click="Show(true)"><a><i class="fa fa-file"></i>Show</a></li>
+            <li style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li>
+                <select class="input-sm form-control" select2='Favourit'
+                        style="width:250px"
+                        options="item.id as item.name for item in Favourits track by item.id"
+                        ng-model="favouriteid" ng-change="ShowFavourits()"></select>
+            </li>
+            <li style="cursor:pointer" ng-click="SaveFavourite()"><a><i class="fa fa-save"></i>Save Favourite</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body no-border">
+
+                <div class="col-md-8">
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-11 control-label no-padding">Brand</label>
+                                <div class="col-md-11 input-group input-group-sm">
+                                    <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.brandid" options="item.id as item.name for item in BrandList track by item.id"></select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info btn-sm btn-flat pull-left"
+                                                ng-click="ManageList('add',SearchCondtion.brandid,SearchRef(SearchCondtion.brandid, BrandList),attributelist.brand)">
+                                            <i class="glyphicon glyphicon-plus-sign "></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <div class="table-responsive mailbox-messages col-md-11 no-padding">
+                                    <table fixed-header="200px" class="fixed_table" additionalheight="300">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:150px">Name</th>
+                                                <th width="5px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in attributelist.brand">
+                                                <td>{{SearchRef(item,BrandList)}}</td>
+                                                <td>
+                                                    <button type="button" class="btn-danger btn btn-xs"
+                                                            ng-click="ManageList('delete',item,'',attributelist.brand)" data-widget="delete"
+                                                            data-toggle="tooltip" title="Delete">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-11 control-label no-padding">Size</label>
+                                <div class="col-md-11 input-group input-group-sm">
+                                    <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.sizeid" options="item.id as item.name for item in Sizes track by item.id"></select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info btn-sm btn-flat pull-left"
+                                                ng-click="ManageList('add',SearchCondtion.sizeid,SearchRef(SearchCondtion.sizeid, Sizes),attributelist.size)">
+                                            <i class="glyphicon glyphicon-plus-sign "></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <div class="table-responsive mailbox-messages col-md-11 no-padding">
+
+                                    <table fixed-header="200px" class="fixed_table" additionalheight="300">
+                                        <thead>
+                                            <tr>
+
+                                                <th style="width:150px">Name</th>
+                                                <th width="5px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in attributelist.size">
+                                                <td>{{SearchRef(item,Sizes)}}</td>
+                                                <td>
+                                                    <button type="button" class="btn-danger btn btn-xs"
+                                                            ng-click="ManageList('delete',item,'',attributelist.size)" data-widget="delete"
+                                                            data-toggle="tooltip" title="Delete">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 no-padding">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-11 control-label no-padding">Colour</label>
+                                <div class="col-md-11 input-group input-group-sm">
+                                    <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.colorid" options="item.id as item.name for item in Colors track by item.id"></select>
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info btn-sm btn-flat pull-left"
+                                                ng-click="ManageList('add',SearchCondtion.colorid,SearchRef(SearchCondtion.colorid, Colors),attributelist.colour)">
+                                            <i class="glyphicon glyphicon-plus-sign "></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <div class="table-responsive mailbox-messages col-md-11 no-padding">
+
+                                    <table fixed-header="200px" class="fixed_table">
+                                        <thead>
+                                            <tr>
+
+                                                <th style="width:150px">Name</th>
+                                                <th width="5px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in attributelist.colour">
+                                                <td>{{SearchRef(item,Colors)}}</td>
+                                                <td>
+                                                    <button type="button" class="btn-danger btn btn-xs"
+                                                            ng-click="ManageList('delete',item,'',attributelist.colour)" data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-11 control-label no-padding">Style</label>
+                                <div class="col-md-11 input-group input-group-sm">
+                                    <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.styleid" options="item.id as item.name for item in Styles track by item.id"></select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info btn-sm btn-flat pull-left"
+                                                ng-click="ManageList('add',SearchCondtion.styleid,SearchRef(SearchCondtion.styleid, Styles),attributelist.style)">
+                                            <i class="glyphicon glyphicon-plus-sign "></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <div class="table-responsive mailbox-messages col-md-11 no-padding">
+
+                                    <table fixed-header="200px" class="fixed_table">
+                                        <thead>
+                                            <tr>
+
+                                                <th style="width:150px">Name</th>
+
+                                                <th width="5px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in attributelist.style">
+
+                                                <td>{{SearchRef(item,Styles)}}</td>
+
+                                                <td>
+                                                    <button type="button" class="btn-danger btn btn-xs"
+                                                            ng-click="ManageList('delete',item,'',attributelist.style)"
+                                                            data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4 no-padding">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-11 control-label no-padding">Other attributes</label>
+                        <div class="col-md-11 input-group input-group-sm">
+                            <select class="form-control" select2="" style="width: 100%;"
+                                    ng-model="SearchCondtion.otherattribute"
+                                    options="item.id as item.name for item in OtherSources track by item.id"></select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="SearchCondtion.otherattribute == 'Pattern'">
+
+                        <!--<button type="button" class="btn btn-box btn-warning pull-right btn-sm" ng-click="SwitchPanel()">Search</button>-->
+
+                        <div class="col-md-11 input-group input-group-sm">
+                            <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.patternid" options="item.id as item.name for item in Patterns track by item.id"></select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-info btn-sm btn-flat pull-left"
+                                        ng-click="ManageList('add',SearchCondtion.patternid,SearchRef(SearchCondtion.patternid, Patterns),attributelist.pattern)">
+                                    <i class="glyphicon glyphicon-plus-sign "></i>
+                                </button>
+                            </span>
+                        </div>
+
+                        <div class="table-responsive mailbox-messages col-md-11 no-padding">
+
+                            <table fixed-header="200px" class="fixed_table" additionalheight="100">
+                                <thead>
+                                    <tr>
+
+                                        <th style="width:150px">Name</th>
+                                        <th width="5px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in attributelist.pattern">
+
+                                        <td>{{SearchRef(item,Patterns)}}</td>
+
+                                        <td>
+                                            <button type="button" class="btn-danger btn btn-xs"
+                                                    ng-click="ManageList('delete',item,'',attributelist.pattern)" data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="SearchCondtion.otherattribute == 'Material'">
+                        
+                        <div class="col-md-11 input-group input-group-sm">
+                            <select class="form-control" select2="" style="width: 100%;"
+                                    ng-model="SearchCondtion.materialid"
+                                    options="item.id as item.name for item in materials track by item.id"></select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-info btn-sm btn-flat pull-left "
+                                        ng-click="ManageList('add',SearchCondtion.materialid,SearchRef(SearchCondtion.materialid, materials),attributelist.material)">
+
+                                    <i class="glyphicon glyphicon-plus-sign "></i>
+                                </button>
+                            </span>
+                        </div>
+
+                        <div class="col-md-11 no-padding">
+
+                            <table fixed-header="200px" class="fixed_table" additionalheight="100">
+                                <thead>
+                                    <tr>
+                                        <th style="width:150px">Name</th>
+                                        <th width="5px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in attributelist.material">
+                                        <td>{{SearchRef(item,materials)}}</td>
+                                        <td>
+                                            <button type="button" class="btn-danger btn btn-xs"
+                                                    ng-click="ManageList('delete',item,'',attributelist.material)"
+                                                    data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="SearchCondtion.otherattribute == 'Type'">
+                        
+                        <div class="col-md-11 input-group input-group-sm">
+                            <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.typeid" options="item.id as item.name for item in TypeList track by item.id"></select>
+
+                            <span class="input-group-btn">
+                                <button class="btn btn-info btn-sm btn-flat pull-left"
+                                        ng-click="ManageList('add',SearchCondtion.typeid,SearchRef(SearchCondtion.typeid, TypeList),attributelist.type)">
+                                    <i class="glyphicon glyphicon-plus-sign "></i>
+                                </button>
+                            </span>
+                        </div>
+
+                        <div class="table-responsive mailbox-messages col-md-11 no-padding">
+
+                            <table fixed-header="200px" class="fixed_table" additionalheight="100">
+                                <thead>
+                                    <tr>
+
+                                        <th style="width:150px">Name</th>
+
+                                        <th width="5px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in attributelist.type">
+                                        <td>{{SearchRef(item,TypeList)}}</td>
+
+                                        <td>
+                                            <button type="button" class="btn-danger btn btn-xs" ng-click="ManageList('delete',item,'',attributelist.type)"
+                                                    data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" ng-show="SearchCondtion.otherattribute == 'Fit'">
+                        
+                        <div class="col-md-11 input-group input-group-sm">
+                            <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.fitid" options="item.id as item.name for item in FitList track by item.id"></select>
+
+                            <span class="input-group-btn">
+                                <button class="btn btn-info btn-sm btn-flat pull-left"
+                                        ng-click="ManageList('add',SearchCondtion.fitid,SearchRef(SearchCondtion.fitid, FitList),attributelist.fit)">
+                                    <i class="glyphicon glyphicon-plus-sign "></i>
+                                </button>
+                            </span>
+                        </div>
+
+                        <div class="table-responsive mailbox-messages col-md-11 no-padding">
+
+                            <table fixed-header="200px" class="fixed_table" additionalheight="100">
+                                <thead>
+                                    <tr>
+
+                                        <th style="width:150px">Name</th>
+
+                                        <th width="5px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in attributelist.fit">
+                                        <td>{{SearchRef(item,FitList)}}</td>
+
+                                        <td>
+                                            <button type="button" class="btn-danger btn btn-xs" ng-click="ManageList('delete',item,'',attributelist.fit)"
+                                                    data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" ng-show="SearchCondtion.otherattribute == 'Sleeve'">
+                        
+                        <div class="col-md-11 input-group input-group-sm">
+                            <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondtion.sleeveid" options="item.id as item.name for item in SleeveList track by item.id"></select>
+
+                            <span class="input-group-btn">
+                                <button class="btn btn-info btn-sm btn-flat pull-left"
+                                        ng-click="ManageList('add',SearchCondtion.sleeveid,SearchRef(SearchCondtion.sleeveid, SleeveList),attributelist.sleeve)">
+                                    <i class="glyphicon glyphicon-plus-sign "></i>
+                                </button>
+                            </span>
+                        </div>
+
+                        <div class="table-responsive mailbox-messages col-md-11 no-padding">
+
+                            <table fixed-header="200px" class="fixed_table" additionalheight="100">
+                                <thead>
+                                    <tr>
+
+                                        <th style="width:150px">Name</th>
+
+                                        <th width="5px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in attributelist.sleeve">
+                                        <td>{{SearchRef(item,SleeveList)}}</td>
+
+                                        <td>
+                                            <button type="button" class="btn-danger btn btn-xs" ng-click="ManageList('delete',item,'',attributelist.sleeve)"
+                                                    data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+        <!-- /.row -->
+
+    </section>
+</div>
+

@@ -1,0 +1,789 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Warehouse / Physical Stock Audit
+        </h1>
+
+        <ol class="breadcrumb" ng-show="SearchCondition.mode=='5'">
+            <li style="cursor:pointer" ng-hide="selectedcount>0" ng-click="exporttoExcel(igrid,'Stock')"><a><i class="fa fa-download"></i>Export</a></li>
+            <li style="cursor:pointer" ng-show="UserInfo.p_STOCKADJUSTMENT.create && selectedcount==0" ng-click="Save2File()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li style="cursor:pointer" ng-show="UserInfo.p_STOCKADJUSTMENT.create && selectedcount==0" ng-click="ShowFile(false)"><a><i class="fa fa-save"></i>My Barcodes</a></li>
+            <li style="cursor:pointer" ng-show="UserInfo.p_STOCKADJUSTMENT.create && selectedcount==0" ng-click="ShowFile(true)"><a><i class="fa fa-save"></i>All Barcodes</a></li>
+            <li style="cursor:pointer" ng-show="UserInfo.p_STOCKADJUSTMENT.create && selectedcount>0" ng-click="DownloadExcelFile(false)"><a><i class="fa fa-save"></i>Download</a></li>
+            <li style="cursor:pointer" ng-show="UserInfo.p_STOCKADJUSTMENT.create && selectedcount>0" ng-click="DownloadExcelFile(true)"><a><i class="fa fa-save"></i>Download Log</a></li>
+        </ol>
+
+        <ol class="breadcrumb" ng-show="SearchCondition.mode=='3'  &&  SearchCondition.mode!='4'">
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'Stock')"><a><i class="fa fa-download"></i>Export</a></li>
+            <li style="cursor:pointer" ng-show="UserInfo.p_STOCKADJUSTMENT.create" ng-click="SynchronizeStockComformation(true)"><a><i class="fa fa-save"></i>Synchronize</a></li>
+        </ol>
+
+        <ol class="breadcrumb" ng-show="SearchCondition.barcodetype==5">
+            <li style="cursor:pointer" ng-click="Clear()"><a><i class="fa fa-file"></i>New</a></li>
+            <li style="cursor:pointer" ng-click="SearchforSync()"><a><i class="fa fa-search"></i>Search</a></li>
+
+            <li style="cursor:pointer">
+
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280" uri='File/UploadDesignSizeStock/{{UserInfo.OrganizationID}}/'
+                             max-height="1280" preview="false" ng-model="uploadfile"
+                             filemodel="uploadfile" onuploadcomplete="fileuploadedcomplete"
+                             filetype="DATA"
+                             multiple="false">
+                    <i class="fa fa-upload">UploadDesignStock</i>
+                </file-upload>
+
+            </li>
+            <li style="cursor:pointer" ng-show="UserInfo.p_STOCKADJUSTMENT.create" ng-click="SynchronizeStockComformation(false)"><a><i class="fa fa-save"></i>Synchronize</a></li>
+            <li style="cursor:pointer" ng-show="UserInfo.p_CANCHANGEPRODATTRIBUTE.view" ng-click="ShowChangeDialog()"><a><i class="fa fa-save"></i>Attributes</a></li>
+            <li ng-show="StockResult.length>0" style="cursor:pointer" ng-click="PrintBarcode()"><a><i class="fa fa-barcode"></i>Print</a></li>
+            <li ng-show="StockResult.length>0" style="cursor:pointer" ng-click="exporttoExcel(igrid,'Stock')"><a><i class="fa fa-download"></i>Export</a></li>
+        </ol>
+
+        <ol class="breadcrumb" ng-show="SearchCondition.barcodetype==4">
+            <li style="cursor:pointer" ng-click="Clear()"><a><i class="fa fa-file"></i>New</a></li>
+            <li style="cursor:pointer" ng-click="SearchforSync()"><a><i class="fa fa-search"></i>Search</a></li>
+
+            <li style="cursor:pointer">
+
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280" uri='File/UploadDesignStock/{{UserInfo.OrganizationID}}/'
+                             max-height="1280" preview="false" ng-model="uploadfile"
+                             filemodel="uploadfile" onuploadcomplete="fileuploadedcomplete"
+                             filetype="DATA"
+                             multiple="false">
+                    <i class="fa fa-upload">UploadDesignStock</i>
+                </file-upload>
+
+            </li>
+            <li style="cursor:pointer" ng-show="UserInfo.p_STOCKADJUSTMENT.create" ng-click="SynchronizeStockComformation(false)"><a><i class="fa fa-save"></i>Synchronize</a></li>
+            <li style="cursor:pointer" ng-show="UserInfo.p_CANCHANGEPRODATTRIBUTE.view" ng-click="ShowChangeDialog()"><a><i class="fa fa-save"></i>Attributes</a></li>
+            <li ng-show="StockResult.length>0" style="cursor:pointer" ng-click="PrintBarcode()"><a><i class="fa fa-barcode"></i>Print</a></li>
+            <li ng-show="StockResult.length>0" style="cursor:pointer" ng-click="exporttoExcel(igrid,'Stock')"><a><i class="fa fa-download"></i>Export</a></li>
+        </ol>
+        <ol class="breadcrumb" ng-show="SearchCondition.mode=='4'">
+            <li style="cursor:pointer">
+
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280" uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                             max-height="1280" preview="false" ng-model="uploadfile"
+                             filemodel="uploadfile" onuploadcomplete="filehsnuploadedcomplete"
+                             filetype="DATA"
+                             multiple="false">
+                    <i class="fa fa-upload">Upload</i>
+                </file-upload>
+
+            </li>
+            <li style="cursor:pointer" ng-show="HSNList != null" ng-click="SynchronizeHSN()"><a><i class="fa fa-save"></i>Update HSN</a></li>
+        </ol>
+        <ol class="breadcrumb" ng-hide="SearchCondition.mode=='3' || SearchCondition.mode=='4' || SearchCondition.mode=='5' || SearchCondition.barcodetype==4 || SearchCondition.barcodetype==5">
+            <li style="cursor:pointer" ng-click="Clear()"><a><i class="fa fa-file"></i>New</a></li>
+            <li style="cursor:pointer" ng-click="SearchforSync()"><a><i class="fa fa-search"></i>Search</a></li>
+
+            <li style="cursor:pointer">
+
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280" uri='File/UploadStockXSLX/{{UserInfo.OrganizationID}}/'
+                             max-height="1280" preview="false" ng-model="uploadfile"
+                             filemodel="uploadfile" onuploadcomplete="fileuploadedcomplete"
+                             filetype="DATA"
+                             multiple="false">
+                    <i class="fa fa-upload">Upload</i>
+                </file-upload>
+
+            </li>
+            <li style="cursor:pointer" ng-show="UserInfo.p_STOCKADJUSTMENT.create" ng-click="SynchronizeStockComformation(false)"><a><i class="fa fa-save"></i>Synchronize</a></li>
+            <li style="cursor:pointer" ng-show="UserInfo.p_CANCHANGEPRODATTRIBUTE.view" ng-click="ShowChangeDialog()"><a><i class="fa fa-save"></i>Attributes</a></li>
+            <li ng-show="StockResult.length>0" style="cursor:pointer" ng-click="PrintBarcode()"><a><i class="fa fa-barcode"></i>Print</a></li>
+            <li ng-show="StockResult.length>0" style="cursor:pointer" ng-click="exporttoExcel(igrid,'Stock')"><a><i class="fa fa-download"></i>Export</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-success">
+            <div class="box-body">
+
+                <div class="col-md-3">
+                    <div class="row" ng-show="SearchCondition.searchmode=='1'">
+
+                        <div class="row row-padbot-15">
+                            <label class="col-md-12">Activity</label>
+                            <span class="col-md-6"><input type="radio" ng-model="SearchCondition.searchmode" value="1" class="pull-left" /><span style="padding-left:10px">Synchronize Stock</span></span>
+                            <span class="col-md-6"><input type="radio" ng-model="SearchCondition.searchmode" value="2" /><span style="padding-left:10px">Change Attributes</span></span>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <label class="col-md-12">Search From</label>
+                            <span class="col-md-6"><input type="radio" ng-model="SearchCondition.mode" value="1" class="pull-left" focusid="searchfrom" focusonenter="company" /><span style="padding-left:10px">WH Stock</span></span>
+                            <span class="col-md-6"><input type="radio" ng-model="SearchCondition.mode" value="2" /><span style="padding-left:10px">Retail Stock</span></span>
+                        </div>
+
+                        <div class="col-md-12" ng-show="SearchCondition.mode == '2'">
+                            <label>Company</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Company track by item.id"
+                                    ng-model="SearchCondition.companyid" focusid="company" focusonenter="location"></select>
+                        </div>
+
+                        <div class="col-md-12" ng-show="SearchCondition.mode == '2'">
+                            <label>Location</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Location track by item.id"
+                                    ng-model="SearchCondition.locationid" focusid="location" focusonenter="product"></select>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Product</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Product track by item.id" ng-model="SearchCondition.productid" focusid="product" focusonenter="supplier"></select>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <label>Supplier</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Supplier track by item.id" ng-model="SearchCondition.supplierid" focusid="supplier"></select>
+                        </div>
+
+                        <div class="col-md-12" style="padding-top:5px;padding-bottom:5px">
+                            <button type="button" class="btn btn-sm btn-warning pull-left" ng-click="SearchforSync()">Search</button>
+                            <div class="col-md-6">
+                                <file-upload class="btn btn-success btn-rad btn-trans btn-sm file-upload" resize="true" max-width="1280"
+                                             max-height="1280" preview="true" ng-model="Employee.personal.Img_Idcard"
+                                             filemodel="Employee.personal.img_idcard" onuploadcomplete="uploadfullstockfilecomplete"
+                                             uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                                             filetype="DATA"
+                                             multiple="false">
+                                    <i class="fa fa-upload"></i>
+                                    <span>Upload</span>
+                                </file-upload>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger pull-right" ng-click="SynchronizeStockComformation()">Synch Stock</button>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h5 style="color:orangered">{{status}}</h5>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="row" ng-show="SearchCondition.searchmode=='2'">
+
+                        <div class="col-md-12 no-padding">
+
+                            <div class="col-md-12">
+                                <div class="col-md-6 no-padding">
+                                    <label>Search From</label>
+                                    <select class="input-sm form-control" select2=""
+                                            style="width: 100%;"
+                                            options="item.id as item.name for item in SearchSources track by item.id"
+                                            ng-model="SearchCondition.mode"
+                                            ng-change="ConfigGrid(reducesalestock)"></select>
+                                </div>
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Barcode Type</label>
+                                    <select class="input-sm form-control" select2=""
+                                            style="width: 100%;"
+                                            options="item.id as item.name for item in BarcodeType track by item.id"
+                                            ng-model="SearchCondition.barcodetype"></select>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-12 no-padding" ng-show="SearchCondition.mode == '3'">
+
+                            <div class="col-md-12">
+                                <div class="col-md-6 no-padding">
+                                    <label>Company</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;"
+                                            options="item.id  as item.name for item in Company track by item.id"
+                                            ng-model="FullStockInfo.companyid" focusid="company1" focusonenter="location1"></select>
+                                </div>
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Location</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;"
+                                            options="item.id  as item.name for item in Location track by item.id"
+                                            ng-model="FullStockInfo.locationid" focusid="location1"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-top:10px">
+                                <div class="col-md-4 no-padding">
+                                    Step - 1
+                                </div>
+                                <div class="col-md-8 no-padding">
+                                    <file-upload class="btn btn-success btn-rad btn-trans btn-sm file-upload"
+                                                 resize="true" max-width="1280"
+                                                 filetype="DATA"
+                                                 max-height="1280" preview="true" ng-model="uploadfullstockfile"
+                                                 filemodel="uploadfullstockfile" onuploadcomplete='uploadfullstockfilecomplete'
+                                                 uri='File/UploadSingle/{{UserInfo.OrganizationID}}/'
+                                                 multiple="false">
+                                        <i class="fa fa-upload"></i>
+                                        <span>Upload</span>
+                                    </file-upload>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-12" style="margin-top:2px">
+                                <div class="col-md-4 no-padding">
+                                    &nbsp;
+                                </div>
+                                <div class="col-md-8 no-padding">
+                                    {{FullStockInfo.file}}
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-top:10px">
+                                <div class="col-md-4 no-padding">
+                                    Step - 2
+                                </div>
+                                <div class="col-md-8 no-padding">
+                                    <div class="col-md-12 no-padding">
+                                        <div class="col-md-12 no-padding">
+                                            <input type="checkbox" ng-model="FullStockInfo.merge" /> Merge Sales
+                                        </div>
+                                        <div class="col-md-12 no-padding">
+                                            <input type="text" drops="up" daterange="FullStockInfo.mergefromdate,FullStockInfo.mergetodate"
+                                                   style="width:100%"
+                                                   class="form-control pull-right input-sm">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 no-padding">
+                                        <div class="col-md-12 no-padding">
+                                            <input type="checkbox" ng-model="FullStockInfo.remove" /> Remove Sales
+                                        </div>
+                                        <div class="col-md-12 no-padding">
+                                            <input type="text" drops="up" daterange="FullStockInfo.removefromdate,FullStockInfo.removetodate"
+                                                   style="width:100%"
+                                                   class="form-control pull-right input-sm">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 no-padding">
+                                        <button ng-show="ShowConflict" type="button" class="btn btn-sm btn-info pull-left" ng-click="SearchFullStockConflict()">Conflict</button>
+                                        <button type="button" class="btn btn-sm btn-info pull-right" ng-click="SearchFullStock()">Search</button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12" style="margin-top:10px">
+                                <div class="col-md-4 no-padding">
+                                    Step - 3
+                                </div>
+                                <div class="col-md-8 no-padding">
+                                    <div class="col-md-12 no-padding" ng-show="ShowConflict && (FullStockInfo.merge || FullStockInfo.remove)">
+                                        <div class="col-md-6 no-padding">
+                                            <input type="checkbox" ng-model="FullStockInfo.mergeqty" /> Merge Sales
+                                        </div>
+                                        <div class="col-md-6 no-padding">
+                                            <input type="checkbox" ng-model="FullStockInfo.removeqty" /> Remove Sales
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 no-padding">
+                                        <button type="button" class="btn btn-sm btn-danger" ng-click="SynchronizeStockComformation(true)">Synchronize</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-top:10px" id="missinggrid">
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 no-padding" ng-show="SearchCondition.mode == '5'">
+
+
+
+                            <div class="col-md-12">
+                                <label>Barcode</label>
+                                <input type="text" class="form-control input-sm" style="width: 100%;" id="inputPassword3" placeholder="Barcode"
+                                       onkeyenter="SearchBarcode4File()" focusid="barcode5" ng-model="SearchCondition.barcode">
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-6 no-padding">
+                                    <label>Company</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Company track by item.id"
+                                            ng-model="SearchCondition.companyid" focusid="company5" focusonenter="location5"></select>
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label>Location</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Location track by item.id"
+                                            ng-model="SearchCondition.locationid" focusid="location5" focusonenter="product5"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-6 no-padding">
+                                    <label>Product</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;"
+                                            options="item.id  as item.name for item in Product track by item.id" ng-model="SearchCondition.productid"
+                                            focusid="product5" focusonenter="brand5"></select>
+                                </div>
+
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Brand</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;"
+                                            options="item.id  as item.name for item in Brand track by item.id" ng-model="SearchCondition.brandid"
+                                            focusid="brand5" focusonenter="color5"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-6 no-padding">
+                                    <label>Colour</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;"
+                                            options="item.id  as item.name for item in Color track by item.id" ng-model="SearchCondition.colourid" focusid="color5"
+                                            focusonenter="size5"></select>
+                                </div>
+
+
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Size</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;"
+                                            options="item.id  as item.name for item in Sizes track by item.id" startswith="true"
+                                            ng-model="SearchCondition.sizeid" focusid="size5" focusonenter="buyingprice5"></select>
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="col-md-12">
+
+                                <div class="col-md-6 no-padding">
+                                    <div class="col-md-6 no-padding">
+                                        <label>Cost</label>
+                                        <input type="text" class="form-control input-sm"
+                                               focusid="buyingprice5" focusonenter="mrp5"
+                                               ng-model="SearchCondition.buyingprice" style="width:100%" />
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>MRP</label>
+                                        <input type="text" class="form-control input-sm" focusid="mrp5" focusonenter="dealerprice5"
+                                               ng-model="SearchCondition.displaymrp" style="width:100%" />
+
+
+
+
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-6 no-padding">
+
+                                    <div class="col-md-6 no-padding">
+
+                                        <label>Dealer</label>
+                                        <input type="text" class="form-control input-sm" focusid="dealerprice5" focusonenter="price5"
+                                               ng-model="SearchCondition.dealerprice" style="width:100%" />
+
+                                    </div>
+
+                                    <div class="col-md-6 no-padding">
+                                        <label>Price</label>
+                                        <div class="input-group input-group-sm" style="width:100%">
+                                            <input type="text" class="form-control input-sm"
+                                                   focusid="price5" focusonenter="addbarcode5"
+                                                   ng-model="SearchCondition.price" style="width:100%" />
+                                            <span class="input-group-btn" style="width:10px">
+                                                <button type="button" class="btn btn-info btn-sm btn-flat" focusid="addbarcode5" ng-click="CreateBarcode()">
+                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12" style="padding-left:0px;padding-right:0px" id="barcodeContainer">
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12 no-padding" ng-hide="SearchCondition.mode == '3' || SearchCondition.mode == '5'">
+
+                            <div class="col-md-12">
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Company</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Company track by item.id" ng-model="SearchCondition.companyid" focusid="product3" focusonenter="locstion3"></select>
+                                </div>
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Location</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Location track by item.id" ng-model="SearchCondition.locationid" focusid="locstion3" focusonenter="product3"></select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12">
+                                <label>Supplier</label>
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Supplier track by item.id" ng-model="SearchCondition.supplierid" focusid="product3" focusonenter="supplier3"></select>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-6 no-padding">
+                                    <label>Product</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Product track by item.id" ng-model="SearchCondition.productid" focusid="supplier3" focusonenter="brand3"></select>
+                                </div>
+
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Brand</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Brand track by item.id" ng-model="SearchCondition.brandid" focusid="brand3" focusonenter="color3"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-6 no-padding">
+                                    <label>Colour</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Color track by item.id" ng-model="SearchCondition.colourid" focusid="color3" focusonenter="material3"></select>
+                                </div>
+
+
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Material</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Material track by item.id" ng-model="SearchCondition.materialid" focusid="material3" focusonenter="pattern3"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-6 no-padding">
+                                    <label>Pattern</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Pattern track by item.id" ng-model="SearchCondition.patternid" focusid="pattern3" focusonenter="style3"></select>
+                                </div>
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Style</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Style track by item.id" ng-model="SearchCondition.styleid" focusid="style3" focusonenter="size3"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-6 no-padding">
+                                    <label>Sleeve</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Sleeve track by item.id" ng-model="SearchCondition.sleeveid"></select>
+                                </div>
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Fit</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Fit track by item.id" ng-model="SearchCondition.fitid"></select>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-6 no-padding">
+                                    <label>Size</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Sizes track by item.id" startswith="true" ng-model="SearchCondition.sizeid" focusid="size3" focusonenter="type3"></select>
+                                </div>
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Type</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Type track by item.id" startswith="true" ng-model="SearchCondition.typeid" focusid="type3" focusonenter="sectionid3"></select>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12">
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Section</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Sections track by item.id" startswith="true" ng-model="SearchCondition.sectionid" focusid="sectionid3" focusonenter="barcode3"></select>
+                                </div>
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Design</label>
+                                    <input type="text" class="form-control input-sm" style="width: 100%;" id="inputPassword3" placeholder="Barcode" focusid="barcode3" ng-model="SearchCondition.designid">
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12">
+                                <label>Barcode</label>
+                                <input type="text" class="form-control input-sm" style="width: 100%;" id="inputPassword3" placeholder="Barcode" onkeyenter="SearchBarcode()" focusid="barcode3" ng-model="SearchCondition.barcode">
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-12 no-padding">
+                                    Direct Add/Remove
+                                    <div class="pull-right">
+                                        <input type="checkbox" ng-model="addremovestock" ng-change="addremovechanged()" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 no-padding">
+                                    Show All Rows
+                                    <div class="pull-right">
+                                        <input type="checkbox" ng-model="SearchCondition.allrows" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 no-padding">
+                                    Remove Sales
+                                    <div class="pull-right">
+                                        <input type="checkbox" ng-model="reducesalestock" />
+                                    </div>
+                                </div>
+                                <div class="input-group input-group-sm col-md-12" ng-show="reducesalestock">
+                                    <input type="text" drops="up" daterange="SearchCondition.fromdate,SearchCondition.todate"
+                                           style="width:100%"
+                                           class="form-control pull-right input-sm">
+
+                                    <span class="input-group-btn" style="width:10px">
+                                        <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="ReduceSales()">
+                                            <i class="glyphicon glyphicon-plus-sign"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm btn-flat" ng-click="RemoveSales()">
+                                            <i class="glyphicon glyphicon-minus"></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12" ng-hide="true">
+                                <div class="col-md-6 no-padding">
+                                    <label>Barcode</label>
+
+                                    <input type="text" class="form-control input-sm" style="width: 100%;" id="inputPassword3" placeholder="Barcode" onkeyenter="SearchBarcode()" ng-model="SearchCondition.barcode">
+
+                                </div>
+
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">HSN CODE</label>
+                                    <input type="text" class="form-control input-sm" style="width: 100%;" id="inputPassword3" placeholder="Barcode" ng-model="SearchCondition.hsncode">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" ng-hide="true">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">Price</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="price" ng-model="SearchCondition.price">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">Discount</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="discount" ng-model="SearchCondition.discount">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <h5 style="color:orangered">{{status}}</h5>
+                        </div>
+
+
+                        <div class="col-md-12" style="padding-top:5px;padding-bottom:5px" ng-hide="true">
+
+
+                            <button type="button" class="btn btn-sm btn-success" ng-click="SearchStock()">Search</button>
+                            <button type="button" class="btn btn-sm btn-danger" ng-click="ChangeStock()">Change</button>
+
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+                <!-- STOCK Report -->
+                <div class="col-md-9 no-padding">
+
+                    <div class="box no-border">
+                        <div class="box-body no-padding">
+                            <div class="row">
+                                <div class="col-md-12 no-padding" id="report">
+
+                                    <div class="col-md-12 no-padding" style="margin-bottom:5px" ng-hide="SearchCondition.mode=='5'">
+
+                                        <div class="col-md-3">
+                                            <label for="inputEmail3" class="control-label" style="vertical-align:top;font-size:large;color:brown;">Available</label>
+                                            <div class="col-md-6 pull-right" style="vertical-align:top;font-size:large;color:brown;">
+                                                {{AvailableStock|number:2}}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="inputEmail3" class="control-label" style="vertical-align:top;font-size:large;color:brown;">Uploaded</label>
+                                            <div class="col-md-6 pull-right" style="vertical-align:top;font-size:large;color:brown;">
+                                                {{UploadedStock|number:2}}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="inputEmail3" class="control-label" style="vertical-align:top;font-size:large;color:brown;">Valid</label>
+                                            <div class="col-md-9 pull-right" style="vertical-align:top;font-size:large;color:brown;">
+                                                {{SyncStock|number:0}} + {{SyncMissingStock|number:0}}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="inputEmail3" class="control-label" style="vertical-align:top;font-size:large;color:brown;">Missing</label>
+                                            <div class="col-md-6 pull-right" style="vertical-align:top;font-size:large;color:brown;">
+                                                {{MissingBarcode4Sync|number:2}}
+                                            </div>
+                                        </div>
+
+                                        <!--<div class="col-md-2 no-padding">
+            <button type="button" class="btn btn-xs btn-danger" ng-click="ShowChangeDialog()">
+                <i class="fa fa-edit"></i>Attributes
+            </button>
+        </div>-->
+                                    </div>
+                                    <div class="col-md-12" id="gridContainer">
+
+
+                                    </div>
+                                    <div class="col-md-12" ng-hide="SearchCondition.mode=='5'">
+                                        <label for="inputEmail3" class="col-md-4 control-label" style="text-align: right">Change Reason</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control input-sm" id="inputPassword3" ng-model="SearchCondition.reason">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12" ng-hide="SearchCondition.mode=='5'">
+                                        <label for="inputEmail3" class="control-label" style="vertical-align:top;font-size:large;color:brown;">Hint : Search using criteria -> Upload stock file -> Validate uploaded stock -> Synchronize</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/ng-template" id="ChangeAttributeDialog">
+        <div class="ngdialog-message">
+            <div class="table-responsive mailbox-messages">
+                <div class="col-md-12">
+                    <div class="col-md-6 no-padding">
+                        <label>Product</label>
+                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in parent.Product track by item.id" ng-model="parent.SearchCondition.productid"></select>
+                    </div>
+
+                    <div class="col-md-6 no-padding">
+                        <label>Brand</label>
+                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in parent.Brand track by item.id" ng-model="parent.SearchCondition.brandid"></select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6 no-padding">
+                        <label>Colour</label>
+                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in parent.Color track by item.id" ng-model="parent.SearchCondition.colourid"></select>
+                    </div>
+
+
+
+                    <div class="col-md-6 no-padding">
+                        <label>Material</label>
+                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in parent.Material track by item.id" ng-model="parent.SearchCondition.materialid"></select>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-6 no-padding">
+                        <label>Pattern</label>
+                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in parent.Pattern track by item.id" ng-model="parent.SearchCondition.patternid"></select>
+                    </div>
+
+                    <div class="col-md-6 no-padding">
+                        <label>Style</label>
+                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in parent.Style track by item.id" ng-model="parent.SearchCondition.styleid"></select>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-6 no-padding">
+                        <label>Colour</label>
+                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in parent.Color track by item.id" ng-model="parent.SearchCondition.colourid"></select>
+                    </div>
+
+                    <div class="col-md-6 no-padding">
+                        <label>Type</label>
+                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in parent.Type track by item.id" ng-model="parent.SearchCondition.typeid"></select>
+                    </div>
+
+
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6 no-padding">
+                        <label>Sleeve</label>
+                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in parent.Sleeve track by item.id" ng-model="parent.SearchCondition.sleeveid"></select>
+                    </div>
+
+                    <div class="col-md-6 no-padding">
+                        <label>Fit</label>
+                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in parent.Fit track by item.id" ng-model="parent.SearchCondition.fitid"></select>
+                    </div>
+
+
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6 no-padding">
+                        <label>Size</label>
+                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in parent.Sizes track by item.id" startswith="true" ng-model="parent.SearchCondition.sizeid"></select>
+                    </div>
+                    <div class="col-md-6 no-padding">
+                        <label for="inputEmail3" class="control-label">HSN CODE</label>
+                        <input type="text" class="form-control input-sm" style="width: 100%;" id="inputPassword3" placeholder="hsncode" ng-model="parent.SearchCondition.hsncode">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12 no-padding">
+                        <label>Price Tag</label>
+                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in parent.PriceTags track by item.id" startswith="true" ng-model="parent.SearchCondition.pricetagid"></select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6 no-padding">
+                        <label for="inputEmail3" class="control-label">Design No</label>
+                        <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="" ng-model="parent.SearchCondition.designid">
+                    </div>
+                    <div class="col-md-6 no-padding">
+                        <label>Company</label>
+                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in parent.Company track by item.id" ng-model="parent.SearchCondition.companyid"></select>
+                    </div>
+                </div>
+                <!--<div class="col-md-12">
+                    <div class="col-md-6 no-padding">
+                        <label for="inputEmail3" class="control-label">Price</label>
+                        <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="price" ng-model="parent.SearchCondition.price">
+                    </div>
+                    <div class="col-md-6 no-padding">
+                        <label for="inputEmail3" class="control-label">Discount</label>
+                        <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="discount" ng-model="parent.SearchCondition.discount">
+                    </div>
+                </div>-->
+
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-left" ng-click="ChangeCompany()">Change Company</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="ChangeStock()">Change</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </script>
+
+</div>

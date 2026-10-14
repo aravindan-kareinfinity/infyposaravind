@@ -1,0 +1,270 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+          Store /  Direct Stock Entry (Opening Stock)
+        </h1>
+
+        <ol class="breadcrumb">
+            <li style="cursor:pointer">
+
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280" uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                             max-height="1280" preview="false" ng-model="stockadjustmentexcel"
+                             filemodel="uploadfile" onuploadcomplete="fileuploadedcomplete"
+                             filetype="DATA"
+                             multiple="false">
+                    <i class="fa fa-upload">Upload</i>
+                </file-upload>
+            </li>
+            <li style="cursor:pointer" ng-show="selectedcount>0" ng-click="DeleteSelected()"><a><i class="fa fa-trash">({{selectedcount}}) Delete Selected</i></a></li>
+            <li style="cursor:pointer" ng-click="PrintBarcode()"><a><i class="fa fa-barcode"></i>Print Barcode</a></li>
+            <li style="cursor:pointer" ng-click="PrintUAN()"><a><i class="fa fa-barcode"></i>Print UAN</a></li>
+            <li style="cursor:pointer" ng-disabled="SaveRequest" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li style="cursor:pointer" ng-click="SearchResult=[]"><a><i class="fa fa-trash"></i>Clear</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'splitsummary', 'splitsummary')"><a><i class="fa fa-download"></i></a></li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-3 no-padding">
+                                <div class="col-md-12">
+                                    <div class="col-md-6 no-padding">
+                                        <label>BARCODE</label>
+                                        <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="item.barcode" focusid="barcode"
+                                               onkeyenter="searchbarcode()">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>UAN</label>
+                                        <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="item.serialno" focusid="uancode"
+                                               onkeyenter="searchserial()">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div class="col-md-6 no-padding">
+                                        <label>COMPANY</label>
+                                        <select class="form-control input-sm" select2="" style="width: 100%;" options="item.id as item.name for item in BuyingCompany track by item.id"
+                                                ng-model="item.companyid" focusid="companyid" focusonenter="locationID"></select>
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>LOCATION</label>
+                                        <select class="form-control input-sm" select2="" style="width: 100%;"
+                                                options="item.id  as item.name for item in Location track by item.id"
+                                                focusid="locationID" focusonenter="displayinvoiceno"
+                                                ng-model="item.locationid"></select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="col-md-6 no-padding">
+                                        <label>INVOICE NO</label>
+                                        <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="item.displayinvoiceno" focusid="displayinvoiceno" focusonenter="displayinvoicedate">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>INVOICE DATE</label>
+                                        <input type="text" class="form-control input-sm" style="width: 100%;"
+                                               datemodule="item.displayinvoicedate"
+                                               ng-model="item.displayinvoicedate"
+                                               focusid="displayinvoicedate" focusonenter="supplierid">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label>SUPPLIER</label>
+                                    <select class="form-control input-sm" select2="" style="width: 100%;"
+                                            options="item.id  as item.name for item in Suppliers track by item.id" focusid="supplierid"
+                                            focusonenter="ProductID"
+                                            ng-model="item.supplierid"></select>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label>PRODUCT</label>
+                                    <select class="form-control input-sm" select2="" style="width: 100%;"
+                                            options="item.id as item.name for item in Products track by item.id"
+                                            ng-change="ProductChanged()"
+                                            ng-model="item.productid" focusid="ProductID" focusonenter="BrandID"></select>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="col-md-6 no-padding">
+                                        <label>BRAND</label>
+                                        <select class="form-control input-sm" select2="" style="width: 100%;" options="item.id as item.name for item in Brands track by item.id"
+                                                ng-model="item.brandid" focusid="BrandID"
+                                                onkeyenter="AllSizeGroup ? setFocusSizeGroupID() : setFocusSizeID()"></select>
+                                    </div>
+
+                                    <div class="col-md-6 no-padding" ng-show="AllSizeGroup">
+                                        <label>SIZE GROUP</label>
+                                        <select class="form-control input-sm" select2="" style="width: 100%;"
+                                                options="item.id as item.name for item in SizeGroups track by item.id"
+                                                ng-model="item.sizegroupid" focusid="SizeGroupID"
+                                                onkeyenter="ShowSizeList()"></select>
+                                    </div>
+
+                                    <div class="col-md-6 no-padding" ng-hide="AllSizeGroup">
+                                        <label>SIZE</label>
+                                        <select class="form-control input-sm" select2="" style="width: 100%;" options="item.id as item.name for item in Sizes track by item.id"
+                                                ng-model="item.sizeid" focusid="SizeID" focusonenter="colourid" startswith="true"></select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12" ng-show="AllSizeGroup && item.sizegroup.length>0" id="jumplist">
+
+                                    <div class="col-md-3 no-padding">
+                                        <div for="inputEmail3" class="control-label no-margin">All</div>
+                                        <input class="input-sm form-control" type="text" value="Barcode" ng-readonly="true" />
+                                        <input class="input-sm form-control" type="text"
+                                               focusid="allqty"
+                                               placeholder="All Qty"
+                                               ng-model="item.groupqty"
+                                               ng-change="groupqtyChanged()" />
+                                    </div>
+
+                                    <div ng-repeat="jl in item.sizegroup" class="col-md-3 no-padding">
+                                        <label for="inputEmail3" class="control-label no-margin">{{jl.name}}</label>
+                                        <input class="input-sm form-control" type="text" ng-model="jl.barcode" placeholder="barcode" />
+                                        <input class="input-sm form-control" type="text" ng-model="jl.qty" placeholder="Qty" ng-change="qtyChanged()" />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <div class="col-md-6 no-padding">
+                                        <label>COLOUR</label>
+                                        <select class="form-control input-sm" select2="" style="width: 100%;"
+                                                options="item.id as item.name for item in ColourList track by item.id"
+                                                ng-model="item.colourid" focusid="colourid" focusonenter="styleid"></select>
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>STYLE</label>
+                                        <select class="form-control input-sm" select2="" style="width: 100%;"
+                                                options="item.id as item.name for item in StyleList track by item.id"
+                                                ng-model="item.styleid" focusid="styleid" focusonenter="designid"></select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="col-md-6 no-padding">
+                                        <label>DESIGN ID</label>
+                                        <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="item.designid" focusid="designid" focusonenter="qty">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>QTY</label>
+                                        <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="item.qty" focusid="qty" focusonenter="buyingprice">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+
+                                    <div class="col-md-6 no-padding">
+                                        <label>BUYING PRICE</label>
+                                        <input type="text" class="form-control input-sm" style="width: 100%;"
+                                               ng-model="item.buyingprice" focusid="buyingprice" focusonenter="price">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>PRICE</label>
+                                        <input type="text" class="form-control input-sm" style="width: 100%;"
+                                               ng-model="item.price" focusid="price"
+                                               onkeyenter="PriceValidation()">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="col-md-6 no-padding">
+                                        <label>DISCOUNT %</label>
+                                        <input type="text" class="form-control input-sm" style="width: 100%;" ng-change="DiscountChanged('Percentage')"
+                                               ng-model="item.discountpercentage" focusid="discount" focusonenter="discountvalue">
+
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>DISCOUNT</label>
+                                        <input type="text" class="form-control input-sm" style="width: 100%;"
+                                               ng-change="DiscountChanged('Value')" ng-model="item.discount"
+                                               focusid="discountvalue"
+                                               onkeyenter="DPHsnValidation()">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div class="col-md-6 no-padding">
+                                        <label>SALE PRICE</label>
+                                        <input type="text" class="form-control input-sm" style="width: 100%;"
+                                               ng-readonly="true" value="{{item.price-item.discount}}">
+
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>HSN CODE</label>
+                                        <input type="text" ng-show="SupportDealerPrice" class="form-control input-sm" style="width: 100%;"
+                                               ng-model="item.hsncode" focusid="dphsncode" focusonenter="pdealerprice">
+
+                                        <div class="input-group input-group-sm" style="width:100%" ng-hide="SupportDealerPrice">
+                                            <input type="text" class="form-control input-sm" style="width: 100%;"
+                                                   ng-model="item.hsncode" focusid="hsncode" onkeyenter="AddItems()">
+                                            <span class="input-group-btn" style="width:10px">
+                                                <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddItems()">
+                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div ng-hide="true" class="col-md-12">
+                                    <label>CREATE STOCK AT WAREHOUSE</label>
+                                    <input type="checkbox" ng-model="item.iswarehouse" />
+                                </div>
+                                <div class="col-md-12" ng-show="SupportDealerPrice" style="padding-top:10px">
+                                    <div class="col-md-6 no-padding">
+                                        <label>Dealer Price</label>
+                                        <input type="text" class="form-control input-sm" style="width: 100%;"
+                                               ng-model="item.dealerprice" focusid="pdealerprice"
+                                               onkeyenter="DPPercentageChanged()">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>MRP</label>
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control input-sm" style="width: 100%;"
+                                                   ng-model="item.displaymrp" focusid="displaymrp"
+                                                   onkeyenter="MRPPercentageChanged()">
+                                            <span class="input-group-btn" style="width:10px">
+                                                <button type="button" class="btn btn-info btn-sm btn-flat" focusid="btnmrp" ng-click="AddItems()">
+                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h5 style="color:orangered">{{status}}</h5>
+                                </div>
+
+                                <!--<div class="col-md-12" ng-hide="SupportDealerPrice" style="padding-top:10px">
+        <label ng-hide="true">UPDATE ALL STOCK PRICE</label>
+        <input ng-hide="true" type="checkbox" ng-model="item.UpdateAll" />
+        <button type="button" class="btn btn-sm btn-primary pull-right" ng-click="AddItems()">Add</button>
+    </div>-->
+                            </div>
+                            <div class="col-md-9">
+                                <div id="gridContainer">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>

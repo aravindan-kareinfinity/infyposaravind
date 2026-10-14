@@ -1,0 +1,185 @@
+﻿<Config>
+  <PageSetting>
+    <Setting topmargin='40' leftmargin='20' bottommargin='30' rightmargin='10' width='700' height='1000' landscape='true' style='Verdana,8,regular'></Setting>
+  </PageSetting>
+  <Header LineHeight='15' style='Verdana,8,bold'>
+  </Header>
+
+  <Body style='Verdana,8,regular'>
+
+    <Line>
+      <Content type='Image' src="1m000000000" length='100' align='left'>0,40,70,50</Content>
+      <Content type='Field' name='company.name' length='500' align='left' style='Verdana,10,bold'></Content>
+      <Content type='Word' length='500' align='right'>ORIGINAL FOR BUYER</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='100' align='left'></Content>
+      <Content type='Field' name='company.address' length='500' align='left' style='Verdana,10,bold'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='100' align='left'></Content>
+      <Content type='Word' length='500' align='left' style='bold'></Content>
+      <Content type='Word' length='500' align='right' style='Verdana,10,bold'>TAX INVOICE</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='100' align='left'></Content>
+      <Content type='Word' length='500' align='left' style='bold'></Content>
+      <Content type='Word' length='250' align='right'>INVOICE NO</Content>
+      <Content type='Word' length='250' align='right'>INVOICE DATE</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='100' align='left'></Content>
+      <Content type='Word' length='500' align='left' style='bold'>GSTN NO: 33AACFU1137G1ZL</Content>
+      <Content type='Field' name='billno' length='250' align='right' style='verdana,10,bold'></Content>
+      <Content type='Field' name='billdate' length='250' align='right' format='dd/MM/yyyy' style='Verdana,10,bold'></Content>
+
+
+    </Line>
+    <Line>
+      <Content type='Line' length='700'></Content>
+    </Line>
+    <Line Type='VerticalTable' Width='250' Height='100'>
+      <Content type='Word' style='verdana,10,bold' length='250' align='left'>Supplier Address: Bill To:</Content>
+      <Content type='LineBreak'/>
+      <Content type='Field' name='customer.name' length='250' align='left' style='verdana,10,bold'></Content>
+      <Content type='LineBreak'/>
+      <Content type='Field' name='customer.address' length='250' align='left'></Content>
+      <Content type='LineBreak'/>
+      <Content type='Word' style='verdana,10,bold' length='250' align='left'></Content>
+      <Content type='LineBreak'/>
+      <Content type='Word' style='verdana,10,bold' length='250' align='left'></Content>
+      <Content type='LineBreak'/>
+      <Content type='Word' style='verdana,10,bold' length='50' align='left'>GST :</Content>
+      <Content type='Field' name='customer.gstno' length='200' align='left'></Content>
+      <Content type='LineBreak'/>
+    </Line>
+    <Line Type='VerticalLine' Width='1' Height='100' Top='-16'/>
+    <Line Type='VerticalTable' Width='250' Height='100'>
+      <Content type='Word' style='verdana,10,bold' length='250' align='left'>Delivery Address: Ship To:</Content>
+      <Content type='LineBreak'/>
+      <Content type='Field' name='customer.name' length='250' align='left' style='verdana,10,bold'></Content>
+      <Content type='LineBreak'/>
+      <Content type='Field' name='customer.deliveryaddress' length='250' align='left'></Content>
+      <Content type='LineBreak'/>
+      <Content type='Word' style='verdana,10,bold' length='250' align='left'></Content>
+      <Content type='LineBreak'/>
+      <Content type='Word' style='verdana,10,bold' length='250' align='left'></Content>
+      <Content type='LineBreak'/>
+      <Content type='Word' style='verdana,10,bold' length='50' align='left'>GST :</Content>
+      <Content type='Field' name='customer.gstno' length='200' align='left'></Content>
+      <Content type='LineBreak'/>
+    </Line>
+    <Line Type='VerticalLine' Width='1' Height='100' Top='-16'/>
+    <Line Type='VerticalTable' Width='250' Height='100'>
+      <Content type='Word' style='verdana,10,bold' length='250' align='left'>Trading Partner Code:</Content>
+      <Content type='LineBreak'/>
+      <Content type='Field' name='customer.code' length='250' align='left'></Content>
+      <Content type='LineBreak'/>
+      <Content type='Word' style='verdana,10,bold' length='250' align='left'>Trading Partner Name:</Content>
+      <Content type='LineBreak'/>
+      <Content type='Field' name='customer.name' length='200' align='left'></Content>
+    </Line>
+    <Line Type='VerticalLine' Width='1' Height='100' Top='-16'/>
+    <Line Type='VerticalTable' Width='250' Height='100'>
+      <Content type='Word' style='verdana,10,bold' length='250' align='left'>Created By:</Content>
+      <Content type='LineBreak'/>
+      <Content type='Field' name='biller' length='250' align='left'></Content>
+      <Content type='LineBreak'/>
+      <Content type='Word' style='verdana,10,bold' length='250' align='left'>Contact details:</Content>
+      <Content type='LineBreak'/>
+      <Content type='Word' length='50' align='left'>NAME:</Content>
+      <Content type='Field' name='customer.name' length='200' align='left'></Content>
+      <Content type='LineBreak'/>
+      <Content type='Word' length='70' align='left'>CONTACT:  </Content>
+      <Content type='Field' name='customer.mobileno' length='180' align='left'></Content>
+      <Content type='LineBreak'/>
+      <Content type='Word' length='70' align='left'>Email:  </Content>
+      <Content type='Field' name='customer.emailid' length='180' align='left'></Content>
+      <Content type='LineBreak'/>
+    </Line>
+
+    <Line type='Table' HeaderHeight='20' LineHeight='15' field='Billitems'>
+      <Content type='Field' name='sno' text="S.NO" Length='35'/>
+      <Content type='Field' name='mfgdesign.code'  text="ITEM" Length='110' align='left'/>
+      <Content type='Field' name='mfgdesign.colour'  text="COLOUR" Length='60' align='left'/>
+      <Content type='Field' name='printingname' text="CATEGORY" Length='70' align='center'/>
+      <Content type='Field' name='hsncode' text="HSN" Length='60' align='center'/>
+      <Content type='Field' name='qty' text="QTY" Length='40' align='center'/>
+      <Content type='Field' name='mfgdesign.salerate' text="MRP" Length='50' align='center'/>
+      <Content type='Field' name='rate' text="PRICE" Length='60' align='center'/>
+      <Content type='Field' name='gross' text="TAXABLE" Length='60' align='center'/>
+      <Content type='Field' name='taxdetail.cgst_percentage' text="CGST[%]" Length='60' align='center'/>
+      <Content type='Field' name='taxdetail.cgst_value' text="CGST" Length='60' align='center'/>
+      <Content type='Field' name='taxdetail.sgst_percentage' text="SGST[%]" Length='60' align='center'/>
+      <Content type='Field' name='taxdetail.sgst_value' text="CGST" Length='60' align='center'/>
+      <Content type='Field' name='taxdetail.igst_percentage' text="IGST[%]" Length='60' align='center'/>
+      <Content type='Field' name='taxdetail.igst_value' text="IGST" Length='60' align='center'/>
+      <Content type='Field' name='receivable' text="TOTAL" Length='60' align='center'/>
+    </Line>
+  </Body>
+  <Line/>
+  <Line>
+    <Content type='Line' length='700'></Content>
+  </Line>
+  <Line/>
+  <Footer>
+    <Line>
+      <Content type='Word' length='600' align='left' style='Verdana,10,bold'>Taxable:</Content>
+      <Content type='Field' name='saleamount' text="" Length='400' align='right' format='F2' style='Verdana,10,bold'/>
+    </Line>
+    <Line>
+      <Content type='Word' length='600' align='left' style='Verdana,10,bold'>Total Tax:</Content>
+      <Content type='Field' name='tax' text="" Length='400' align='right' format='F2' style='Verdana,10,bold'/>
+    </Line>
+
+    <Line>
+      <Content type='Word' length='600' align='left' style='Verdana,10,bold'>Total Amount :</Content>
+      <Content type='Field' name='total' text="" Length='400' align='right' format='F2' style='Verdana,10,bold'/>
+    </Line>
+    <Line>
+      <Content type='Word' length='600' align='left' style='Verdana,10,bold'>Amount In Words :</Content>
+      <Content type='Field' name='numberinword' text="" Length='400' align='right' style='Verdana,10,bold'/>
+    </Line>
+    <Line>
+      <Content type='Line' length='700'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='600' align='left' style='Verdana,10,bold'>Shipments:</Content>
+      <Content type='Word' length='200' align='left' style='Verdana,10,bold'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='600' align='left' style='Verdana,10,bold'>Bank Details:</Content>
+      <Content type='Word' length='200' align='left' style='Verdana,10,bold'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='600' align='left' style='Verdana,10,bold'>Bank Account No :</Content>
+      <Content type='Word' length='200' align='left' style='Verdana,10,bold'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='600' align='left' style='Verdana,10,bold'>Branch IFSC :</Content>
+      <Content type='Word' length='200' align='left' style='Verdana,10,bold'></Content>
+      <Content type='Word' length='200' align='left' style='Verdana,6,bold'>Signature Of Authorized Reprensentative</Content>
+    </Line>
+
+
+    <Line/>
+    <Line>
+      <Content type='Line' length='700'></Content>
+    </Line>
+
+    <Line type='Table' HeaderHeight='20' LineHeight='15' field='BillHSN'>
+      <Content type='Field' name='code' text='HSN Code' Length='100' align='right' format='F0'/>
+      <Content type='Field' name='qty' text='Qty' Length='80' align='right' format='F2' Total='true'/>
+      <Content type='Field' name='taxable' text='Taxable Value' Length='120' align='right' format='F2' Total='true'/>
+      <Content type='Field' name='cgst_percentage' text='CGST %' Length='90' align='right' format='F2' Total='true'/>
+      <Content type='Field' name='cgst_value' text='CGST Amount' Length='100' align='right' format='F2' Total='true'/>
+      <Content type='Field' name='sgst_percentage' text='SGST %' Length='90' align='right' format='F2' Total='true'/>
+      <Content type='Field' name='sgst_value' text='SGST Amount' Length='100' align='right' format='F2' Total='true'/>
+      <Content type='Field' name='igst_percentage' text='IGST %' Length='90' align='right' format='F2' Total='true'/>
+      <Content type='Field' name='igst_value' text='IGST Amount' Length='100' align='right' format='F2' Total='true'/>
+      <Content type='Field' name='total' text='Total' Length='100' align='right' format='F2' Total='true'/>
+
+    </Line>
+    <Line/>
+  </Footer>
+</Config>

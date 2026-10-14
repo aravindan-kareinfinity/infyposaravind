@@ -1,0 +1,287 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Warehouse report
+        </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <button class="accordion"><b>TRANSPORT REPORTS  </b><content style="font-size:smaller"></content></button>
+                        <div class="panel">
+
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_LRREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="LRREPORT({'Search':true, 'Command':'SearchLR', 'fromdate': currentDate,'todate': currentDate})" class="atag"> Transport Report</a><span style="font-size:small;color:#91288A5;">  </span>
+                            </div>
+
+                       <!--     <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_LRREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="LRREPORT({'Search':true, 'Command':'OneMonthLR', 'fromdate': currentDate,'todate': currentDate})" class="atag"> Transport Report (This Month)</a><span style="font-size:small;color:#91288A5;">  </span>
+                            </div>
+
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_LRREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="LRREPORT" class="atag"> Transport Report (Date Wise)</a><span style="font-size:small;color:#91288A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_LRREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="LRENTRYDATE" class="atag"> Transport Report (Entry Date Wise)</a>
+                            </div>	
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_LRREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PENDINGLR" class="atag"> Transport Report (Pending)</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div> -->
+                        </div>
+
+                        <button class="accordion"><b>INVOICE REPORTS  </b><content style="font-size:smaller"></content></button>
+                        <div class="panel">
+
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_LRINVOICEREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="LRINVOICE({'Search':true, 'Command':'SearchInvoice', 'fromdate': currentDate,'todate': currentDate})" class="atag"> Invoice Report </a><span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                                <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_LRINVOICEREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="LRINVOICEDETAIL({'Search':true, 'Command':'SearchInvoice', 'fromdate': currentDate,'todate': currentDate})" class="atag"> Invoice Detail Report </a><span style="font-size:small;color:#9688A5;">  </span>
+                            </div>                      
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASEREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="WHEntry" class="atag"> WH Entry Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASEREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="WHInvoicePO" class="atag"> Invoice Vs Purchase Order</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <!--   
+                               <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_LRINVOICEREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="LRINVOICE({'Search':true, 'Command':'OneMonthInvoice', 'fromdate': currentDate,'todate': currentDate})" class="atag"> Invoice Report (This Month)</a><span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_LRINVOICEREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="LRINVOICE" class="atag"> Invoice Report (Date Wise)</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_LRINVOICEREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="INVENTRY" class="atag"> Invoice Report (Entry Date Wise)</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                               -->
+
+                        </div>
+
+                        <button class="accordion"><b>PURCHASE REPORTS  (</b><content style="font-size:smaller">10</content>)</button>
+                        <div class="panel">
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASEREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PURCHASE" class="atag"> Purchase Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASEHSNREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PURCHASEITEMS" class="atag"> Purchase Items Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASEHSNREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PURCHASEHSN" class="atag"> Purchase HSN Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASETAXREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PURCHASETAX" class="atag"> Purchase Tax Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASETAXREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PURCHASETAXSUMMARY" class="atag"> Purchase Tax Summary Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASEREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PURCHASEBARCODE" class="atag"> Purchase Report - Barcode wise</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASESECTIONREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PURCHASESECTION" class="atag"> Section wise Purchase Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_SUPPLIERPENDING.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="supplierbillpendings" class="atag"> Supplier Pending Bills</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_SUPPLIERPAYMENTREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="supplierpaymentrep" class="atag"> Supplier Payment Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+
+
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_SUPPLIERPENDING.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="transportbillpendings" class="atag"> Transport Pending Bills</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_SUPPLIERPAYMENTREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="transportpaymentrep" class="atag"> Transport Payment Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                        </div>
+
+                        <button class="accordion"><b>PURCHASE RETURN REPORTS  (</b><content style="font-size:smaller">4</content>)</button>
+                        <div class="panel">
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASERETURNREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PURCHASERETURN" class="atag"> Purchase Return Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASERETURNSECTIONREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PURCHASERETURNSECTION" class="atag"> Section wise Purchase Return Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+
+                            <!--<div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASERETURNREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PURCHASERETURN({'Search':true, 'Command':'PurchaseReturn', 'fromdate': currentDate,'todate': currentDate})" class="atag">Purchase Return Report(Today)</a><span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASERETURNREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PURCHASERETURN({'Search':true, 'Command':'OneMonthPurchaseReturn', 'fromdate': currentDate,'todate': currentDate})" class="atag">Purchase Return Report(This Month)</a><span style="font-size:small;color:#9688A5;">  </span>
+                            </div>-->
+
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASERETURNCANCELREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PURCHASERETURNCANCEL" class="atag"> Purchase Return Report(Cancelled)</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASERETURNAUDITREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PURCHASERETURNAUDIT" class="atag">Purchase Return Audit Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <button class="accordion"><b>STOCK REPORTS  (</b><content style="font-size:smaller">9</content>)</button>
+                        <div class="panel">
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_WHSTOCKREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="STOCK" class="atag"> Stock Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_WHSTOCKLOCATIONWISEREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="STOCKMOVEMENT" class="atag"> Stock Movement - Locationwise</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_WHSTOCKANALYSISREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="STOCKANALYSIS" class="atag"> Warehouse Stock Analysis Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_RETAILSTOCKANALYSISREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="RETSTOCKANALYSIS" class="atag"> Retail Stock Analysis Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_WHSTOCKASONREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="ASONSTOCK" class="atag"> Stock - Ason Date</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="UserInfo.p_WHSTOCKAUDITREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="WHSTOCKAUDITREP" class="atag"> Stock Audit Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_STOCKTRANSACTIONREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="ASONSTOCKTRANSACTION" class="atag"> Stock - Transactions</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_STOCKDEPRECIATIONREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="STOCKDEPRECIATION" class="atag"> Stock - Depreciation</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                        </div>
+
+                        <button class="accordion"><b>PURCHASE ORDER REPORTS  (</b><content style="font-size:smaller">5</content>)</button>
+                        <div class="panel">
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PENDINGPRF.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PRPending" class="atag"> Pending Purchase Request</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_CANCELLEDPRF.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PRCancelled" class="atag"> Cancelled Purchase Request</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASEORDERREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="POREPORT" class="atag"> Purchase Order - Summary Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASEORDERREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PODetailsReport" class="atag"> Purchase Order - Detail Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PURCHASEORDERREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PendingPO" class="atag"> Purchase Order - Item wise Pending</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                        </div>
+
+                        <button class="accordion"><b>OUTWARD REPORTS  (</b><content style="font-size:smaller">6</content>)</button>
+                        <div class="panel">
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_OUTWARDREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="OUTWARD" class="atag"> Outward Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_OUTWARDREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="DETAILEDOUTWARD" class="atag"> Outward Details Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_INWARDPENDINGREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="INWARDPENDING" class="atag"> Pending Inward Report - Stock transferred to sale Location but not accepted.</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_OUTWARDPENDINGREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="OUTWARDPENDING" class="atag"> Pending Outward Report - Stock not transferred to sale Location.</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_JOBOUTWARDREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="JOBOUTWARD" class="atag"> Job Work Outward Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_JOBINWARDREPORT.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="JOBINWARD" class="atag"> Job Work Inward Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+
+                        </div>
+
+                        <button class="accordion"><b>OTHER REPORTS  (</b><content style="font-size:smaller">4</content>)</button>
+                        <div class="panel">
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_PRODUCTMASTER.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="PRODUCTCREATE" class="atag"> Product Master Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_SUPPLIERMASTER.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="SUPPCREATE" class="atag"> Supplier Master Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_AGENTMASTER.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="AGENTCREATE" class="atag"> Agent Master Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                            <div class="col-md-12 row-padbot-15" style="padding-bottom:10px;" ng-show="Permission.p_TAXMASTER.view">
+                                <i class="fa fa-gg" style="color: brown"></i><a href="#" ui-sref="TAXCREATE" class="atag"> Tax Master Report</a> <span style="font-size:small;color:#9688A5;">  </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </section>
+
+
+    <style>
+        .accordion {
+            background-color: #e4e4e4;
+            color: brown;
+            cursor: pointer;
+            padding: 11px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            transition: 0.4s;
+            font-weight: bold;
+        }
+
+            .active, .accordion:hover {
+                background-color: #ccc;
+            }
+
+            .accordion:after {
+                content: '\002B';
+                color: #777;
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+            }
+
+        .active:after {
+            content: "\2212";
+        }
+
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+    </style>
+
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+
+</div>

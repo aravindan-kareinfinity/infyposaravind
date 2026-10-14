@@ -1,0 +1,331 @@
+﻿        <!-- Left side column. contains the logo and sidebar -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-info">
+
+            <div class="row" ng-init="HRDashboard()">
+                <div class="col-md-12">
+
+                    <div class="row" style="padding-top:10px">
+                        <div class="col-md-12">
+                            <div class="col-md-8 col-sm-6">
+
+                                <h4 class="box-title"><a href back-button> <i class="fa fa-arrow-left" style="font-size:large"> </i>   </a> HR / Dashboard</h4>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-group" style="padding-top:10px">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control input-sm" style="width:100%" daterange="SearchCondition.fromdate,SearchCondition.todate">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="HRDashboard(true)" data-widget="go" data-toggle="tooltip" title="Go"><i class="fa fa-search"></i></button>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+                            <div class="panel-stat3 bg-warning">
+                                <div class="col-md-10 no-padding">
+                                    <h2 class="m-top-none" id="userCount">{{availableemployee}} / {{totalemployee}}</h2>
+                                    <h5 class="dashboard_h5">Employees</h5>
+                                </div>
+                                <div class="col-md-10 no-padding">
+                                    <div ng-show="totalwalkin>0">
+                                        <h2 class="m-top-none" ng-click="GetWalkin()">{{totalwalkin}}</h2>
+                                        <h5 class="dashboard_h5">Walk-in</h5>
+                                    </div>
+                                </div>
+
+                                <div class="stat-icon">
+                                    <i class="fa fa-user fa-2x" ng-click="GetWalkin()"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="panel-stat3 bg-info">
+                                <div class="col-md-10 no-padding">
+                                    <h2 class="m-top-none" id="userCount">{{Dashboard.morningabsent}} / {{Dashboard.afternoonabsent}}</h2>
+                                    <h5 class="dashboard_h5">Absent</h5>
+                                </div>
+
+                                <div class="stat-icon">
+                                    <i class="fa fa-user fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="panel-stat3 bg-danger">
+                                <div class="col-md-10 no-padding">
+                                    <h2 class="m-top-none" id="userCount">{{Dashboard.morningovertime}} / {{Dashboard.eveningovertime}}</h2>
+                                    <h5 class="dashboard_h5">Overtime</h5>
+                                </div>
+
+                                <div class="stat-icon">
+                                    <i class="fa fa-user fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="panel-stat3 bg-success">
+                                <div class="col-md-10 no-padding">
+                                    <h2 class="m-top-none" id="userCount">{{Dashboard.latecheckin}} / {{Dashboard.earlycheckout}}</h2>
+                                    <h5 class="dashboard_h5">Late Check In / Early Check Out</h5>
+                                </div>
+
+                                <div class="stat-icon">
+                                    <i class="fa fa-user fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="info-box">
+                                    <div class="col-md-12 no-padding">
+
+                                        <div class="pull-left">
+                                            SECTION WISE EMPLOYEES
+                                        </div>
+                                        <div class="pull-right col-md-6" style="padding-right:100px">
+                                            <select class="form-control select2 input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in Locations track by item.id"
+                                                    ng-change="ShowSectionDetails(locationid)"
+                                                    ng-model="locationid"></select>
+                                        </div>
+
+                                        <div style="position:absolute;right:5px;top:5px">
+                                            {{sectionabsent}}/{{sectiontotal}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="padding-left:0px;padding-right:0px;padding-top:10px">
+                                        <div class="table-responsive"  fixed-header="200px" additionalheight="130">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th width="80%">NAME</th>
+                                                        <th style="text-align:right" width="100px">Total</th>
+                                                        <th style="text-align:right" width="100px">Leave</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat-start="item in Employees" style="border-bottom:1px solid lightgrey">
+                                                        <td>{{item.sectionname}}</td>
+                                                        <td>{{item.total}}</td>
+                                                        <td>
+                                                            {{item.absent}}
+                                                            <div class="pull-right" style="display:inline;padding-right:20px">
+                                                                <button type="button" class="btn-xs"
+                                                                        ng-hide="item.showdetail"
+                                                                        ng-click="item.showdetail=true" data-widget="go" data-toggle="tooltip" title="Go">
+                                                                    <i class="fa fa-plus"></i>
+                                                                </button>
+                                                                <button type="button" class="btn-xs"
+                                                                        ng-click="item.showdetail=false"
+                                                                        ng-show="item.showdetail">
+                                                                    <i class="fa fa-minus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-repeat-end ng-show="item.showdetail">
+                                                        <td colspan="3">
+                                                            <table>
+                                                                <tr ng-repeat="ditem in item.absentemployees track by $index">
+                                                                    <td width="50px">
+                                                                        &nbsp;&nbsp;
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ditem}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="info-box">
+                                    <div>
+                                        EMPLOYEES EVENTS
+                                    </div>
+
+
+                                    <div class="table-responsive" fixed-header="200px" additionalheight="130">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th width="80%">Description</th>
+                                                    <th width="100px">Count</th>
+                                                    <th width="30px">..</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat-start="item in TodayEvents.list"
+                                                    style="border-bottom:1px solid lightgrey">
+                                                    <td>{{item.name}}</td>
+                                                    <td>
+                                                        {{item.count}}<div class="pull-right" style="display:inline">
+                                                            <button type="button" class="btn-xs"
+                                                                    ng-hide="item.showdetail"
+                                                                    ng-click="item.showdetail=true" data-widget="go" data-toggle="tooltip" title="Go">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                            <button type="button" class="btn-xs"
+                                                                    ng-click="item.showdetail=false"
+                                                                    ng-show="item.showdetail">
+                                                                <i class="fa fa-minus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-repeat-end ng-show="item.showdetail">
+                                                    <td colspan="2">
+                                                        <table>
+                                                            <tr ng-repeat="ditem in item.detail">
+                                                                <td width="50px">
+                                                                    &nbsp;&nbsp;
+                                                                </td>
+                                                                <td>
+                                                                    {{ditem.employeename}}({{ditem.sectionname}})
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="col-md-12">
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <div class="box-header">
+                                <i class="fa fa-comments-o"></i>
+
+                                <h3 class="box-title">Today Events</h3>
+                            </div>
+                            <br /><br />
+                            <div class="box-body chat" id="chat-box">
+                                <div class="item" ng-repeat="item in TodayBirthday">
+                                    <img src="../dist/img/spl/cake2.jpg" class="offline">
+                                    <p class="message">
+                                        <a href="#" class="name">
+                                            <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{item.dateofbirth |displayAsDate}}</small>
+                                            {{item.employeename}}
+                                        </a>
+                                        {{item.service}}
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div class="box-body chat" id="chat-box">
+                                <div class="item" ng-repeat="item in TodayMarriageDay">
+                                    <img src="../dist/img/spl/wedani2.jpg" class="offline">
+                                    <p class="message">
+                                        <a href="#" class="name">
+                                            <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{item.dateofmarriage |displayAsDate}}</small>
+                                            {{item.employeename}}
+                                        </a>
+                                        {{item.service}}
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div class="box-body chat" id="chat-box">
+                                <div class="item" ng-repeat="item in TodayJoined">
+                                    <img src="../dist/img/spl/ava1.jpg" class="offline">
+                                    <p class="message">
+                                        <a href="#" class="name">
+                                            <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{item.dateofjoining	 |displayAsDate}}</small>
+                                            {{item.employeename}}
+                                        </a>
+                                        {{item.service}}
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <div class="box-header">
+                                <i class="fa fa-comments-o"></i>
+                                <h3 class="box-title">Month Events</h3>
+                            </div>
+                            <br /><br />
+                            <div class="box-body chat" id="chat-box">
+                                <div class="item" ng-repeat="item in MonthlyJoined">
+                                    <img src="../dist/img/spl/ava1.jpg" class="offline">
+                                    <p class="message">
+                                        <a href="#" class="name">
+                                            <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{item.dateofjoining |displayAsDate}}</small>
+                                            {{item.employeename}}
+                                        </a>
+                                        {{item.service}}
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <div class="box-header">
+                                <i class="fa fa-comments-o"></i>
+
+                                <h3 class="box-title">Left Employees</h3>
+                            </div>
+                            <br /><br />
+                            <div class="box-body chat" id="chat-box">
+                                <div class="item" ng-repeat="item in Monthlylefted">
+                                    <img src="../dist/img/spl/ava4.jpg" class="offline" />
+                                    <p class="message">
+                                        <a href="#" class="name">
+                                            <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{item.relievingdate |displayAsDate}}</small>
+                                            {{item.employeename}}
+                                        </a>
+                                        {{item.service}}
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </section>
+
+    <!-- /.content -->
+</div>

@@ -1,0 +1,73 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            CRM  /   Customer Activity Report
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'customerlist', 'customerlist')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-click="SearchFeedback()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li style="cursor:pointer" ng-click="PrintMyCustomers()"><a><i class="fa fas fa-print"></i>Print Label</a></li>
+            <li style="cursor:pointer" ng-show="selectedlist && selectedlist.length>0" ng-click="SendSMS(selectedlist)"><a><i class="fa fas fa-search-plus"></i>Send SMS</a></li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box primary">
+            <div class="box-body">
+                <div class="col-md-3 no-padding">
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12 no-padding">
+                            <label>LOCATION</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Location track by item.id"
+                                    ng-model="SearchCondition.locationid" focusid="location" focusonenter="billdate" ></select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12 no-padding">
+                            <label>BILL DATE</label>
+                            <div class="input-group-sm">
+                                <input type="text" class="form-control input-sm" style="width:100%" daterange="SearchCondition.fromdate,SearchCondition.todate" focusid="billdate" focusonenter="category" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-6 no-padding">
+                            <label>CATEGORY</label>
+                            <div class="input-group-sm">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id as item.name for item in CustomerType track by item.id" startswith="true" ng-model="SearchCondition.customertype" focusid="category" focusonenter="customertype" ></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 no-padding">
+                            <label>CUSTOMER TYPE</label>
+                            <div class="input-group-sm">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id as item.name for item in CustomerCategory track by item.id" startswith="true" ng-model="SearchCondition.categoryid" focusid="customertype" ></select>
+                            </div>
+                        </div>
+                    </div>
+                 
+                </div>
+
+                <div class="col-md-9 no-padding">
+
+                    <div class="col-md-12">
+                        <div class="col-md-12" id="report">
+                            <div class="col-md-12" id="gridContainer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+

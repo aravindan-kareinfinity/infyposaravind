@@ -1,0 +1,26 @@
+﻿Installing assembly 'E:\SourceCode\pakshi\InfyPOS\Printerservice\Quanto.PrinterService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\SourceCode\pakshi\InfyPOS\Printerservice\Quanto.PrinterService.InstallLog
+   assemblypath = E:\SourceCode\pakshi\InfyPOS\Printerservice\Quanto.PrinterService.exe
+Installing service Quanto-Printer-Service...
+Service Quanto-Printer-Service has been successfully installed.
+Creating EventLog source Quanto-Printer-Service in log Application...
+Committing assembly 'E:\SourceCode\pakshi\InfyPOS\Printerservice\Quanto.PrinterService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = E:\SourceCode\pakshi\InfyPOS\Printerservice\Quanto.PrinterService.InstallLog
+   assemblypath = E:\SourceCode\pakshi\InfyPOS\Printerservice\Quanto.PrinterService.exe
+Installing assembly 'F:\Sourcecode\InfyPOS\Printerservice\Quanto.PrinterService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = F:\Sourcecode\InfyPOS\Printerservice\Quanto.PrinterService.InstallLog
+   assemblypath = F:\Sourcecode\InfyPOS\Printerservice\Quanto.PrinterService.exe
+Installing service Quanto-Printer-Service...
+Service Quanto-Printer-Service has been successfully installed.
+Creating EventLog source Quanto-Printer-Service in log Application...
+Committing assembly 'F:\Sourcecode\InfyPOS\Printerservice\Quanto.PrinterService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = F:\Sourcecode\InfyPOS\Printerservice\Quanto.PrinterService.InstallLog
+   assemblypath = F:\Sourcecode\InfyPOS\Printerservice\Quanto.PrinterService.exe

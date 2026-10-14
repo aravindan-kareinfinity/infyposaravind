@@ -1,0 +1,707 @@
+﻿<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Warehouse / Purchase Return
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="ClearItems()"><a><i class="fa fa-file"></i>New</a></li>
+            <!--<li style="cursor:pointer" ng-hide="PurchaseReturn.mode==1">
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280" uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                             max-height="1280" preview="false" ng-model="uploadfile"
+                             filemodel="uploadfile" onuploadcomplete="fileuploadedcomplete"
+                             filetype="DATA"
+                             multiple="false">
+                    <i class="fa fa-upload">Upload</i>
+                </file-upload>
+            </li>-->
+            <li ng-show="Navigation.save" ng-disabled="SaveRequest" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.save && PurchaseReturn.id && PurchaseReturn.id>0" style="cursor:pointer" ng-click="PrintDebitNote()"><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.save && PurchaseReturn.id && PurchaseReturn.id>0" style="cursor:pointer" ng-click="UpdateTransports(PurchaseReturn)"><a><i class="fa  fa-envelope-o"></i>LR Info</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.searchentity && SearchResult.length>0" style="cursor:pointer" ng-click="exporttoExcel(sgrid,'purchasereturn', 'purchasereturn')"><a><i class="fa fa-download"></i>Export</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+
+
+    </section>
+    <section class="content">
+        <div class="box box-success">
+            <div class="box-body" ng-hide="ShowSearch">
+                <div class="col-md-12">
+                    <div class="col-md-3 no-padding">
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Type</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in RetrunType track by item.id"
+                                            ng-model="PurchaseReturn.returntype" focusid="type" focusonenter="date"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Debit Note#</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="name" class="form-control input-sm" ng-readonly="true" id="inputEmail3" placeholder="" ng-model="PurchaseReturn.returnno">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Date</label>
+                                <div class="col-md-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" id="reservation"
+                                               class="form-control pull-right input-sm"
+                                               datemodule="PurchaseReturn.returndate"
+                                               ng-model="PurchaseReturn.ReturnDate"
+                                               focuid="first" focusonenter="mode">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Stock Location</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-change="LocationChanged()"
+                                            options="item.id as item.name for item in Locations track by item.id" ng-model="PurchaseReturn.locationid" focusid="location" focusonenter="company"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            options="item.id as item.name for item in Company track by item.id" ng-model="PurchaseReturn.companyid" focusid="company"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Supplier</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Suppliers track by item.id" ng-change="FilterSupplierCompany()" ng-model="PurchaseReturn.supplierid" focusid="supplier" focusonenter="suppliercompany"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Supplier Company</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in SupplierCompany track by item.id" ng-model="PurchaseReturn.suppliercompanyid" focusid="suppliercompany" focusonenter="shiptocompany"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Ship to Company</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in SupplierCompany track by item.id" ng-model="PurchaseReturn.shiptosupplierid" focusid="shiptocompany" focusonenter="agent"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Agent</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Agents track by item.id" ng-model="PurchaseReturn.agentid" focusid="agent" focusonenter="interstate"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4 col-md-4">Interstate</label>
+                                <div class="col-sm-2 col-md-2">
+                                    <input type="checkbox" class="flat-red" ng-model="PurchaseReturn.isinterstatesale" focusid="interstate" focusonenter="searchtype">
+                                </div>
+                                <div class="col-sm-6 col-md-6">
+                                    <label class="control-label col-sm-9 col-md-9">Direct BOM</label>
+                                    <div class="col-sm-3 col-md-3">
+                                        <input type="checkbox" class="flat-red pull-right" 
+                                               ng-change="ShowDirectBOM()"
+                                               ng-model="PurchaseReturn.isdirectbom">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Barcode</label>
+                                <div class="col-md-8">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" name="name" class="form-control no-padding input-sm" onkeyenter="SearchItems()" placeholder="Barcode" ng-model="SearchInvoiceCondition.barcode">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info btn-flat" ng-click="SearchItems()">Search</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Invoice No</label>
+                                <div class="col-md-8">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" name="name" class="form-control no-padding input-sm" onkeyenter="SearchItems()" placeholder="Invoice No" ng-model="SearchInvoiceCondition.invoiceno">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info btn-flat" ng-click="SearchItems()">Search</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Entry No</label>
+                                <div class="col-md-8">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" name="name" class="form-control no-padding input-sm" onkeyenter="SearchItems()" placeholder="Entry No" ng-model="SearchInvoiceCondition.lrentryno">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info btn-flat" ng-click="SearchItems()">Search</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="PurchaseReturn.returntype > 0">
+                            <label for="inputEmail3" class="col-md-4 control-label">Discount</label>
+                            <div class="col-md-8">
+                                <div class="col-md-5 no-padding">
+                                    <select class="form-control" select2="" ng-model="SearchInvoiceCondition.discountmode"
+                                            options="test.id as test.name for test in DiscountModes track by test.id"></select>
+                                </div>
+
+                                <div class="input-group input-group-sm">
+                                    <input type="text" name="name" class="form-control no-padding input-sm"
+                                           onkeyenter="ApplyDiscount()"
+                                           placeholder="Discount" ng-model="SearchInvoiceCondition.discountpercentage">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-flat" ng-click="ApplyDiscount()">Apply</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-4 control-label text-green" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+                        </div>
+
+                        <div style="height: 135px; width: 135px; position: relative; bottom: 156px" ng-show="ShowImage">
+                            <div style="height:16px;width:16px;position:relative;left:122px;top:15px;">
+                                <i ng-click="ShowImage=false" style="font-size:larger;color:orangered"
+                                   class="fa fa-close"></i>
+                            </div>
+                            <div style="height:85px;width:85px;display:inline">
+                                <a target="_blank" href="File/Show/{{UserInfo.OrganizationID}}/{{currentimageid}}">
+                                    <img style="height:135px;width:135px;" ng-src="File/Show/{{UserInfo.OrganizationID}}/{{currentimageid}}">
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-9" style="padding-left:5px;padding-right:0px">
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12 col-sm-12" ng-show="PurchaseReturn.isdirectbom">
+                                <div class="col-md-2 no-padding" style="padding-left:1px;padding-right:1px">
+                                    <label class="smalllabel"><b>Comp. Category</b></label>
+
+                                    <select class="input-sm form-control" select2="Select Category"
+                                            ng-model="ItemDetails.bomcategoryid"
+                                            ng-change="categoryChange()"
+                                            ng-options="item.id as item.name for item in BOMCategories track by item.id"
+                                            style="width:100%"
+                                            focusid="categoryid" focusonenter="bomid"></select>
+
+                                </div>
+
+                                <div class="col-md-3 no-padding" style="padding-left:1px;padding-right:1px">
+                                    <label class="smalllabel"><b>Component</b></label>
+
+                                    <select class="input-sm form-control" select2="Select Component"
+                                            ng-model="ItemDetails.bomid"
+                                            ng-change="productChange()"
+                                            ng-options="item.id as item.title for item in BOMList track by item.id"
+                                            style="width:100%"
+                                            focusid="bomid" onkeyenter="setColourFocus()"></select>
+                                </div>
+
+                                <div class="col-md-2 no-padding" style="padding-left:1px;padding-right:1px">
+                                    <label class="smalllabel"><b>Colour</b></label>
+
+                                    <select class="input-sm form-control" select2="Select Component"
+                                            ng-model="ItemDetails.colourid"
+                                            ng-options="item.id as item.name for item in ColorList track by item.id"
+                                            ng-change="colourChange()"
+                                            style="width:100%"
+                                            focusid="colourid" focusonenter="width"></select>
+                                </div>
+
+
+                            
+                                <div class="col-md-5" style="padding-left:1px;padding-right:1px">
+
+                                    <div class="col-md-2 no-padding">
+
+                                        <label class="smalllabel"><b>Width</b></label>
+                                        <input type="text" class="input-sm form-control" style="width: 100%;" placeholder="Width"
+                                               focusid="width"
+                                               focusonenter="buyingqty"
+                                               ng-model="ItemDetails.width">
+                                    </div>
+
+                                    <div class="col-md-2 no-padding">
+                                        <label class="smalllabel"><b>Qty</b></label>
+                                        <input type="text" class="input-sm form-control" style="width: 100%;"
+                                               placeholder="Qty"
+                                               focusid="buyingqty" focusonenter="basebuyingprice"
+                                               ng-model="ItemDetails.qty" selectAllOnFocus="true">
+
+                                    </div>
+
+                                    <div class="col-md-2 no-padding">
+                                        <label class="smalllabel"><b>Cost</b></label>
+                                        <input type="text" class="input-sm form-control"
+                                               style="width: 100%;" placeholder="Cost"
+                                               focusid="basebuyingprice"
+                                               focusonenter="margin"
+                                               selectAllOnFocus="true"
+                                               ng-change="marginChanged()"
+                                               ng-model="ItemDetails.rate">
+                                    </div>
+
+                                    <div class="col-md-2 no-padding">
+                                        <label class="smalllabel"><b>Tax(%)</b></label>
+                                        <input type="text" class="input-sm form-control"
+                                               style="width: 100%;" placeholder="Exp."
+                                               ng-change="marginChanged()"
+                                               focusid="margin"
+                                               focusonenter="sellingprice"
+                                               selectAllOnFocus="true"
+                                               ng-model="ItemDetails.taxpercentage">
+                                    </div>
+                                    <div class="col-md-4 no-padding" style="padding-left:1px;padding-right:1px">
+                                        <label class="smalllabel"><b>Amount</b></label>
+                                        <div class="input-group input-group-sm">
+
+                                            <input type="text" class="input-sm form-control" style="width: 100%;"
+                                                   ng-readonly="true" 
+                                                   ng-model="ItemDetails.amount"
+                                                   focusid="sellingprice"
+                                                   selectAllOnFocus="true"
+                                                   focusonenter="mrp" onkeyenter="AddItem()">
+
+                                            <span class="input-group-btn" style="width:10px">
+                                                <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddItem()">
+                                                    <i class=" glyphicon glyphicon-plus-sign"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                  
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12 col-sm-12" id="gridContaineritems">
+
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="col-sm-4 col-md-4">
+
+                                <div class="row row-padbot-15">
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label">Bundles</label>
+                                    </div>
+                                    <div class="col-sm-8 col-md-8" style="padding-right:0px">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="PurchaseReturn.bundles" focusid="noofbundels" focusonenter="freight">
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label">Freight Mode</label>
+                                    </div>
+                                    <div class="col-sm-8 col-md-8" style="padding-right:0px">
+                                        <select class="form-control" select2='Transport' style="width:100%;" ng-model="PurchaseReturn.freight" options="item.id as item.name for item in FreightList track by item.id" focusid="freight" focusonenter="freighttaxid" ></select>
+                                    </div>
+
+                                </div>
+                                <div class="row row-padbot-15">
+
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label">Freight</label>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4" style="padding-right:0px">
+                                        <select class="form-control" select2='Tax%' style="width:100%;" ng-model="PurchaseReturn.freighttaxid" options="item.id as item.name for item in PurchaseTax track by item.id" focusid="freighttaxid" focusonenter="freightcall" ></select>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4" style="padding-right:0px">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="PurchaseReturn.freightamt" 
+                                               ng-change="CalculateTotal(true)" focusid="freightcall" focusonenter="packingcharge">
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label">Packing Charges</label>
+                                    </div>
+                                    <div class="col-sm-8 col-md-8" style="padding-right:0px">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="PurchaseReturn.packingcharge" ng-change="CalculateTotal(true)" focusid="packingcharge" focusonenter="remarks">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="row row-padbot-15">
+
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label">Amount</label>
+                                    </div>
+                                    <div class="col-sm-8 col-md-8">
+                                        <div class="text-right" style="vertical-align:top;font-size:large;color:brown"><b>{{PurchaseReturn.amount |number:2}}</b></div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label">Discount</label>
+                                    </div>
+                                    <div class="col-sm-8 col-md-8">
+                                        <div class="text-right" style="vertical-align:top;font-size:large;color:brown"><b>{{PurchaseReturn.discount |number:2}}</b></div>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label">Tax</label>
+                                    </div>
+                                    <div class="col-sm-8 col-md-8">
+                                        <div class="text-right" style="vertical-align:top;font-size:large;color:brown"><b>{{PurchaseReturn.tax |number:2}}</b></div>
+                                    </div>
+
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label">Freight Tax</label>
+                                    </div>
+                                    <div class="col-sm-8 col-md-8">
+                                        <div class="text-right" style="vertical-align:top;font-size:large;color:brown"><b>{{PurchaseReturn.freighttaxamt |number:2}}</b></div>
+                                    </div>
+
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label">Total</label>
+                                    </div>
+                                    <div class="col-sm-8 col-md-8">
+                                        <div class="text-right" style="vertical-align:top;font-size:large;color:orangered"><b>{{PurchaseReturn.total |number:2}}</b></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label">Total Qty</label>
+                                    </div>
+                                    <div class=" col-md-8">
+                                        <div class="text-right" style="vertical-align:top;font-size:large;color:forestgreen"><b>{{PurchaseReturn.qty |number:2}}</b></div>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label">Total Piece</label>
+                                    </div>
+                                    <div class=" col-md-8">
+                                        <div class="text-right" style="vertical-align:top;font-size:large;color:forestgreen"><b>{{PurchaseReturn.piece |number:2}}</b></div>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label">Remarks</label>
+                                    </div>
+                                    <div class="col-sm-8 col-md-8">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="PurchaseReturn.remarks" focusid="remarks" focusonenter="lrno" focusonenter="transportid" >
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label">Transport</label>
+                                    </div>
+                                    <div class="col-sm-8 col-md-8">
+                                        <select class="form-control" select2='Transport' style="width:100%;" ng-model="PurchaseReturn.transportid" options="item.id as item.name for item in Transports track by item.id" focusid="transportid" focusonenter="lrno" ></select>
+                                    </div>
+
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label">LRNo / Date</label>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4" style="padding-right:0px">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="PurchaseReturn.lrno" focusid="lrno" focusonenter="lrdate">
+                                    </div>
+                                    <div class="col-sm-4 col-md-4" style="padding-left:0px">
+                                        <input type="text" id="reservation" class="form-control pull-right input-sm" datemodule="PurchaseReturn.lrdate" ng-model="PurchaseReturn.lrdate" focusid="lrdate">
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-body" ng-show="ShowSearch">
+                <div class="col-md-12">
+                    <div class="col-md-2 no-padding">
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="control-label no-padding">Company</label>
+                            <div class="no-padding">
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        options="item.id as item.name for item in Company track by item.id"
+                                        ng-model="SearchCondition.companyid" focusid="company1" focusonenter="supplier1" ></select>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="control-label no-padding">Supplier</label>
+                            <div class="no-padding">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Suppliers track by item.id" ng-model="SearchCondition.supplierid" focusid="supplier1" focusonenter="returndate"  ></select>
+                            </div>
+
+                        </div>
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="control-label no-padding">Return Date</label>
+                            <div class="no-padding">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control input-sm" style="width:100%" daterange="SearchCondition.fromreturndate,SearchCondition.toreturndate" focusid="returndate" focusonenter="location1" >
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="control-label no-padding">Location</label>
+                            <div class="no-padding">
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        options="item.id as item.name for item in Locations track by item.id" ng-model="SearchCondition.locationid" focusid="location1" focusonenter="returnno1" ></select>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="control-label no-padding">Return No</label>
+                            <div class="no-padding">
+                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.returnno" focusid="returnno1" onkeyenter="Search()">
+                            </div>
+
+                        </div>
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="control-label no-padding">LR Entry No</label>
+                            <div class="no-padding">
+                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.lrentryno" onkeyenter="Search()">
+                            </div>
+
+                        </div>
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="control-label no-padding">Invoice No</label>
+                            <div class="no-padding">
+                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.invoiceno" onkeyenter="Search()">
+                            </div>
+
+                        </div>
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="control-label no-padding">Barcode</label>
+                            <div class="no-padding">
+                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.barcode" onkeyenter="Search()">
+                            </div>
+
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="control-label no-padding">Type</label>
+                            <div class="no-padding">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in RetrunType track by item.id" focusid="type"
+                                        ng-model="SearchCondition.returntype"></select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-10" style="padding-left:25px;padding-right:0px">
+                        <div class="col-md-12 no-padding" id="gridContainer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+
+<script type="text/ng-template" id="UpdateLRInfo">
+    <div class="ngdialog-message">
+        <div class="col-md-12">
+
+            <div class="col-md-9">
+
+                <div class="row row-padbot-15">
+                    <label for="inputEmail3" class="col-md-4 control-label">LR No / Date</label>
+                    <div class="col-sm-8 col-md-8">
+                        <div class="col-md-6 no-padding">
+                            <input type="text" class="form-control input-sm" placeholder="LR No"
+                                   ng-model="PurchaseReturn.lrno">
+                        </div>
+                        <div class="col-md-6 no-padding">
+                            <input type="text" class="form-control input-sm"
+                                   datemodule="entity.lrdate"
+                                   ng-model="PurchaseReturn.lrdate">
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row row-padbot-15">
+                    <label class="control-label col-md-4">Transport</label>
+                    <div class="col-sm-8 col-md-8">
+                        <select class="form-control" select2='Transport' style="width:100%;" ng-model="PurchaseReturn.transportid"
+                                options="item.id as item.name for item in Transports track by item.id"
+                                focusid="transportid" focusonenter="fromlocationid"></select>
+                    </div>
+
+                </div>
+
+                <div class="row row-padbot-15">
+                    <label for="inputEmail3" class="col-md-4 control-label">City</label>
+                    <div class="col-sm-8 col-md-8">
+                        <select class="form-control input-sm" style="width: 100%;" select2=""
+                                options="report.id as report.name for report in Cities track by report.id"
+                                ng-model="PurchaseReturn.tolocationid"></select>
+                    </div>
+                </div>
+
+
+
+                <div class="row row-padbot-15">
+                    <label for="inputEmail3" class="col-md-4 control-label">Packed By</label>
+                    <div class="col-sm-8 col-md-8">
+                        <select class="form-control input-sm" style="width: 100%;" select2=""
+                                options="report.id as report.name for report in Employ track by report.id"
+                                ng-model="PurchaseReturn.packedby"></select>
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15">
+                    <label for="inputEmail3" class="col-md-4 control-label">E-Invoice/EWB</label>
+                    <div class="col-sm-8 col-md-8">
+                        <div class="col-md-6 no-padding">
+                            <input type="text" class="form-control input-sm" placeholder="E-Invoice"
+                                   ng-model="PurchaseReturn.einvoice">
+                        </div>
+                        <div class="col-md-6 no-padding">
+                            <input type="text" class="form-control input-sm" placeholder="EWB"
+                                   ng-model="PurchaseReturn.eway">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15">
+
+                    <label class="col-md-4 control-label">Remarks</label>
+
+                    <div class="col-sm-8 col-md-8">
+                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="PurchaseReturn.remarks" focusid="remarks" focusonenter="lrno">
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="col-md-3">
+                <div class="col-md-12" style="height:160px;width:150px" ng-show="PurchaseReturn.billimg">
+                    <a target="_blank" href="File/Show/{{UserInfo.OrganizationID}}/{{PurchaseReturn.billimg}}">
+                        <img style="height:150px;width:150px" ng-src="File/Show/{{UserInfo.OrganizationID}}/{{PurchaseReturn.billimg}}" />
+                    </a>
+                </div>
+
+
+                <!--<div class="col-md-12" ng-show="entity.billimg">
+                    <img ng-src="entity.billimg" style="width:100%;height:100%" />
+                </div>-->
+            </div>
+        </div>
+
+
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-8">
+            <div class="col-md-3 no-padding">
+                <button class="btn btn-danger btn-rad btn-trans btn-xs" ng-click="ChangeSupplier()">
+                    <i class="fa fa-close"></i>Business
+                </button>
+            </div>
+            <div class="col-md-9 no-padding">
+                <button class="btn btn-success btn-rad btn-trans btn-xs" 
+                        style="position:absolute;left:0px"
+                        ng-click="CaptureImage('IMAGE',PurchaseReturn,'billimg')">
+                    <i class="fa fa-camera"></i>
+                </button>
+                <div class="col-md-12" style="padding-right:0px;padding-left:20px">
+                    <div class="col-md-6">
+                        <file-upload class="btn btn-success btn-rad btn-trans btn-xs file-upload"
+                                     resize="true" max-width="1280"
+                                     max-height="1280" preview="true"
+                                     ng-model="billimg"
+                                     filemodel="billimg"
+                                     filetype="IMAGE"
+                                     onuploadcomplete="BillImageChanged"
+                                     multiple="false">
+                            <i class="fa fa-upload"></i>
+                            <span>Upload Bill</span>
+                        </file-upload>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Cancel</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="Update()">Update</button>
+    </div>
+</script>

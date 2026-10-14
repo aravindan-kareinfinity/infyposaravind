@@ -1,0 +1,117 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Finance \ TDS Transactions
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="Search()"><i class="fa fa-search"></i>&nbsp;Search</li>
+            <li style="cursor:pointer" ng-show="selectedcount==1" ng-click="EditVoucher()"><i class="fa fa-edit"></i>&nbsp;Voucher</li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'freport.xls')"><i class="fa fa-save"></i>&nbsp;Export</li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="col-md-12" style="padding-right:0px">
+                    <div class="col-md-2 no-padding">
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="control-label">Company</label>
+                            <div class="col-sm-12 no-padding">
+                                <select class="form-control input-sm" select2="Status"
+                                        options="item.id as item.name for item in Company track by item.id"
+                                        ng-model="SearchRequest.companyid"></select>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <table fixed-header="130px">
+                                <thead>
+                                    <tr>
+                                        <th width="85%">Location</th>
+                                        <th width="50px">
+                                            <input type="checkbox" ng-model="ldata" ng-click="SelectAll(Location,ldata)">
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in Location">
+                                        <td>{{item.name}}</td>
+                                        <td>
+                                            <input type="checkbox" style="padding-right:5px" ng-model="item.view">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <table fixed-header="130px">
+                                <thead>
+                                    <tr>
+                                        <th width="85%">Voucher Types</th>
+                                        <th width="50px">
+                                            <input type="checkbox" ng-model="vdata" ng-click="SelectAll(vouchertypes,vdata)">
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in vouchertypes">
+                                        <td>{{item.name}}</td>
+                                        <td>
+                                            <input type="checkbox" style="padding-right:5px" ng-model="item.view">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <table fixed-header="130px" additionalheight="450">
+                                <thead>
+                                    <tr>
+                                        <th width="85%">Ledger</th>
+                                        <th width="50px">
+                                            <input type="checkbox" ng-model="ledtype" ng-click="SelectAll(TDSLedgers,ledtype)">
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in TDSLedgers">
+                                        <td>{{item.name}}</td>
+                                        <td>
+                                            <input type="checkbox" style="padding-right:5px" ng-model="item.view">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="control-label">Date Range</label>
+                            <div class="col-sm-12 no-padding">
+                                <input type="text" drops="up" daterange="SearchRequest.fromdate,SearchRequest.todate"
+                                       class="form-control pull-right input-sm">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-10" style="padding-right:0px">
+                        <div class="col-md-12" id="gridContainer" style="padding-right:0px">
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+    </section>
+    <!-- /.content -->
+</div>

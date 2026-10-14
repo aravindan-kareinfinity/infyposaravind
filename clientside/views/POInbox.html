@@ -1,0 +1,389 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Warehouse  / Purchase Order - Inbox
+        </h1>
+        <ol class="breadcrumb">
+
+            <li style="cursor:pointer" ng-show="selectedcount == 1" ng-click="ClonePO()"><a><i class="fa fas fa-paper-plane"></i>Clone PO</a></li>
+            <li style="cursor:pointer" ng-show="selectedcount == 1 && SelecteOrder.internalstatus == 11" ng-click="ChangeStatus(1)"><a><i class="fa fas fa-paper-plane"></i>Approve PO</a></li>
+            <li style="cursor:pointer" ng-show="selectedcount == 1 && SelecteOrder.internalstatus == 11" ng-click="ChangeStatus(2)"><a><i class="fa fas fa-paper-plane"></i>Reject PO</a></li>
+            <li style="cursor:pointer" ng-show="selectedcount == 1 && SelecteOrder.internalstatus >= 1 && SelecteOrder.internalstatus!=11" ng-click="ShowGRN()"><a><i class="fa fas fa-paper-plane"></i>LR Entry</a></li>
+            <li style="cursor:pointer" ng-show="selectedcount == 1 && SelecteOrder.internalstatus >= 6 && SelecteOrder.internalstatus!=11" ng-click="ShowBilling()"><a><i class="fa fas fa-paper-plane"></i>Bill</a></li>
+            <li style="cursor:pointer" ng-show="selectedcount == 1 && SelecteOrder.internalstatus >= 7 && SelecteOrder.internalstatus!=11" ng-click="ShowScanning()"><a><i class="fa fas fa-paper-plane"></i>GRN</a></li>
+            <li style="cursor:pointer" ng-show="Mode == 'LIST'" ng-click="CancelSO()"><a><i class="fa fas fa-paper-plane"></i>Cancel PO</a></li>
+            <li style="cursor:pointer" ng-show="Mode == 'LIST'" ng-click="CancelSO()"><a><i class="fa fas fa-paper-plane"></i>Cancel PO</a></li>
+            <li style="cursor:pointer" ng-show="Mode == 'LIST'" ng-click="CompleteSO()"><a><i class="fa fas fa-paper-plane"></i>Complete PO</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'whdashboard', 'dashboard')"><a><i class="fa fa-download"></i></a></li>
+            <li style="cursor:pointer" ng-show="Mode == 'LIST'" ng-click="Print()"><a><i class="fa fa-print"></i></a></li>
+            <li ng-show="Navigation.create" style="cursor:pointer">
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280" uri='File/DocumentProcess/PO/'
+                             max-height="1280" preview="false" ng-model="uploadfile"
+                             filetype="DATA"
+                             filemodel="uploadfile" onuploadcomplete="uanpofileuploadedcomplete"
+                             multiple="false">
+                    <i class="fa fa-upload">Upload UAN PO</i>
+                </file-upload>
+            </li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="col-sm-3 col-md-3 no-padding">
+                            <select class="form-control input-sm" select2="Type" options="item.id as item.name for item in Location track by item.id"
+                                    ng-model="SearchRequest.locationid" focusid="Location"
+                                    focusonenter="filter"></select>
+                        </div>
+                        <div class="col-sm-3 col-md-3" style="padding-left:0px">
+                            <select class="form-control input-sm" select2="Type" options="item.id as item.name for item in SearchType track by item.id"
+                                    ng-model="SearchRequest.searchtype" focusid="filter" focusonenter="status"></select>
+                        </div>
+                        <div class="col-md-6 no-padding" ng-show="SearchRequest.searchtype==1">
+                            <select class="form-control input-sm" select2='Supplier' ng-model="SearchRequest.supplierid"
+                                    onkeyenter="SearchPOSummary()" style="width:100%"
+                                    options="item.id as item.name for item in Suppliers track by item.id"></select>
+                        </div>
+                        <div class="col-md-6 no-padding" ng-show="SearchRequest.searchtype==3">
+                            <select class="form-control input-sm" select2='Supplier' ng-model="SearchRequest.cityid"
+                                    onkeyenter="SearchPOSummary()" style="width:100%"
+                                    options="item.id as item.name for item in CityList track by item.id"></select>
+                        </div>
+                        <div class="col-md-6 no-padding" ng-show="SearchRequest.searchtype==4">
+                            <select class="form-control input-sm" select2='Supplier' ng-model="SearchRequest.productid"
+                                    onkeyenter="SearchPOSummary()" style="width:100%"
+                                    options="item.id as item.name for item in ProductList track by item.id"></select>
+                        </div>
+                        <div class="col-md-6 no-padding" ng-show="SearchRequest.searchtype==5">
+
+                            <div class="input-group input-group-sm" style="width:100%">
+                                <input type="text" class="form-control input-sm col-md-8"
+                                       onkeyenter="SearchPOSummary()"
+                                       ng-model="SearchRequest.design" />
+                                <span class="input-group-btn" style="width:20px">
+                                    <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="ShowDesignList()">
+                                        <i class="fa fa-filter"></i>
+                                    </button>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Status</label>
+                        <div class="col-sm-4 col-md-4">
+                            <select class="form-control input-sm" select2="Status" focusid="status" focusonenter="date"
+                                    ng-change="statuschanged()"
+                                    options="item.id as item.name for item in StatusList track by item.id" ng-model="SearchRequest.internalstatus"></select>
+                        </div>
+                        <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Date</label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" daterange="SearchRequest.fromdate,SearchRequest.todate"
+                                   class="form-control pull-right input-sm" focusid="date" focusonenter="search">
+                        </div>
+                        <div class="col-sm-2 col-md-2 no-padding">
+                            <button type="button" class="btn btn-primary btn-sm btn-box pull-right"
+                                    ng-click="SearchPOSummary()" focusid="search">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12" id="gridContainer">
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+<script type="text/ng-template" id="ChooseDesign">
+    <div class="ngdialog-message">
+        <div class="col-md-12">
+            <table fixed-header="300px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th style="width:50px">&nbsp;</th>
+                        <th style="width:200px">Design</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in DesignList">
+                        <td><input type="checkbox" ng-model="item.selected" ng-change="SelectedChanged()" /></td>
+                        <td>{{item.code}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-12" style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-6">
+                <label for="inputEmail3" class="control-label">Selected Designs</label>
+                <div style="font-size:large">
+                    {{Count}}
+                </div>
+            </div>
+            <div class="col-md-6" style="padding-top:25px">
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Search()">Search</button>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="GRN">
+    <div class="ngdialog-message">
+        <div class="col-md-12">
+            <div class="row row-padbot-15">
+
+                <div class="col-md-6 no-padding">
+                    <label for="inputEmail3" class="control-label">Mode Of Delivery</label>
+                    <select class="form-control" select2='Mode' ng-model="LREntry.modeofdelivery"
+                            style="width: 100%;"
+                            options="item.id as item.name for item in ModeofDelivery track by item.id"
+                            focusonenter="lrno"></select>
+                </div>
+                <div class="col-md-6 no-padding">
+                    <label for="inputEmail3" class="control-label">LR No</label>
+
+                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="LREntry.lrno"
+                           ng-change="GetLastLRInfo()" focusonenter="lrdate" focusid="lrno">
+
+                </div>
+
+
+
+            </div>
+            <div class="row row-padbot-15">
+
+
+
+                <div class="col-md-6 no-padding">
+                    <label for="inputEmail3" class="control-label">LR Date</label>
+                    <input type="text" class="form-control input-sm datepicker" datemodule="LREntry.lrdate" 
+                           ng-model="LREntry.lrdate" focusid="lrdate" focusonenter="receiveddate">
+                </div>
+                <div class="col-md-6 no-padding">
+                    <label for="inputEmail3" class="control-label">Received Date</label>
+
+                    <input type="text" class="form-control input-sm datepicker" datemodule="LREntry.receiveddate" ng-model="LREntry.receiveddate" focusid="receiveddate"
+                           focusonenter="transportid">
+
+                </div>
+
+
+            </div>
+
+            <div class="row row-padbot-15">
+
+                <div class="col-md-6 no-padding">
+                    <label for="inputEmail3" class="control-label">Transport</label>
+                    <select class="form-control" select2='Transport' style="width:100%;" ng-model="LREntry.transportid"
+                            options="item.id as item.name for item in Transports track by item.id" focusid="transportid"
+                            focusonenter="noofbundels"></select>
+                </div>
+                <div class="col-md-6 no-padding">
+                    <label for="inputEmail3" class="control-label">No Of Bundles</label>
+                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="LREntry.noofbundels" focusid="noofbundels"
+                           focusonenter="totalamount">
+                </div>
+
+            </div>
+            <div class="row row-padbot-15">
+
+                <div class="col-md-6 no-padding">
+                    <label for="inputEmail3" class="control-label">Value</label>
+                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="LREntry.totalamount" focusid="totalamount" focusonenter="noofboxes">
+                </div>
+                <div class="col-md-6 no-padding">
+                    <div class="col-md-6 no-padding">
+                        <label for="inputEmail3" class="control-label">No Of Boxes</label>
+                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="LREntry.noofboxes" focusid="noofboxes" focusonenter="noofpieces">
+                    </div>
+                    <div class="col-md-6 no-padding">
+                        <label for="inputEmail3" class="control-label">No Of Pieces</label>
+                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="LREntry.noofpieces" focusid="noofpieces" focusonenter="lrentrydate">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-padbot-15">
+
+                <div class="col-md-6 no-padding">
+                    <label for="inputEmail3" class="control-label">LR Entry Date</label>
+                    <input type="text" class="form-control input-sm datepicker" datemodule="LREntry.lrentrydate"
+                           ng-model="LREntry.lrentrydate" focusid="lrentrydate" focusonenter="invoiceno">
+                </div>
+                <div class="col-md-6 no-padding">
+                    <label for="inputEmail3" class="control-label">LR Entry No</label>
+                    <input method="text" class="form-control input-sm" style="width: 100%;" 
+                           ng-readonly="true" ng-disabled="true" ng-model="LREntry.lrentryno">
+                </div>
+
+            </div>
+
+            <div class="row row-padbot-15">
+
+                <div class="col-md-6 no-padding">
+                    <label for="inputEmail3" class="control-label">Invoice No</label>
+                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="LREntry.invoiceno"
+                           focusonenter="invoicedate" focusid="invoiceno"
+                           ng-change="GetLastLRInfo()">
+                </div>
+                <div class="col-md-6 no-padding">
+                    <label for="inputEmail3" class="control-label">Invoice Date</label>
+                    <input type="text" class="form-control input-sm datepicker" datemodule="LREntry.invoicedate"
+                           ng-change="GetLastLRInfo()"
+                           ng-model="LREntry.invoicedate" focusid="invoicedate" focusonenter="slipno">
+                </div>
+
+            </div>
+
+            <div class="row row-padbot-15">
+
+                <div class="col-md-6 no-padding">
+                    <label for="inputEmail3" class="control-label">PackageSlip No</label>
+                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="LREntry.slipno" focusonenter="slipdate" focusid="slipno">
+                </div>
+                <div class="col-md-6 no-padding">
+                    <label for="inputEmail3" class="control-label">Slip Date</label>
+                    <input type="text" class="form-control input-sm datepicker"
+                           datemodule="LREntry.slipdate" ng-model="LREntry.slipdate" focusid="slipdate"
+                           focusonenter="remarks">
+                </div>
+            </div>
+
+            <div class="row row-padbot-15">
+
+                <label for="inputEmail3" class="control-label">Remark</label>
+
+                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="LREntry.remarks"
+                       focusid="remarks">
+
+
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-12" style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-left" ng-click="RemovePOGRN()">Remove GRN</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="Save()">Save</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="closeThisDialog()">Close</button>
+
+        </div>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="ImportPO">
+    <div class="ngdialog-message">
+        <div class="col-md-12">
+            <table fixed-header="300px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th style="width:30px"> <input type="checkbox" ng-model="selectedall" ng-change="SelectedAll(selectedall)" /></th>
+                        <th style="width:100px">Order ID</th>
+                        <th style="width:150px">Supplier</th>
+                        <th style="width:80px" ng-show="ShowPONO">PO NO</th>
+                        <th style="width:80px">PODate</th>
+                        <th style="width:80px">Qty</th>
+                        <th style="width:80px">UAN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in Orders"
+                        class="ng-style: item.valid == 0 && {backgroundColor:'lightgray'};">
+                        <td><input type="checkbox" ng-model="item.selected"
+                                   ng-disabled="!item.valid"
+                                   ng-change="SelectedChanged()" /></td>
+                        <td>{{item.OrderSplit}}</td>
+                        <td>{{item.Supplier}}</td>
+                        <td ng-show="ShowPONO">{{item.PONo}}</td>
+                        <td>{{item.PODate|date:dd-MM-yyyy}}</td>
+                        <td>{{item.Qty}}</td>
+                        <td>{{item.count}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-12"
+             ng-show="OrderInfo.postatus.validpo != OrderInfo.postatus.noofpo"
+             style="padding-top:10px;font-size:large;color:orangered">
+            VALID ONLY {{OrderInfo.postatus.validpo}} OUT OF {{OrderInfo.postatus.noofpo}} ORDERS
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.postatus.missingcompany.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-4">Missing Company</div>
+            <div class="col-md-4" ng-repeat="item in OrderInfo.postatus.missingcompany">
+                {{item}}
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.postatus.missinglocation.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-4">Missing Locations</div>
+            <div class="col-md-4" ng-repeat="item in OrderInfo.postatus.missinglocation">
+                {{item}}
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.postatus.missingsuppliers.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-4">Missing Supplier</div>
+            <div class="col-md-4" ng-repeat="item in OrderInfo.postatus.missingsuppliers">
+                {{item}}
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.postatus.missinguan.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-3">Missing UAN</div>
+            <div class="col-md-3" ng-repeat="item in OrderInfo.postatus.missinguan">
+                {{item}}
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.postatus.missingqty.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-3">Missing QTY UAN</div>
+            <div class="col-md-3" ng-repeat="item in OrderInfo.postatus.missingqty">
+                {{item}}
+            </div>
+        </div>
+        <div class="col-md-12" style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-6">
+                <label for="inputEmail3" class="control-label">Importing Orders</label>
+                <div style="font-size:large" class="pull-right">
+                    {{Count}}/{{OrderInfo.postatus.noofpo}}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-show="Count>0" ng-click="Save()">Save</button>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,559 @@
+﻿<div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+                <span style="font-size:large;font-weight:bold" ng-show="IsGiftDelivery">Gift Delivery </span>
+                <span style="font-size:large;font-weight:bold" ng-show="IsDelivery">Delivery </span>
+                <span style="font-size:large;font-weight:bold" ng-show="IsGiftCoupon">Gift Coupon</span>
+                <span style="font-size:large;font-weight:bold" ng-show="IsAlteration">Alteration </span>({{TotalBillValue}})
+                <small></small>
+            </h1>
+            <ol class="breadcrumb">
+                <li ng-show="IsAlteration && totalalerationqty>0 && delivered==false && enablescan==false" style="cursor:pointer" ng-click="SaveAlteration()"><a><i class="fa fa-save"></i>Save</a></li>
+                <li ng-show="IsAlteration && totalalerationqty>0 && delivered==false && enablescan" style="cursor:pointer" ng-click="UpateAlteration(1)"><a><i class="fa fa-save"></i>Ready</a></li>
+                <li ng-show="IsAlteration && totalalerationqty>0 && delivered==false && candeliver" style="cursor:pointer" ng-click="UpateAlteration(2)"><a><i class="fa fa-save"></i>Deliver</a></li>
+
+                <li ng-show="IsAlteration && delivery && delivery.id" style="cursor:pointer" ng-click="Print()"><a><i class="fa fa-print"></i>Print</a></li>
+
+                <li ng-show="IsGiftCoupon && UserInfo.p_GIFTCOUPONISSUE.print && delivery && delivery.id" style="cursor:pointer" ng-click="Print()"><a><i class="fa fa-print"></i>Reprint</a></li>
+
+                <li ng-show="IsGiftDelivery && UserInfo.p_GIFTDELIVERY.print && delivery.id" style="cursor:pointer" ng-click="PrintGiftVoucher()"><a><i class="fa fa-print"></i>Print</a></li>
+
+                <li ng-hide="LastReceived == null || IsAlteration" style="background-color:lightgreen"><a><i class="fa fa-sign-in"></i>Received :{{LastReceived.billno}}</a></li>
+                <li ng-hide="LastDelivery == null || IsAlteration" style="background-color:lightcoral"><a><i class="fa fa-sign-out"></i>Delivered :{{LastDelivery.billno}}</a></li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <!-- Your Page Content Here -->
+            <div class="box box-success">
+                <div class="box-body">
+                    <div class="col-md-6">
+                        <div class="row col-md-12">
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+
+                                        <div class="input-group input-group-sm">
+                                            <input method="text" class="form-control" style="width: 100%; font-size:larger" placeholder="Bill No/Settlement No/Voucher No"
+                                                   focusid="autocoding" ng-model="autoCoding.code" onkeyenter="SearchAutoCoding()">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-flat" ng-click="SearchAutoCoding()">Go!</button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-md-12">
+                            <div class="col-md-4 no-padding">
+                                Customer Name
+                            </div>
+                            <div class="col-md-8 no-padding">
+                                <input method="text" class="form-control" style="width: 100%"
+                                       ng-readonly="IsDelivery" ng-model="delivery.customername">
+                            </div>
+                        </div>
+
+                        <div class="row col-md-12">
+                            <div class="col-md-4 no-padding">
+                                Contact No
+                            </div>
+                            <div class="col-md-8 no-padding">
+                                <input method="text" class="form-control" style="width: 100%"
+                                       ng-readonly="IsDelivery" ng-model="delivery.contactno">
+                            </div>
+                        </div>
+
+                        <div class="row col-md-12">
+
+                            <table fixed-header="350px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th width="150px" ng-hide="IsGiftDeliveryIssue">BILL NO</th>
+                                        <th width="150px" ng-show="IsGiftDeliveryIssue">VOUCHER NO</th>
+                                        <th width="70px">QTY</th>
+                                        <th ng-show="IsGiftDelivery || IsGiftCoupon" width="120px">BILL VALUE</th>
+                                        <th ng-show="IsGiftDelivery || IsGiftCoupon" width="80px">EXCLUDED</th>
+                                        <th>AMOUNT</th>
+                                        <th ng-hide="IsAlteration">&nbsp;</th>
+                                        <th ng-show="IsAlteration">ALTERATION QTY</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in bills" ng-style="item.style">
+                                        <td ng-hide="IsGiftDeliveryIssue">{{item.billno}}</td>
+                                        <td ng-show="IsGiftDeliveryIssue">{{item.altationno}}</td>
+                                        <td>{{item.qty}}</td>
+                                        <td ng-show="IsGiftDelivery || IsGiftCoupon">{{item.receivable+item.excluded | number:0}}</td>
+                                        <td ng-show="IsGiftDelivery || IsGiftCoupon">{{item.excluded | number:0}}</td>
+                                        <td>{{item.amount | number:0}}</td>
+                                        <td ng-show="IsGiftDelivery">
+                                            <button type="button" class="btn  btn-danger pull-right btn-sm" ng-show="item.status==0" ng-click="DeleteBill(item)">Remove</button>
+                                        </td>
+                                        <td ng-show="IsAlteration">{{item.rqty}}</td>
+                                        <td ng-show="IsDelivery">
+                                            <button type="button" class="btn  btn-warning pull-right btn-sm" ng-show="item.status==0 && allowcancel" ng-click="ChangeStatus(4,item)">Cancel Bill</button>
+                                            <button type="button" class="btn  btn-danger pull-right btn-sm" ng-show="item.status==0 && UserInfo.p_DELIVERY.modify" ng-click="ShowReturnDialog(item)">Return</button>
+                                            <div ng-show="item.status!=0">{{item.deliverystatus}}</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="col-md-12" ng-hide="IsGiftDeliveryIssue">
+                                <!--<div style="width:70px;display:inline;float:left" ng-show="IsGiftDelivery">
+
+                    <label class="switch pull-right" style="margin-right:15px">
+                        <input type="checkbox" ng-model="IsGiftAuto" ng-change="ComputeGiftDelivery()">
+                        <span class="slider round"></span>
+                    </label>
+            </div>-->
+                                <div style="font-size:x-large;color:forestgreen;display:inline" class="col-md-2 no-padding">Total</div>
+                                <div style="font-size:x-large;color:forestgreen;display:inline;text-align:right" class="col-md-2  no-padding pull-right">{{TotalBillValue | number:0}}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row col-md-12" ng-hide="IsAlteration || IsGiftDeliveryIssue || IsGiftCoupon">
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <span style="font-size:xx-large;color:forestgreen" ng-show="supportdeliverybarcode && enablescan && ReadyForDelivery">Scan Completed</span>
+                                        <span style="font-size:xx-large;color:forestgreen" ng-show="(candeliver || !supportdeliverybarcode) && totalrecivedqty>0">Ready for Delivery</span>
+                                        <span style="font-size:xx-large;color:forestgreen" ng-show="ReadyForDeliveryByBillNo && totalrecivedqty>0">Scan Bill No for Delivery</span>
+                                        <span style="font-size:xx-large;color:orangered" ng-show="supportdeliverybarcode && enablescan && !ReadyForDelivery">Please scan the barcodes</span>
+                                        <span style="font-size:xx-large;color:orangered" ng-hide="candeliver || enablescan || ReadyForDeliveryByBillNo">Please scan bill no / settlement no</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="col-md-12 no-padding" ng-hide="IsGiftDelivery || IsGiftDeliveryIssue">
+                            <div class="col-md-6 no-padding">
+                                <div class="col-md-12">
+                                    <div class="row row-padbot-15">
+                                        <label for="inputEmail3" class="col-md-4 control-label">DATE</label>
+                                        <div class="col-md-8">
+                                            {{Deliverydate |date : 'dd-MM-yyyy'}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="row row-padbot-15">
+                                        <label for="inputEmail3" class="col-md-4 control-label">LOCATION</label>
+                                        <div class="col-md-8">
+                                            {{LocationName}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="row row-padbot-15">
+                                        <label for="inputEmail3" class="col-md-4 control-label">COUNTER</label>
+                                        <div class="col-md-8">
+                                            {{CounterName}}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-6 no-padding">
+
+                                <div class="col-md-12">
+                                    <div class="col-md-12 no-padding" ng-hide="(candeliver || delivered) || IsAlteration || IsGiftCoupon">
+                                        <span style="font-size:large;color:green" class="control-label">Delivery Qty : {{totaldeliveryqty}}</span>
+                                        <span style="font-size:large" class="control-label">/</span>
+                                        <span style="font-size:large;color:orangered" class="control-label">{{totalrecivedqty}}</span>
+                                    </div>
+                                    <div class="col-md-12 no-padding" ng-show="(candeliver || delivered) && !IsAlteration">
+                                        <span style="font-size:large;color:orangered" class="control-label">Received Qty : {{totalrecivedqty}}</span>
+                                    </div>
+                                    <div class="col-md-12 no-padding" ng-show="IsAlteration && totalalerationqty>0">
+                                        <span style="font-size:large;color:orangered" class="control-label">Alteration Qty : {{totalalerationqty}}</span>
+                                    </div>
+                                    <div class="col-md-12 no-padding" ng-show="IsAlteration && totalalerationcharge>0">
+                                        <span style="font-size:large;color:orangered" class="control-label">Alteration Charge : {{totalalerationcharge}}</span>
+                                    </div>
+                                    <div class="col-md-12 no-padding" ng-show="IsGiftCoupon">
+                                        <span style="font-size:large;color:green" class="control-label">Coupon Value :</span>
+
+                                        <span style="font-size:large;color:orangered" class="control-label">{{totalcouponvalue}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" ng-show="IsAlteration">
+                            <div class="row row-padbot-15">
+                                <label for="inputEmail3" class="col-md-4 control-label">TAILOR</label>
+                                <div class="col-md-8">
+                                    <select class="form-control pull-left" style="width: 100%;" select2="" options="item.id as item.code for item in EmployeeList track by item.id"
+                                            ng-model="delivery.validatedby"></select>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <label for="inputEmail3" class="col-md-4 control-label">REMARKS</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control" style="width: 100%"
+                                           ng-model="delivery.remarks">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row col-md-12" ng-show="IsDelivery">
+                            <table fixed-header="380px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th width="200px">Item</th>
+                                        <th width="100px">Barcode</th>
+                                        <th width="75px">Rate</th>
+                                        <th width="50px">Qty</th>
+                                        <th width="50px">Piece</th>
+                                        <th width="70px">Verified</th>
+                                        <th width="100px">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in billitems" ng-style="item.style">
+                                        <td>{{item.printingname}}</td>
+                                        <td>{{item.barcode}}</td>
+                                        <td>{{item.price}}</td>
+                                        <td>{{item.qty}}</td>
+                                        <td>{{item.piece}}</td>
+                                        <td>{{item.rqty}}</td>
+                                        <td>{{item.receivable}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row col-md-12" ng-show="IsGiftCoupon">
+                            <table fixed-header="380px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th width="150px">Description</th>
+                                        <th width="50px">From</th>
+                                        <th width="50px">To</th>
+                                        <th width="50px">Coupon</th>
+                                        <th width="50px">Coupon(%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in GiftDiscountVoucherMarkers" ng-style="item.style">
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.fvalue}}</td>
+                                        <td>{{item.tvalue}}</td>
+                                        <td>{{item.discountvalue}}</td>
+                                        <td>{{item.discountpercentage}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row col-md-12" ng-show="IsGiftDelivery && !system_giftdeliveryhighest">
+                            <table fixed-header="300px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th width="50px">#</th>
+                                        <th width="200px">Item</th>
+                                        <th width="100px">Marker</th>
+                                        <th width="50px">Qty</th>
+                                        <th width="100px">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in giftitems" ng-style="item.style">
+                                        <td>
+                                            <input type="text" style="width:100%"
+                                                   class="form-control input-sm"
+                                                   ng-model="item.nqty" ng-change="GiftQtyChanged(item)" />
+                                        </td>
+                                        <td>{{item.name}}({{item.barcode}})</td>
+                                        <td>{{item.marker}}</td>
+                                        <td>{{item.qty}} X {{item.value}}</td>
+                                        <td>
+                                            {{item.value*item.qty}}
+                                            <button type="button" class="btn  btn-danger pull-right btn-sm" ng-click="DeleteGiftItem(item)">Remove</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row col-md-12" ng-show="IsGiftDelivery && !system_giftdeliveryhighest">
+                            <div class="row col-md-12" style="padding-top:10px;padding-bottom:10px;margin:0px;border:2px solid grey">
+                                <span style="font-size:medium;color:orangered">Gift Value Used {{totalgiftamount}}</span>
+                                <span style="font-size:medium;color:orangered" class="pull-right">Avialable {{TotalBillValue-totalgiftamount}}</span>
+                            </div>
+                            <div class="row col-md-12" style="padding-top:10px;margin:0px;border-bottom:2px solid grey">
+                                <div ng-repeat="item in StockMarkers">
+                                    <div class="col-md-6 no-padding" style="font-weight:bold;color:forestgreen">{{item.name}}</div>
+                                    <div class="col-md-3 no-padding" style="font-weight:bold;color:orangered">{{item.value}}</div>
+                                    <div class="col-md-3 no-padding" style="font-weight:bold;color:orangered">{{item.giftcount}}</div>
+                                </div>
+
+                            </div>
+                            <div class="row col-md-12" style="padding-top:10px;padding-bottom:10px;margin:0px;border:2px solid grey">
+                                <span style="font-size:medium;color:orangered">Gift Count {{GiftCount}}</span>
+                                <span style="font-size:medium;color:orangered" class="pull-right">Remaining {{GiftRemain}}</span>
+                            </div>
+
+
+                            <div class="row col-md-12" ng-show="HasDiscountVoucher" style="padding-top:10px;margin:0px;border-bottom:2px solid grey">
+                                <div ng-repeat="item in GiftVoucherMarkers">
+                                    <div class="col-md-6 no-padding" style="font-weight:bold;color:forestgreen">{{item.name}}</div>
+                                    <div class="col-md-6 no-padding" style="font-weight:bold;color:orangered">{{item.value}} - {{item.discountvoucher}}%</div>
+                                </div>
+                            </div>
+
+
+                            <div class="row col-md-12" ng-show="HasDiscountVoucher" style="padding-top:10px;padding-bottom:10px;margin:0px;border:2px solid grey">
+                                <span style="font-size:medium;color:orangered">Gift Voucher Value</span>
+                                <span style="font-size:medium;color:orangered" class="pull-right">{{GiftVoucherValue}}</span>
+                            </div>
+                        </div>
+
+                        <div class="row col-md-12" ng-show="IsGiftDelivery && system_giftdeliveryhighest">
+                            <div ng-show="giftitems.length>0">
+                                <div style="height:10px">
+                                    <div class="col-md-12 no-padding" style="font-weight: bold; font-size: large; color:chocolate;">GIFT SCANNED</div>
+                                </div>
+
+                                <table fixed-header="80px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th width="200px">Item</th>
+                                            <th width="100px">Marker</th>
+                                            <th width="50px">Qty</th>
+                                            <th width="100px">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in giftitems" ng-style="item.style">
+                                            <td>{{item.name}}({{item.barcode}})</td>
+                                            <td>{{item.marker}}</td>
+                                            <td>{{item.qty}} X {{item.value}}</td>
+                                            <td>
+                                                {{item.value*item.qty}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            <div style="height:10px">
+                                <div class="col-md-12 no-padding" style="font-weight: bold; font-size: large; color:chocolate;">GIFT LIST</div>
+                            </div>
+                            <div class="row col-md-12" style="padding:0px;margin:0px">
+                                <div style="padding-top: 30px; margin: 0px; border-bottom: 2px solid grey">
+                                    <div class="col-md-6 no-padding" style="font-weight: bold; font-size: large; color: forestgreen; border-bottom: 2px solid grey">CATEGORY</div>
+                                    <div class="col-md-3 no-padding" style="font-weight: bold; font-size: large; color: darkred; border-bottom: 2px solid grey">RANGE</div>
+                                    <div class="col-md-3 no-padding" style="font-weight: bold; font-size: large; color: orangered; border-bottom: 2px solid grey">ISSUE</div>
+                                </div>
+                                <div ng-repeat="item in StockMarkers" style="padding-top:30px;margin:0px;">
+                                    <div class="col-md-5 no-padding" style="font-weight: bold; font-size: medium; color: forestgreen">{{item.name}}</div>
+                                    <div class="col-md-4 no-padding" style="font-weight: bold; font-size: medium; color: darkred ">
+
+                                        <div class="col-md-6 no-padding">
+                                            {{item.fvalue}}
+                                        </div>
+                                        <div class="col-md-6 no-padding">
+                                            {{item.tvalue}}
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-3 no-padding" style="font-weight: bold; font-size: medium; color: orangered"
+                                         ng-show="item.giftcount>0">YES</div>
+                                    <div class="col-md-3 no-padding" style="font-weight: bold; font-size: medium; color: orangered"
+                                         ng-show="!item.giftcount || item.giftcount<=0">NO</div>
+                                </div>
+                            </div>
+
+                            <div class="row col-md-12" style="padding:0px;margin:0px">
+                                <div style="padding-top: 30px; margin: 0px; border-bottom: 2px solid grey">
+                                    <div class="col-md-6 no-padding" style="font-weight: bold; font-size: large; color: darkgreen; border-bottom: 2px solid grey">CATEGORY</div>
+                                    <div class="col-md-3 no-padding" style="font-weight: bold; font-size: large; color: orangered; border-bottom: 2px solid grey ">QTY</div>
+                                    <div class="col-md-3 no-padding" style="font-weight: bold; font-size: large; color: orangered; border-bottom: 2px solid grey ">ISSUE</div>
+                                </div>
+                                <div ng-repeat="item in GiftVoucherMarkers" style="padding-top:30px;margin:0px;">
+                                    <div class="col-md-6 no-padding" style="font-weight: bold; font-size: medium; color: darkgreen">{{item.name}}</div>
+                                    <div class="col-md-3 no-padding" style="font-weight: bold; font-size: medium; color: darkgreen">{{item.giftcount}}</div>
+                                    <div class="col-md-3 no-padding" style="font-weight: bold; font-size: medium; color: orangered"
+                                         ng-show="item.giftcount>0">YES</div>
+                                    <div class="col-md-3 no-padding" style="font-weight: bold; font-size: medium; color: orangered"
+                                         ng-show="!item.giftcount || item.giftcount<=0">NO</div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row col-md-12" ng-show="IsGiftDeliveryIssue">
+                            <div style="height:10px">
+                                <div class="col-md-12 no-padding" style="font-weight: bold; font-size: large; color:chocolate;">GIFT LIST</div>
+                            </div>
+                            <div class="row col-md-12" style="padding:0px;margin:0px">
+                                <div style="padding-top: 30px; margin: 0px; border-bottom: 2px solid grey">
+                                    <div class="col-md-5 no-padding" style="font-weight: bold; font-size: large; color: forestgreen; border-bottom: 2px solid grey">CATEGORY</div>
+                                    <div class="col-md-2 no-padding" style="font-weight: bold; font-size: large; color: darkred; border-bottom: 2px solid grey">&nbsp;QTY</div>
+                                    <div class="col-md-2 no-padding" style="font-weight: bold; font-size: large; color: orangered; border-bottom: 2px solid grey">ISSUE</div>
+                                    <div class="col-md-3 no-padding" style="font-weight: bold; font-size: large; color: forestgreen; border-bottom: 2px solid grey">BARCODE</div>
+                                </div>
+                                <div ng-repeat="item in StockMarkers" style="padding-top:30px;margin:0px;">
+                                    <div class="col-md-5 no-padding" style="font-weight: bold; font-size: medium; color: forestgreen">
+                                        {{item.name}}
+                                        <div class="pull-right" style="font-weight: normal; font-size: smaller; color: black">
+                                            {{item.fvalue}}-{{item.tvalue}}
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-2 no-padding" style="font-weight: bold; font-size: medium; color: darkred">
+                                        &nbsp;&nbsp;{{item.qty}}
+                                    </div>
+                                    <div class="col-md-2 no-padding" style="font-weight: bold; font-size: medium; color: orangered">{{item.iqty}}</div>
+                                    <div class="col-md-3 no-padding" style="font-weight: bold; font-size: medium; color: forestgreen">{{item.barcode}}</div>
+                                </div>
+                            </div>
+
+
+                            <div class="row col-md-12" style="padding:0px;margin:0px">
+                                <div style="padding-top: 30px; margin: 0px; border-bottom: 2px solid grey">
+                                    <div class="col-md-6 no-padding" style="font-weight: bold; font-size: large; color: darkgreen; border-bottom: 2px solid grey">CATEGORY</div>
+                                    <div class="col-md-3 no-padding" style="font-weight: bold; font-size: large; color: orangered; border-bottom: 2px solid grey ">QTY</div>
+                                    <div class="col-md-3 no-padding" style="font-weight: bold; font-size: large; color: orangered; border-bottom: 2px solid grey ">ISSUE</div>
+                                </div>
+                                <div ng-repeat="item in GiftVoucherMarkers" style="padding-top:30px;margin:0px;">
+                                    <div class="col-md-5 no-padding" style="font-weight: bold; font-size: medium; color: forestgreen">
+                                        {{item.name}}
+                                        <div class="pull-right" style="font-weight: normal; font-size: smaller; color: black">
+                                            {{item.fvalue}}-{{item.tvalue}}
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-2 no-padding" style="font-weight: bold; font-size: medium; color: darkred">
+                                        &nbsp;&nbsp;{{item.qty}}
+                                    </div>
+                                    <div class="col-md-2 no-padding" style="font-weight: bold; font-size: medium; color: orangered">{{item.iqty}}</div>
+                                    <div class="col-md-3 no-padding" style="font-weight: bold; font-size: medium; color: forestgreen">{{item.barcode}}</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row col-md-12" ng-show="IsAlteration && !candeliver">
+                            <table fixed-header="340px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th width="40px">#</th>
+                                        <th width="100px">Bill No</th>
+                                        <th width="200px">Item</th>
+                                        <th width="100px">Barcode</th>
+                                        <th width="75px">Rate</th>
+                                        <th width="50px">Qty</th>
+                                        <th width="100px">Amount</th>
+                                        <th width="70px">Alteration</th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="item in billitems" ng-style="item.style">
+                                    <tr>
+                                        <td><input type="checkbox" ng-model="item.selected" ng-change="AlterationCountChanged()" /></td>
+                                        <td>{{item.billno}}</td>
+                                        <td>{{item.printingname}}<b>({{item.designid}})</b></td>
+                                        <td>{{item.barcode}}</td>
+                                        <td>{{item.price}}</td>
+                                        <td>{{item.piece}}</td>
+                                        <td>{{item.receivable}}</td>
+                                        <td>
+                                            <input ng-show="item.selected" type="number" ng-change="AlterationCountChanged()" ng-model="item.rqty" style="width:100px" />
+                                            <span ng-show="!item.selected">
+                                                -
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr ng-show="item.selected && !candeliver">
+                                        <td>&nbsp;</td>
+                                        <td colspan="2">
+                                            <select class="form-control" style="width: 100%;" select2=""
+                                                    options="item.id as item.code for item in TailoringCharges track by item.id"
+                                                    ng-model="item.tailoringid"
+                                                    ng-change="UpdateMeasureConfig(item)"></select>
+                                        </td>
+                                        <td colspan="5"><input type="text" ng-model="item.notes" style="width:100%" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row col-md-12" ng-show="IsAlteration && candeliver">
+                            <table fixed-header="340px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th width="40px">#</th>
+                                        <th width="100px">Bill No</th>
+                                        <th width="200px">Item</th>
+                                        <th width="100px">Barcode</th>
+                                        <th width="50px">Qty</th>
+                                        <th width="100px">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="item in billitems" ng-style="item.style">
+                                    <tr>
+                                        <td><input type="checkbox" ng-model="item.selected" ng-change="DeliveryCountChanged()" /></td>
+                                        <td>{{item.billno}}</td>
+                                        <td>{{item.printingname}}<b>({{item.designid}})</b></td>
+                                        <td>{{item.barcode}}</td>
+                                        <td>{{item.rqty}}</td>
+                                        <td>{{item.chargeamount}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row col-md-12" ng-show="IsDelivery">
+                            <label for="inputEmail3" class="text-red" style="font-size:large">{{ErrorMessage}}</label>
+                            <button class="pull-right btn btn-primary" ng-show="delivered && bills != null && bills.length==1" ng-click="ChangeStatus(1,bills[0])">Return</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+</div>
+
+<script type="text/ng-template" id="Return2Emloyee">
+    <div class="ngdialog-message">
+        <div class="row row-padbot-15">
+            <label class="col-md-12" style="font-size:large;color:orangered">Item Return</label>
+        </div>
+        <div class="row row-padbot-15">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <label class="control-label">Employee</label>
+                </div>
+                <div class="col-md-12">
+                    <select class="form-control" style="width: 100%;" select2="" options="item.id as item.code for item in EmployeeList track by item.id" ng-model="returnto"></select>
+                </div>
+            </div>
+        </div>
+        <div class="row row-padbot-15">
+            <label class="col-md-12" style="font-size:large"></label>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">OK</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary btn-sm" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

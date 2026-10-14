@@ -1,0 +1,641 @@
+﻿<div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+                Warehouse / Stock Outward
+            </h1>
+            <ol class="breadcrumb">
+                <li ng-show="Navigation.create" style="cursor:pointer" ng-click="LastSaved()"><a><i class="fa fa-edit"></i>Last Saved</a></li>
+                <li ng-show="Navigation.create" style="cursor:pointer" ng-click="Clear()"><a><i class="fa fa-file"></i>New</a></li>
+                <li ng-show="Navigation.save && OutWards.id>0" style="cursor:pointer" ng-click="PrintOW()"><a><i class="fa fa-print"></i>Print</a></li>
+                <li ng-show="Navigation.save && OutWards.id>0" style="cursor:pointer" ng-click="PrintPDF()"><a><i class="fa fa-print"></i>Print PDF</a></li>
+                <li ng-show="Navigation.save && OutWards.cansave" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+                <li ng-show="Navigation.save && OutWards.candelete && OutWards.id>0" style="cursor:pointer" ng-click="Delete()"><a><i class="fa fa-trash"></i>Delete</a></li>
+                <li ng-show="Navigation.save && OutWards.id>0 && OutWards.canreject" style="cursor:pointer" ng-click="Reject()"><a><i class="fa fa-remove"></i>Reject</a></li>
+                <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+                <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+                <li ng-show="Navigation.searchentity && OutWards.items.length>0" style="cursor:pointer" ng-click="exporttoExcel('#resulttable','Courier Entry Report')"><a><i class="fa fa-download"></i>Export</a></li>
+                <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <!-- first row starts  -->
+            <div class="box box-primary">
+                <div class="box-body" ng-hide="ShowSearch">
+
+
+                    <div class="col-md-12 col-sm-12">
+                        <!-- basic details starts -->
+                        <div class="col-md-6 col-sm-6">
+                            <div class="row row-padbot-15">
+                                <label for="inputEmail3" class="col-sm-3 col-md-3 form-group required control-label">Date</label>
+                                <div class="col-md-3 col-sm-3 no-padding">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="input-sm form-control pull-right " datemodule="OutWards.packedon" ng-model="OutWards.packedon" focusid="">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6 no-padding">
+
+                                    <label for="inputEmail3" class="col-md-4 control-label">Code</label>
+
+                                    <div class="col-md-8 no-padding">
+                                        <div class="input-group input-group-sm">
+                                            <input method="text" class="input-sm form-control" style="width:100%" ng-model="OutWards.code"
+                                                   onkeyenter="SearchByCode(true)">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-sm btn-box" ng-click="SearchByCode(true)">
+                                                    <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 col-md-3 form-group required control-label">From Company</label>
+                                    <div class="col-sm-9 col-md-9 no-padding">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in CompanyList track by item.id" ng-model="OutWards.companyid" focusid="companyid"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row row-padbot-15">
+
+
+                                <label for="inputEmail3" class="col-sm-3 col-xs-12 col-md-3 control-label">Date</label>
+                                <div class="col-sm-6 col-xs-8 col-md-3 no-padding">
+
+                                    <input type="text" daterange="SearchCondition.addedfrom,SearchCondition.addedto" class="input-sm form-control pull-right">
+
+                                </div>
+
+                                <div class="col-sm-9 col-xs-4 col-md-6 no-padding">
+                                    <select class="form-control input-sm " style="width: 100%;" select2="supplier" ng-model="SearchCondition.supplierid" ng-options="item.id as item.name for item in SupplierList track by item.id"></select>
+                                </div>
+
+
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="OutWards.cansave">
+                                <label for="inputPassword3" class="col-sm-3 col-md-3 control-label">Source</label>
+                                <div class="col-sm-6 col-md-3 no-padding">
+                                    <select class="form-control col-sm-12" select2="" style="width: 100%;" ng-model="SearchCondition.searchtype" ng-options="item.id as item.name for item in SearchConditionItems track by item.id"></select>
+                                </div>
+                                <div class="col-sm-12 col-md-6 no-padding">
+
+                                    <div class="col-sm-12  no-padding input-group input-group-sm" ng-hide="SearchCondition.searchtype != 3">
+                                        <input type="text" class="input-sm form-control" placeholder="" ng-model="SearchCondition.Date" datemodule="SearchCondition.date">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-warning btn-sm btn-box" ng-click="SearchStock(false)">
+                                                <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-info btn-sm btn-box" ng-click="PushItems()">
+                                                <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i>
+
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                    <div class="col-sm-12 input-group input-group-sm  no-padding" ng-hide="SearchCondition.searchtype != 2">
+                                        <select class="form-control input-sm " style="width: 100%;" select2="product" ng-model="SearchCondition.productid" ng-options="item.id as item.name for item in ProductList track by item.id"></select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-warning btn-box" ng-click="SearchStock(false)">
+                                                <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+
+                                            </button>
+                                            <button class="btn btn-info btn-sm btn-box" ng-click="PushItems()">
+
+                                                <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                    <div class="col-sm-12 input-group input-group-sm no-padding" ng-hide="SearchCondition.searchtype != 1">
+                                        <select class="form-control input-sm " style="width: 100%;" select2="brand" ng-model="SearchCondition.brandid" ng-options="item.id as item.name for item in BrandList track by item.id"></select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-warning btn-sm btn-box" ng-click="SearchStock(false)">
+                                                <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-info btn-sm btn-box" ng-click="PushItems()">
+                                                <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-12  input-group input-group-sm no-padding" ng-hide="SearchCondition.searchtype != 6">
+                                        <input type="text" class="input-sm form-control" placeholder="lrentryno" ng-model="SearchCondition.lrentryno" onkeyenter="SearchStock(false)">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-warning btn-sm btn-box" ng-click="SearchStock(false)">
+                                                <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-info btn-sm  btn-box" ng-click="PushItems()">
+                                                <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i>
+
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-12 input-group input-group-sm  no-padding" ng-hide="SearchCondition.searchtype != 8">
+                                        <div class="col-sm-6 no-padding">
+
+                                            <file-upload class="btn btn-success btn-rad btn-trans btn-sm file-upload" resize="true" max-width="100"
+                                                         filetype="DATA"
+                                                         max-height="1280" preview="true" ng-model="SearchCondition.fileid" onuploadcomplete="fileuploadedcomplete"
+                                                         filemodel="excelfile" uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                                                         multiple="false">
+                                                <i class="fa fa-upload"></i>
+                                                <span>Upload Files</span>
+                                            </file-upload>
+
+                                        </div>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-warning btn-sm btn-box" ng-click="SearchStock(false)">
+                                                <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-info btn-sm  btn-box" ng-click="PushItems()">
+                                                <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                    <!--<span class="input-group-btn" ng-show="SearchCondition.searchtype == 4">
+                                        <button class="btn btn-warning btn-sm btn-box" ng-click="SearchStock(false)">
+                                            <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+
+                                        </button>
+                                        <button class="btn btn-info btn-sm btn-box" ng-click="PushItems()">
+                                            <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i>
+                                        </button>
+                                    </span>-->
+                                    <div class="col-sm-12 input-group input-group-sm no-padding" ng-hide="SearchCondition.searchtype != 4">
+                                        <select class="form-control input-sm " style="width: 100%;" select2="Retail Location" ng-model="SearchCondition.retaillocationid" ng-options="item.id as item.name for item in RetailLocation track by item.id"></select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-warning btn-sm btn-box" ng-click="SearchStock(false)">
+                                                <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-info btn-sm btn-box" ng-click="PushItems()">
+                                                <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+
+                                    <!--<div class="col-sm-12 col-md-11 no-padding" ng-hide="SearchCondition.searchtype != 7">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="input-sm form-control" style="width: 100%;" placeholder="Supplier name" ng-model="SearchCondition.suppliername">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning btn-sm glyphicon glyphicon-search" ng-click="ShowSuppliers()"></button>
+                                </span>
+                            </div>
+                        </div>-->
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <table fixed-header="300px"  additionalheight="135">
+                                        <thead>
+                                            <tr>
+                                                <th width="30px">
+                                                    <input type="checkbox" class="checkbox-inline"
+                                                           ng-change="selectAllItems(SearchResults,OutWards.selectAllIn)"
+                                                           ng-model="OutWards.selectAllIn" />
+                                                </th>
+                                                <th width="100px">Barcode</th>
+                                                <th width="150px">Name</th>
+                                                <th width="80px">Size</th>
+                                                <th width="300px">Supplier</th>
+                                                <th width="100px">LR.Ref</th>
+                                                <th width="70px;" class="text-right">Qty</th>
+                                                <th width="10px;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in SearchResults">
+                                                <td><input type="checkbox" ng-model="item.selected" /></td>
+                                                <td>{{item.barcode}}</td>
+                                                <td>{{item.printingname}}</td>
+                                                <td>{{item.sizename}}</td>
+                                                <td>{{item.suppliername}}</td>
+                                                <td>{{item.lrreference}}</td>
+                                                <td align="right" style="padding-right:5px">{{item.qty}}</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-8">
+                                        <label for="inputEmail3" class=" no-padding col-sm-6 col-md-6 text-green control-label">{{OutWards.statusdisplay}}</label>
+                                        <label class=" no-padding pull-right control-label text-green col-sm-6 pull-right" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+                                    </div>
+
+                                    <div class="col-sm-4 col-md-4">
+
+                                        <label class="control-label col-md-6">Total</label>
+                                        <label class="control-label text-green col-md-6">{{SearchCounts}}</label>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- basic details ends -->
+                        <div class="col-md-6 col-sm-6">
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 col-md-4 form-group required control-label">Packed By</label>
+                                    <div class="col-sm-8 col-md-8">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.code for item in Employee track by item.id" ng-model="OutWards.packedby" focusid="packedby"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="intercompanytransfer" class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 col-sm-4 form-group control-label">To Company</label>
+                                    <div class="col-sm-8 col-md-8">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in CompanyList track by item.id" ng-model="OutWards.tocompanyid" focusid="companyid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="intercompanytransfer" class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 col-md-4 form-group required control-label">From/To Location</label>
+                                    <div class="col-md-4 col-sm-4">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" ng-model="OutWards.fromlocationid" ng-options="item.id as item.name for item in WHLocation track by item.id" focusid="fromlocationid"></select>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" ng-model="OutWards.tolocationid" ng-options="item.id as item.name for item in RetailLocation track by item.id" focusid="tolocationid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-hide="intercompanytransfer" class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 col-md-4 form-group required control-label">From Location</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" ng-model="OutWards.fromlocationid" ng-options="item.id as item.name for item in WHLocation track by item.id" focusid="fromlocationid"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-hide="intercompanytransfer" class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-4 col-sm-4 form-group required control-label">To Location</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" ng-model="OutWards.tolocationid" ng-options="item.id as item.name for item in RetailLocation track by item.id" focusid="tolocationid"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="OutWards.cansave">
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-4 col-md-4 control-label">
+                                        <span>
+                                            Barcode
+                                        </span>
+                                        <span class="pull-right">
+                                            <input type="checkbox" style="margin-top:5px" 
+                                                   ng-model="OutWards.multiscan" />
+                                        </span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <div class="input-group input-group-sm">
+                                            <input method="text" class="input-sm form-control" style="width: 100%;" 
+                                                   onkeyenter="SearchStock(true, SearchCondition.directbarcode)" ng-model="SearchCondition.directbarcode" placeholder="Barcode">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-primary btn-sm btn-flat" ng-click="SearchStock(true, SearchCondition.directbarcode)"><i class="fa fa-plus"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm btn-flat" ng-click="PopItems()"><i class="fa fa-remove"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="form-group">
+                                    <table fixed-header="300px" id="resulttable" additionalheight="135">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:30px">
+                                                    <input type="checkbox" class="checkbox-inline"
+                                                           ng-change="selectAllItems(OutWards.items,OutWards.selectAllOut)"
+                                                           ng-model="OutWards.selectAllOut" />
+                                                </th>
+                                                <th style="width:100px">Barcode</th>
+                                                <th style="width:150px">Name</th>
+                                                <th style="width:80px">Size</th>
+                                                <th style="width:300px">Supplier</th>
+                                                <th style="width:70px">Stock</th>
+                                                <th style="width:80px" ng-hide="OutWards.cansave">Accepted</th>
+                                                <th style="width:80px" ng-show="OutWards.cansave">Qty</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in OutWards.items">
+                                                <td><input type="checkbox" ng-model="item.selected" ng-hide="item.received" /></td>
+                                                <td>{{item.barcode}}</td>
+                                                <td>{{item.printingname}}</td>
+                                                <td>{{item.sizename}}</td>
+                                                <td>{{item.suppliername}} <div class="pull-right" style="padding-right:5px">{{item.lrreference}}</div></td>
+                                                <td align="right" style="padding-right:8px">{{item.qty}}</td>
+                                                <td align="right" style="padding-right:8px" ng-hide="OutWards.cansave">{{item.aqty}}</td>
+                                                <td tablecell ng-show="OutWards.cansave"><input type="text" class="input-sm form-control"
+                                                                                                ng-change="CalculateTotal()" ng-model="item.iqty"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group">
+
+                                    <div class="col-sm-4 col-md-4">
+                                        <label class="control-label col-md-4">Total</label>
+                                        <label class="control-label text-green col-md-4"><span ng-hide="OutWards.cansave">{{TotalAccepted}}/</span>{{TotalCounts}}</label>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+                </div>
+
+
+
+                <div class="box box-primary" ng-show="ShowSearch">
+                    <div class="box-body">
+                        <div class="col-md-3 no-padding">
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-12">
+                                    <label>COMPANY</label>
+                                    <div class="input-group-sm">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" ng-model="SearchOutwords.companyid" ng-options="item.id as item.name for item in CompanyList track by item.id"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-12">
+                                    <label>FROM LOCATION</label>
+                                    <div class="input-group-sm">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" ng-model="SearchOutwords.fromlocationid" ng-options="item.id as item.name for item in WHLocation track by item.id"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-12">
+                                    <label>TO LOCATION</label>
+                                    <div class="input-group-sm">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" ng-model="SearchOutwords.tolocationid" ng-options="item.id as item.name for item in Location track by item.id"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-12">
+                                    <label>Outward Date</label>
+                                    <div class="input-group-sm">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" daterange="SearchOutwords.fromdate,SearchOutwords.todate" class="input-sm form-control pull-right">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-12">
+                                    <label>Code</label>
+                                    <div class="input-group-sm">
+                                        <input type="text" class="input-sm form-control" ng-model="SearchOutwords.code" focusid="first" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-9 no-padding">
+
+                            <div class="row row-padbot-15">
+                                <div class="col-md-12">
+                                    <table fixed-header="470px" class="fixed_table" additionalheight="0">
+                                        <thead>
+                                            <tr>
+                                                <th width="60px">Date</th>
+                                                <th width="80px">Code</th>
+                                                <th width="125px">From</th>
+                                                <th width="125px">To</th>
+                                                <th width="80px">Qty</th>
+                                                <th width="100px">Packedby</th>
+                                                <th width="80px">Status</th>
+                                                <th width="50px">..</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in SearchOutwardResult">
+                                                <td>{{item.packedon | date:'dd-MM-yyyy'}}</td>
+                                                <td>{{item.code}}</td>
+                                                <td>{{SearchRef(item.fromlocationid,Location)}}</td>
+                                                <td>{{SearchRef(item.tolocationid,Location)}}</td>
+
+                                                <td>{{item.qty}}</td>
+                                                <td>{{SearchRef(item.packedby,Employee)}}</td>
+                                                <td>{{item.statusdisplay}}</td>
+                                                
+                                                <td>
+                                                    <button type="button" class="btn btn-info btn-xs" 
+                                                            ng-click="ManageSearchItem('Edit',item)">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-xs"
+                                                            ng-click="ManageSearchItem('Delete',item)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="box box-success" ng-show="false">
+                <div class="box-body">
+                    <div id="printdiv" style="padding:10px">
+                        <code style="color:black">
+                            <!-- title row -->
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h4 style="text-align:center;font-size:large"><b>{{PrintDocument.company.name}}</b></h4>
+                                    <h5 style="text-align:center;"><b>{{PrintDocument.company.address}}</b></h5>
+                                    <h5 style="text-align:center;"><b>{{SearchRef(PrintDocument.company.cityid,Cities)}}-{{PrintDocument.company.pincode}}, Phone No: {{PrintDocument.company.contactno}}</b></h5>
+                                </div>
+
+                                <div class="col-xs-4">
+                                    <h6 style="text-align:left;"><b>&nbsp;&nbsp;&nbsp;&nbsp;GSTIN :{{PrintDocument.company.tinanddate}}</b></h6>
+                                </div>
+                                <div class="col-xs-4">
+                                    <h6 style="text-align:center;"><b>PAN No: {{PrintDocument.company.pan}}</b></h6>
+                                </div>
+                                <div class="col-xs-4">
+                                    <h6 style="text-align:left;"><b>State Code :{{PrintDocument.company.areacode}}</b></h6>
+
+                                </div>
+                            </div>
+                            <h6 style="border-bottom:1px solid black;"></h6>
+                            <h3 style="text-align:center;"><b style="font-size:medium">GOODS TRANSFER</b></h3>
+
+                            <div class="row invoice-info">
+
+                                <div class="rowshort">
+                                    <div class="col-sm-12">
+                                        <table style="width:100%" class="table-striped">
+                                            <tr>
+                                                <td width="100%">
+                                                    <table style="width:100%" class="table-striped">
+                                                        <tr>
+                                                            <td width="175px">Goods Transferred From :</td>
+                                                            <td style="overflow:hidden">
+                                                                <div style="text-align:left;height:20px;overflow:hidden"><b>{{SearchRef(PrintDocument.fromlocationid,Location)}} &nbsp;To&nbsp;  {{SearchRef(PrintDocument.tolocationid,Location)}}</b></div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="175px" style="font-weight:bold">PACKAGE CODE :</td>
+                                                            <td style="overflow:hidden">
+                                                                <div style="text-align:left;height:20px;overflow:hidden;font-weight:bolder"><b>{{PrintDocument.code}}</b></div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="175px" style="font-weight:bold">VEHICLE NUMBER :</td>
+                                                            <td style="overflow:hidden">
+                                                                <div style="text-align:left;height:20px;overflow:hidden"><b></b></div>
+                                                            </td>
+                                                        </tr>
+
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12" style="font-size:8px;padding-left:100px;padding-right:100px;">
+
+                                <center><b>ITEM DETAILS</b></center>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="100px" rowspan="2">S.No</th>
+                                            <th width="100px" rowspan="2">Items</th>
+                                            <th width="100px" rowspan="2">Qty</th>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr ng-repeat="item in PrintDocumentList" style="height:12px">
+                                            <td style='padding:2px;margin:0px'>{{$index+1}}</td>
+                                            <td style='padding:2px;margin:0px'>{{SearchRef(item.productid,ProductList)}}</td>
+                                            <td style='padding:2px;margin:0px'>{{item.iqty}}</td>
+                                        </tr>
+                                        <tr ng-repeat="item in PrintDocument.emptyline" style="height:12px">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <left class="col-md-6">
+                                    <b>Total QTY:</b>
+                                </left>
+                                <left class="col-md-6">
+                                    <b style="padding-left:180px;">{{totalqty}} Pieces.</b>
+                                </left>
+
+                            </div>
+                            <br /><br /><br /><br />
+
+                            <div class="col-md-6 pull-left">
+                                <b>Sender Signatue</b>
+                            </div>
+                            <div class="col-md-6 pull-right">
+                                <b>Godown Incharge Signature</b>
+                            </div>
+
+                        </code>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- /.content -->
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="SupplierSearch">
+    <div class="ngdialog-message">
+        <div class="table-responsive mailbox-messages">
+            <table fixed-header="150px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th style="width:25px">&nbsp;</th>
+                        <th style="width:150px">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in SupplierList">
+                        <td><input type="checkbox" ng-model="item.selected" /></td>
+                        <td>{{item.name}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-6">
+
+            <div class="col-md-8">Selected</div>
+            <div class="col-md-2"><input type="checkbox" ng-model="selectall" ng-change="selectallChanged()" /></div>
+        </div>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">OK</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(null)">Close</button>
+    </div>
+</script>

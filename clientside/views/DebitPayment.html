@@ -1,0 +1,354 @@
+﻿     <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Debit Payment
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+<li><a href back-button>Back</a></li>
+            <li class="active">Debit Payment</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-12">
+                    <div class="row row-padbot-15">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Customer PhoneNo</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control input-sm" ng-model="DebitPayment.curstomerid" focusid="first">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Employee Code</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control input-sm" ng-model="DebitPayment.employeeid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Name</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control input-sm" ng-model="DebitPayment.name">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">EmployeeName</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2='Company' ng-model="DebitPayment.employeename" options="item.id as item.code for item in Employee track by item.id"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Address</label>
+                                <div class="col-md-8">
+                                    <textarea class="form-control" ng-model="DebitPayment.address"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Salary</label>
+                                <div class="col-md-8">
+                                    <input type="number" class="form-control input-sm" ng-model="DebitPayment.salary">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-warning pull-right" ng-click="AddNew()">Show Pending</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary" ng-show="ShowNew">
+            <div class="box-body">
+                <h4>Credit Details</h4>
+                <div class="col-md-12">
+                    <div class="col-md-10">
+                        <div class="table-responsive mailbox-messages">
+
+                            <table fixed-header="200px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:50px">&nbsp;</th>
+                                        <th>BillNo</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Paid</th>
+                                        <th>Remaining Amt</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in DebitItemsList">
+                                        <td></td>
+                                        <td>{{item.date}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.reason}}</td>
+                                        <td>{{item.paidamount}}</td>
+                                        <td>{{item.remamount}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-info pull-right" ng-click="SwitchPanel()">Back</button>
+                    </div>
+
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">Total Balance</label>
+                            <div class="col-md-8">
+                                <input type="number" class="form-control input-sm" ng-model="DebitPayment.remarks.items">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-6">
+                        
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">Mode Of Payment</label>
+                            <div class="col-md-8">
+                                <select class="form-control" select2="" ng-change="OneTime()" style="width: 100%;" options="item.id as item.name for item in ModeOfPayment track by item.id" ng-model="DebitPayment.paidbyemployeeid"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-6">
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary" ng-show="ShowOneTime">
+            <div class="box-body">
+                <h4>OneTime Payment</h4>
+                <div class="col-md-7">
+                    <div class="row row-padbot-15">
+                        <!-- Custom Tabs -->
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-target="#cash" data-toggle="tab">Cash</a></li>
+                                <li><a data-target="#card" data-toggle="tab">Card</a></li>
+                                <li><a data-target="#vouchers" data-toggle="tab">Vouchers</a></li>
+                                <li><a data-target="#loyalty" data-toggle="tab">Loyalty</a></li>
+                            </ul>
+                            <div class="tab-content" style="height:200px">
+                                <div class="tab-pane active" id="cash">
+                                    <table class="table">
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control input-sm" placeholder="Paid">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control input-sm" placeholder="Balance">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control input-sm" placeholder="Denomination">
+                                            </td>
+                                            <td>
+                                                Denominations
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="card">
+                                    <table class="table">
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control input-sm" style="width: 100%;">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control input-sm" style="width: 100%;">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="Amount">
+                                            </td>
+                                        </tr>
+
+
+                                    </table>
+                                </div>
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="vouchers">
+                                    <table class="table">
+                                        <tr>
+                                            <td>
+                                                <label for="inputPassword3" class="col-sm-2 control-label">Vouchar</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control input-sm">
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <select multiple="" class="form-control">
+                                                            <option ng-repeat="voucher in voucherlist" value="{{voucher.ID}}">{{voucher.Name}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="col-sm-2">
+                                                    <button type="button" class="btn btn-block btn-bitbucket">Add</button>
+                                                </div>
+
+
+                                                <div class="col-sm-2">
+                                                    <button type="button" class="btn btn-block btn-bitbucket">Remove</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="loyalty">
+                                    <table class="table">
+                                        <tr>
+                                            <td>
+                                                <label for="inputPassword3" class="col-sm-2 control-label">Customer No</label>
+                                                <div class="col-sm-5">
+                                                    <input type="text" class="form-control input-sm">
+                                                </div>
+                                                <button type="button" class="btn btn-primary btn-success pull-right">Save</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label for="inputPassword3" class="col-sm-2 control-label">Name</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control input-sm">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label for="inputPassword3" class="col-sm-2 control-label">Date Of Birth</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control input-sm">
+                                                </div>
+                                                <label for="inputPassword3" class="col-sm-2 control-label">Marriage</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control input-sm">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label for="inputPassword3" class="col-sm-2 control-label">Balance</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control input-sm">
+                                                </div>
+                                                <label for="inputPassword3" class="col-sm-2 control-label">Credit</label>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control input-sm">
+                                                </div>
+                                                <button type="button" class="btn btn-primary btn-success pull-right">CR</button>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                                <!-- /.box-body -->
+                                <!-- /.tab-content -->
+                            </div>
+                            <!-- nav-tabs-custom -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn btn-info pull-left" ng-click="Print()">Print</button>
+                    <button type="button" class="btn btn-success pull-right" ng-click="Save()">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary" ng-show="ShowEMI">
+            <div class="box-body">
+                <h4>EMI Payment</h4>
+                <div class="row row-padbot-15">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">No Of Month</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control input-sm" ng-model="DebitPayment.remarks.items">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-4 control-label">From Month</label>
+                            <div class="col-md-8">
+                                <select class="form-control" select2='Company' ng-model="DebitPayment.companyid" options="item.id as item.name for item in CourierCompany track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">EMI</label>
+                            <div class="col-md-8">
+                                <input type="number" class="form-control input-sm" ng-model="DebitPayment.remarks.items">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">Approved By</label>
+                            <div class="col-md-8">
+                                <select class="form-control" select2='Company' ng-model="DebitPayment.companyid" options="item.id as item.name for item in CourierCompany track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn btn-info pull-left" ng-click="Print()">Print</button>
+                    <button type="button" class="btn btn-success pull-right" ng-click="Save()">Save</button>
+                </div>
+            </div>
+        </div>
+
+       
+    </section>
+</div>
+<!-- /.content-wrapper -->

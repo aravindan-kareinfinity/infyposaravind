@@ -1,0 +1,103 @@
+﻿.fixed_table td {
+    border-bottom: 1px solid #ccc;
+    font-size:9px;
+    font-family:Verdana
+}
+
+.header-background {
+    border-bottom: 1px solid #ccc;
+    background-color: #D5ECFF;
+    height: 30px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+
+/* above this is decorative, not part of the test */
+
+.fixed-table-container {
+    height: 200px;
+    border: 1px solid #ccc;
+    margin: 0px auto;
+    background-color: white;
+    /* above is decorative or flexible */
+    position: relative; /* could be absolute or relative */
+    padding-top: 30px; /* height of header */
+    padding-left: 12px;
+    overflow-x: hidden; /* for border */
+}
+
+.fixed-table-container-inner {
+    overflow-x: auto;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.fixed_table {
+    background-color: white;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+    .fixed_table tr {
+        line-height: 25px;
+    }
+
+.th-inner {
+    position: absolute;
+    top: 0px;
+    line-height: 30px; /* height of header */
+    text-align: left;
+    padding-left: 5px;
+    margin-left: -5px;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    overflow: no-display;
+}
+
+.print_table {
+    width: 100%;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+    .print_table th {
+        line-height: 22px;
+        font-size: small;
+        padding: 0px;
+        font-weight: 100;
+        overflow: hidden;
+        border-bottom: 1px solid #ccc;
+        overflow: no-display;
+    }
+
+    .print_table td {
+        border-bottom: 1px solid #ccc;
+        line-height: 22px;
+        font-weight: 100;
+        padding: 0px;
+        overflow: hidden;
+        font-size: small;
+    }
+
+    .print_table tr {
+        line-height: 22px;
+    }
+
+.zerotable td {
+    padding: 0px;
+    font-weight: 100;
+    font-size: small;
+    margin-left: 0px;
+    overflow: hidden;
+}
+
+.zerotable th {
+    padding: 0px;
+    font-size: small;
+    font-weight: 100;
+    margin-left: 0px;
+    overflow: hidden;
+}

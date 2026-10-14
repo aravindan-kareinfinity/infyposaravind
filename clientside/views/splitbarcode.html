@@ -1,0 +1,630 @@
+﻿
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Store  /   Split Barcode
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-show="CurrentBarcodePrinter != null" ng-click="ClearPrinterSelection()"><a><i class="fa fa-file"></i><b>Clear Printer Selection</b></a></li>
+            <li style="cursor:pointer" ng-show="!ShowSearch && SearchCondition.mode != '3' && SearchCondition.mode != '4'" ng-click="Clear()"><a><i class="fa fa-file"></i>New</a></li>
+
+            <li style="cursor:pointer" ng-show="!ShowSearch && SearchCondition.mode != '3' && SearchCondition.mode != '4' && SearchCondition.mode != '6'
+                && SearchCondition.mode != '7' && SearchCondition.mode != '8'" ng-click="Save()"><a><i class="fa fa-save"></i>Split</a></li>
+
+            <li style="cursor:pointer" ng-show="!ShowSearch && SearchCondition.mode == '8'" ng-click="BulkSplitProduct()"><a><i class="fa fa-save"></i>Bulk Split</a></li>
+
+            <li style="cursor:pointer" ng-show="!ShowSearch && SearchCondition.mode == '7'" ng-click="Split2Product()"><a><i class="fa fa-save"></i>Split 2 Product</a></li>
+            <li style="cursor:pointer" ng-show="SearchCondition.mode == '6' && tbillitem && tbillitem.sellingprice == billitem.sellingprice" ng-click="Swap()"><a><i class="fa fa-save"></i>Swap</a></li>
+            <li style="cursor:pointer" ng-show="LastPrintedBarcode != null && (SearchCondition.mode == '3' || SearchCondition.mode == '4')" ng-click="PrintLastBarcode()"><a><i class="fa fa-barcode"></i>Print {{LastPrintedBarcode}}</a></li>
+            <li style="cursor:pointer" ng-show="SearchCondition.mode == '6'" ng-click="PrintSwapBarcodes()"><a><i class="fa fa-barcode"></i>Print Barcode</a></li>
+            <li style="cursor:pointer" ng-show="!ShowSearch && (SearchCondition.mode == '3' || SearchCondition.mode == '4')" ng-click="SaveAndPrint(true)"><a><i class="fa fa-save"></i>Split</a></li>
+            <li style="cursor:pointer" ng-show="!ShowSearch && SearchCondition.mode != '3' && SearchCondition.mode != '6'" ng-click="ShowSearch=!ShowSearch"><a><i class="fa fa-search"></i>Search</a></li>
+            <li style="cursor:pointer" ng-show="!ShowSearch && SearchCondition.mode != '3' && SearchCondition.mode != '4' && SearchCondition.mode != '6'" ng-click="PrintAllBarcode()"><a><i class="fa fa-barcode"></i>Print</a></li>
+            <li ng-show="ShowSearch && SearchCondition.mode != '6'" style="cursor:pointer" ng-click="SearchHistory()"><a><i class="fa fas fa-search-plus"></i>Search History</a></li>
+            <li ng-show="ShowSearch && SearchCondition.mode != '6'" style="cursor:pointer" ng-click="PrintPriceChangeBarcode()"><a><i class="fa fa-barcode"></i>Print All</a></li>
+            <li style="cursor:pointer" ng-show="ShowSearch && SearchCondition.mode != '6'" ng-click="ShowSearch=!ShowSearch"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="ShowSearch && SearchCondition.mode != '6'" style="cursor:pointer" ng-click="exporttoExcel(sgrid,'splitsummary', 'splitsummary')"><a><i class="fa fa-download"></i></a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-success" ng-hide="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-6">
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-4 control-label">Select the Source</label>
+                            <div class="col-md-6">
+                                <select class="input-sm form-control" select2="" style="width: 100%;"
+                                        options="item.id  as item.name for item in SearchModes track by item.id"
+                                        ng-model="SearchCondition.mode"
+                                        ng-change="Clear()"></select>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-hide="SearchCondition.mode == '1'">
+
+                            <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                            <div class="col-md-6">
+                                <select class="input-sm form-control" select2="" style="width: 100%;"
+                                        options="item.id  as item.name for item in Location track by item.id"
+                                        ng-model="SearchCondition.locationid" focusid="locationid"
+                                        focusonenter="first"></select>
+                            </div>
+
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="SearchCondition.mode == '1'">
+
+                            <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                            <div class="col-md-6">
+                                <select class="input-sm form-control" select2="" style="width: 100%;"
+                                        options="item.id  as item.name for item in Company track by item.id"
+                                        focusonenter="first"
+                                        ng-model="SearchCondition.companyid" focusid="companyid"></select>
+                            </div>
+
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="SearchCondition.mode == '3' ||SearchCondition.mode == '4' || SearchCondition.mode == '6'">
+
+                            <label for="inputEmail3" class="col-md-4 control-label">Printer</label>
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control input-sm" id="inputPassword3"
+                                           ng-model="BillPrint.printer" ng-readonly="true" focusid="first">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-flat"
+                                                ng-click="SelectPrinter()">
+                                            <i class="fa fa-print"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row row-padbot-15" ng-show="SearchCondition.mode == '3' ||SearchCondition.mode == '4' || SearchCondition.mode == '6'">
+                            <label for="inputEmail3" class="col-md-4 control-label">Barcode Format</label>
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm" style="width:100%">
+                                    <input type="text" class="form-control input-sm" style="width:100%" id="inputPassword3"
+                                           ng-model="BillPrint.report" ng-readonly="true" focusid="first">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="SearchCondition.mode == '8'">
+                            <label for="inputEmail3" class="col-md-4 control-label">Barcode File</label>
+                            <div class="col-md-6">
+                                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                                             resize="true" max-width="1280" uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                                             max-height="1280" preview="false" ng-model="uploadfile"
+                                             filemodel="uploadfile" onuploadcomplete="filehsnuploadedcomplete"
+                                             filetype="DATA"
+                                             multiple="false">
+                                    <i class="fa fa-upload">Upload</i>
+                                </file-upload>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-hide="SearchCondition.mode == '5' || SearchCondition.mode == '6' || SearchCondition.mode == '8'">
+                            <label for="inputEmail3" class="col-md-4 control-label">Barcode</label>
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control input-sm" id="inputPassword3"
+                                           onkeyenter="Search()"
+                                           ng-model="SearchCondition.barcode" focusid="txtbarcode">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-flat" ng-click="Search()">Go</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="SearchCondition.mode == '6'">
+                            <label for="inputEmail3" class="col-md-4 control-label">From Barcode</label>
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control input-sm" id="inputPassword3"
+                                           onkeyenter="SearchStock(false)"
+                                           ng-model="SearchCondition.barcode" focusid="first">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-flat" ng-click="SearchStock(false)">Go</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-show="SearchCondition.mode == '3'">
+                            <div class="row row-padbot-15">
+                                <div class="col-md-4">Meter</div>
+                                <div class="col-md-4">
+                                    <input type="text" style="width:190px" class="input-sm input-sm form-control"
+                                           ng-model="billitem.splitqty"
+                                           focusid="billsplitqty"
+                                           focusonenter="splitandprint">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-sm btn-info btn-flat pull-right"
+                                            focusid="splitandprint"
+                                            ng-click="SaveAndPrint(true)">
+                                        <i class="fa fa-barcode"></i>Split &amp; Print
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Barcode</div><div class="col-md-8">{{billitem.barcode}} <div style="position: absolute; left: 200px; top: 0px; font-weight: bolder; ">{{billitem.pricetagname}}</div></div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Product</div><div class="col-md-8">{{billitem.productname}}</div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Section</div><div class="col-md-8">{{billitem.sectionname}}</div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Design ID</div><div class="col-md-8">{{billitem.designid}}</div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Entry Date</div><div class="col-md-8">{{billitem.entrydate | date:'dd/MM/yyyy'}}</div></div>
+                            <!--<div class="row row-padbot-15"><div class="col-md-4">Price</div><div class="col-md-8">{{billitem.sellingprice}}</div></div>
+        <div class="row row-padbot-15"><div class="col-md-4">Discount</div><div class="col-md-8">{{billitem.salediscount}}</div></div>-->
+
+                            <div class="row row-padbot-15"><div class="col-md-4">New Price</div><div class="col-md-8"><input type="number" style="width:190px" class="input-sm input-sm form-control" ng-change="ChangeBillingPrice(billitem,1)" ng-model="billitem.nprice"></div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">New Discount(%)</div><div class="col-md-8"><input type="number" style="width:190px" class="input-sm input-sm form-control" ng-change="ChangeBillingPrice(billitem,3)" ng-model="billitem.npdiscount"></div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">New Discount</div><div class="col-md-8"><input type="number" style="width:190px" class="input-sm input-sm form-control" ng-change="ChangeBillingPrice(billitem,2)" ng-model="billitem.ndiscount"></div></div>
+                            nd
+                            
+                            <div class="row row-padbot-15"><div class="col-md-4">Final Price</div><div class="col-md-8"><input type="number" style="width:190px" class="input-sm input-sm form-control" ng-change="ChangeBillingPrice(billitem,4)" ng-model="billitem.nfprice"></div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Stock</div><div class="col-md-8">{{billitem.rstock}}</div></div>
+
+                        </div>
+                        <div ng-show="SearchCondition.mode == '4' ||SearchCondition.mode == '5'">
+                            <div class="row row-padbot-15" ng-show="SearchCondition.mode == '4'">
+                                <div class="col-md-4">
+
+                                    <div class="col-md-6 no-padding">
+                                        <span>Price</span>
+                                        <input type="text" style="width:100%" class="input-sm input-sm form-control"
+                                               ng-model="billitem.sellingprice">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <span>Discount</span>
+                                        <input type="text" style="width:100%" class="input-sm input-sm form-control"
+                                               ng-model="billitem.salediscount">
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-3 no-padding">
+                                        <span>+ Margin %</span>
+                                        <input type="text" style="width:100%" class="input-sm input-sm form-control"
+                                               ng-model="billitem.nmargin"
+                                               ng-change="marginchanged()"
+                                               focusid="nmargin"
+                                               focusonenter="nprice">
+                                    </div>
+                                    <div class="col-md-3 no-padding">
+                                        <span>New Price</span>
+                                        <input type="text" style="width:100%" class="input-sm input-sm form-control"
+                                               ng-model="billitem.nprice"
+                                               focusid="nprice"
+                                               focusonenter="npdiscount">
+                                    </div>
+                                    <div class="col-md-3 no-padding">
+                                        <span>Discount %</span>
+                                        <input type="text" style="width:100%" class="input-sm input-sm form-control"
+                                               ng-model="billitem.npdiscount"
+                                               ng-change="discountchanged()"
+                                               focusid="npdiscount"
+                                               focusonenter="ndiscount">
+                                    </div>
+
+                                    <div class="col-md-3 no-padding">
+                                        <span>New Discount</span>
+                                        <input type="text" style="width:100%" class="input-sm input-sm form-control"
+                                               ng-model="billitem.ndiscount"
+                                               focusid="ndiscount"
+                                               focusonenter="billpackqty">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15" ng-show="SearchCondition.mode == '4'">
+                                <div class="col-md-4">Final Price</div>
+                                <div class="col-md-6">
+                                    <input type="number" style="width:190px" class="input-sm input-sm form-control"
+                                           ng-change="ChangeBillingPrice(billitem,4)" ng-model="billitem.nfprice">
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="SearchCondition.mode == '5'">
+                                <div class="col-md-4">Stock Marker</div>
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;"
+                                            options="item.id as item.name for item in StockMarkers track by item.id"
+                                            ng-model="billitem.stockmarkerid"></select>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="SearchCondition.mode == '5'">
+                                <div class="col-md-4">Action</div>
+                                <div class="col-md-6">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;"
+                                            options="item.id as item.name for item in SMOptions track by item.id"
+                                            ng-model="billitem.actionmode" ng-change="optionchanged()"></select>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="SearchCondition.mode == '5'">
+
+                                <label for="inputEmail3" class="col-md-4 control-label">Barcode</label>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control input-sm" id="inputPassword3"
+                                               onkeyenter="SMSearch()" style="width:100%"
+                                               ng-model="SearchCondition.barcode">
+                                        <span class="input-group-btn" ng-show="ShowOption">
+                                            <button type="button" class="btn btn-info btn-flat" ng-click="SMSave()">{{smoption}}</button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="SearchCondition.mode == '4'">
+                                <div class="col-md-4">Stock Marker</div>
+                                <div class="col-md-1">
+                                    <input type="checkbox" ng-model="billitem.assignmarker" />
+                                </div>
+                                <div class="col-md-5">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;"
+                                            options="item.id as item.name for item in StockMarkers track by item.id"
+                                            ng-model="billitem.stockmarkerid"></select>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="SearchCondition.mode == '4'">
+                                <div class="col-md-4">Qty</div>
+                                <div class="col-md-2">
+                                    <input type="text" style="width:190px" class="input-sm input-sm form-control"
+                                           ng-model="billitem.splitqty"
+                                           focusid="billpackqty"
+                                           focusonenter="splitwithoutprint">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-sm btn-info box-success pull-right"
+                                            focusid="splitwithoutprint"
+                                            ng-click="SaveAndPrint(false)">
+                                        <i class="fa fa-barcode"></i>Split
+                                    </button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-sm btn-info btn-flat pull-right"
+                                            focusid="splitandprint"
+                                            ng-click="SaveAndPrint(true)">
+                                        <i class="fa fa-barcode"></i>Split &amp; Print
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div ng-show="SearchCondition.mode == '6' && billitem">
+                            <div class="row row-padbot-15"><div class="col-md-4">Product</div><div class="col-md-8">{{billitem.productname}}</div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Barcode</div><div class="col-md-8">{{billitem.barcode}} <div style="position: absolute; left: 200px; top: 0px; font-weight: bolder;">{{billitem.pricetagname}}</div></div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Price</div><div class="col-md-8">{{billitem.sellingprice}}</div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Discount</div><div class="col-md-8">{{billitem.salediscount}}</div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Final Price</div><div class="col-md-8">{{billitem.sellingprice-billitem.salediscount}}</div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Stock</div><div class="col-md-8">{{billitem.rstock}}</div></div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="SearchCondition.mode == '6'">
+                            <label for="inputEmail3" class="col-md-4 control-label">To Barcode</label>
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control input-sm" id="inputPassword3"
+                                           onkeyenter="SearchStock(true)"
+                                           ng-model="SearchCondition.tbarcode" focusid="first">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-flat" ng-click="SearchStock(true)">Go</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-show="SearchCondition.mode == '6' && tbillitem">
+                            <div class="row row-padbot-15"><div class="col-md-4">Product</div><div class="col-md-8">{{tbillitem.productname}}</div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Barcode</div><div class="col-md-8">{{tbillitem.barcode}} <div style="position: absolute; left: 200px; top: 0px; font-weight: bolder; font-weight: bolder">{{billitem.pricetagname}}</div></div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Price</div><div class="col-md-8">{{tbillitem.sellingprice}}</div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Discount</div><div class="col-md-8">{{tbillitem.salediscount}}</div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Final</div><div class="col-md-8">{{tbillitem.sellingprice-tbillitem.salediscount}}</div></div>
+                            <div class="row row-padbot-15"><div class="col-md-4">Stock</div><div class="col-md-8">{{tbillitem.rstock}}</div></div>
+                        </div>
+
+                        <div ng-hide="SearchCondition.mode == '3' ||SearchCondition.mode == '4' ||SearchCondition.mode == '5' ||SearchCondition.mode == '6' ||SearchCondition.mode == '7'">
+
+                            <div ng-repeat="item in ItemList">
+                                <div class="row row-padbot-15"><div class="col-md-4">Product</div><div class="col-md-8">{{item.productname}}</div></div>
+                                <div class="row row-padbot-15"><div class="col-md-4">Barcode</div><div class="col-md-8">{{item.barcode}} <div style="position: absolute; left: 200px; top: 0px; font-weight: bolder;">{{item.pricetagname}}</div></div></div>
+                                <div class="row row-padbot-15" ng-hide="SearchCondition.mode == '2'"><div class="col-md-4">Price</div><div class="col-md-8">{{item.price}}</div></div>
+                                <div class="row row-padbot-15" ng-hide="SearchCondition.mode == '2'"><div class="col-md-4">Discount</div><div class="col-md-8">{{item.discount}}</div></div>
+                                <div class="row row-padbot-15" ng-hide="SearchCondition.mode == '2'"><div class="col-md-4">Final</div><div class="col-md-8">{{item.price-item.discount}}</div></div>
+                                <div class="row row-padbot-15" ng-hide="SearchCondition.mode == '2'"><div class="col-md-4">Stock</div><div class="col-md-8">{{item.wstock}}</div></div>
+                                <div class="row row-padbot-15" ng-hide="SearchCondition.mode == '2'"><div class="col-md-4">Split Qty</div><div class="col-md-8 style=" vertical-align:top;font-size:large;color:brown"">{{item.splitqty * item.splitpiece | number:2}}</div></div>
+
+                                <div class="row row-padbot-15" ng-show="SearchCondition.mode == '2'"><div class="col-md-4">Price</div><div class="col-md-8">{{item.sellingprice}}</div></div>
+                                <div class="row row-padbot-15" ng-show="SearchCondition.mode == '2'"><div class="col-md-4">Discount</div><div class="col-md-8">{{item.salediscount}}</div></div>
+                                <div class="row row-padbot-15" ng-show="SearchCondition.mode == '2'"><div class="col-md-4">Final</div><div class="col-md-8">{{item.sellingprice-item.salediscount}}</div></div>
+                                <div class="row row-padbot-15" ng-show="SearchCondition.mode == '2'"><div class="col-md-4">Stock</div><div class="col-md-8">{{item.rstock}}</div></div>
+                                <div class="row row-padbot-15" ng-show="SearchCondition.mode == '2'"><div class="col-md-4">Split Qty</div><div class="col-md-8" style="vertical-align:top;font-size:large;color:brown">{{item.splitqty * item.splitpiece | number:2}}</div></div>
+
+                                <div class="row row-padbot-15"><div class="col-md-4">Qty (No of Qty in each Barcode)</div><div class="col-md-8"><input type="number" style="width:190px" class="input-sm input-sm form-control" ng-model="item.splitqty"></div></div>
+                                <div class="row row-padbot-15"><div class="col-md-4">Pieces (No of New Barcode required)</div><div class="col-md-8"><input type="number" style="width:190px" class="input-sm input-sm form-control" ng-model="item.splitpiece"></div></div>
+
+                                <div class="row row-padbot-15" style="height:35px" ng-hide="SearchCondition.mode == '7'">
+                                    <div class="col-md-4">Is Bit</div>
+
+                                    <div class="col-md-8">
+                                        <input type="checkbox" class="icheckbox_flat-green pull-left" ng-model="item.isbit">
+                                        <div style="position: absolute; left: 40px; width: 165px" ng-show="system_splitbitprice">
+                                            <input type="checkbox" class="icheckbox_flat-green pull-right" ng-model="bitprice" ng-change="bitpricechanged(bitprice)">
+                                            <div class="pull-right">Bit Price&nbsp;&nbsp;</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row row-padbot-15">
+                                    <div class="col-md-4">New Price</div><div class="col-md-8">
+
+                                        <div style="position: absolute; top: 10px; left: 230px;color:orangered;font-size:medium"
+                                             ng-show="bitprice && item.splitqty>0 && item.nprice>0">
+                                            {{item.nprice/item.splitqty*1 | number:0}}
+                                        </div>
+
+                                        <input type="number" style="width:190px" class="input-sm input-sm form-control" ng-change="ChangePrice(item,1)"
+                                               ng-model="item.nprice">
+
+
+                                    </div>
+
+
+                                </div>
+                                <div class="row row-padbot-15"><div class="col-md-4">New Discount(%)</div><div class="col-md-8"><input type="number" style="width:190px" class="input-sm input-sm form-control" ng-change="ChangePrice(item,3)" ng-model="item.npdiscount"></div></div>
+                                <div class="row row-padbot-15">
+                                    <div class="col-md-4">New Discount</div><div class="col-md-8">
+
+                                        <div style="position: absolute; top: 10px; left: 230px;color:orangered;font-size:medium"
+                                             ng-show="bitprice && item.splitqty>0 && item.ndiscount>0">
+                                            {{item.ndiscount/item.splitqty*1 | number:0}}
+                                        </div>
+
+
+                                        <input type="number" style="width:190px" class="input-sm input-sm form-control" ng-change="ChangePrice(item,2)" ng-model="item.ndiscount">
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="col-md-4">New Final</div><div class="col-md-8">
+
+
+                                        <div style="position: absolute; top: 10px; left: 230px;color:orangered;font-size:medium"
+                                             ng-show="bitprice && item.splitqty>0 && item.nfprice>0">
+                                            {{item.nfprice/item.splitqty*1 | number:0}}
+                                        </div>
+
+                                        <input type="number" style="width:190px" class="input-sm input-sm form-control" ng-change="ChangePrice(item,4)"
+                                               ng-model="item.nfprice">
+
+                                    </div>
+
+
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="col-md-4">Barcode List</div><div class="col-md-8"><span ng-hide="item.barcodes == null">{{item.barcodes}}</span><button type="button" class="btn btn-default btn-xs" ng-click="PrintBarcode(item)">Print Barcode</button></div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="ItemList.length>0 && SearchCondition.mode != '7'">
+                                <div class="col-md-4">
+                                    <label>Change Product</label>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <div class="col-md-1 no-padding">
+                                        <input type="checkbox" class="icheckbox_flat-green pull-left" ng-model="ChangeProduct" />
+                                    </div>
+                                    <div class="col-md-10 no-padding" ng-show="ChangeProduct">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in ProductList track by item.id" ng-model="productid"></select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div ng-show="SearchCondition.mode == '7'">
+
+                            <div ng-repeat="item in ItemList">
+
+                                <div class="row row-padbot-15">
+                                    <div class="col-md-4">
+                                        <label>Piece Product</label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in ProductList track by item.id"
+                                                ng-model="item.changeproductid"></select>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15"><div class="col-md-4">Meter Product</div><div class="col-md-8" style="font-size:large;color:orangered">{{item.productname}}</div></div>
+                                <div class="row row-padbot-15"><div class="col-md-4">Barcode</div><div class="col-md-8">{{item.barcode}} <div style="position: absolute; left: 200px; top: 0px; font-weight: bolder;">{{item.pricetagname}}</div></div></div>
+
+                                <div class="row row-padbot-15"><div class="col-md-4">Price</div><div class="col-md-8">{{item.sellingprice}}</div></div>
+                                <div class="row row-padbot-15"><div class="col-md-4">Discount</div><div class="col-md-8">{{item.salediscount}}</div></div>
+                                <div class="row row-padbot-15"><div class="col-md-4">Final</div><div class="col-md-8">{{item.sellingprice-item.salediscount}}</div></div>
+                                <div class="row row-padbot-15"><div class="col-md-4">Available Stock</div><div class="col-md-8">{{item.rstock}}</div></div>
+                                <div class="row row-padbot-15"><div class="col-md-4">Required Stock</div><div class="col-md-8" style="vertical-align:top;font-size:large;color:brown">{{item.splitqty * item.splitpiece | number:2}}</div></div>
+
+                                <div class="row row-padbot-15"><div class="col-md-4">Meter</div><div class="col-md-8"><input type="number" style="width:190px" class="input-sm input-sm form-control" ng-model="item.splitqty"></div></div>
+                                <div class="row row-padbot-15"><div class="col-md-4">Pieces</div><div class="col-md-8"><input type="number" style="width:190px" class="input-sm input-sm form-control" ng-model="item.splitpiece"></div></div>
+
+
+                                <div class="row row-padbot-15">
+                                    <div class="col-md-4">New Price</div><div class="col-md-8">
+
+
+                                        <input type="number" style="width:190px" class="input-sm input-sm form-control" ng-change="ChangePrice(item,1)"
+                                               ng-model="item.nprice">
+
+
+                                    </div>
+
+
+                                </div>
+                                <div class="row row-padbot-15"><div class="col-md-4">New Discount(%)</div><div class="col-md-8"><input type="number" style="width:190px" class="input-sm input-sm form-control" ng-change="ChangePrice(item,3)" ng-model="item.npdiscount"></div></div>
+                                <div class="row row-padbot-15">
+                                    <div class="col-md-4">New Discount</div><div class="col-md-8">
+
+
+                                        <input type="number" style="width:190px" class="input-sm input-sm form-control" ng-change="ChangePrice(item,2)" ng-model="item.ndiscount">
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="col-md-4">New Final</div><div class="col-md-8">
+
+
+
+                                        <input type="number" style="width:190px" class="input-sm input-sm form-control" ng-change="ChangePrice(item,4)"
+                                               ng-model="item.nfprice">
+
+                                    </div>
+
+
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="col-md-4">Barcode List</div><div class="col-md-8"><span ng-hide="item.barcodes == null">{{item.barcodes}}</span><button type="button" class="btn btn-default btn-xs" ng-click="PrintBarcode(item)">Print Barcode</button></div>
+                                </div>
+
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 no-padding">
+
+                        <div id="gridContainer">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="box box-success" ng-show="ShowSearch">
+            <div class="box-body">
+
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-4">
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-4 control-label">Select the Source</label>
+                            <div class="col-md-8">
+                                <div class="col-md-6" style="padding-left:0px"><input type="radio" ng-model="SearchCondition.mode" value="1" class="pull-left" ng-change="Clear()" /><span style="padding-left:10px">WH Stock</span></div>
+                                <div class="col-md-6" style="padding-left:0px"><input type="radio" ng-model="SearchCondition.mode" value="2" ng-change="Clear()" /><span style="padding-left:10px">Retail Stock</span></div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="SearchCondition.mode == '2'">
+
+                            <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Location track by item.id" ng-model="SearchCondition.locationid"></select>
+                            </div>
+
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="SearchCondition.mode == '1'">
+
+                            <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                            <div class="col-md-8">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Company track by item.id" ng-model="SearchCondition.companyid"></select>
+                            </div>
+
+                        </div>
+
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="col-md-4 control-label">Barcode</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control input-sm" id="inputPassword3" ng-model="SearchCondition.barcode">
+                            </div>
+
+                        </div>
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-4 control-label">Split Date Between</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control input-sm datepicker" daterange="SearchCondition.fromdate,SearchCondition.todate">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+
+                        <div id="sgridContainer">
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+</div>
+
+
+<script type="text/ng-template" id="ChooseBarecodes">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <table fixed-header="300px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">SL</th>
+                            <th style="width:200px">Product</th>
+                            <th style="width:120px">Barcode</th>
+                            <th style="width:120px">No</th>
+                            <th style="width:75px">Copy</th>
+                            <th style="width:190px">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Select
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in BarcodeList|filter:searchbarcode">
+                            <td>{{item.sno}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.code}}</td>
+                            <td>{{item.no}}</td>
+                            <td><input type="number" ng-model="item.copy" /></td>
+                            <td style="text-align:center"><input type="checkbox" ng-model="item.selected" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <input ng-model="selectall" type="checkbox" ng-change="SelectAllChanged(BarcodeList)" />
+            <input type="text" ng-model="searchbarcode" style="width:125px" placeholder="Barcode" />
+            <input type="number" ng-model="fixcopy" style="width:70px" onkeyenter="SetCopy()" placeholder="Copies" />
+            <input type="text" ng-model="fixno" style="width:100px" onkeyenter="SetSelection()" placeholder="from-to" />
+            <input type="number" ng-model="packagesize" style="width:70px" placeholder="Package Size" />
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Select</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>
+

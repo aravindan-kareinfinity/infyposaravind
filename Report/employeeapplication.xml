@@ -1,0 +1,313 @@
+<Config>
+  <PageSetting>
+    <Setting topmargin='5' leftmargin='5' bottommargin='5' rightmargin='10' width='210' height='297' style='Verdana,8,regular'></Setting>
+  </PageSetting>
+
+
+  <Header LineHeight='15' style='Verdana,8,bold'>
+    <Line>
+     <Content type='Field' name='company.name' length='700' align='center' style='Verdana,10,bold'></Content>
+    </Line>  
+   <Line>
+      <Content type='Word' length='700' align='center' style='Verdana,8,bold'>CUDDALORE-607002</Content>
+    </Line>  
+ 
+<Line/>
+<Line>
+      <Content type='Word' length='700' align='center' style='bold'>APPLICATION FORM</Content>
+</Line>
+<Line>
+      <Content type='Line'>1</Content>
+    </Line>
+  </Header>
+  <Body HeaderHeight='20'>
+<Line>
+      <Content type='Image' src="2m000000000" length='130'  align='right'>465,110,90,100</Content>
+</Line>
+  <Line>
+      <Content type='Word' length='130' align='left'>1.EMP CODE                :</Content>
+      <Content type='Field' name='employeecode' length='200' align='left' style='Verdana,10'></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>2..NAME                      :</Content>
+      <Content type='Field' name='title' length='30' align='left' style='Verdana,10'></Content>
+      <Content type='Field' name='name' length='200' align='left' style='Verdana,10'></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>3.SUR NAME                :</Content>
+      <Content type='Field' name='surname' length='190' align='left'></Content>
+ </Line>
+<Line>
+      <Content type='Word' length='130' align='left'>4.BLOODGROUP           :</Content>
+      <Content type='Field' name='personal.bloodgroup' length='190' align='left'></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>5..DATE OF BIRTH        :   </Content>
+      <Content type='Field' name='dateofbirth' length='190' align='left' format='dd/MM/yyyy'></Content>
+ </Line>
+<Line>
+      <Content type='Word' length='130' align='left'>6.GENDER                   :</Content>
+      <Content type='Field' name='gender' length='190' align='left'></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>7.FATHER NAME           :</Content>
+      <Content type='Field' name='personal.fathername' length='190' align='left'></Content>
+      <Content type='Word' length='80' align='left'>LIVE WITH   :</Content>
+      <Content type='Field' name='personal.slivewithfather' length='200' align='left'></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>8.MOTHER NAME          :</Content>
+      <Content type='Field' name='personal.mothername' length='190' align='left'></Content>
+      <Content type='Word' length='80' align='left'>LIVE WITH   :</Content>
+      <Content type='Field' name='personal.slivewithmother' length='200' align='left'></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>9.RELIGION                 :</Content>
+      <Content type='Field' name='personal.religion' length='190' align='left'></Content>
+      <Content type='Word' length='80' align='left'>CASTE         :</Content>
+      <Content type='Field' name='personal.caste' length='100' align='left'></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>11.MARITAL STATUS    :</Content>
+      <Content type='Field' name='personal.maritalstatus' length='190' align='left'></Content>
+ <Content type='Word' length='80' align='left'>COMMUNITY :</Content>
+      <Content type='Field' name='personal.community' length='100' align='left'></Content>
+</Line>
+<Line>
+      <Content type='Word' length='130' align='left'>12.SPOUSE  :</Content>
+      <Content type='Field' name='personal.spousename' length='190' align='left'></Content>
+      <Content type='Word' length='80' align='left'>LIVE WITH   :</Content>
+      <Content type='Field' name='personal.slivewithwife' length='200' align='left'></Content>
+    </Line>
+ <Line/>
+ <Line>
+      <Content type='Word' length='340' align='left'  style='Verdana,10,bold'>11.ADDRESS RESIDENCE </Content>
+      <Content type='Word' length='340' align='left'  style='Verdana,10,bold'>ADDRESS PERMANANT  </Content>
+ </Line>
+ <Line/>
+ <Line>
+      <Content type='Word' length='130' align='left'>DOOR NO : </Content>
+      <Content type='Field' name='presentaddress.residentno' length='190' align='left'></Content>
+      <Content type='Word' length='100' align='left'>DOOR NO :</Content>
+      <Content type='Field' name='permanentaddress.residentno' length='200' align='left'></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>STREET :</Content>
+      <Content type='Field' name='presentaddress.street' length='190' align='left'></Content>
+      <Content type='Word' length='100' align='left'>STREET :</Content>
+      <Content type='Field' name='permanentaddress.street' length='200' align='left='></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>AREA  :</Content>
+      <Content type='Field' name='presentaddress.area' length='190' align='left'></Content>
+      <Content type='Word' length='100' align='left'>AREA :</Content>
+      <Content type='Field' name='permanentaddress.area' length='200' align='left'></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>VILLAGE :</Content>
+      <Content type='Field' name='presentaddress.village' length='190' align='left'></Content>
+      <Content type='Word' length='100' align='left'>VILLAGE :</Content>
+      <Content type='Field' name='presentaddress.village' length='200' align='left'></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>TALUK :</Content>
+      <Content type='Field' name='presentaddress.city' length='190' align='left'></Content>
+      <Content type='Word' length='100' align='left'>TALUK :</Content>
+      <Content type='Field' name='presentaddress.city' length='200' align='left'></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>DISTRICT :</Content>
+      <Content type='Field' name='presentaddress.district' length='190' align='left'></Content>
+      <Content type='Word' length='100' align='left'>DISTRICT :</Content>
+      <Content type='Field' name='presentaddress.district' length='200' align='left'></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>STATE :</Content>
+      <Content type='Field' name='presentaddress.state' length='190' align='left'></Content>
+      <Content type='Word' length='100' align='left'>STATE :</Content>
+      <Content type='Field' name='presentaddress.state' length='200' align='left'></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>PINCODE </Content>
+      <Content type='Field' name='presentaddress.pincode' length='190' align='left'></Content>
+      <Content type='Word' length='100' align='left'>PINCODE </Content>
+      <Content type='Field' name='presentaddress.pincode' length='200' align='left'></Content>
+ </Line>
+ <Line>
+      <Content type='Word' length='130' align='left'>CONTACT :</Content>
+      <Content type='Field' name='contactno' length='190' align='left'></Content>
+      <Content type='Word' length='100' align='left'>FATHER NO :</Content>
+      <Content type='Field' name='personal.fatherno' length='100' align='left'></Content>
+   
+    </Line>
+<Line>
+   <Content type='Word' length='130' align='left'>MOTHER NO :</Content>
+      <Content type='Field' name='personal.motherno' length='190' align='left'></Content>
+ </Line>
+<Line/>
+
+<Line>
+      <Content type='Word' length='50' align='left'  style='Verdana,10,bold'>12.EDUCATIONAL QUALIFICATION</Content>
+ </Line>
+<Line  type='Table' field='education'>
+      <Content type='Field' name='sno' text='S.No' length='50' align='left' ></Content>
+      <Content type='Field' name='institution' text='NAME OF INSTITUTION' length='190' align='left' ></Content>
+      <Content type='Field' name='place'  text='PLACE' length='100' align='left'></Content>
+      <Content type='Field' name='name' text='QUALIFICATION' length='100' align='left' ></Content>
+      <Content type='Field' name='year' text='YEAR' length='60' align='left' ></Content>
+      <Content type='Field' name='salary' text='%' length='50' align='left' ></Content>
+    </Line>
+ <Line/>
+ <Line>
+      <Content type='Word' length='50' align='left' style='Verdana,10,bold'>13.FAMILY DETAILS</Content>
+ </Line>
+ <Line  type='Table' field='family.items'> 
+      <Content type='Field' name='gender' length='50' align='left' text='S.No'></Content>
+      <Content type='Field' name='name' length='120' align='left' text='NAME'></Content>
+     <Content type='Field' name='dateofbirth' length='70' align='left' text='DOB' format='dd/MM/yyyy'></Content>
+      <Content type='Field' name='gender' length='60' align='left' text='GENDER'></Content>    
+      <Content type='Field' name='qualification' length='140' align='left' text='QUALIFICATION'></Content>
+      <Content type='Field' name='relation' length='110' align='left' text='RELATIONSHIP'></Content>
+    </Line>
+ <Line/>
+
+  <Line>    
+      <Content type='Word' length='80' align='left'  style='Verdana,10,bold'>14.EXPERIENCE </Content>
+ </Line>
+ <Line  type='Table' field='experiance' length='3'>
+    <Content type='Field' name='sno' text='S.No' length='50' align='left' ></Content>
+      <Content type='Field' name='name' length='130' align='left'  text='DESIGNATION'></Content>     
+      <Content type='Field' name='institution' length='130' align='left'  text='ORGANIZATION'></Content>
+      <Content type='Field' name='place' length='80' align='left'  text='PLACE'></Content>
+      <Content type='Field' name='year' length='80' align='left'  text='YEAR'></Content> 
+      <Content type='Field' name='salary' length='80' align='left'  text='SALARY'></Content> 
+    </Line>
+<Line/>
+ <Line/>
+ <Line/>
+<Line>
+      <Content type='Word' length='100' align='left' style='Verdana,10,bold'>15.STRENGTH :</Content>
+      <Content type='Field' name='personal.strength' length='50' align='left'></Content>
+  </Line>
+<Line/>
+ <Line>
+      <Content type='Word' length='200' align='left' style='Verdana,10,bold'>16.WHAT WILL YOU DO HERE :</Content>
+      <Content type='Field' name='personal.expdesignation' length='50' align='left'></Content>
+    </Line>
+<Line/>
+ <Line>
+      <Content type='Word' length='150' align='left' style='Verdana,10,bold'>17.REFERENCE IF ANY :</Content>
+      <Content type='Field' name='refempid' length='50' align='left'></Content>
+  </Line>
+<Line/>
+ <Line>
+      <Content type='Word' length='200' align='left' style='Verdana,10,bold'>18.EXPECTING SALARY :</Content>
+      <Content type='Field' name='personal.expsalary' length='50' align='left'></Content>
+    </Line>
+  <Line/>
+  <Line/>
+ <Line>
+  <Content type='Word'  length='250' align='left' style='Verdana,10,bold'>19.PROOF OF IDENTITY WITH XEROX COPY </Content>
+ </Line>
+ <Line>
+    <Content type='Word'  length='140' align='left'>BANK A/C NO       :</Content>
+      <Content type='Field' name='bank.accountno' length='150' align='left'></Content>
+    <Content type='Word'  length='200' align='left'>BANK IFSC  :</Content>
+      <Content type='Field' name='bank.ifsc' length='250' align='left'></Content>
+ </Line>
+ <Line>
+    <Content type='Word'  length='140' align='left'>PAN NO               :</Content>
+      <Content type='Field' name='personal.panno' length='300' align='left'></Content>
+ </Line>
+ <Line>
+    <Content type='Word'  length='140' align='left'>AADHAR NO         :</Content>
+      <Content type='Field' name='aadharno' length='300' align='left'></Content>
+ </Line>
+ <Line>
+    <Content type='Word'  length='140' align='left'>LICENCE NO         :</Content>
+      <Content type='Field' name='license.no' length='150' align='left'></Content>
+    <Content type='Word'  length='200' align='left'>EXPIRY DATE  :</Content>
+      <Content type='Field' name='license.expiryon' length='250' align='right' format='dd/MM/yyyy'></Content>
+ </Line>
+ <Line>
+    <Content type='Word'  length='140' align='left'>PASSPORT NO      :</Content>
+      <Content type='Field' name='passport.number' length='150' align='left'></Content>
+    <Content type='Word'  length='200' align='left'>EXPIRY DATE  :</Content>
+      <Content type='Field' name='passport.expiryon' length='250' align='right' format='dd/MM/yyyy'></Content>
+ </Line>
+ <Line>
+    <Content type='Word'  length='140' align='left'>VOTER ID             :</Content>
+      <Content type='Field' name='pancardno' length='300' align='left'></Content>
+ </Line>
+ <Line>
+    <Content type='Word'  length='140' align='left'>RATION CARD NO  :</Content>
+      <Content type='Field' name='personal.smartcardno' length='150' align='left'></Content>
+    <Content type='Word'  length='140' align='left'>NPR:</Content>
+      <Content type='Field' name='personal.nprno' length='250' align='right'></Content>
+ </Line>
+  <Line/>
+  <Line/> 
+ <Line/>
+<Line>
+      <Content type='Word'  length='100' align='left' style='Verdana,10,bold'>The Above Said All particulars given by me are correct. </Content>
+</Line>
+<Line>
+      <Content type='Word'  length='100' align='left' style='Verdana,10,bold'>I Understand that If The management find any deviation will cause termination and punishment</Content>
+</Line>
+  <Line/>
+  <Line/>
+  <Line/> 
+ <Line/>
+  <Line/>
+
+  <Line/>
+  <Line/>  <Line/>
+ <Line>
+    <Content type='Word'  length='100' align='left'></Content>
+    <Content type='Word'  length='250' align='left'>Thump Impression</Content>
+ 
+    <Content type='Word'  length='150' align='right'>Signature</Content>
+    <Content type='Word'  length='200' align='left'></Content>
+ </Line>
+  <Line/>
+  <Line/>
+
+  
+<Line>
+      <Content type='Line'>1</Content>
+    </Line>
+<Line>
+      <Content type='Word'  length='100' align='left' style='Verdana,10,bold'>OFFICE USE ONLY</Content>
+</Line>
+  <Line/>
+ <Line>
+      <Content type='Word'  length='100' align='left'>1.Education :</Content>
+</Line>
+ <Line>
+      <Content type='Word' length='50' align='left'>2.Experience :</Content>
+      <Content type='Field' name='employeename' length='200' align='left'></Content>
+</Line>
+ <Line>
+      <Content type='Word' length='50' align='left'>3.Family:</Content>
+      <Content type='Field' name='employeename' length='200' align='left'></Content>
+</Line>
+ <Line>
+      <Content type='Word' length='70' align='left'>4.Distance:</Content>
+</Line>
+ <Line>
+      <Content type='Word' length='100' align='left'>4.5.Commitments</Content>
+</Line>
+ <Line>
+      <Content type='Word' length='70' align='left'>4.Background:</Content>
+      <Content type='Field' name='employeename' length='200' align='left'></Content>
+</Line>
+ <Line>
+      <Content type='Word' length='50' align='left'>7.Reference</Content>
+    </Line>
+   <Line/>
+  </Body>
+
+  <Footer>  
+ 
+  </Footer>
+</Config>

@@ -1,0 +1,89 @@
+﻿       <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            <span style="font-size:medium"> HR / Fine Calculation</span>
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="GenerateFine()"><a><i class="fa fa-save"></i>Generate</a></li>
+            <li style="cursor:pointer" ng-click="SearchFine()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 form-group required control-label">Company</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" select2='' ng-model="FineEntry.companyid" options="item.id as item.name for item in Company track by item.id" focusid="first" focusonenter="status"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 form-group required control-label">Location</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" select2='' ng-model="FineEntry.locationid" options="item.id as item.name for item in Location track by item.id" focusid="first" focusonenter="status"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 form-group required control-label">From Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="input-sm form-control"
+                                               datemodule="FineEntry.fromdate"
+                                               ng-model="FineEntry.fromdate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 form-group required control-label">To Date</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="input-sm form-control"
+                                               datemodule="FineEntry.todate"
+                                               ng-model="FineEntry.todate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+              
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="no-padding" id="gridContainer">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+</div>

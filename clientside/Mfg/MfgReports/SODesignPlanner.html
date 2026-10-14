@@ -1,0 +1,137 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Salesorder Delivery Planner
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="AddPlanSelectedDesigns()" ng-show="PlannSummary && PlannSummary!=null"><a><i class="fa fa-plus-circle"></i>Add Plan</a></li>
+            <li style="cursor:pointer" ng-click="RemovePlanSelectedDesigns()" ng-show="PlannSummary && PlannSummary!=null"><a><i class="fa fa-minus-circle"></i>Clear Plan</a></li>
+            <li style="cursor:pointer" ng-click="SavePlanSelectedDesigns()" ng-show="PlannSummary && PlannSummary!=null && PlannSummary.Planned && PlannSummary.Planned>0"><a><i class="fa fa-save"></i>Save Plan</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(sgrid,'StockReport','StockReport')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-click="DownloadSOPDF(sgrid,'sono')" ng-show="PlannSummary && PlannSummary!=null"><a><i class="fa fa-file-pdf-o"></i>Plan PDF</a></li>
+            <li style="cursor:pointer" ng-click="SearchDesignwiseStock4Planner()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box primary">
+            <div class="box-body">
+                <div class="col-md-3" style="padding-right:25px">
+                    <div class="row">
+                        <div class="col-md-12 no-padding">
+                            <label>COMPANY</label>
+                            <select class="form-control" select2='Company' width="100%" ng-options="item.id as item.name for item in Company track by item.id" ng-model="SearchCondition.companyid"></select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 no-padding">
+                            <label> LOCATION</label>
+                            <div class="input-group-sm">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Location track by item.id" ng-model="SearchCondition.locationid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 no-padding">
+                            <label> CUSTOMER</label>
+                            <div class="input-group-sm">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Customers track by item.id" ng-model="SearchCondition.customerid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 no-padding">
+                            <label> BRAND</label>
+                            <div class="input-group-sm">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Brand track by item.id" ng-model="SearchCondition.brandid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 no-padding">
+                            <label> SECTION</label>
+                            <div class="input-group-sm">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in SalesCounter track by item.id" ng-model="SearchCondition.sectionid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 no-padding">
+                            <label> Size Group</label>
+                            <div class="input-group-sm">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in SizeGroupList track by item.id" ng-model="SearchCondition.sizegroupid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12 no-padding">
+                            <label> DESIGN</label>
+                            <div class="input-group-sm">
+                                <input type="text" class="input-sm form-control" ng-model="SearchCondition.designid" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 no-padding">
+                            <label for="inputEmail3" class=" no-padding control-label">Date </label>
+                            <div class="col-md-12 no-padding">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control datepicker input-sm"
+                                           daterange="SearchCondition.fromdate,SearchCondition.todate">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 no-padding">
+                            <label> ALL COLUMNS</label>
+                            <input type="checkbox" class="input-sm pull-right" ng-model="SearchCondition.showdetail" />
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <label> SHOW WIP</label>
+                            <input type="checkbox" class="input-sm pull-right" ng-model="SearchCondition.ShowWIP" />
+                        </div>
+                    </div>
+                    <div id="summarygrid" class="row" ng-hide="true">
+
+                    </div>
+                    <div class="row" ng-show="PlannSummary && PlannSummary!=null">
+
+                        <div class="col-md-12 no-padding">
+                            <label class="col-md-4 no-padding"> Ordered</label>
+                            <label class="col-md-8"> {{PlannSummary.Ordered}}</label>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <label class="col-md-4 no-padding"> Planned</label>
+                            <label class="col-md-8"> {{PlannSummary.Planned}}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9 no-padding">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

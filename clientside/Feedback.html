@@ -1,0 +1,376 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+
+        .topbanner {
+            height: 160px;
+            background-image: url(../../File/Show/0/{{desktopbanner}});
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 650px;
+            margin: auto;
+            margin-top: 12px;
+            border-radius: 8px;
+            border: 1px solid #dadce0;
+        }
+
+        .button {
+            background-color: #d93025;
+            padding: 5px 20px;
+            border-radius: 6px;
+            font-weight:bold;
+            font-size:medium;
+            color:white
+        } 
+
+        .question {
+            background-color: #fff;
+            border: 1px solid #dadce0;
+            border-top-color: rgb(218, 220, 224);
+            border-right-color: rgb(218, 220, 224);
+            border-bottom-color: rgb(218, 220, 224);
+            border-left-color: rgb(218, 220, 224);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            padding: 12px;
+            margin-top: 0;
+            page-break-inside: avoid;
+            width: 624px;
+            margin: auto
+        }
+
+
+        .header {
+            background-color: #fff;
+            margin-top: 0;
+            page-break-inside: avoid;
+            width: 624px;
+            margin: auto
+        }
+
+
+        .answer {
+            background-color: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            padding: 12px;
+            margin-top: 0;
+            page-break-inside: avoid;
+            width: 624px;
+            margin: auto
+        }
+
+        .textbox {
+            font-family: Roboto,Arial,sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: .2px;
+            line-height: 20px;
+            color: #202124;
+            flex-grow: 1;
+            flex-shrink: 1;
+            background-color: transparent;
+            border: none;
+            display: block;
+            font: 400 16px Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: normal;
+            font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+            height: 24px;
+            line-height: 24px;
+            margin: 0;
+            min-width: 0%;
+            outline: none;
+            padding: 0;
+            z-index: 0;
+        }
+
+        .textboxlabel {
+            font-family: Roboto,Arial,sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: .2px;
+            line-height: 20px;
+            color: #70757a;
+            font: 400 16px Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: normal;
+            font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+            max-width: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            position: absolute;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .line {
+            bottom: -2px;
+            height: 2px;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            background-color: #d93025;
+        }
+
+        .radio {
+            margin: 0.5rem;
+        }
+
+            .radio input[type="radio"] {
+                position: absolute;
+                opacity: 0;
+            }
+
+                .radio input[type="radio"] + .radio-label:before {
+                    content: '';
+                    background: #ffffff;
+                    border-radius: 100%;
+                    border: 2px solid #000000;
+                    display: inline-block;
+                    width: 1.2em;
+                    height: 1.2em;
+                    position: relative;
+                    margin-right: 1em;
+                    margin-top: 2px;
+                    vertical-align: top;
+                    cursor: pointer;
+                    text-align: center;
+                    -webkit-transition: all 250ms ease;
+                    transition: all 250ms ease;
+                }
+
+                .radio input[type="radio"]:checked + .radio-label:before {
+                    background-color: #d93025;
+                    border: 2px solid #d93025;
+                    box-shadow: inset 0 0 0 4px #ffffff;
+                }
+
+                .radio input[type="radio"]:focus + .radio-label:before {
+                    outline: none;
+                    border-color: #d93025;
+                }
+
+                .radio input[type="radio"]:disabled + .radio-label:before {
+                    box-shadow: inset 0 0 0 4px #f4f4f4;
+                    border-color: #b4b4b4;
+                    background: #b4b4b4;
+                }
+
+
+        .stars {
+            cursor: pointer;
+            display: flex;
+        }
+
+            .stars:hover .star polygon {
+                fill: #d93025 !important;
+            }
+
+            .stars .star polygon {
+                fill: #d8d8d8;
+            }
+
+            .stars .star:hover ~ .star polygon {
+                fill: #d8d8d8 !important;
+            }
+
+            .stars[data-stars] .star polygon {
+                fill: #d93025;
+            }
+
+            .stars[data-stars="1"] .star:nth-child(1) ~ .star polygon {
+                fill: #d8d8d8;
+            }
+
+            .stars[data-stars="2"] .star:nth-child(2) ~ .star polygon {
+                fill: #d8d8d8;
+            }
+
+            .stars[data-stars="3"] .star:nth-child(3) ~ .star polygon {
+                fill: #d8d8d8;
+            }
+
+            .stars[data-stars="4"] .star:nth-child(4) ~ .star polygon {
+                fill: #d8d8d8;
+            }
+
+            .stars[data-stars="5"] .star:nth-child(5) ~ .star polygon {
+                fill: #d8d8d8;
+            }
+    </style>
+</head>
+<body>
+    <div class="topbanner" style="margin-bottom:10px">
+
+    </div>
+    <div class="header" style="margin-bottom:10px">
+        {{feedbackheader}}
+    </div>
+    <form action="../Save" method="post">
+        <div class="question" style="margin-bottom:10px">
+            <div>
+                {{feedbackname}}<span style="color:red">*</span>
+            </div>
+            <div style="margin-top:5px">
+                <input class="textbox" id="name" name="name" type="text" size="50" value="{{customername}}" placeholder="Your Name" />
+            </div>
+            <div class="line">
+
+            </div>
+        </div>
+
+        <div class="question" style="margin-bottom:10px">
+            <div>
+                {{feedbackmobileno}}<span style="color:red">*</span>
+            </div>
+            <div style="margin-top:5px">
+                <input class="textbox" id="mobileno" value="{{customermobile}}" name="mobileno" type="text" size="50" placeholder="Your Mobile" />
+            </div>
+            <div class="line">
+
+            </div>
+        </div>
+
+        {{FeedBackQuestionList}}
+
+
+        <div class="question" style="margin-bottom:10px;display:{{feedbackcomplaintshow}}">
+            <div>
+                {{feedbackcomplaint}}<span style="color:lightgreen">*</span>
+            </div>
+            <div style="margin-top:5px">
+                <input class="textbox" id="complaint" name="complaint" type="text" 
+                       style="width:100%" placeholder="Your Complaints" />
+            </div>
+            <div class="line">
+
+            </div>
+        </div>
+
+        <div class="question" style="margin-bottom:10px;display:{{feedbacksuggesionshow}}">
+            <div>
+                {{feedbacksuggesion}}<span style="color:lightgreen">*</span>
+            </div>
+            <div style="margin-top:5px">
+                <input class="textbox" id="suggesion" name="suggesion" type="text" 
+                       style="width:100%" placeholder="Your Suggesion" />
+            </div>
+            <div class="line">
+
+            </div>
+        </div>
+
+        <input id="Ratingvalue" name="Ratingvalue" type="hidden" value="" />
+        <input id="FeedbackID" name="FeedbackID" type="hidden" value="{{orgcode}}" />
+        <input id="FeedbackReference" name="FeedbackReference" type="hidden" value="{{reference}}" />
+        <input id="FeedbackBranch" name="FeedbackBranch" type="hidden" value="{{orgbranch}}" />
+
+        <div class="answer" style="margin-bottom:10px">
+            <div>
+                <div style="clear:both">
+                    {{feedbackrating}}
+                </div>
+                <div style="clear:both;float:right">
+                    <button type="submit" class="button">Save</button>
+                </div>
+            </div>
+            <div>
+                <div class="stars" data-stars="3">
+                    <svg height="25" width="23" class="star rating" data-rating="1">
+                        <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;" />
+                    </svg>
+                    <svg height="25" width="23" class="star rating" data-rating="2">
+                        <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;" />
+                    </svg>
+                    <svg height="25" width="23" class="star rating" data-rating="3">
+                        <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;" />
+                    </svg>
+                    <svg height="25" width="23" class="star rating" data-rating="4">
+                        <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;" />
+                    </svg>
+                    <svg height="25" width="23" class="star rating" data-rating="5">
+                        <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+
+    <script language="javascript" type="text/javascript">
+        const starEls = document.querySelectorAll('.star.rating');
+        document.getElementById('Ratingvalue').value = '5';
+
+        starEls.forEach(star => {
+            star.addEventListener('click', function (e) {
+                let starEl = e.currentTarget;
+                document.getElementById('Ratingvalue').value = starEl.dataset.rating;
+                starEl.parentNode.setAttribute('data-stars', starEl.dataset.rating);
+            });
+        })
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('REPEAT') === 'TRUE') {
+
+                const form = document.querySelector('form');
+
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault(); // Prevent default form submission
+
+                    const formData = new FormData(form);
+                    const postData = {};
+
+                    // Convert FormData to plain object
+                    formData.forEach((value, key) => {
+                        postData[key] = value;
+                    });
+
+                    // Post the data
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: new URLSearchParams(postData),
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    })
+                        .then(response => {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.text();
+                        })
+                        .then(data => {
+                            // Clear input values
+                            form.querySelectorAll('input[type="text"]').forEach(input => {
+                                input.value = '';
+                            });
+
+                            form.querySelectorAll('input[type="radio"]').forEach(radio => {
+                                radio.checked = false;
+                            });
+
+                            document.getElementById('Ratingvalue').value = '3';
+
+                            const mobilenoInput = document.getElementById('name');
+                            if (mobilenoInput) mobilenoInput.focus();
+
+                            alert('Feedback submitted successfully!');
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('There was an error submitting the form.');
+                        });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

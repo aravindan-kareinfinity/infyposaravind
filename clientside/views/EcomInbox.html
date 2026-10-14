@@ -1,0 +1,275 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Sales \ ECOM Dashboard
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-show="!OnStock && Unicommerce && SelectedCount>0" ng-click="ProcessOnline()"><a><i class="fa fa-plus">({{SelectedCount}})&nbsp;Process Online Order</i></a></li>
+            <li style="cursor:pointer" ng-show="Unicommerce" ng-click="exporttoExcel(igrid)"><a><i class="fa fa-file-excel-o">Download</i></a></li>
+            <li style="cursor:pointer" ng-hide="StockAdjustment || !SearchRequest.OnStock" ng-click="EnableStockAdjustment()"><a><i class="fa fa-toggle-on">Enable Adjustment</i></a></li>
+            <li style="cursor:pointer" ng-show="StockAdjustment && SearchRequest.OnStock && SelectedCount>0" ng-click="Unicommerce2Stock(igrid)"><a><i class="fa fa-edit">Adjust Stock {{SelectedCount}}</i></a></li>
+            <li ng-show="Unicommerce" style="cursor:pointer">
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280" uri='File/DocumentProcess/ECOM/'
+                             max-height="1280" preview="false" ng-model="uploadfile"
+                             filetype="DATA"
+                             filemodel="uploadfile" onuploadcomplete="uanpofileuploadedcomplete"
+                             multiple="false">
+                    <i class="fa fa-upload">Upload E-Commerce Orders</i>
+                </file-upload>
+            </li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+
+                    <div class="col-md-2 pull-left">
+                        <div style="padding-right:50px;width:120px">
+                            <label class="switch pull-right" style="margin-right:15px">
+                                <input type="checkbox" ng-model="SearchRequest.Online">
+                                <span class="slider round"></span>
+                            </label>
+                            <div style="position:absolute;top:0px;left:80px">
+                                <span ng-show="SearchRequest.Online" style="font-size:x-large">
+                                    Online
+                                </span>
+                                <span ng-hide="SearchRequest.Online" style="font-size:x-large">
+                                    Offline
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 pull-left">
+                        <div style="padding-right:50px;width:120px">
+                            <label class="switch pull-right" style="margin-right:15px">
+                                <input type="checkbox" ng-model="SearchRequest.OnStock">
+                                <span class="slider round"></span>
+                            </label>
+                            <div style="position:absolute;top:0px;left:80px">
+                                <span ng-show="SearchRequest.OnStock" style="font-size:x-large">
+                                    Current Stock
+                                </span>
+                                <span ng-hide="SearchRequest.OnStock" style="font-size:x-large">
+                                    Sales Order
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 pull-right" ng-show="SearchRequest.OnStock">
+
+                        <div class="col-sm-2 col-md-2 no-padding pull-right" ng-hide="SearchRequest.Online || StockAdjustment">
+                            <button type="button" class="btn btn-primary btn-sm btn-box pull-right" ng-click="SearchStock()">Search</button>
+                        </div>
+
+                        <div class="col-sm-4 col-md-4 no-padding pull-right" ng-show="!SearchRequest.Online && StockAdjustment">
+                            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label no-padding">Bundle Code</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" ng-model="SearchRequest.bundlecode"
+                                       class="form-control pull-right input-sm">
+                            </div>
+                            <div class="col-sm-2 col-md-2 no-padding">
+                                <button type="button" class="btn btn-primary btn-sm btn-box pull-right" ng-click="SearchBundle()">Search</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8 col-sm-5 no-padding">
+                            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label no-padding">Location</label>
+                            <div class="col-sm-8 col-md-8">
+                                <select class="form-control input-sm" style="width:100%" select2="Location"
+                                        options="item.id as item.name for item in Location track by item.id"
+                                        ng-model="SearchRequest.locationid"></select>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-4" ng-show="SearchRequest.Online">
+                            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label no-padding">Minutes</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" ng-model="SearchRequest.minutes"
+                                       class="form-control pull-right input-sm">
+                            </div>
+                            <div class="col-sm-2 col-md-2 no-padding">
+                                <button type="button" class="btn btn-primary btn-sm btn-box pull-right" ng-click="SearchStock()">Search</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 pull-right" ng-hide="SearchRequest.OnStock">
+
+                        <div class="col-md-5 col-sm-5 no-padding" ng-show="SearchRequest.Online">
+                            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label no-padding">Status</label>
+                            <div class="col-sm-8 col-md-8">
+                                <select class="form-control input-sm" select2="Status"
+                                        options="item.id as item.name for item in StatusList track by item.id"
+                                        ng-model="SearchRequest.status"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 col-sm-5 no-padding" ng-hide="SearchRequest.Online">
+                            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label no-padding">Status</label>
+                            <div class="col-sm-8 col-md-8">
+                                <select class="form-control input-sm" select2="Status"
+                                        options="item.id as item.name for item in BillStatusList track by item.id"
+                                        ng-model="SearchRequest.status"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-7 no-padding">
+                            <div class="col-sm-4 col-md-4 no-padding" ng-hide="SearchRequest.Online">
+                                <select class="form-control input-sm" select2="Status"
+                                        style="width:100%"
+                                        options="item.id as item.name for item in DateTypes track by item.id"
+                                        ng-model="SearchRequest.datetype"></select>
+                            </div>
+                            <div class="col-sm-4 col-md-4 no-padding" ng-show="SearchRequest.Online">
+                                Updated Date
+                            </div>
+                            <div class="col-sm-6 col-md-6" style="padding-left:0px">
+                                <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto"
+                                       class="form-control pull-right input-sm">
+                            </div>
+                            <div class="col-sm-2 col-md-2 no-padding">
+                                <button type="button" class="btn btn-primary btn-sm btn-box pull-right" ng-click="Search()">Search</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-12" id="gridContainer">
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+<script type="text/ng-template" id="ImportPO">
+    <div class="ngdialog-message">
+        <div class="col-md-12">
+            <table fixed-header="300px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th ng-hide="Running" style="width:30px"> <input type="checkbox" ng-model="selectedall" ng-change="SelectedAll(selectedall)" /></th>
+                        <th style="width:100px">Order ID</th>
+                        <th style="width:150px">Location</th>
+                        <th style="width:80px">Date</th>
+                        <th style="width:80px" ng-show="ShowBillNo">Bill NO</th>
+                        <th ng-hide="Running" style="width:80px">Qty</th>
+                        <th ng-hide="Running" style="width:80px">UAN</th>
+                        <th ng-show="Running" style="width:80px">Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in Orders"
+                        class="ng-style: item.valid == 0 && {backgroundColor:'lightgray'};">
+                        <td ng-hide="Running">
+                            <input type="checkbox" ng-model="item.selected"
+                                   ng-disabled="!item.valid"
+                                   ng-change="SelectedChanged()" />
+                        </td>
+                        <td>{{item.MOrderNo	}}</td>
+                        <td>{{item.Location	}}</td>
+                        <td>{{item.BillDate	|date:dd-MM-yyyy}}</td>
+                        <td ng-show="ShowBillNo">{{item.BillNo}}</td>
+                        <td ng-hide="Running">{{item.Qty}}</td>
+                        <td ng-hide="Running">{{item.count}}</td>
+                        <td ng-show="Running">{{item.errormessage}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-12"
+             ng-show="OrderInfo.ecomstatus.validpo != OrderInfo.ecomstatus.noofbill"
+             style="padding-top:10px;font-size:large;color:orangered">
+            VALID ONLY {{OrderInfo.ecomstatus.validbill}} OUT OF {{OrderInfo.ecomstatus.noofbill}} ORDERS
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.ecomstatus.missingcompany.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-4">Missing Company</div>
+            <div class="col-md-4" ng-repeat="item in OrderInfo.ecomstatus.missingcompany">
+                {{item}}
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.ecomstatus.missinglocation.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-4">Missing Locations</div>
+            <div class="col-md-4" ng-repeat="item in OrderInfo.ecomstatus.missinglocation">
+                {{item}}
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.ecomstatus.missingcustomers.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-3">Missing Customer</div>
+            <div class="col-md-9">
+                <div class="col-md-6" ng-repeat="item in OrderInfo.ecomstatus.missingcustomers">{{item}}</div>
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.ecomstatus.missinguan.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-3">Missing UAN</div>
+            <div class="col-md-9">
+                <div class="col-md-6" ng-repeat="item in OrderInfo.ecomstatus.missinguan">{{item}}</div>
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.ecomstatus.missingstates.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-3">Missing States</div>
+            <div class="col-md-9">
+                <div class="col-md-6" ng-repeat="item in OrderInfo.ecomstatus.missingstates">{{item}}</div>
+            </div>
+        </div>
+        <div class="col-md-12"
+             ng-show="OrderInfo.ecomstatus.missingqty.length>0"
+             style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-3">Missing QTY UAN</div>
+            <div class="col-md-9">
+                <div class="col-md-6" ng-repeat="item in OrderInfo.ecomstatus.missingqty">{{item}}</div>
+            </div>
+        </div>
+        <div class="col-md-12" style="padding-top:10px;padding-left:0px;padding-right:0px">
+            <div class="col-md-4" ng-hide="Running">
+                <label for="inputEmail3" class="control-label">Importing Orders</label>
+                <div style="font-size:large" class="pull-right">
+                    {{Count}}/{{OrderInfo.ecomstatus.noofbill}}
+                </div>
+            </div>
+            <div class="col-md-4" ng-show="Running">
+                <label for="inputEmail3" class="control-label">Importing</label>
+                <div style="font-size:large" class="pull-right">
+                    {{UploadedingStatus.status}}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-show="stockfailed" ng-click="MissingStock()">Stock Failed</button>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-show="Count>0 && Running == false" ng-click="Save()">Save</button>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+</script>

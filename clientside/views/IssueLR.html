@@ -1,0 +1,437 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Warehouse / Transport Issue
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="Clear()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" ng-disabled="SaveRequest" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.searchentity && SearchResult.length>0" style="cursor:pointer" ng-click="exporttoExcel('#resulttable','Courier Entry Report')"><a><i class="fa fa-download"></i>Export</a></li>
+            <li ng-show="IssueLR.id>0" style="cursor:pointer" ng-click="printDiv()"><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-success" ng-hide="ShowSearch">
+            <form name="IssueLRForm" role="form">
+
+                <div class="box-body">
+
+                    <div class="col-md-3">
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="form-group required control-label">Booking Office</label>
+                            <div style="vertical-align:middle;font-size:medium;color:orangered;">
+                                {{SearchRef(IssueLR.bookingofficeid,BookingOffice)}}
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="row row-padbot-15">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="form-group required control-label">Company</label>
+                                <div style="vertical-align:middle;font-size:medium;color:orangered;">
+                                    {{SearchRef(IssueLR.companyid,Company)}}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="form-group required control-label">Issue Number</label>
+                                <div>
+                                    <input method="text" class="form-control input-sm" ng-readonly="true" ng-model="IssueLR.issueno">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="form-group required control-label">Collected By</label>
+                            <div>
+                                <select class="form-control" select2='Employee' ng-model="IssueLR.collectingby" style="width:100%"
+                                        options="item.id as item.name for item in CollectedBy track by item.id" focusid="collectingby" focusonenter="issuedate"></select>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="form-group required control-label">Issue Date</label>
+                            <div>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right input-sm" datemodule="IssueLR.issuedate" ng-model="issuelR.issuedate" focusid="issuedate" focusonenter="lrno">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row row-padbot-15">
+
+
+                            <!-- /.col -->
+                            <div class="col-md-6 no-padding">
+
+                                <label for="inputEmail3" class="control-label">From Location</label>
+                                <div style="vertical-align:top;font-size:large;color:brown;">
+                                    {{SearchRef(IssueLR.fromlocationid,City)}}
+                                </div>
+
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Receiving Location</label>
+                                <div style="vertical-align:top;font-size:large;color:brown;">
+
+                                    {{SearchRef(IssueLR.receivinglocationid,City)}}
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                        <div class="row row-padbot-15">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="form-group required control-label">LR Number</label>
+                                <div>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control input-sm" ng-model="LrSearchCondition.lrno" focusid="lrno" focusonenter="entryno">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-box" ng-click="AddLrItems()">Add</button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 no-padding">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="form-group required control-label">Entry Number</label>
+                                    <div>
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control input-sm" ng-model="LrSearchCondition.lrentryno" focusid="entryno" focusonenter="fromlocationid">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-sm btn-primary btn-box" ng-click="AddLrItems()">Add</button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row row-padbot-15">
+
+
+                            <div class="col-md-4 no-padding">
+                                <label for="inputEmail3" class="control-label">No Of Bundles</label>
+                                <div>
+                                    <input method="text" class="form-control input-sm" ng-readonly="true" style="width: 100%;" ng-model="IssueLR.noofbundels" focusid="noofbundels" focusonenter="noofboxes">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 no-padding">
+                                <label for="inputEmail3" class="control-label">No Of Boxes</label>
+                                <div>
+                                    <input method="text" class="form-control input-sm" ng-readonly="true" style="width: 100%;" ng-model="IssueLR.noofboxes" focusid="noofboxes" focusonenter="noofpieces">
+                                </div>
+                            </div>
+                            <div class="col-md-4 no-padding">
+                                <label for="inputEmail3" class="control-label">No Of Pieces</label>
+                                <div>
+                                    <input method="text" class="form-control input-sm" ng-readonly="true" style="width: 100%;" ng-model="IssueLR.noofpieces" focusid="noofpieces" focusonenter="frieghtcharges">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row row-padbot-15">
+
+                            <div class="col-md-4 no-padding">
+                                <label for="inputEmail3" class="control-label">Fright Charge</label>
+                                <div>
+                                    <input method="text" class="form-control input-sm" ng-readonly="true"
+                                           style="width: 100%;" ng-model="IssueLR.frieghtcharges" focusid="frieghtcharges" focusonenter="noofpieces">
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4 no-padding">
+                                <label for="inputEmail3" class="control-label">Weight</label>
+                                <div>
+                                    <input method="text" class="form-control input-sm" ng-readonly="true"
+                                           style="width: 100%;" ng-model="IssueLR.weight" focusid="frieghtcharges" focusonenter="noofpieces">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 no-padding">
+                                <label for="inputEmail3" class="control-label">Count</label>
+                                <div>
+                                    <input method="text" class="form-control input-sm" ng-readonly="true"
+                                           style="width: 100%;" ng-model="IssueLR.lrissuelist.length" focusid="frieghtcharges" focusonenter="noofpieces">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-9" id="gridContainer">
+
+
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-3">
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="control-label no-padding">Booking Office</label>
+                        <div class="no-padding">
+                            <select class="form-control" style="width:100%" select2='Booking office' ng-model="SearchCondition.bookingofficeid" options="item.id as item.name for item in BookingOffice track by item.id"></select>
+                        </div>
+
+                    </div>
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="control-label no-padding">Supplier</label>
+                        <div class="no-padding">
+                            <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Suppliers track by item.id" ng-model="SearchCondition.supplierid"></select>
+                        </div>
+
+                    </div>
+                    <div class="row row-padbot-15">
+
+                        <label for="inputEmail3" class="control-label no-padding">Issue No</label>
+                        <div class="no-padding">
+                            <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.issueno" onkeyenter="Search()">
+                        </div>
+
+                    </div>
+
+                    <div class="row row-padbot-15">
+
+                        <label for="inputEmail3" class="control-label no-padding">Issue Date</label>
+                        <div class="no-padding">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control input-sm" id="inputEmail3" daterange="SearchCondition.fromdate,SearchCondition.todate">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="row row-padbot-15">
+
+                        <label for="inputEmail3" class="control-label no-padding">From City</label>
+                        <div class="no-padding">
+                            <select class="form-control" select2='Location' style="width:100%"
+                                    ng-model="SearchCondition.fromlocationid" options="item.id as item.name for item in City track by item.id"></select>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-9">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="box box-success" ng-show="false">
+            <div id="printdiv" style="padding:10px">
+                <div class="table-responsive form-horizontal" style="border-color:brown;padding-right:30px;padding-right:20px;" id="finalset">
+                    <code style="color:black">
+                        <div class="col-xs-12">
+                            <h4 style="text-align:center;font-size:large"><b>{{PrintDocument.company.name}}</b></h4>
+                            <h5 style="text-align:center;"><b>{{PrintDocument.company.address}}</b></h5>
+                            <h5 style="text-align:center;"><b>{{SearchRef(PrintDocument.company.cityid,Cities)}}-{{PrintDocument.company.pincode}}, Phone No: {{PrintDocument.company.contactno}}</b></h5>
+                        </div>
+
+                        <div class="col-xs-5">
+                            <h6 style="text-align:left;"><b>&nbsp;&nbsp;&nbsp;&nbsp;GSTIN :{{PrintDocument.company.tinanddate}}</b></h6>
+                        </div>
+                        <div class="col-xs-4">
+                            <h6 style="text-align:center;"><b>PAN No: {{PrintDocument.company.pan}}</b></h6>
+                        </div>
+                        <div class="col-xs-3">
+                            <h6 style="text-align:left;"><b>State Code :{{PrintDocument.company.areacode}}</b></h6>
+
+                        </div>
+                        <div class="row text-center">
+                            <h3 style="font-family:Menlo">
+                                <label style="text-align:center;border-bottom:1px solid black"><b style="font-size:17px;">LR ISSUE REPORT</b></label>
+                            </h3>
+                        </div>
+                        <div class="row text-center">
+                            <span class="pull-left" style="margin-left:15px"><b style="padding-left:20px;"><label style="font-size:medium">{{CompanyName}}</label></b></span>
+                            <small class="pull-right" style="margin-right:15px;padding-right:20px"><b>Print Date : {{Today | date:'dd-MM-yyyy'}}</b></small>
+                        </div>
+                        <div class="row invoice-info">
+
+                            <div class="rowshort">
+                                <div class="col-sm-4">
+                                    <table style="width:100%" class="table-striped">
+                                        <tr>
+                                            <td width="100%">
+                                                <table style="width:100%" class="table-striped">
+                                                    <tr>
+                                                        <td width="130px">TRANSPORT NAME :</td>
+                                                        <td style="overflow:hidden">
+                                                            <div style="text-align:left;overflow:hidden"><b>{{SearchRef(PrintDocument.bookingofficeid,BookingOffice)}}</b></div>
+                                                        </td>
+
+                                                    </tr>
+
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-sm-4">
+                                    <table style="width:100%" class="table-striped">
+                                        <tr>
+                                            <td width="100%">
+                                                <table style="width:100%" class="table-striped">
+                                                    <tr>
+
+                                                        <td width="130px" style="font-weight:bold">ISSUE NO :</td>
+                                                        <td style="overflow:hidden">
+                                                            <div style="text-align:left;height:20px;overflow:hidden;font-weight:bolder"><b>{{PrintDocument.issueno}}</b></div>
+                                                        </td>
+
+                                                    </tr>
+
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-sm-4">
+                                    <table style="width:100%" class="table-striped">
+                                        <tr>
+                                            <td width="100%">
+                                                <table style="width:100%" class="table-striped">
+                                                    <tr>
+                                                        <td width="310px" style="font-weight:bold">ISSUE DATE :</td>
+                                                        <td style="overflow:hidden">
+                                                            <div style="text-align:left;height:20px;overflow:hidden"><b>{{PrintDocument.issuedate | date : 'dd-MM-yyyy'}}</b></div>
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12 col-sm-12">
+                                <table fixed-header="275px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10px">&nbsp;</th>
+                                            <th style="width:100px">S.No</th>
+                                            <th style="width:150px">Supplier Name</th>
+                                            <th style="width:120px">City</th>
+                                            <!--<th style="width:100px">EntryNo</th>
+                                            <th style="width:100px">Entry Date</th>-->
+                                            <th style="width:100px">LR No &nbsp; /&nbsp;LR Date</th>
+                                            <!--<th style="width:100px">LR Date</th>-->
+                                            <th style="width:100px">Bundles/Pieces</th>
+                                            <th style="width:100px">Fright</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in PrintDocument.lrissuelist">
+                                            <td></td>
+                                            <td>{{$index+1}}</td>
+                                            <td>{{SearchRef(item.supplierid,Suppliers)}}</td>
+                                            pl
+                                            <td>{{SearchRef(item.fromlocationid,City)}}</td>
+                                            ty
+                                            <!--<td>{{item.lrentryno}}</td>
+                                            <td>{{item.createdon | date:'dd-MM-yyyy'}}</td>-->
+
+                                            <td>{{item.lrno}}&nbsp;/&nbsp;{{item.lrdate | date:'dd-MM-yyyy'}}</td>
+
+                                            <!--<td>{{item.lrdate | date:'dd-MM-yyyy'}}</td>-->
+
+                                            <td>{{item.noofbundels}}/{{item.noofpieces}}</td>
+                                            <td>{{item.totalamount}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <table class="table table-bordered">
+                            <tbody></tbody>
+                            <tr>
+                                <td colspan="1" class="right">
+                                    <b>Issued By :</b>
+                                </td>
+                                <td colspan="2" align="left">
+                                    {{SearchRef(PrintDocument.collectingby,CollectedBy)}}
+                                </td>
+                                <td colspan="7" class="right">
+                                    <b>Total Freight Charge :</b>
+                                </td>
+                                <td colspan="10" align="right">
+                                    {{IssueLR.frieghtcharges}}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="1" class="right">
+                                    <b>No Of Bundles :</b>
+                                </td>
+                                <td colspan="2" align="left">
+                                    {{IssueLR.noofbundels}}
+                                </td>
+                                <td colspan="7" class="right">
+                                    <b>No Of Pieces :</b>
+                                </td>
+                                <td colspan="10" align="right">
+                                    {{IssueLR.noofpieces}}
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </code>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,499 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button> <i class="fa fa-arrow-left" style="font-size:large"> </i>   </a>
+            Settings /  Margin Controller
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'margin', 'price')"><a><i class="fa fa-download"></i></a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-3">
+
+
+
+                    <div class="row row-padbot-15">
+
+
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="control-label">Company</label>
+                            <select class="form-control input-sm" select2=''
+                                    options="item.id as item.name for item in Company track by item.id"
+                                    ng-model="Price.companyid"
+                                    ng-change="ProductChanged('company')"
+                                    focusid="locationid"></select>
+                        </div>
+
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="control-label">Location</label>
+                            <select class="form-control input-sm" select2=''
+                                    options="item.id as item.name for item in Locations track by item.id"
+                                    ng-model="Price.locationid"
+                                    ng-change="ProductChanged('location')"
+                                    focusid="locationid"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="row row-padbot-15">
+
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="control-label">Supplier</label>
+                            <select class="form-control input-sm" select2=''
+                                    ng-model="Price.supplierid" options="item.id as item.name for item in Supplier track by item.id"></select>
+                        </div>
+
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="control-label">Section</label>
+                            <select class="form-control input-sm" select2='' ng-model="Price.sectionid"
+                                    ng-change="ProductChanged('section')"
+                                    options="item.id as item.name for item in Sections track by item.id"></select>
+                        </div>
+
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Product</label>
+
+                                <select class="form-control input-sm" select2=''
+                                        options="item.id as item.name for item in Products track by item.id"
+                                        ng-model="Price.productid"
+                                        ng-change="ProductChanged('product')"
+                                        focusid="productid"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Brand</label>
+                                <select class="form-control input-sm" select2=''
+                                        ng-change="ProductChanged('brand')"
+                                        options="item.id as item.name for item in BrandName track by item.id"
+                                        ng-model="Price.brandid" focusid="brandid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <div class="col-md-6 no-padding">
+
+                                <label for="inputEmail3" class="control-label">Type</label>
+                                <select class="form-control input-sm" select2="" options="item.id as item.name for item in TypeList track by item.id" ng-model="Price.typeid"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Pattern</label>
+                                <select class="form-control input-sm" select2='' options="item.id as item.name for item in Patterns track by item.id" ng-model="Price.patternid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Material</label>
+                                <select class="form-control input-sm" select2='' ng-model="Price.materialid" options="item.id as item.name for item in Material track by item.id"></select>
+                            </div>
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Size</label>
+
+                                <select class="form-control input-sm" select2='' ng-model="Price.sizeid" options="item.id as item.name for item in Sizes track by item.id"></select>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Style</label>
+
+                                <select class="form-control input-sm" select2='' ng-model="Price.styleid" options="item.id as item.name for item in Styles track by item.id"></select>
+                            </div>
+
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Color</label>
+                                <select class="form-control input-sm" select2='' ng-model="Price.colourid"
+                                        options="item.id as item.name for item in Colors track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Price Value</label>
+                            </div>
+                            <div class="col-md-6 no-padding">
+
+                                <select class="form-control" select2=""
+                                        ng-model="Price.costmode"
+                                        options="item.id as item.name for item in SourceModes track by item.id"></select>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Price Range</label>
+                            </div>
+
+
+                            <div class="col-md-6 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <input method="number" class="form-control " ng-model="Price.pricefrom">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <input method="number" class="form-control " ng-model="Price.priceto">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Margin Value</label>
+                            </div>
+                            <div class="col-md-6 no-padding">
+
+                                <select class="form-control" select2=""
+                                        ng-model="Price.marginmode"
+                                        options="item.id as item.name for item in DestinationModes track by item.id"></select>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Margin</label>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <select class="form-control" select2=""
+                                            
+                                            ng-model="Price.pricingmode"
+                                            options="item.id as item.name for item in MarginModes track by item.id"></select>
+
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <input method="number" class="form-control input-sm" ng-model="Price.pricingvalue">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--<div class="row row-padbot-15">
+        <div class="form-group">
+            <div class="col-md-4">
+                <input type="radio" name="optionsRadios" style="margin-left:10px" id="optionsRadios1" value="2" ng-model="Price.pricingmode">
+                <label for="inputEmail3" style="padding-left:25px" class="control-label">Margin %</label>
+
+            </div>
+            <div class="col-md-6">
+                <input method="text" class="form-control input-sm" ng-model="Price.pricingvalue_margin" focusid="pricingvalue_margin">
+            </div>
+            <div class="col-md-2">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+    <div class="row row-padbot-15">
+        <div class="form-group">
+            <div class="col-md-4">
+                <input type="radio" name="optionsRadios" style="margin-left:10px" id="optionsRadios1" value="3" ng-model="Price.pricingmode">
+                <label for="inputEmail3" style="padding-left:25px" class="control-label">Margin Amount</label>
+            </div>
+            <div class="col-md-6">
+                <input method="text" class="form-control pull-right input-sm" ng-model="Price.pricingvalue_amount" focusid="pricingvalue_amount">
+            </div>
+            <div class="col-md-2">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+    <div class="row row-padbot-15">
+        <div class="form-group">
+            <div class="col-md-4">
+                <input type="radio" name="optionsRadios" style="margin-left:10px" id="optionsRadios1" value="4" ng-model="Price.pricingmode">
+                <label for="inputEmail3" style="padding-left:25px" class="control-label">Fixed Amount</label>
+            </div>
+            <div class="col-md-6">
+                <input method="text" class="form-control input-sm" ng-model="Price.pricingvalue_fixed" focusid="pricingvalue_fixed">
+            </div>
+            <div class="col-md-2">
+                &nbsp;
+            </div>
+        </div>
+    </div>-->
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Discount / Value</label>
+                            </div>
+
+
+                            <div class="col-md-6 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <select class="form-control" select2="" name="state"
+                                            ng-model="Price.discountmode"
+                                            options="item.id as item.name for item in DiscountModes track by item.id"></select>
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <input method="number" class="form-control input-sm" ng-model="Price.discountvalue">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Dealer Margin</label>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <select class="form-control" select2=""
+                                            ng-model="Price.pricingmode"
+                                            ng-readonly="true"
+                                            options="item.id as item.name for item in MarginModes track by item.id"></select>
+
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <input method="number" class="form-control input-sm" ng-model="Price.dealervalue">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<div class="row row-padbot-15">
+
+        <label for="inputEmail3" class="col-md-4 control-label">Disable</label>
+
+        <div class="col-md-6">
+            <div class="col-md-4 no-padding">
+                <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Price.disabled">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="pull-right btn-sm btn-box btn btn-primary" ng-click="Save()">Save</button>
+        </div>
+
+    </div>-->
+                    <!-- /.col -->
+                </div>
+
+
+                <!-- /.col -->
+                <div class="col-md-9">
+
+                    <div id="gridContainer" class="col-md-12 no-padding">
+
+                    </div>
+
+
+                    <!--<table fixed-header="250px" class="fixed_table">
+                        <thead>
+                            <tr>
+                                <th style="width:200px">Supplier</th>
+                                <th style="width:200px">Location</th>
+                                <th style="width:500px">Detail</th>
+                                <th style="width:250px">Price</th>
+                                <th style="width:250px">Discount</th>
+                                <th style="text-align:center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in SearchResult">
+                                <td>{{SearchRef(item.supplierid, Supplier)}}</td>
+                                <td>{{SearchRef(item.locationid, Locations)}}</td>
+                                <td>{{item.Display}}</td>
+                                <td>{{item.PricingMechanism}}</td>
+                                <td>{{item.DiscountMechanism}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-xs" ng-show="item.disabled" ng-click="ManageSearchItem('Activate',item)">Activate</button>
+                                    <button type="button" class="btn btn-danger btn-xs" ng-hide="item.disabled" ng-click="ManageSearchItem('Deactivate',item)">Deactive</button>
+                                    <button type="button" class="btn btn-primary btn-xs" ng-click="ManageSearchItem('Edit',item)">Edit</button>
+                                    <button type="button" class="btn btn-danger btn-xs" ng-click="ManageSearchItem('Delete',item)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>-->
+
+                </div>
+
+
+
+
+            </div>
+        </div>
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+            <div class="box-body">
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">Product</label>
+                            <div class="col-md-5">
+                                <select class="form-control" select2='' style="width: 100%;" options="item.id as item.name for item in Products track by item.id" ng-model="Price.productid"></select>
+                            </div>
+                            <div class="col-sm-5">
+                                <button type="button" class="pull-right btn btn-box btn btn-sm btn btn-primary" ng-click="SwitchPanel()">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">Brand Name</label>
+                            <div class="col-md-5">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in BrandName track by item.id" ng-model="Price.brandid"></select>
+                            </div>
+                            <div class="col-sm-5">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">Pattern Name</label>
+                            <div class="col-md-5">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Patterns track by item.id" ng-model="Price.patternid"></select>
+                            </div>
+                            <div class="col-sm-5">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">Style Name</label>
+                            <div class="col-md-5">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Styles track by item.id" ng-model="Price.styleid"></select>
+                            </div>
+                            <div class="col-sm-5">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">Size</label>
+                            <div class="col-md-5">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Sizes track by item.id" ng-model="Price.sizeid"></select>
+                            </div>
+                            <div class="col-sm-5">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label"> </label>
+                            <div class="col-md-9">
+
+                            </div>
+                            <div class="col-md-1">
+
+                                <button type="button" class="pull-right btn btn-sm btn btn-block btn btn-warning" ng-click="Search()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+
+                <div class="row row-padbot-15">
+
+
+                    <div class="col-md-12">
+
+                        <div class="table-responsive mailbox-messages">
+
+                            <table fixed-header="250px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:200px">Supplier</th>
+                                        <th style="width:500px">Detail</th>
+                                        <th style="width:250px">Price</th>
+                                        <th style="width:250px">Discount</th>
+                                        <th style="text-align:center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SearchResult">
+                                        <td>{{SearchRef(item.supplierid, Supplier)}}</td>
+                                        <td>{{item.Display}}</td>
+                                        <td>{{item.PricingMechanism}}</td>
+                                        <td>{{item.DiscountMechanism}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-show="item.disabled" ng-click="ManageSearchItem('Activate',item)">Activate</button>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-hide="item.disabled" ng-click="ManageSearchItem('Deactivate',item)">Deactive</button>
+                                            <button type="button" class="btn btn-primary btn-xs" ng-click="ManageSearchItem('Edit',item)">Edit</button>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="ManageSearchItem('Delete',item)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.content -->
+            </div>
+        </div>
+        <!-- /.content -->
+    </section>
+</div>
+<!-- /.content-wrapper -->

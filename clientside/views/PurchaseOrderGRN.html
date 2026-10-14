@@ -1,0 +1,249 @@
+﻿   <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Warehouse / Purchase Order to GRN
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="LastSaved()"><a><i class="fa fa-edit"></i>Last Saved</a></li>
+            <li ng-show="Navigation.save" ng-disabled="SaveRequest" style="cursor:pointer" ng-click="Print('PURCHASEINVOICE')"><a><i class="fa fa-save"></i>GRN PDF</a></li>
+            <li ng-show="Navigation.save" ng-disabled="SaveRequest" style="cursor:pointer" ng-click="Print('PURCHASEINVOICEDCPNY')"><a><i class="fa fa-save"></i>Discrepancy PDF</a></li>
+
+            <li ng-show="Navigation.save" ng-disabled="SaveRequest" style="cursor:pointer" ng-click="CreateAutoDebitNotes()"><a><i class="fa fa-save"></i>Debit Note</a></li>
+            <li style="cursor:pointer" ng-show="hasbarcodegenerated && UserInfo.p_BARCODEGEN.view" ng-click="ProductBarcode()"><a><i class="fa fas fa-barcode"></i>Barcode</a></li>
+            <li ng-show="Navigation.save" ng-disabled="SaveRequest" style="cursor:pointer" ng-click="Save(false)"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.save && internalstatus==8" ng-disabled="SaveRequest" style="cursor:pointer" ng-click="Save(true)"><a><i class="fa fa-save"></i>Complete</a></li>
+            <li ng-show="Navigation.save && internalstatus==8" style="cursor:pointer">
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280"
+                             uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                             max-height="1280" preview="false" ng-model="uploadfile"
+                             filetype="DATA"
+                             filemodel="uploadfile" onuploadcomplete="barcodeuploadedcomplete"
+                             multiple="false">
+                    <i class="fa fa-upload">Upload</i>
+                </file-upload>
+            </li>
+
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary">
+            <div class="box-body ">
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-4" style="padding-right:5px;padding-left:5px">
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-4" style="padding-left:0px"><b>SUPPLIER</b></div>
+                            <div class="col-md-8 text-left" style="vertical-align:top;">{{Invoice.suppliercompanyname}} ({{Invoice.suppliercityname}})</div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-4" style="padding-left:0px"><b>GST NO</b></div>
+                            <div class="col-md-8 text-left" style="vertical-align:top;"><b>{{Invoice.suppliergstno}}</b></div>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-4" style="padding-left:0px"><b>PO NO</b></div>
+                            <div class="col-md-8 text-left" style="vertical-align:top;"><b>{{Invoice.pono}}</b></div>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-4" style="padding-left:0px"><b>PO DATE</b></div>
+                            <div class="col-md-8 text-left" style="vertical-align:top;"><b>{{Invoice.podate}}</b></div>
+                        </div>
+
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-4" style="padding-left:0px"><b>INVOICE NO</b></div>
+                            <div class="col-md-8 text-left" style="vertical-align:top;"><b>{{Invoice.invoiceno}}</b></div>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-4" style="padding-left:0px"><b>INVOICE DATE</b></div>
+                            <div class="col-md-8 text-left" style="vertical-align:top;"><b>{{Invoice.invoicedate}}</b></div>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-4" style="padding-left:0px"><b>BUNDLES/PIECES</b></div>
+                            <div class="col-md-8 text-left" style="vertical-align:top;"><b>{{Invoice.noofbundle}}/{{Invoice.noofpieces}}</b></div>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-4" style="padding-left:0px"><b>Quality Check</b></div>
+                            <div class="col-md-8 text-left" style="vertical-align:top;">
+                                <button type="button" class="btn btn-success btn-xs"
+                                        style="position:absolute;left:10px"
+                                        ng-click="SaveQCStatus()">
+                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                </button>
+                                <div style="margin-left:25px">
+                                    {{SearchRef(Invoice.qcby, EmployeeList,'Select')}}
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding" id="taxgrid" style="margin-top:5px">
+
+                        </div>
+                        <div class="col-md-12" style="padding-right:0px;padding-left:0px;padding-top:10px" ng-show="internalstatus == '8'">
+                            <div class="col-md-4" style="padding-right:0px;padding-left:0px;padding-top:8px"><b>SCAN HERE</b></div>
+                            <div class="col-md-8 no-padding">
+                                <div class="input-group input-group-sm" style="width:100%">
+                                    <input type="text" class="form-control input-sm" ng-model="Invoice.UAN"
+                                           onkeyenter="SearchUAN()" style="width:100%" />
+                                    <span class="input-group-btn" style="width:10px">
+                                        <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddAllSelectedAsScanned()">
+                                            <i class="glyphicon glyphicon-plus-sign"></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding" ng-show="LastScanned != null">
+                            <div class="col-md-4 no-padding"><b>UAN</b></div>
+                            <div class="col-md-8 no-padding"><b>{{LastScanned.uan}}</b></div>
+                            <div class="col-md-4 no-padding"><b>QTY</b></div>
+                            <div class="col-md-8 no-padding"><b>{{LastScanned.actualqty}}/{{LastScanned.buyingqty}}</b></div>
+                            <div class="col-md-4 no-padding"><b>MRP</b></div>
+                            <div class="col-md-8 no-padding"><b>{{LastScanned.mrp}}</b></div>
+                            <div class="col-md-4 no-padding"><b>DESIGN</b></div>
+                            <div class="col-md-8 no-padding"><b>{{LastScanned.designid}}</b></div>
+                            <div class="col-md-4 no-padding"><b>PRODUCT</b></div>
+                            <div class="col-md-8 no-padding"><b>{{SearchRef(LastScanned.Details.productid, ProductList)}}</b></div>
+                            <div class="col-md-4 no-padding"><b>COLOUR</b></div>
+                            <div class="col-md-8 no-padding"><b>{{SearchRef(LastScanned.Details.colourid, ColorList)}}</b></div>
+                            <div class="col-md-4 no-padding"><b>SIZE {{LastScanned.imgid}}</b></div>
+                            <div class="col-md-8 no-padding"><b>{{SearchRef(LastScanned.Details.sizeid, SizeList)}}</b></div>
+                            <div class="col-md-12" style="padding-left:0px;padding-right:0px;padding-top:20px">
+                                <div class="col-md-4 no-padding"><b>RESCAN</b></div>
+                                <div class="col-md-4 no-padding"><input type="button" value="Last Scanned" ng-click="Rescan(false)" class="btn btn-info btn-sm btn-flat" /></div>
+                                <div class="col-md-4 no-padding"><input type="button" value="All Barcodes" ng-click="Rescan(true)" class="btn btn-info btn-sm btn-flat pull-right" /></div>
+                            </div>
+                            <div style="position:absolute;bottom:40px;right:5px" ng-show="LastScanned.imgid && LastScanned.imgid != null && LastScanned.imgid != ''">
+                                <div style="height:100px;width:120px;display:inline">
+                                    <a target="_blank" href="File/Show/{{UserInfo.OrganizationID}}/{{LastScanned.imgid}}">
+                                        <img style="height:100px;width:120px;" ng-src="File/Show/{{UserInfo.OrganizationID}}/{{LastScanned.imgid}}">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 no-padding">
+
+                        <div class="col-md-12 no-padding" id="gridList" style="padding-right:5px;padding-left:15px">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-12" style="margin-top:10px">
+
+                    <div class="col-sm-4 no-padding">
+                        <div class="col-md-4 no-padding">
+                            <div class="col-sm-12 no-padding"><b>TOTAL</b></div>
+                            <div class="col-md-12 no-padding" style="vertical-align:top;color:green"
+                                 title="Total ({{Total.amount}})-Discount ({{Total.discount}})+tax({{Total.tax}})+cess({{Total.cesstax}})+additional({{additionalamount}}+{{Invoice.additionaltax}})+others ({{Invoice.otheramount}})">
+                                <b>{{Total.value|number:2}}</b>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-8 no-padding" ng-show="internalstatus==8">
+                            <div class="col-md-6 no-padding">
+                                <div class="col-md-12 no-padding" style="vertical-align:top;color:brown" title="Items Tax"><b>Scanned</b></div>
+                                <div class="col-md-12 no-padding" style="vertical-align:top;color:brown" title="total qty"><b>{{Total.actualqty|number:0}}</b></div>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <div class="col-md-12 no-padding" style="vertical-align:top;color:brown" title="Items Tax"><b>Tolerance</b></div>
+                                <div class="col-md-12 no-padding" style="vertical-align:top;color:brown" title="total qty"><b>{{Total.toleranceqty|number:0}}</b></div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-8 no-padding" ng-hide="internalstatus==8">
+                            <div class="col-md-6 no-padding">
+                                <div class="col-md-12 no-padding" style="vertical-align:top;color:brown" title="Items Tax"><b>Purchased</b></div>
+                                <div class="col-md-12 no-padding" style="vertical-align:top;color:brown" title="total qty"><b>{{Total.buyingqty|number:0}}</b></div>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <div class="col-md-12 no-padding" style="vertical-align:top;color:brown" title="Items Tax"><b>Ordered</b></div>
+                                <div class="col-md-12 no-padding" style="vertical-align:top;color:brown" title="total qty"><b>{{Total.orderqty|number:0}}</b></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="col-sm-6 no-padding">
+                        <div class="col-sm-3 no-padding">
+                            <div class="col-md-4" style="vertical-align:top;color:brown" title="Items Tax"><b>Taxable</b></div>
+                            <div class="col-md-8 text-right" style="vertical-align:top;color:orangered" title="Items Value"><b>{{Total.amount|number:2}}</b></div>
+                        </div>
+                        <div class="col-sm-3 no-padding">
+                            <div class="col-md-4" style="vertical-align:top;color:brown" title="Items Tax"><b>Tax</b></div>
+                            <div class="col-md-8 text-right" style="vertical-align:top;color:indianred" title="Items Tax"><b>{{Total.tax|number:2}}</b></div>
+                        </div>
+                        <div class="col-sm-3 no-padding">
+                            <div class="col-md-4" style="vertical-align:top;color:brown" title="Items Tax"><b>Qty</b></div>
+                            <div class="col-md-8 text-right" style="vertical-align:top;color:indianred" title="Items Tax"><b>{{Total.buyingqty|number:2}}</b></div>
+                        </div>
+                        <div class="col-sm-3 no-padding">
+                            <div class="col-md-4" style="vertical-align:top;color:brown" title="Items Tax"><b>Discount</b></div>
+                            <div class="col-md-8 text-right" style="vertical-align:top;color:indianred" title="Items Tax"><b>{{Total.discount|number:2}}</b></div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-sm-2" style="padding-left:0px;padding-right:0px;margin-top:-5px;">
+
+                        <select class="input-sm form-control" style="width: 100%;" select2="Status" options="item.id as item.name for item
+                                    in StatusList track by item.id" ng-model="Invoice.statusid"></select>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </section>
+</div>
+
+
+
+<script type="text/ng-template" id="QCApproveDialog">
+    <div class="ngdialog-message">
+        <div class="table-responsive mailbox-messages">
+
+            <div class="col-md-12">
+                <label>Quality By</label>
+                <select class="input-sm form-control" select2="" style="width: 100%;"
+                        options="item.id  as item.name for item in parent.EmployeeList track by item.id"
+                        ng-model="QC.qcby"></select>
+            </div>
+
+            <div class="col-md-12">
+                <label for="inputEmail3" class="form-group required control-label no-margin">Date</label>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control datepicker input-sm"
+                           datemodule="QC.qcon" ng-model="QC.qcon">
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Save()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

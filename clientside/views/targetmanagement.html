@@ -1,0 +1,443 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a> HR / Target Management
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-show="Mode == 'Configuration'" ng-click="Mode = 'Incentive'"><a><i class="fa fas fa-search-plus"></i>Incentive</a></li>
+            <li style="cursor:pointer" ng-show="Mode == 'Incentive'" ng-click="Mode = 'Configuration'"><a><i class="fa fas fa-search-plus"></i>Config</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'Salary Management Report')"><a><i class="fa fa-download"></i>Export</a></li>
+            <li style="cursor:pointer" ng-show="Mode == 'Configuration' && EnableManual" ng-click="ShowManual()"><a><i class="fa fas fa-search-plus"></i>Manual</a></li>
+            <li style="cursor:pointer" ng-show="Mode == 'Configuration'" ng-click="Generate()"><a><i class="fa fas fa-search-plus"></i>Generate</a></li>
+            <li style="cursor:pointer" ng-show="Mode == 'Configuration'" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li style="cursor:pointer" ng-show="Mode == 'Configuration'" ng-click="SaveAll()"><a><i class="fa fa-save"></i>Save All</a></li>
+            <li style="cursor:pointer" ng-show="Mode != 'Configuration'" ng-click="Incentive()"><a><i class="fa fas fa-search-plus"></i>Generate</a></li>
+        </ol>
+
+    </section>
+    <section class="content">
+        <div class="row">
+
+            <div class="box">
+                <!-- Your Page Content Here -->
+                <div class="col-md-12">
+                    <div class="box-body no-padding">
+                        <div class="box box-info">
+                            <div class="col-md-12" style="margin-top:10px">
+                                <div class="col-md-2 col-sm-2 no-padding">
+
+
+                                    <div class="row row-padbot-15">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-md-12 control-label">Location</label>
+                                            <div class="col-md-12">
+                                                <select class="form-control select2" style="width: 100%;" 
+                                                        select2="" options="item.id as item.name for item in Locations track by item.id" ng-model="SearchCondition.locationid"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div ng-show="Mode == 'Configuration'" class="col-md-12 no-padding">
+                                        <!-- basic details starts -->
+
+
+
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-12 control-label">Target Date</label>
+                                                <div class="col-md-12">
+                                                    <input type="text"
+                                                           daterange="SearchCondition.targetfrom,SearchCondition.targetto"
+                                                           class="form-control input-sm"
+                                                           startDate="SearchCondition.targetfrom"
+                                                           endDate="SearchCondition.targetto">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row row-padbot-15" ng-hide="SearchCondition.locationid == -9 || SearchCondition.locationid == -10">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-12 control-label">Employee</label>
+                                                <div class="col-md-12">
+                                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in refemployeelist track by item.id" ng-model="SearchCondition.employeeid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-12 control-label">Past Sales Date</label>
+                                                <div class="col-md-12">
+                                                    <input type="text"
+                                                           daterange="SearchCondition.sourcefrom,SearchCondition.sourceto"
+                                                           class="form-control input-sm"
+                                                           startDate="SearchCondition.sourcefrom"
+                                                           endDate="SearchCondition.sourceto">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row row-padbot-15" ng-hide="SearchCondition.locationid == -9 || SearchCondition.locationid == -10">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-12 control-label">Section</label>
+                                                <div class="col-md-12">
+                                                    <select class="form-control select2" style="width: 100%;" select2="" options="division.id as division.name for division in Divisions track by division.id" required ng-model="SearchCondition.sectionid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-padbot-15" ng-show="SearchCondition.locationid == -9 || SearchCondition.locationid == -10">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-12 control-label">Sales Source</label>
+                                                <div class="col-md-12">
+                                                    <select class="form-control select2" style="width: 100%;" select2=""
+                                                            options="source.id as source.name for source in Sources track by source.id" required ng-model="SearchCondition.sourceid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-padbot-15" ng-hide="SearchCondition.locationid == -9 || SearchCondition.locationid == -10">
+                                            <div class="col-md-6" style="padding-right:0px">
+                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Sales Source</label>
+                                                <div class="col-md-12 no-padding">
+                                                    <select class="form-control select2" style="width: 100%;" select2=""
+                                                            options="source.id as source.name for source in Sources track by source.id" required ng-model="SearchCondition.sourceid"></select>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-6" style="padding-left:0px">
+                                                <label for="inputEmail3" class="col-md-12 control-label no-padding">Fresh Mode</label>
+                                                <div class="col-md-12  no-padding">
+                                                    <select class="form-control select2" style="width: 100%;" select2=""
+                                                            options="source.id as source.name for source in IncentiveModes track by source.id" required ng-model="SearchCondition.incentivemode"></select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row row-padbot-15" ng-show="SearchCondition.incentivemode==1 && SearchCondition.locationid != -9  && SearchCondition.locationid != -10">
+                                            <div class="form-group">
+                                                <div class="col-md-6" style="padding-right:0px">
+                                                    <label for="inputEmail3" class="col-md-12  no-padding control-label">Fresh (Age)</label>
+                                                    <div class="col-md-12 no-padding">
+                                                        <input type="text" class="form-control input-sm" style="width:100%"
+                                                               ng-model="SearchCondition.freshday" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6" style="padding-left:0px">
+                                                    <label for="inputEmail3" class="col-md-12  no-padding control-label">Fresh Target %</label>
+                                                    <div class="col-md-12 no-padding">
+                                                        <input type="text" class="form-control input-sm" style="width:100%"
+                                                               ng-model="SearchCondition.freshdaypercentage" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-padbot-15" ng-show="SearchCondition.incentivemode==2 && SearchCondition.locationid != -9  && SearchCondition.locationid != -10">
+                                            <div class="form-group">
+                                                <div class="col-md-6" style="padding-right:0px">
+                                                    <label for="inputEmail3" class="col-md-12  no-padding control-label">Fresh (From Date)</label>
+                                                    <div class="col-md-12 no-padding">
+                                                        <input type="text" class="form-control input-sm" style="width:100%"
+                                                               datemodule="SearchCondition.freshdate"
+                                                               ng-model="SearchCondition.freshdate" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6" style="padding-left:0px">
+                                                    <label for="inputEmail3" class="col-md-12  no-padding control-label">Fresh %</label>
+                                                    <div class="col-md-12 no-padding">
+                                                        <input type="text" class="form-control input-sm" style="width:100%"
+                                                               ng-model="SearchCondition.freshdaypercentage" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <div class="col-md-6" style="padding-right:0px">
+                                                    <label for="inputEmail3" class="col-md-12 control-label no-padding">Target(+) %</label>
+                                                    <div class="col-md-12 no-padding">
+                                                        <input type="text" class="form-control input-sm" style="width:100%"
+                                                               ng-model="SearchCondition.targetpercentage" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6" style="padding-left:0px">
+                                                    <label for="inputEmail3" class="col-md-12 control-label  no-padding">Days in Month</label>
+                                                    <div class="col-md-12  no-padding">
+                                                        <input type="text" class="form-control input-sm" style="width:100%"
+                                                               ng-model="SearchCondition.monthdays" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div ng-hide="Mode == 'Configuration'" class="col-md-12  no-padding">
+                                        <!-- basic details starts -->
+
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-12 control-label">Sales Date</label>
+                                                <div class="col-md-12">
+                                                    <input type="text"
+                                                           daterange="SearchCondition.targetfrom,SearchCondition.targetto"
+                                                           class="form-control input-sm"
+                                                           startDate="SearchCondition.targetfrom"
+                                                           endDate="SearchCondition.targetto">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row row-padbot-15" ng-hide="SearchCondition.locationid == -9 || SearchCondition.locationid == -10">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-12 control-label">Employee</label>
+                                                <div class="col-md-12">
+                                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.code for item in refemployeelist track by item.id" ng-model="SearchCondition.employeeid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row row-padbot-15" ng-hide="SearchCondition.locationid == -9 || SearchCondition.locationid == -10">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-12 control-label">Section</label>
+                                                <div class="col-md-12">
+                                                    <select class="form-control select2" style="width: 100%;" select2="" options="division.id as division.name for division in Divisions track by division.id" required ng-model="SearchCondition.sectionid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-padbot-15">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-md-12 control-label">Sales Source</label>
+                                                <div class="col-md-12">
+                                                    <select class="form-control select2" style="width: 100%;" select2=""
+                                                            options="source.id as source.name for source in Sources track by source.id" required ng-model="SearchCondition.sourceid"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-12 no-padding" ng-show="SearchCondition.locationid == -10">
+                                        <div class="col-md-12 no-padding">
+                                            Locations
+                                        </div>
+                                        <table fixed-header="200px"
+                                               class="fixed_table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 30px">#</th>
+                                                    <th>Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in LocationList">
+                                                    <td>
+                                                        <input type="checkbox" ng-model="item.selected" />
+                                                    </td>
+                                                    <td>{{item.name}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="row row-padbot-15" ng-hide="SearchCondition.locationid == -9 || SearchCondition.locationid == -10">
+                                        <div class="col-md-12" style="padding-bottom: 20px;">
+                                            <b>Override Incentive Configuration</b>
+                                            <div class="pull-right" ng-hide="Mode == 'Configuration'">
+                                                <input type="checkbox" ng-model="SearchCondition.overrideincentive" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" ng-show="Mode == 'Configuration' || SearchCondition.overrideincentive">
+                                            <div class="col-md-6" style="padding-right:0px">
+                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Eligible %</label>
+                                                <div class="col-md-12 no-padding ">
+                                                    <input type="text" class="form-control input-sm" style="width:100%"
+                                                           ng-model="SearchCondition.eligiblepercentage" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="padding-left:0px">
+                                                <label for="inputEmail3" class="col-md-12 no-padding control-label">Std %</label>
+                                                <div class="col-md-12 no-padding ">
+                                                    <input type="text" class="form-control input-sm" style="width:100%"
+                                                           ng-model="SearchCondition.inc_stdpercentage" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" ng-show="Mode == 'Configuration' || SearchCondition.overrideincentive">
+                                            <div class="col-md-6" style="padding-right:0px">
+                                                <label for="inputEmail3" class="col-md-12  no-padding control-label">Fresh %</label>
+                                                <div class="col-md-12 no-padding">
+                                                    <input type="text" class="form-control input-sm" style="width:100%"
+                                                           ng-model="SearchCondition.inc_freshpercentage" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="padding-left:0px">
+                                                <label for="inputEmail3" class="col-md-12  no-padding control-label">OLD %</label>
+                                                <div class="col-md-12 no-padding">
+                                                    <input type="text" class="form-control input-sm" style="width:100%"
+                                                           ng-model="SearchCondition.inc_oldpercentage" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+
+                                <div class="col-md-10" id="gridContainer">
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <!-- /.content -->
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->
+
+<script type="text/ng-template" id="ManualTarget">
+    <div class="ngdialog-message">
+
+
+
+        <div class="row-padbot-15">
+            <label for="inputEmail3" class="control-label">Monthly targets</label>
+        </div>
+
+        <div class="row row-padbot-15">
+
+
+        </div>
+        <div class="row row-padbot-15">
+            <div class="form-group">
+                <div class="col-md-4" style="padding-right:0px">
+                    <label for="inputEmail3" class="col-md-12 no-padding control-label">Fresh Mode</label>
+                    <div class="col-md-12 no-padding">
+                        <select class="form-control select2" style="width: 100%;" select2=""
+                                options="source.id as source.name for source in Parent.IncentiveModes track by source.id" required ng-model="SearchCondition.incentivemode"></select>
+                    </div>
+                </div>
+
+                <div class="col-md-4 no-padding" ng-show="SearchCondition.incentivemode==1">
+                    <label for="inputEmail3" class="col-md-12  no-padding control-label">Fresh (Age)</label>
+                    <div class="col-md-12 no-padding">
+                        <input type="text" class="form-control input-sm" style="width:100%"
+                               ng-model="SearchCondition.cnf_freshday" />
+                    </div>
+                </div>
+
+                <div class="col-md-4 no-padding" ng-show="SearchCondition.incentivemode==2">
+                    <label for="inputEmail3" class="col-md-12  no-padding control-label">Fresh (From Date)</label>
+                    <div class="col-md-12 no-padding">
+                        <input type="text" class="form-control input-sm" style="width:100%"
+                               datemodule="SearchCondition.freshdate"
+                               ng-model="SearchCondition.cnf_freshdate" />
+                    </div>
+                </div>
+
+                <div class="col-md-8" style="padding-left:0px" ng-hide="SearchCondition.incentivemode==1 ||SearchCondition.incentivemode==2">
+                    <label for="inputEmail3" class="col-md-12  no-padding control-label">Fresh %</label>
+                    <div class="col-md-12 no-padding">
+                        <input type="text" class="form-control input-sm" style="width:100%"
+                               ng-model="SearchCondition.cnf_freshdaypercentage" />
+                    </div>
+                </div>
+
+                <div class="col-md-4" style="padding-left:0px" ng-show="SearchCondition.incentivemode==1 ||SearchCondition.incentivemode==2">
+                    <label for="inputEmail3" class="col-md-12  no-padding control-label">Fresh %</label>
+                    <div class="col-md-12 no-padding">
+                        <input type="text" class="form-control input-sm" style="width:100%"
+                               ng-model="SearchCondition.cnf_freshdaypercentage" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row row-padbot-15">
+            <div class="form-group">
+                <div class="col-md-4" style="padding-right:0px">
+                    <label for="inputEmail3" class="col-md-12 control-label no-padding">Target(+) %</label>
+                    <div class="col-md-12 no-padding">
+                        <input type="text" class="form-control input-sm" style="width:100%"
+                               ng-model="SearchCondition.cnf_targetpercentage" />
+                    </div>
+                </div>
+                <div class="col-md-4 no-padding">
+                    <label for="inputEmail3" class="col-md-12 control-label  no-padding">Days in Month</label>
+                    <div class="col-md-12  no-padding">
+                        <input type="text" class="form-control input-sm" style="width:100%"
+                               ng-model="SearchCondition.cnf_monthdays" />
+                    </div>
+                </div>
+                <div class="col-md-4" style="padding-left:0px">
+                    <label for="inputEmail3" class="col-md-12 no-padding control-label">Eligible %</label>
+                    <div class="col-md-12 no-padding ">
+                        <input type="text" class="form-control input-sm" style="width:100%"
+                               ng-model="SearchCondition.eligiblepercentage" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-padbot-15">
+
+            <div class="form-group">
+                <div class="col-md-4" style="padding-right:0px">
+                    <label for="inputEmail3" class="col-md-12 no-padding control-label">Std %</label>
+                    <div class="col-md-12 no-padding ">
+                        <input type="text" class="form-control input-sm" style="width:100%"
+                               ng-model="SearchCondition.inc_stdpercentage" />
+                    </div>
+                </div>
+
+                <div class="col-md-4 no-padding">
+                    <label for="inputEmail3" class="col-md-12  no-padding control-label">Fresh %</label>
+                    <div class="col-md-12 no-padding">
+                        <input type="text" class="form-control input-sm" style="width:100%"
+                               ng-model="SearchCondition.inc_freshpercentage" />
+                    </div>
+                </div>
+                <div class="col-md-4" style="padding-left:0px">
+                    <label for="inputEmail3" class="col-md-12  no-padding control-label">OLD %</label>
+                    <div class="col-md-12 no-padding">
+                        <input type="text" class="form-control input-sm" style="width:100%"
+                               ng-model="SearchCondition.inc_oldpercentage" />
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row row-padbot-15">
+            <div class="col-md-12" ng-repeat="item in MonthlyTarget">
+                <label for="inputEmail3" class="col-md-6 control-label">{{item.name}}-{{item.year}}</label>
+                <div class="col-md-2">
+                    <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Item.change">
+                </div>
+                <div class="col-md-4">
+                    <input type="text" ng-model="item.value"
+                           ng-disabled="!Item.change" class="form-control input-sm" />
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+    </div>
+    <div class="ngdialog-buttons" style="margin-top:50px">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Change()">OK</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(null)">Close</button>
+    </div>
+
+</script>

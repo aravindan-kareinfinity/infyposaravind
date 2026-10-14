@@ -1,0 +1,146 @@
+{
+  "gstin": "33AACPG0230G1ZM",
+  "ret_period": "052018",
+  "sup_details": {
+    "osup_det": {
+      "txval": 72124423.19,
+      "iamt": 5703.00,
+      "camt": 2040826.90,
+      "samt": 2040826.90,
+      "csamt": 0.00
+    },
+    "osup_zero": {
+      "txval": 0.00,
+      "iamt": 0.00,
+      "camt": 0.00,
+      "samt": 0.00,
+      "csamt": 0.00
+    },
+    "osup_nil_exmp": {
+      "txval": 0.00,
+      "iamt": 0.00,
+      "camt": 0.00,
+      "samt": 0.00,
+      "csamt": 0.00
+    },
+    "isup_rev": {
+      "txval": 953594.00,
+      "iamt": 219.60,
+      "camt": 31980.88,
+      "samt": 31980.88,
+      "csamt": 0.00
+    },
+    "osup_nongst": {
+      "txval": 0.00,
+      "iamt": 0.00,
+      "camt": 0.00,
+      "samt": 0.00,
+      "csamt": 0.00
+    }
+  },
+  "itc_elg": {
+    "itc_avl": [
+      {
+        "ty": "IMPG",
+        "iamt": 0.00,
+        "camt": 0.00,
+        "samt": 0.00,
+        "csamt": 0.00
+      },
+      {
+        "ty": "IMPS",
+        "iamt": 0.00,
+        "camt": 0.00,
+        "samt": 0.00,
+        "csamt": 0.00
+      },
+      {
+        "ty": "ISRC",
+        "iamt": 219.60,
+        "camt": 31980.88,
+        "samt": 31980.88,
+        "csamt": 0.00
+      },
+      {
+        "ty": "ISD",
+        "iamt": 0.00,
+        "camt": 0.00,
+        "samt": 0.00,
+        "csamt": 0.00
+      },
+      {
+        "ty": "OTH",
+        "iamt": 2143426.44,
+        "camt": 950750.89,
+        "samt": 950750.89,
+        "csamt": 0.00
+      }
+    ],
+    "itc_rev": [
+      {
+        "ty": "RUL",
+        "iamt": 0.00,
+        "camt": 0.00,
+        "samt": 0.00,
+        "csamt": 0.00
+      },
+      {
+        "ty": "OTH",
+        "iamt": 0.00,
+        "camt": 0.00,
+        "samt": 0.00,
+        "csamt": 0.00
+      }
+    ],
+    "itc_net": {
+      "iamt": 2143646.04,
+      "camt": 982731.77,
+      "samt": 982731.77,
+      "csamt": 0.00
+    },
+    "itc_inelg": [
+      {
+        "ty": "RUL",
+        "iamt": 0.00,
+        "camt": 14742.75,
+        "samt": 14742.75,
+        "csamt": 0.00
+      },
+      {
+        "ty": "OTH",
+        "iamt": 0.00,
+        "camt": 0.00,
+        "samt": 0.00,
+        "csamt": 0.00
+      }
+    ]
+  },
+  "inward_sup": {
+    "isup_details": [
+      {
+        "ty": "GST",
+        "inter": 38655.00,
+        "intra": 2357896.03
+      },
+      {
+        "ty": "NONGST",
+        "inter": 0.00,
+        "intra": 0.00
+      }
+    ]
+  },
+  "intr_ltfee": {
+    "intr_details": {
+      "iamt": 0.00,
+      "camt": 0.00,
+      "samt": 0.00,
+      "csamt": 0.00
+    },
+    "ltfee_details": {}
+  },
+  "inter_sup": {
+    "unreg_details": [],
+    "comp_details": [],
+    "uin_details": []
+  }
+}

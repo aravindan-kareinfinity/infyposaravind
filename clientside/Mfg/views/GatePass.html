@@ -1,0 +1,536 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            GATE PASS
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-hide="ShowCreate" ng-click="ShowCreate=true;CreateQueue(true)"><a><i class="fa far fa-list-alt"></i>New Outward</a></li>
+            <li style="cursor:pointer" ng-hide="ShowCreate" ng-click="ShowCreate=true;CreateQueue(false)"><a><i class="fa far fa-list-alt"></i>New Inward</a></li>
+            <li style="cursor:pointer" ng-show="ShowCreate" ng-click="Save()"><a><i class="fa far fa-save"></i>Save</a></li>
+            <li style="cursor:pointer" ng-show="ShowCreate" ng-click="Clear()"><a><i class="fa far fa-list-alt"></i>Clear</a></li>
+            <li style="cursor:pointer" ng-hide="ShowCreate" ng-click="exporttoExcel(igrid,'whdashboard', 'dashboard')"><a><i class="fa fa-download"></i></a></li>
+            <li style="cursor:pointer" ng-show="ShowCreate" ng-click="ShowCreate=false"><a><i class="fa far fa-list-alt"></i>Back</a></li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body" ng-show="ShowCreate">
+                <div class="row row-padbot-15">
+
+                    <!-- /.row -->
+                    <div class="col-md-6" style="padding-left:20px">
+
+
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+
+                                <label for="inputEmail3" class="col-md-4 control-label">Gate Pass No</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control input-sm"
+                                           ng-readonly="true"
+                                           ng-model="GatePass.gatepassno" focusid="receiveddate" focusonenter="supplierid">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Date</label>
+                                <div class="col-md-4" style="padding-right:0px">
+                                    <input type="text" class="form-control input-sm datepicker"
+                                           datemodule="GatePass.actionon" ng-model="GatePass.actionon" focusid="lrdate" focusonenter="receiveddate">
+                                </div>
+
+                                <div class="col-md-4" style="padding-left:0px">
+                                    <select class="form-control" select2='Mode' ng-model="GatePass.movement"
+                                            options="item.id as item.name for item in MovementList track by item.id"
+                                            focusid="lrmode" focusonenter="lrno"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Gate Location</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2='Warehouse Location'
+                                            style="width:100%;" ng-model="GatePass.locationid" focusid="locationid"
+                                            options="item.id as item.name for item in LocationList track by item.id"></select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Mode</label>
+
+                                <div class="col-md-4" style="padding-right:0px">
+                                    <select class="form-control" select2='Mode' ng-model="GatePass.packagetype"
+                                            options="item.id as item.name for item in PackageTypes track by item.id"
+                                            focusid="lrmode"
+                                            ng-change="PackageTypeChanged()"
+                                            onkeyenter="focusconditiononenter(GatePass.packagetype=='PURCHASE' || GatePass.packagetype=='BOM','pono','lrno')"></select>
+                                </div>
+
+                                <div class="col-md-4" style="padding-left:0px" ng-hide="GatePass.packagetype=='PURCHASE' || GatePass.packagetype=='BOM'">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;"
+                                           placeholder="{{GatePass.packagecodename}}"
+                                           ng-model="GatePass.packagecode"
+                                           ng-change="GatePass.packagereferenceid = 0"
+                                           onkeyenter="LoadValues()"
+                                           focusid="lrno">
+                                </div>
+
+                                <div class="col-md-4" style="padding-left:0px" ng-show="GatePass.packagetype=='PURCHASE' || GatePass.packagetype=='BOM'">
+
+                                    <div class="col-md-6 no-padding">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;"
+                                               placeholder="PO Number"
+                                               ng-model="GatePass.packagecode"
+                                               ng-change="GatePass.packagereferenceid = 0"
+                                               onkeyenter="LoadValues()"
+                                               focusid="pono">
+                                    </div>
+
+                                    <div class="col-md-6 no-padding">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;"
+                                               placeholder="{{GatePass.packagecodename}}"
+                                               ng-model="GatePass.invoiceno"
+                                               focusid="invoiceno">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="GatePass.packagetype == 'BOMTRANSFER' || GatePass.packagetype == 'GOODSTRANSFER'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">{{GatePass.movement=='INWARD'?'From Location':'To Location'}}</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2='Supplier' style="width:100%;" ng-model="GatePass.vlocationid"
+                                            options="item.id as item.name for item in LocationList track by item.id"
+                                            focusid="supplierid" focusonenter="agentid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-hide="GatePass.packagetype == 'BILL' || GatePass.packagetype == 'BOMTRANSFER' || GatePass.packagetype == 'GOODSTRANSFER'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Vendor</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2='Supplier' style="width:100%;" ng-model="GatePass.vendorid"
+                                            options="item.id as item.name for item in VendorList track by item.id"
+                                            focusid="supplierid" focusonenter="agentid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Transport</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2='Supplier' style="width:100%;" ng-model="GatePass.transportid"
+                                            options="item.id as item.name for item in TransportList track by item.id"
+                                            focusid="supplierid" focusonenter="agentid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row row-padbot-15" ng-show="GatePass.packagetype == 'BILL'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Customer</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2='Supplier' style="width:100%;" ng-model="GatePass.customerid"
+                                            options="item.id as item.name for item in CustomerList track by item.id"
+                                            focusid="supplierid" focusonenter="agentid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /.row -->
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">{{GatePass.movement=='INWARD'?'From City':'To City'}}</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2='City' style="width:100%;"
+                                            ng-model="GatePass.cityid"
+                                            options="item.id as item.name for item in CityList track by item.id"
+                                            focusid="fromlocationid" focusonenter="prddivisionid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Division/Incharge</label>
+                                <div class="col-md-8">
+                                    <div class="col-md-6 no-padding">
+                                        <select class="form-control" select2='' ng-model="GatePass.prddivisionid"
+                                                options="item.id as item.name for item in EmployList track by item.id"
+                                                style="width:100%"
+                                                focusid="prddivisionid" focusonenter="purchasemanagerid"></select>
+                                    </div>
+
+                                    <div class="col-md-6 no-padding">
+                                        <select class="form-control" select2='' ng-model="GatePass.inchargeid"
+                                                options="item.id as item.name for item in EmployList track by item.id"
+                                                style="width:100%"
+                                                focusid="purchasemanagerid" focusonenter="holdingperiod"></select>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Qty</label>
+
+                                <div class="col-md-8 no-padding">
+                                    <div class="col-md-4">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="GatePass.packageqty" focusid="noofbundels" focusonenter="noofboxes">
+                                    </div>
+                                    <label for="inputEmail3" class="col-md-4 form-group required control-label">UOM</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control" select2='' ng-model="GatePass.packageuom"
+                                                options="item.id as item.name for item in UOMList track by item.id"
+                                                style="width:100%"
+                                                focusid="purchasemanagerid" focusonenter="holdingperiod"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Package Date</label>
+                                <div class="col-md-8 no-padding">
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control input-sm datepicker" datemodule="GatePass.packagedate" ng-model="GatePass.packagedate" focusid="lrdate" focusonenter="receiveddate">
+                                    </div>
+                                    <label for="inputEmail3" class="col-md-4 form-group required control-label">Value</label>
+                                    <div class="col-md-4">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="GatePass.packagevalue" focusid="noofbundels" focusonenter="noofboxes">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Driver</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="GatePass.driver" focusid="totalamount"
+                                           focusonenter="cweight">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Driver contactno</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="GatePass.drivercontactno" focusid="totalamount"
+                                           focusonenter="cweight">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group required control-label">Vehicle No</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="GatePass.vehicleno" focusid="totalamount"
+                                           focusonenter="cweight">
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="row row-padbot-15" ng-style="(ShowCreate && GatePass.packagereferenceid == 0) && 
+                             {
+                                 'background-color':'#eb5234',
+                                 'color': 'white',
+                                 'font-weight': 'bold'
+                             }">
+                            <div class="form-group"  ng-style="(ShowCreate && GatePass.packagereferenceid == 0) && {'padding':'5px'}">
+                                <div class="col-md-3">
+                                    <label for="inputEmail3" class="control-label col-md-12 no-padding">Remark</label>
+                                    <label for="inputEmail3"
+                                           ng-show="(ShowCreate && GatePass.packagereferenceid == 0)"
+                                           class="control-label col-md-12 no-padding">(Mandatory)</label>
+                                </div>
+                                
+                                <div class="col-md-9">
+                                    <textarea class="form-control input-sm" style="width: 100%;" ng-model="GatePass.remarks"
+                                              focusid="remarks" rows="5" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                        <h4 class="box-title">File Attachments</h4>
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-3">
+                                <label>Type</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input method="text" class="form-control input-sm" style="width: 100%;"
+                                       ng-model="Slide.name" focusid="totalamount"
+                                       focusonenter="cweight">
+                            </div>
+
+                        </div>
+
+
+                        <div class="row row-padbot-15" ng-show="Slide && Slide.name">
+                            <div class="col-md-3">
+                                <label>Images</label>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="col-md-2 no-padding">
+                                    <button class="btn btn-success btn-rad btn-trans btn-xs" ng-click="CaptureImage('IMAGE',Slide,'image')">
+                                        <i class="fa fa-camera"></i>
+                                    </button>
+                                </div>
+                                <div class="col-md-10 no-padding">
+                                    <div class="col-md-6 no-padding">
+                                        <file-upload class="btn btn-success btn-rad btn-trans btn-xs file-upload"
+                                                     resize="true" max-width="1280"
+                                                     max-height="1280"
+                                                     preview="true"
+                                                     ng-model="Slide.image"
+                                                     filemodel="Slide.image"
+                                                     filetype="IMAGE"
+                                                     multiple="false">
+                                            <i class="fa fa-upload"></i>
+                                            <span>Upload Files</span>
+                                        </file-upload>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-2 pull-right">
+                                <button type="button" class="btn btn-primary btn-xs pull-right" ng-click="AddSlide()">ADD</button>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+
+                            <div class="col-md-12">
+                                <table fixed-header="160px" additionalheight="250px">
+                                    <thead>
+                                        <tr>
+                                            <th width="50px">Image</th>
+                                            <th width="150px">Type</th>
+                                            <th width="50px">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in GatePass.attachments">
+
+                                            <td style="align-content:center">
+
+                                                <a href="File/Show/{{UserInfo.OrganizationID}}/{{item.image}}" target="_blank">
+                                                    <img ng-src="File/Thumbnail/{{UserInfo.OrganizationID}}/{{item.image}}" style="height:50px;width:50px" />
+                                                </a>
+
+                                            </td>
+                                            <td style="align-content:center">{{item.name}}</td>
+
+                                            <td>
+                                                <button type="button" class="btn-danger btn btn-xs btn-flat" ng-click="ManagesearchSlideItem('DeleteSlide',item)"
+                                                        data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                                <button type="button" class="btn-primary btn btn-xs btn-flat" ng-click="ManagesearchSlideItem('EditSlide',item)" data-widget="edit" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-body" ng-hide="ShowCreate">
+                <div class="row row-padbot-15">
+
+                    <div class="col-md-12 col-sm-12">
+                        <div class="col-md-2 no-padding">
+                            <label for="inputEmail3" class="col-sm-12 col-md-12 control-label no-padding">Mode</label>
+                            <div class="col-sm-12 col-md-12 no-padding">
+                                <select class="form-control input-sm" select2="Status"
+                                        ng-options="item.id as item.name for item in PackageTypes track by item.id"
+                                        ng-model="SearchRequest.packagetype"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 no-padding">
+                            <label for="inputEmail3" class="col-sm-12 col-md-12 control-label no-padding">Mode</label>
+                            <div class="col-sm-12 col-md-12 no-padding">
+                                <select class="form-control" select2='Mode' ng-model="SearchRequest.movement"
+                                        options="item.id as item.name for item in MovementCriteriaList track by item.id"
+                                        focusid="lrmode" focusonenter="lrno"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 no-padding">
+                            <label for="inputEmail3" class="col-sm-12 col-md-12 control-label no-padding">Date</label>
+                            <div class="col-sm-12 col-md-12 no-padding">
+
+                                <div class="input-group input-group-sm">
+                                    <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto" class="form-control pull-right input-sm">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-sm btn-box" ng-click="Search()">
+                                            <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-2 pull-right" style="padding-left:10px;padding-right:0px">
+                            <label for="inputEmail3" class="col-sm-12 col-md-12 control-label no-padding">OUTWARD</label>
+                            <div class="col-sm-12 col-md-12 no-padding">
+
+                                <div class="input-group input-group-sm">
+                                    <input type="text" ng-model="OutwardCode" class="form-control pull-right input-sm">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-sm btn-box" ng-click="Search()">
+                                            <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-2 no-padding pull-right">
+                            <label for="inputEmail3" class="col-sm-12 col-md-12 control-label no-padding">INWARD</label>
+                            <div class="col-sm-12 col-md-12 no-padding">
+
+                                <div class="input-group input-group-sm">
+                                    <input type="text" ng-model="InwardCode" class="form-control pull-right input-sm">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-sm btn-box" ng-click="Search()">
+                                            <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <!--<div class="col-md-6 col-sm-6">
+                        <label for="inputEmail3" class="col-sm-2 col-md-1 control-label no-padding">Status</label>
+                        <div class="col-sm-2 col-md-4">
+
+                        </div>
+                        <label for="inputEmail3" class="col-sm-4 col-md-1 control-label no-padding">Date</label>
+                        <div class="col-sm-2 col-md-4">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto" class="form-control pull-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <button type="button" class="btn btn-block btn-primary pull-left" ng-click="Search()">Search</button>
+                    </div>
+                    <div class="col-sm-5 no-padding">
+                        <label for="inputEmail3" class="col-sm-1 control-label no-padding">Status</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" select2="Status" ng-options="item.id as item.name for item in StatusList track by item.id" ng-model="SearchRequest.statusid"></select>
+                        </div>
+                        <label for="inputEmail3" class="col-sm-1 control-label no-pad">Date</label>
+                        <div class="col-sm-5 no-padding">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto" class="form-control pull-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-block btn-primary pull-left" ng-click="Search()">Search</button>
+                    </div>-->
+
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12" id="gridContainer">
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+
+<script type="text/ng-template" id="ChangeStatusDialog">
+    <div class="ngdialog-message">
+        <div class="table-responsive mailbox-messages">
+
+            <div class="col-md-12">
+                <label>Employee</label>
+                <select class="input-sm form-control" select2="" style="width: 100%;"
+                        options="item.id as item.name for item in Parent.Employees track by item.id"
+                        ng-model="employeeid"></select>
+            </div>
+            <div class="col-md-12">
+                <label for="inputEmail3" class="form-group required control-label no-margin">Changed Date</label>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control datepicker input-sm"
+                           datemodule="statuson" ng-model="statuson">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Change</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

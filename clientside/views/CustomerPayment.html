@@ -1,0 +1,613 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Finance / Credit Sale Collection
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="LastPaymentID>0" style="cursor:pointer" ng-click="PrintSettilement(LastPaymentID)"><a><i class="fa fa-print"></i>Print - {{LastPaymentNo}}</a></li>
+            <li ng-show="LastPaymentID>0" style="cursor:pointer" ng-click="PrintPDF(LastPaymentID)"><a><i class="fa fa-download"></i>Download - {{LastPaymentNo}} PDF</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="exporttoExcel(igrid,'customerpayment', 'customerpayment')"><a><i class="fa fa-download"></i></a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-purple" ng-hide="ShowSearch">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-12 col-sm-12 no-padding">
+
+                        <div class="col-md-4 col-sm-4">
+
+                            <div class="col-md-12">
+
+                                <div class="row row-padbot-15" ng-show="CustomerPayment.id>0">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 control-label">Receipt No</label>
+
+
+                                    <div class="col-md-8 col-sm-8 no-padding">
+                                        <input type="text" name="name"
+                                               ng-readonly="true"
+                                               class="form-control input-sm" id="inputEmail3" placeholder=""
+                                               ng-model="CustomerPayment.receiptno">
+                                    </div>
+
+                                </div>
+
+                                <div class="row row-padbot-15" ng-hide="CustomerPayment.id>0">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 control-label">Receipt No</label>
+
+                                    <div class="col-md-8 col-sm-8 input-group input-group-sm">
+                                        <input type="text" name="name"
+                                               class="form-control input-sm" id="inputEmail3" placeholder=""
+                                               ng-model="CustomerPayment.receiptno"
+                                               onkeyenter="SearchByReceiptNo()">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="SearchByReceiptNo()" data-widget="go" data-toggle="tooltip" title="Go"><i class="fa fas fa-search-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 control-label">B2B Customer</label>
+                                    <div class="col-md-8 col-sm-8 input-group input-group-sm">
+                                        <select class="form-control input-sm" select2='Buying Company' style="width:100%" options="item.id as item.name for item in CustomerList track by item.id"
+                                                ng-model="SearchPaymentCondition.customerid"></select>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 control-label">B2C Customer</label>
+                                    <div class="col-md-8 col-sm-8 input-group input-group-sm">
+                                        <input type="text" ng-model="SearchPaymentCondition.customername" onkeyenter="ShowCustomerDialog()" class="input-sm form-control" style="width:100%" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="ShowCustomerDialog()" data-widget="go" data-toggle="tooltip" title="Go"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 control-label">Company</label>
+                                    <div class="col-md-8 col-sm-8 input-group input-group-sm">
+                                        <select class="form-control input-sm" select2='Buying Company' style="width:100%" options="item.id as item.name for item in BuyingCompany track by item.id"
+                                                ng-model="SearchPaymentCondition.companyid"></select>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 control-label">Location</label>
+                                    <div class="col-md-8 col-sm-8 input-group input-group-sm">
+                                        <select class="form-control input-sm" select2='Location' style="width:100%" options="item.id as item.name for item in Locations track by item.id"
+                                                ng-model="SearchPaymentCondition.locationid"></select>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 control-label">Bill Date</label>
+                                    <div class="col-md-8 col-sm-8 input-group input-group-sm">
+                                        <input type="text" class="form-control input-sm" daterange="SearchPaymentCondition.fromdate,SearchPaymentCondition.todate">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="SearchItems()" data-widget="go" data-toggle="tooltip" title="Go"><i class="fa fas fa-search-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 control-label">Bill No</label>
+                                    <div class="col-md-8 col-sm-8 input-group input-group-sm">
+                                        <input type="text" class="form-control input-sm"
+                                               ng-model="SearchPaymentCondition.BillNo" onkeyenter="SearchItems()">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="SearchItems()" data-widget="go" data-toggle="tooltip" title="Go"><i class="fa fas fa-search-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <div class="col-md-6"><span style="vertical-align:top;font-size:large;color:brown">Balance</span></div>
+                                    <div class="col-md-6" style="vertical-align:top;font-size:x-large;color:brown;text-align:right">
+                                        <span style="vertical-align:top;font-size:large;color:brown">{{TotalPending|IndianNumber:2}}</span>
+                                    </div>
+                                </div>
+
+
+                                <div class="row row-padbot-15">
+                                    <div class="col-md-6"><span style="vertical-align:top;font-size:large;color:brown">Payable/Rounding</span></div>
+                                    <div class="col-md-6" style="vertical-align:top;font-size:x-large;color:brown;text-align:right">
+                                        <span style="vertical-align:top;font-size:large;color:brown">{{AddedAmount-TDSAmount-RoundingAmount|IndianNumber:2}}/{{RoundingAmount|IndianNumber:2}}</span>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <div class="text-left" style="vertical-align:top;font-size:x-large;color:black"><b>Payment Details </b></div>
+                                </div>
+
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Collected At</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <select class="form-control" select2='Collected At'
+                                                style="width: 100%;" options="item.id as item.name for item in CollectedAt track by item.id"
+                                                ng-model="CustomerPayment.collectedat"></select>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15" ng-hide="CustomerPayment.collectedat == 1">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Received By</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <select class="form-control" select2='Payment Mode'
+                                                style="width: 100%;" options="item.id as item.name for item in Employees track by item.id"
+                                                ng-model="CustomerPayment.receivedby"></select>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15" ng-show="CustomerPayment.collectedat == 1">
+
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Location/Counter</label>
+
+                                    <div class="col-md-8 col-sm-8">
+                                        <span style="vertical-align:top;font-size:large;color:brown">{{LocationName}}</span>
+                                        <span style="vertical-align:top;font-size:large;color:orangered">/</span>
+                                        <span style="vertical-align:top;font-size:large;color:brown">{{CounterName}}</span>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Payment Date</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control input-sm pull-right" datemodule="CustomerPayment.paidon" ng-model="CustomerPayment.paidon" id="datepicker">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Mode</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <select class="form-control" select2='Payment Mode'
+                                                style="width: 100%;" options="item.id as item.name for item in PaymentModes track by item.id"
+                                                ng-model="CustomerPayment.paymentinfo.paymentmode"></select>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15" ng-show="FinanceEnabled">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Finance Ledger</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <select class="form-control" select2='Payment Mode'
+                                                style="width: 100%;" options="item.id as item.displayname for item in Ledgers track by item.id"
+                                                ng-model="CustomerPayment.ledgerid"></select>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15" ng-show="CustomerPayment.paymentinfo.paymentmode == 3">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">UPI</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <select class="form-control" select2='Payment Mode'
+                                                ng-change="UPIChanged()"
+                                                style="width: 100%;" options="item.id as item.name for item in UPIProviderList track by item.id"
+                                                ng-model="CustomerPayment.paymentinfo.upiproviderid"></select>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15" ng-show="CustomerPayment.paymentinfo.paymentmode == 0">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">MACHINE</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <select class="form-control" select2='Payment Mode'
+                                                ng-change="MachineChanged()"
+                                                style="width: 100%;" options="item.id as item.name for item in SwippingList track by item.id"
+                                                ng-model="CustomerPayment.paymentinfo.card_machineid"></select>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15" ng-show="CustomerPayment.paymentinfo.paymentmode != 2">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Bank</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <select class="form-control" select2='Bank'
+                                                style="width: 100%;" options="item.id as item.name for item in Banks track by item.id"
+                                                ng-model="CustomerPayment.paymentinfo.bankid" focusid="bankid"></select>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15" ng-show="CustomerPayment.paymentinfo.paymentmode == 4">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 form-group required control-label">Cheque Date</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control input-sm pull-right" datemodule="CustomerPayment.paymentinfo.chequedate" ng-model="CustomerPayment.paymentinfo.chequedate" id="datepicker">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15" ng-show="CustomerPayment.paymentinfo.paymentmode == 4">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 control-label">Ref. Nos</label>
+                                    <div class="col-md-8 col-sm-8">
+
+                                        <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="CustomerPayment.paymentinfo.referencedetail" focusid="first">
+
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 col-sm-4 control-label">Remarks</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input type="text" name="name" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="CustomerPayment.paymentinfo.remarks">
+                                    </div>
+                                </div>
+
+                                <!--<div class="row row-padbot-15">
+        <label for="inputPassword3" class="col-md-4 control-label">CASH</label>
+        <div class="col-md-3">
+            <input type="text" class="form-control input-sm" placeholder="Denomination" ng-change="CashChanged(CustomerPayment.paymentinfo.cash_paid)"
+                   ng-model="CustomerPayment.paymentinfo.cash_paid" onkeyenter="checkbalanceandgo('cardpaid')" focusid="cashpaid">
+        </div>
+        <div class="col-md-5 text-right" style="font-size:large;color:darkgreen;padding-left:0px;padding-right:0px">
+            <input type="text" class="form-control input-sm" placeholder="Denomination" ng-change="CashChanged(CustomerPayment.paymentinfo.cash_dinamination)"
+                   ng-model="CustomerPayment.paymentinfo.cash_dinamination" onkeyenter="checkbalanceandgo('cardpaid')">
+        </div>
+    </div>
+
+    <div class="row row-padbot-15">
+        <label for="inputPassword3" class="col-md-4 control-label">CARD</label>
+        <div class="col-md-3">
+            <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="Paid" focusid="cardpaid" ng-change="PaidChanged('CARD')"
+                   onkeyenter="checkmachineandbank()" ng-model="CustomerPayment.paymentinfo.card_paid">
+        </div>
+        <div class="col-md-5" style="padding-left:0px;padding-right:0px" ng-hide="system_swippingmachine">
+            <select class="form-control" select2='Bank' style="width: 100%;" ng-model="CustomerPayment.paymentinfo.card_bankid" focusid="bankid"
+                    onkeyenter="checkbalanceandgo('cardpaid')" options="item.id as item.name for item in BankList track by item.id"></select>
+        </div>
+        <div class="col-md-5" style="padding-left:0px" ng-show="system_swippingmachine">
+            <select class="form-control" select2='Machine' style="width: 100%;" ng-model="CustomerPayment.paymentinfo.card_machineid" focusid="cardmachineid"
+                    onkeyenter="checkbalanceandgo('cardpaid')" options="item.id as item.name for item in SwippingList track by item.id"></select>
+        </div>
+    </div>
+
+    <div class="row row-padbot-15" ng-show="system_salecollectcarddata && CustomerPayment.paymentinfo.card_paid>0">
+        <label for="inputPassword3" class="col-md-4 control-label">INFO</label>
+        <div class="col-md-3">
+            <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="Card No" focusid="cardno" focusonenter="cardtypeid" ng-model="CustomerPayment.paymentinfo.card_no">
+        </div>
+        <div class="col-md-5" style="padding-left:0px;padding-right:0px">
+            <select class="form-control" select2='type' style="width: 100%;" ng-model="CustomerPayment.paymentinfo.card_typeid" focusid="cardtypeid"
+                    onkeyenter="checkbalanceandgo('cardtypepaid')" options="item.id as item.name for item in CardTypeList track by item.id"></select>
+        </div>
+    </div>-->
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-8 col-sm-8 no-padding">
+                            <!--<div class="col-md-12 col-sm-12">
+                                <div class="col-md-12">
+                                    <div class="col-md-6 no-padding">
+                                        <label class="col-md-5 no-padding" style="vertical-align:top;font-size:large;color:brown"><b>Location : </b></label>
+                                        <div class="col-md-7 no-padding" style="vertical-align:top;font-size:large;color:brown">
+                                            {{LocationName}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label class="col-md-5 no-padding" style="vertical-align:top;font-size:large;color:brown"><b>Counter : </b></label>
+                                        <div class="col-md-7 no-padding" style="vertical-align:top;font-size:large;color:brown">
+                                            {{CounterName}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="col-md-12 col-sm-12" ng-show="ShowInvoice">
+
+                                <div class="row row-padbot-15">
+
+                                    <div class="col-md-3 no-padding">
+                                        <label for="inputEmail3" class="col-md-12 no-padding control-label" style="vertical-align:top;color:brown;font-weight:bold">Discount</label>
+                                        <label class="col-md-12 no-padding control-label" style="vertical-align:top;color:brown;">{{DiscountedAmount|IndianNumber:2}}</label>
+                                    </div>
+                                    <div class="col-md-3 no-padding">
+                                        <label for="inputEmail3" class="col-md-12 no-padding control-labell" style="vertical-align:top;color:brown;font-weight:bold">Allocated</label>
+                                        <label class="col-md-12 no-padding control-label" style="vertical-align:top;color:brown;">{{AddedAmount|IndianNumber:2}}</label>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <div for="inputEmail3" class="col-md-12 no-padding"
+                                             style="vertical-align:top;color:brown;font-weight:bold">
+                                            <div class="col-md-4 no-padding">
+                                                <input type="checkbox" ng-model="CustomerPayment.hastds" />
+                                                TDS
+                                            </div>
+                                            <div class="col-md-8 no-padding" ng-show="CustomerPayment.hastds">
+                                                <input type="checkbox" ng-model="CustomerPayment.tdsexclusive" />
+                                                EX.TAX
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 no-padding" ng-show="CustomerPayment.hastds">
+                                            <div class="col-md-4 no-padding">
+                                                <input type="text" class="form-control input-sm" ng-change="tdspercentagechanged()"
+                                                       style="width:100%" ng-model="CustomerPayment.tdspercentage" />
+                                                <label style="position:absolute;right:0px;top:5px">%</label>
+                                            </div>
+                                            <div class="col-md-8" style="padding-left:0px">
+                                                <input type="text" class="form-control input-sm" style="width:100%"
+                                                       ng-model="CustomerPayment.tdsamount"
+                                                       ng-change="tdsvaluechanged()" />
+                                            </div>
+                                        </div>
+                                        <label class="col-md-12 no-padding control-label"
+                                               style="vertical-align:top;color:brown;" ng-hide="CustomerPayment.hastds">No TDS</label>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="inputEmail3" class="col-md-12 no-padding control-label">Paid Amount</label>
+
+                                        <div class="col-md-12 no-padding">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-change="CashChanged(CustomerPayment.paymentinfo.paidamount)"
+                                                       ng-model="CustomerPayment.paymentinfo.paidamount">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-primary btn-sm" ng-click="CustomerPayment.paymentinfo.paidamount=(AddedAmount-TDSAmount-RoundingAmount)" data-widget="go" data-toggle="tooltip" title="Go"><i class="fa fa-arrow-down"></i></button>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                                <div style="margin-left:-10px" id="pendingContainer">
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12" ng-show="ShowPayment">
+
+                                <div class="row row-padbot-15">
+                                    <table fixed-header="400px" class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:20px">&nbsp;</th>
+                                                <th style="width:100px">BILL NO</th>
+                                                <th style="width:100px">BILL DATE</th>
+                                                <th style="width:100px">DISCOUNT</th>
+                                                <th style="width:100px">AMOUNT</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in CustomerPayment.Customerinvoice">
+                                                <td><input type="checkbox" ng-model="item.selected" /></td>
+                                                <td>{{item.billno}}</td>
+                                                <td>{{item.transactiondate|date:'dd/MM/yyyy'}}</td>
+                                                <td><input type="number" class="form-control input-sm pull-right" id="examdate" ng-change="discountAmountChanged()" ng-model="item.discount"></td>
+                                                <td style="text-align:right">{{item.paid|IndianNumber:2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <table class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:20px">&nbsp;</th>
+                                                <th style="width:100px;text-align:right"><span style="font-size:large;font-weight:bolder;color:orangered">{{CustomerPayment.billpaid-CustomerPayment.billdiscount|number:0}}</span></th>
+                                                <th style="width:100px;text-align:right">&nbsp;</th>
+                                                <th style="width:100px;text-align:right"><span style="font-size:large;font-weight:bolder;color:sandybrown">{{CustomerPayment.billdiscount|number:0}}</span></th>
+                                                <th style="width:100px;text-align:right"><span style="font-size:large;font-weight:bolder;color:sandybrown">{{CustomerPayment.billpaid|number:0}}</span></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="box box-primary" ng-show="ShowSearch">
+            <div class="box-body">
+
+                <div class="col-md-3 no-padding">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <label>COMPANY</label>
+                            <select class="form-control input-sm" select2='Buying Company' style="width:100%" options="item.id as item.name for item in BuyingCompany track by item.id"
+                                    ng-model="SearchPaymentCondition.companyid"></select>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-12">
+                        <div class="col-md-12">
+                            <label>LOCATION</label>
+                            <select class="form-control input-sm" select2='Buying Location' style="width:100%" options="item.id as item.name for item in BuyingCompany track by item.id"
+                                    ng-model="SearchPaymentCondition.locationid"></select>
+                        </div>
+                    </div>-->
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <label>CUSTOMER</label>
+                            <div class="col-md-12 no-padding">
+                                <div class="input-group input-group-sm" style="width:100%">
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" onkeyenter="ShowCustomerDialog()" ng-model="SearchPaymentCondition.customername">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-flat" ng-click="ShowCustomerDialog()">Go</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <label>PAYMENT DATES</label>
+                            <input type="text" class="form-control input-sm" style="width:100%" daterange="SearchCondition.fromdate,SearchCondition.todate">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <label>Receipt No</label>
+                            <input type="text" ng-model="SearchCondition.receiptno"
+                                   class="input-sm form-control" style="width:100%" />
+                        </div>
+                    </div>
+
+                    <!--<div class="row row-padbot-15">
+                        <label for="inputEmail3" class="control-label">Company</label>
+                        <div class="col-md-12 no-padding">
+                            <select class="form-control input-sm" select2='Buying Company' style="width:100%" options="item.id as item.name for item in BuyingCompany track by item.id"
+                                    ng-model="SearchPaymentCondition.companyid"></select>
+
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="control-label">Location</label>
+                        <div class="col-md-12 no-padding">
+                            <select class="form-control input-sm" select2='Buying Location' style="width:100%" options="item.id as item.name for item in BuyingCompany track by item.id"
+                                    ng-model="SearchPaymentCondition.locationid"></select>
+
+                        </div>
+                    </div>
+
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="control-label">Customer</label>
+                            <div class="col-md-12 no-padding">
+                                <div class="input-group input-group-sm" style="width:100%">
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" onkeyenter="ShowCustomerDialog()" ng-model="SearchPaymentCondition.customername">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-flat" ng-click="ShowCustomerDialog()">Go</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row row-padbot-15">
+
+                        <div class="form-group">
+                            <label for="inputEmail3" class="control-label">Payment Date</label>
+                            <div class="col-md-12 no-padding">
+                                <input type="text" class="form-control input-sm" style="width:100%" daterange="SearchCondition.fromdate,SearchCondition.todate">
+                            </div>
+                        </div>
+                    </div>-->
+
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <label>SHOW BILLS</label>
+                            <div class="col-md-4 pull-right input-group-sm">
+                                <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.showbills" focusid="showbillwise" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<div class="row row-padbot-15">
+
+                        <div class="form-group">
+                            <label for="inputEmail3" class="control-label">Bill No</label>
+                            <div class="col-md-12 no-padding">
+                                <input type="text" class="form-control input-sm" style="width:100%" ng-model="SearchCondition.billno">
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+                <div class="col-md-9">
+                    <div class="col-md-12" id="gridContainer">
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+            <!-- /.content -->
+        </div>
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+
+<script type="text/ng-template" id="SearchCustomer">
+    <div class="ngdialog-message">
+        <div>
+            <div class="col-md-12">
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <label for="inputEmail3" class="col-md-3 control-label">Name</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control input-sm" style="width: 100%;" focusid="customer_name" focusonenter="customer_contact" ng-model="name">
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <label for="inputEmail3" class="col-md-3 control-label">Contact No</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control input-sm" style="width: 100%;" focusid="customer_contact" focusonenter="customer_area" ng-model="contactno">
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <label for="inputEmail3" class="col-md-3 control-label">Area</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control input-sm" style="width: 100%;" focusid="customer_area" onkeyenter="Search()" ng-model="area">
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <label for="inputEmail3" class="col-md-3 control-label">GST No</label>
+                        <div class="col-md-6">
+                            <input type="checkbox" placeholder="" ng-model="hasgst" style="position: absolute; left: 20px;top: 3px;z-index: 1000;">
+                            <input type="text" class="form-control input-sm" style="width: 100%;padding-left:30px" ng-disabled="!hasgst" focusid="customer_gstno" ng-model="gstno">
+                            <button type="button" style="position:absolute;right:20px;top:3px;" class="ngdialog-button ngdialog-button-primary" ng-click="Search(name,area)">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <table fixed-header="200px">
+                    <thead>
+                        <tr>
+                            <th style="width:25px">&nbsp;</th>
+                            <th style="width:250px">Name</th>
+                            <th style="width:150px">Area</th>
+                            <th style="width:100px">Mobile</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in PopupList">
+                            <td><input type="checkbox" ng-model="item.selected" ng-change="Customer=item" /></td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.area}}</td>
+                            <td>{{item.mobileno}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-12" style="padding-top:10px">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Create()">Create</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Select()">Select</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>

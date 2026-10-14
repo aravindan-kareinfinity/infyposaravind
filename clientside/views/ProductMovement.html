@@ -1,0 +1,125 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Product Sales Movement
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+            <li><a href back-button>Back</a></li>
+            <li class="active">Product Movement</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="col-md-3">
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>FROM DATE</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="input-sm form-control datepicker" datemodule="SearchCondition.fromdate" ng-model="SearchCondition.fromdate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>TO DATE</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="input-sm form-control datepicker" datemodule="SearchCondition.todate" ng-model="SearchCondition.todate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>SECTION</label>
+                            <div class="input-group-sm">
+                                <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondition.counterid" options="item.id as item.name for item in Section track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>TOP 10</label>
+                            <div class="input-group-sm">
+                                <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondition.reporttype" 
+                                        ng-options="item.code as item.name for item in ReportType track by item.code"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>LOCATION</label>
+                            <div class="input-group-sm">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Location track by item.id"
+                                        ng-model="SearchCondition.locationid"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">&nbsp;</div>
+                    <div class="col-md-12">
+                        <div class="col-md-12 no-padding">
+                            <button type="button" class="btn btn-primary btn-sm pull-right" ng-click="Search()" data-widget="go" data-toggle="tooltip" title="Search">Search</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="box box-solid bg-teal-gradient">
+                        <div class="box-header">
+                            <i class="fa fa-th"></i>
+                            <h3 class="box-title">Fast Moving</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn bg-teal btn-sm" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn bg-teal btn-sm" data-widget="remove">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body border-radius-none">
+                            <canvas id="line" class="chart chart-line" chart-data="data"
+                                    chart-labels="labels" chart-series="series" chart-options="options"
+                                    chart-dataset-override="datasetOverride"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="box box-solid bg-teal-gradient">
+                        <div class="box-header">
+                            <i class="fa fa-th"></i>
+                            <h3 class="box-title">Slow Moving</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn bg-teal btn-sm" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn bg-teal btn-sm" data-widget="remove">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body border-radius-none">
+                            <canvas id="line" class="chart chart-line" chart-data="slowdata"
+                                    chart-labels="slowlabels" chart-series="series" chart-options="options"
+                                    chart-dataset-override="datasetOverride"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</div>
+

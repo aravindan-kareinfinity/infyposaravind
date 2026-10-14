@@ -1,0 +1,225 @@
+﻿   <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Product Details
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+<li><a href back-button>Back</a></li>
+            <li class="active">Product Details</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-sm-2">
+                        <label for="inputEmail3">Supplier Company</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control input-sm" style="width: 100%;">
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="inputEmail3">No of Pieces</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control input-sm" style="width: 100%;">
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-sm-2">
+                        <label for="inputEmail3">Buying Company</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control input-sm" style="width: 100%;">
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="inputEmail3">No of Bundles</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control input-sm" style="width: 100%;">
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-sm-2">
+                        <label for="inputEmail3">Invoice No/Date</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control input-sm" style="width: 100%;">
+                    </div>
+                    <div class="col-sm-2">
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                      <input type="text" class="form-control pull-right" id="searchdatepicker" ng-model="SearchRequest.SearchDate">
+                    </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="inputEmail3">Base Amount</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control input-sm" style="width: 100%;">
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-sm-2">
+                        <label for="inputEmail3">Purchase Order No</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control input-sm" style="width: 100%;">
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-block btn-primary">Search P.O</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="inputEmail3">Gross Amount</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control input-sm" style="width: 100%;">
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <select class="form-control select2" style="width: 80%;">
+                                <option ng-repeat="item in ItemName" value="{{item.id}}">{{item.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="Item name">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-block btn-primary">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="Brand">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="Pattern">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="Style">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="Size">
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="Color">
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="Item Full Name">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control input-sm" style="width: 100%;">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control input-sm" style="width: 100%;">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control input-sm" style="width: 100%;">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control input-sm" style="width: 100%;">
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-block btn-primary">Add</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="table-responsive mailbox-messages">
+                            <table fixed-header="300px" class="fixed_table">
+
+                                <thead>
+                                    <tr>
+                                        <th style="width:10px">&nbsp;</th>
+                                        <th style="width:100px">Product</th>
+                                        <th style="width:100px">Qty</th>
+                                        <th style="width:100px">Buying Price</th>
+                                        <th style="width:100px">MRP</th>
+                                        <th style="width:100px">Selling Price</th>
+                                        <th style="width:50px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in ProductList">
+                                        <td></td>
+                                        <td>{{item.Product}}</td>
+                                        <td>{{item.Qty}}</td>
+                                        <td>{{item.BuyingPrice}}</td>
+                                        <td>{{item.MRP}}</td>
+                                        <td>{{item.SellingPrice}}</td>
+                                        <td><button type="button" class="btn btn-primary btn-danger btn-xs" ng-click="ManageProductItem('Reverse',item)">Edit</button> <button type="button" class="btn btn-primary btn-danger">Delete</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <label for="inputEmail3" class="modal-footer">Status</label>
+                        <select class="modal-footer select2">
+                            <option ng-repeat="status in Statuses" value="{{status.id}}">{{status.name}}</option>
+                        </select>
+                        <button type="button" class="btn btn-primary btn-success">Finish</button>
+                    </div>
+             
+      <!--End Product details-->
+
+
+    </section>
+</div>
+ 
+<!-- /.content-wrapper -->
+    <!-- Page script -->
+<script src="Clientside/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script>
+        $(function () {
+            //Date picker
+            $('#datepicker').datepicker({
+                autoclose: true
+            });
+
+        //Initialize Select2 Elements
+        $(".select2").select2();
+
+        //Date picker
+        $('#searchdatepicker').datepicker({
+            autoclose: true
+        });
+        //Date picker
+        $('#dobdatepicker').datepicker({
+            autoclose: true
+        });
+        //Date picker
+        $('#billdatepicker').datepicker({
+            autoclose: true
+        });
+
+        $("#example1").DataTable();
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false
+        });
+    });
+</script>

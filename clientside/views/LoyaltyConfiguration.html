@@ -1,0 +1,238 @@
+﻿<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Loyalty Configuration
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+            <li><a back-button>Back</a></li>
+            <li class="active">Loyalty Configuration</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <!-- Your Page Content Here -->
+            <div class="col-md-12">
+                <!-- Horizontal Form -->
+                <div class="box box-info" ng-show="ShowSearch">
+                    <div class="box-header with-border">
+                        <div class="col-md-4">
+                            <div class="row row-padbot-15">
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 control-label" style="color:brown;padding-left:3px;"><b>Location</b></label>
+                                    <div class="col-sm-8 col-md-8">
+                                        <select class="form-control" style="width: 100%;" select2="" options="item.id as item.name for item in Location track by item.id"
+                                                ng-model="ApplicationSettings.locationid" ng-required="true" onkeyenter="SearchDirect(ApplicationSettings.locationid)"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6"></div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-warning pull-left" ng-click="SwitchPanel()">Search</button>
+
+                            <button type="button" class="btn btn-info pull-right" ng-click="Save()" style="margin-right:20px;">Save</button>
+
+                        </div>
+
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form name="ApplicationForm" role="form">
+
+                        <div class="row" ng-show="ApplicationSettings.locationid>0">
+
+                            <div class="col-md-4">
+                                <h5 style="vertical-align:top;font-size:medium;color:brown;text-align:left;padding-left:12px">
+                                    <b>
+                                        Reward
+                                    </b>
+                                </h5>
+                            </div>
+                            <div class="col-md-8" style="background-color:white;margin-top:15px;padding-top:10px;">
+
+
+
+                                <div class="row row-padbot-15">
+
+                                    <label for="inputEmail3" class="col-md-4 control-label">Enable</label>
+
+                                    <div class="col-md-1 col-sm-1">
+                                        <input type="checkbox" class="icheckbox_minimal-blue" ng-model="ApplicationSettings.appsettings.settlement_reward">
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="row row-padbot-15">
+
+                                    <label for="inputEmail3" class="col-md-4 control-label">Support Exclude Products</label>
+
+                                    <div class="col-md-1 col-sm-1">
+                                        <input type="checkbox" class="icheckbox_minimal-blue" ng-model="ApplicationSettings.appsettings.sale_excludeproduct">
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="row row-padbot-15">
+
+                                    <label for="inputEmail3" class="col-md-4 control-label">Support Customer OTP</label>
+
+                                    <div class="col-md-1 col-sm-1">
+                                        <input type="checkbox" class="icheckbox_minimal-blue" ng-model="ApplicationSettings.appsettings.sale_customerOTP">
+                                    </div>
+
+
+
+                                </div>
+
+
+                                <div class="row row-padbot-15">
+
+                                    <label for="inputEmail3" class="col-md-4 control-label">Mode</label>
+
+                                    <div class="col-md-4 col-sm-4">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;"
+                                                options="item.id as item.name for item in RewardModes track by item.id"
+                                                ng-model="ApplicationSettings.appsettings.sale_rewardmode"></select>
+                                    </div>
+                                </div>
+
+
+                                <div class="row row-padbot-15" ng-show="ApplicationSettings.appsettings.sale_rewardmode==2">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Slab Configuration</label>
+                                    <div class="col-md-4 col-sm-4">
+                                        <div class="row">
+                                            <div class="col-md-6" style="padding-right:0px"><input type="text" style="width:100%" class="input-sm" placeholder="From" ng-model="ApplicationSettings.appsettings.reward_slab_amount" /></div>
+                                            <div class="col-md-4 no-padding"><input type="text" style="width:100%" class="input-sm" placeholder="%" ng-model="ApplicationSettings.appsettings.reward_slab_percent" /></div>
+                                            <div class="col-md-2 no-padding"><button type="button" class="btn  btn-sm btn-danger" ng-click="ManageSlabs('add')"><i class="fa fa-pencil"></i></button></div>
+                                        </div>
+                                        <div class="row" ng-repeat="item in ApplicationSettings.appsettings.settlement_reward_slabs">
+                                            <div class="col-md-6" style="padding-right:0px">{{item.from}} - {{item.upto}}</div>
+                                            <div class="col-md-4 no-padding">{{item.percentage}}%</div>
+                                            <div class="col-md-2 no-padding"><button type="button" class="btn btn-danger btn-sm" ng-click="ManageSlabs('delete',item)"><i class="fa fa-trash-o"></i></button></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Per Reward Unit</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input type="number" size="5" class="input-sm" ng-model="ApplicationSettings.appsettings.sale_rewardpoint" /> Sale Value (Rupee)
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15" ng-show="ApplicationSettings.appsettings.sale_rewardmode==0">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Per Rupee (Claim)</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input type="number" size="5" class="input-sm" ng-model="ApplicationSettings.appsettings.settlement_reward_value" /> Points (Required)
+                                    </div>
+                                </div>
+
+
+                                <div class="row row-padbot-15">
+
+
+
+                                    <label for="inputEmail3" class="col-md-4 control-label">Expiry (days)</label>
+                                    <div class="col-md-4 col-sm-4">
+                                        <input type="number" size="5" class="input-sm" ng-model="ApplicationSettings.appsettings.settlement_reward_expiry" />
+                                    </div>
+
+
+                                </div>
+
+                                <div class="row row-padbot-15">
+
+
+
+                                    <label for="inputEmail3" class="col-md-4 control-label">Max Applicable Bill Value(%)</label>
+                                    <div class="col-md-4 col-sm-4">
+                                        <input type="number" size="5" class="input-sm" ng-model="ApplicationSettings.appsettings.settlement_reward_maxbillvaluepercentage" />
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                     
+                    </form>
+                </div>
+
+                <div class="box box-primary" id="searchBox" ng-hide="ShowSearch">
+                    <div class="box-body">
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Title</label>
+                                    <div class="col-sm-5">
+                                        <select class="form-control" style="width: 100%;" select2="" ng-options="item.code as item.value for item in refapplist track by item.code"
+                                                ng-model="key"></select>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <button type="button" class="pull-right btnMarginer btn btn-info" ng-click="SwitchPanel()">New</button>
+                                        <button type="button" class="pull-right btnMarginer btn btn-primary" ng-click="Search()">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        <div class="row row-padbot-15" style="padding-bottom:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-2 control-label"></label>
+
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                        <div class="row row-padbot-15">
+
+                            <div class="col-md-12">
+                                <div class="table-responsive mailbox-messages">
+                                    <table fixed-header="500px" class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th>Location</th>
+                                                <th>Season</th>
+                                                <th>Sale Reason</th>
+                                                <th>Area</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in SearchResult">
+                                                <td>{{SearchRef(item.locationid,Location)}}</td>
+                                                <td>{{SearchRef(item.appsettings.season,SeasonList)}}</td>
+                                                <td>{{SearchRef(item.appsettings.salereason,SaleReason)}}</td>
+                                                <td>{{SearchRef(item.appsettings.area,AreaList)}}</td>
+
+                                                <td>
+                                                    <button type="button" class="btn-danger btn btn-xs" ng-show="UserInfo.p_APPLICATIONSETTING.delete" ng-click="ManageSearchItem('Delete',item)">Delete</button>
+                                                    <button type="button" class="btn-primary btn btn-xs" ng-show="UserInfo.p_APPLICATIONSETTING.modify" ng-click="ManageSearchItem('Edit',item)">Edit</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.content -->
+                </div>
+            </div>
+        </div>
+
+
+
+    </section>
+</div>

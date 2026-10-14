@@ -1,0 +1,53 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Component Master Report
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="SearchBOMMaster()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'Components','Components')"><a><i class="fa fa-download"></i>Download</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        
+
+        <div class="box box-primary" id="searchBox">
+            <div class="box-body">
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Name</label>
+                            <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Contact No</label>
+                            <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.contactno">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>In Active</label>
+                            <input type="checkbox" class="icheckbox_minimal-blue" ng-model="SearchCondition.inactive">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 no-padding">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.content -->
+    </section>
+</div>
+<!-- /.content-wrapper -->

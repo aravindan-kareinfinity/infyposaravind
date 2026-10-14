@@ -1,0 +1,179 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Invoice Detail Report
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'Invoice', 'lrinvoicereport')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-click="printDiv('productviewprintdiv','PRODUCT VIEW')"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-click="SearchLRInvoiceDetail()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box primary">
+            <div class="box-body">
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>LR ENTRY NO</label>
+                            <div class="input-group-sm">
+                                <input type="text" class="form-control input-sm" id="inputPassword3" ng-model="SearchCondition.lrentryno" onkeyenter="SearchLRInvoiceDetail()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9 no-padding">
+                </div>
+            </div>
+            <div class="box-body" id="productviewprintdiv">
+                <div class="col-md-12">
+
+                    <div class="col-md-12 no-padding" style="color:green">
+                        <label><b>GRN INFORMATION</b></label>
+                    </div>
+
+                </div>
+                <div class="row" style="align-content:center">
+
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label><b></b></label>
+                            </div>
+                            <div class="col-md-8">
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label><b>COMPANY NAME</b></label>
+                            </div>
+                            <div class="col-md-8">
+                                {{SearchRef(Productdetail.companyid,Company)}}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label><b>SUPPLIER COMPANY</b></label>
+                            </div>
+                            <div class="col-md-8">
+                                {{SearchRef(Productdetail.supplierid,Supplier)}}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label><b>INVOICE NO</b></label>
+                            </div>
+                            <div class="col-md-8">
+                                {{Productdetail.invoiceno}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label><b>INVOICE DATE</b></label>
+                            </div>
+                            <div class="col-md-8">
+                                {{Productdetail.invoicedate |date : 'dd-MM-yyyy'}}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label><b>GROSS VALUE</b></label>
+                            </div>
+                            <div class="col-md-8">
+                                {{Productdetail.grossamount|number:2}}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label><b>ROUNDING</b></label>
+                            </div>
+                            <div class="col-md-8">
+                                {{Productdetail.otheramount|number:2}}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label><b>NET VALUE</b></label>
+                            </div>
+                            <div class="col-md-8">
+                                {{Productdetail.totalamount|number:2}}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+
+                            <div class="col-md-12 no-padding" style="color:brown">
+                                <label><b>PRODUCT INFORMATION</b></label>
+                            </div>
+
+                            <div class="col-md-12">
+                                <table fixed-header="300px" additionalheight="170" class="fixed_table" id="stockreport"
+                                       clickonremove="true">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:100px">SL.NO</th>
+                                            <th style="width:100px">BARCODE</th>
+                                            <th style="width:150px">ITEM NAME</th>
+                                            <th style="width:100px">BRAND</th>
+                                            <th style="width:140px">QTY</th>
+                                            <th style="width:140px" ng-hide="UserInfo.p_SHOWVALUE.view">B.PRICE</th>
+                                            <th style="width:100px" ng-hide="UserInfo.p_SHOWSELLINGVALUE.view">MRP</th>
+                                            <th style="width:100px" ng-hide="UserInfo.p_SHOWSELLINGVALUE.view">MARGIN%</th>
+                                            <th style="width:100px" ng-hide="UserInfo.p_SHOWSELLINGVALUE.view">S.PRICE</th>
+                                            <th style="width:120px" ng-hide="UserInfo.p_SHOWSELLINGVALUE.view">TOTAL AMT</th>
+                                            <th style="width:140px">CREATED BY</th>
+                                            <th style="width:140px">CREATED ON</th>
+                                            <th style="width:140px">MODIFIED BY</th>
+                                            <th style="width:140px">MODIFIED ON</th>
+                                            <th style="width:100px">PO INFO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in Productdetail.Lrinvoiceitems">
+                                            <td>{{item.sno}}</td>
+                                            <td>{{item.barcodes}}</td>
+                                            <td>{{SearchRef(item.Details.productid, Product)}}</td>
+                                            <td>{{SearchRef(item.Details.brandid, Brand)}}</td>
+                                            <td>{{item.buyingqty|number:2}}</td>
+                                            <td ng-hide="UserInfo.p_SHOWVALUE.view">{{item.basebuyingprice|number:2}}</td>
+                                            <td ng-hide="UserInfo.p_SHOWSELLINGVALUE.view">{{item.mrp|number:2}}</td>
+                                            <td ng-hide="UserInfo.p_SHOWSELLINGVALUE.view">{{item.marginpercentage|number:2}}</td>
+                                            <td ng-hide="UserInfo.p_SHOWSELLINGVALUE.view">{{item.sellingprice|number:2}}</td>
+                                            <td ng-hide="UserInfo.p_SHOWSELLINGVALUE.view">{{item.buyingqty*item.basebuyingprice|number:2}}</td>
+                                            <td>{{item.createduser}}</td>
+                                            <td>{{item.createdon | date:'dd/MM/yyyy'}}</td>
+                                            <td>{{item.modifieduser}}</td>
+                                            <td>{{item.modifiedon | date:'dd/MM/yyyy'}}</td>
+                                            <td>{{item.ponos}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
