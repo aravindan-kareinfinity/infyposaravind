@@ -1,0 +1,1085 @@
+﻿<!DOCTYPE html>
+<html ng-app="InfinityLab">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Quanto - retailing reinvented</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="clientside/bootstrap/css/bootstrap.css?v=25">
+    <link rel="stylesheet" href="clientside/dist/css/print.css?v=25" media="print" type="text/css" />
+    <link rel="shortcut icon" href="clientside/favicon.ico">
+    <link href="clientside/plugins/pivot/pivot.css?v=25" rel="stylesheet" />
+	
+    <!--
+    <link rel="stylesheet" href="clientside/grid/slick.grid.css?v=25">
+    <link rel="stylesheet" href="clientside/grid/slick-default-theme.css?v=25">
+    <link rel="stylesheet" href="clientside/fontawesome/css/font-awesome.min.css?v=25">
+    <link rel="stylesheet" href="clientside/ionicons/css/ionicons.min.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/Dialog/jquery-confirm.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/daterangepicker/daterangepicker-bs3.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/datepicker/datepicker3.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/datepicker/angular-datepicker.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/iCheck/all.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/datatables/dataTables.bootstrap.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/colorpicker/bootstrap-colorpicker.min.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/timepicker/bootstrap-timepicker.min.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/select2/select2.min.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/hotkey/hotkeys.css?v=25">
+    <link rel="stylesheet" href="clientside/dist/css/perfect-scrollbar.css?v=25">
+    <link rel="stylesheet" href="clientside/dist/css/loading-bar.css?v=25">
+    <link rel="stylesheet" href="clientside/dist/css/InfyPOS.css?v=25">
+    <link rel="stylesheet" href="clientside/dist/css/AdminLTE.css?v=25">
+    <link rel="stylesheet" href="clientside/dist/css/FixedHeader.css?v=25">
+    <link rel="stylesheet" href="clientside/dist/css/nontextilepos.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/ngdialog/ngDialog-theme-default.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/ngdialog/ngDialog.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/ngdialog/ngDialog-theme-plain.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/tree/angular.treeview.css?v=25">
+    <link rel="stylesheet" href="clientside/dist/css/skins/_all-skins.min.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/morris/morris.css?v=25">
+    <link rel="stylesheet" href="clientside/plugins/toastr/angular-toastr.css?v=25">
+    <link rel="stylesheet" href="clientside/grid/slick.grid.css?v=25" type="text/css" />
+    <link rel="stylesheet" href="clientside/grid/slick.pager.css?v=25" type="text/css" />
+    <link rel="stylesheet" href="clientside/grid/jquery-ui-1.8.16.custom.css?v=25"/>
+    <link rel="stylesheet" href="clientside/grid/slick-default-theme.css?v=25"/>
+    <link rel="stylesheet" href="clientside/grid/InfyGrid.css?v=25">
+        -->
+
+    <link href="clientside/plugins/summernote/summernote.min.css?v=25" rel="stylesheet">
+    <link href="clientside/fontawesome/css/font-awesome.min.css?v=25" rel="stylesheet">
+    <link href="clientside/ionicons/css/ionicons.min.css?v=25" rel="stylesheet">
+    <link href="clientside/allcss_min.css?v=25" rel="stylesheet" />
+    <link href="clientside/ngdialog_min.css?v=25" rel="stylesheet" />
+    <link href="clientside/plugins/jscrapper/jscropper.css" rel="stylesheet" />	
+ <style>
+        .sidebar-toggle {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-toggle {
+                display: inline-block !important;
+            }
+        }
+
+        .icon-bar {
+            display: block;
+            width: 22px;
+            height: 3px;
+            margin: 4px auto;
+            background-color: #333;
+        }
+    </style>
+
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini"
+      ng-keydown="F2Listener($event)"
+      ng-controller="homeController">
+    <div class="wrapper toggled" style="height: auto; min-height: 100%;">
+
+        <header class="main-header">
+            <!-- Logo -->
+            <a ui-sref="home" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini">
+                    <img src="clientside/assets/images/quanto_logo.png" style="width:67px" />
+                </span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg">
+                    <img src="clientside/assets/images/quanto-banner.png" />
+                </span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top top-gradient" style="background-color: #003d55; 
+                border-left-color: #003d55; border-left-width: 1px; border-left-style: solid; 
+                 border-bottom-color: #003d55; border-bottom-width: 1px; border-bottom-style: solid; " role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" style="background-color: #003d55" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav" ng-show="UserInfo.p_INTRAY.view && !IsKiosk">
+                        <li class="dropdown messages-menu">
+                            <a ui-sref="Intray" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-envelope-o" style="font-size: x-large; color: white"></i>
+                                <span class="label label-success">{{IntrayMsgCount}}</span>
+                            </a>
+                        </li>
+                        <li class="dropdown messages-menu">
+                            <a ui-sref="Widgets" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-pie-chart" style="font-size: x-large; color: white"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav" ng-show="IsKiosk">
+                        <li class="dropdown messages-menu">
+                            <a ui-sref="NonTextileSale" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-shopping-basket" style="font-size: x-large; color: white"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav" ng-show="UserInfo.RootUser">
+                        <li class="dropdown messages-menu">
+                            <a ng-click="SignOut()" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-power-off" style="font-size: x-large; color: white "></i>
+                                <span style="cursor:arrow">Log Out</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav" ng-hide="UserInfo.RootUser">
+                        <!-- Notifications: style can be found in dropdown.less -->
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="clientside/dist/img/man.png"
+                                     style="border: 2px solid black; border-radius: 50%;width:28px;height:28px" class="user-image" alt="User Image">
+                                <span class="hidden-xs">{{UserInfo.Title}}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+
+                                    <div style="position:absolute;top:10px;width:50px;left:2px;font-size:small;font-weight:bold;color:white">
+                                        <span ng-click="$event.stopPropagation();ShowRunningRequest();">?</span>
+                                    </div>
+
+                                    <div style="position:absolute;top:10px;width:50px;right:10px;font-size:small;font-weight:bold;color:white">
+                                        <span ng-hide="UserInfo.ShowPasscode" ng-click="UserInfo.ShowPasscode=true;$event.stopPropagation();MyPasscode();">***</span>
+                                        <span ng-show="UserInfo.ShowPasscode" ng-click="UserInfo.ShowPasscode=false;$event.stopPropagation();">
+                                            {{UserInfo.Passcode}}
+                                        </span>
+                                    </div>
+
+                                    <img src="clientside/dist/img/man.png" ng-click="$event.stopPropagation();ShowConnector()" ng-hide="ShowConnectURL"
+                                         class="img-circle" 
+                                         alt="User Image">
+
+                                    <img ng-src="{{ConnectURL}}" ng-dblclick="$event.stopPropagation();OpenConnector()"
+                                         ng-click="$event.stopPropagation();ShowConnectURL = false;" ng-show="ShowConnectURL">
+
+                                    <p>
+                                        {{UserInfo.Title}} - {{UserInfo.Designation}}
+                                        <small>Logged since {{UserInfo.LoggedOn}}</small>
+                                    </p>
+                                </li>
+
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat" ng-click="SelectLocation()">Location</a>
+                                    </div>
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat" ng-click="SelectPrinter('THERMAL')">Printer</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="#" class="btn btn-default btn-flat" ng-click="SignOut()">Sign out</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+
+                <!-- search form -->
+                <!--<form action="#" method="get" class="sidebar-form">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </form>-->
+                <!-- /.search form -->
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu" ng-show="UserInfo.RootUser && !IsKiosk">
+                    <li class="treeview">
+                        <a href="#" ui-sref="Organisation">
+                            <div style="display:inline">
+                                <img src="clientside/dist/icon/warehouse.png" class="icon-size" />
+                                <div class="row text-center subtitle">Clients</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="#" ui-sref="datamigration">
+                            <div style="display:inline">
+                                <img src="clientside/dist/icon/warehouse.png" class="icon-size" />
+                                <div class="row text-center subtitle">Migration</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="#" ui-sref="ApplicationSettings">
+                            <div style="display:inline">
+                                <img src="clientside/dist/icon/warehouse.png" class="icon-size" />
+                                <div class="row text-center subtitle">Setting</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="#" ui-sref="trace">
+                            <div style="display:inline">
+                                <img src="clientside/dist/icon/warehouse.png" class="icon-size" />
+                                <div class="row text-center subtitle">Trace</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="#" ui-sref="DefaultReferences">
+                            <div style="display:inline">
+                                <img src="clientside/dist/icon/warehouse.png" class="icon-size" />
+                                <div class="row text-center subtitle">Defaults</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+
+
+                <ul class="sidebar-menu" ng-hide="UserInfo.RootUser || IsKiosk" style="margin-top: 6px; border-top-color: white; border-top-style: solid; border-top-width: 1px;">
+                    <li class="treeview">
+                        <a href="#" ui-sref="submenusub_wh({'menu': 'sub_wh'})">
+                            <div style="display:inline">
+                                <img src="clientside/dist/icon/warehouse.png" class="icon-size" />
+                                <div class="row text-center subtitle">Warehouse</div>
+                            </div>
+                            <span class="treemenuheader">Warehouse</span>
+                            <i class="treemenuheader fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="#" ui-sref="LRInbox" ng-show="UserInfo.p_INBOX.view"><i class="fa fa-gg"></i>Dash board(WH)</a></li>
+                            <li><a href="#" ui-sref="Courier" ng-show="UserInfo.p_COURIER.view"><i class="fa fa-gg"></i>Courier</a></li>
+                            <li><a href="#" ui-sref="LREntry" ng-show="UserInfo.p_LRENTRY.view"><i class="fa fa-gg"></i>Transport Entry</a></li>
+                            <li><a href="#" ui-sref="Invoice" ng-show="UserInfo.p_LRINVOICE.view"><i class="fa fa-gg"></i>Invoice</a></li>
+                            <li><a href="#" ui-sref="LRInvoicePrice" ng-show="UserInfo.p_LRPRICER.view"><i class="fa fa-gg"></i>Product Pricing</a></li>
+							<li><a href="#" ui-sref="LRPOGrn" ng-show="UserInfo.p_POGRN.view"><i class="fa fa-gg"></i>GRN - Purchase Order</a></li>
+                            <li><a href="#" ui-sref="LRInvoiceItems" ng-show="UserInfo.p_LRPRODUCT.view"><i class="fa fa-gg"></i>Inventory Entry (GRN)</a></li>
+                            <li><a href="#" ui-sref="DirectPurchase" ng-show="UserInfo.p_DIRECTPURCHASE.view"><i class="fa fa-gg"></i>Direct Purchase Entry</a></li>
+                            <li><a href="#" ui-sref="barcode" ng-show="UserInfo.p_BARCODEGEN.view"><i class="fa fa-gg"></i>Barcode Generation</a></li>
+                            <li><a href="#" ui-sref="IssueLR" ng-show="UserInfo.p_LRISSUE.view"><i class="fa fa-gg"></i>Transport Issue Entry</a></li>
+                            <li><a href="#" ui-sref="ReceiptLR" ng-show="UserInfo.p_LRRECEIPT.view"><i class="fa fa-gg"></i>Transport Receipt Entry</a></li>
+                            <li><a href="#" ui-sref="Outward" ng-show="UserInfo.p_OUTWARD.view"><i class="fa fa-gg"></i>Stock Outward</a></li>
+                            <li><a href="#" ui-sref="ReceiveGoods" ng-show="UserInfo.p_RECEIVEGOODS.view"><i class="fa fa-gg"></i>Receive Goods</a></li>
+                            <li><a href="#" ui-sref="StockAdj" ng-show="UserInfo.p_STOCKADJUSTMENT.view"><i class="fa fa-gg"></i>Physical Stock Audit</a></li>
+                            <li><a href="#" ui-sref="PurchaseReturn" ng-show="UserInfo.p_PORETURN.view"><i class="fa fa-gg"></i>Purchase Return</a></li>
+                            <li><a href="#" ui-sref="ItemSearch" ng-show="UserInfo.p_SEARCHITEM.view"><i class="fa fa-gg"></i>Stock Item Locator</a></li>
+                            <li><a href="#" ui-sref="JobWorkSample" ng-show="UserInfo.p_JOBWORKSAMPLE.view"><i class="fa fa-gg"></i>JobWork Sample</a></li>
+                            <li><a href="#" ui-sref="skucreation" ng-show="UserInfo.p_SKUMASTER.view && (!License.manufacture && AppMode=='B2B')"><i class="fa fa-gg"></i>SKU Design</a></li>
+                            <li><a href="#" ui-sref="SalesOrder" ng-show="UserInfo.p_SALEORDER.view && (License.manufacture || AppMode=='B2B')"><i class="fa fa-gg"></i>Sales Order</a></li>
+                            <li><a href="#" ui-sref="SOInbox" ng-show="UserInfo.p_SOINBOX.view && License.manufacture"><i class="fa fa-gg"></i>Sales Order - Inbox</a></li>
+                            <li><a href="#" ui-sref="POInbox" ng-show="UserInfo.p_POINBOX.view && License.manufacture"><i class="fa fa-gg"></i>Purchase Order - Inbox</a></li>
+                            <li><a href="#" ui-sref="STOInbox" ng-show="UserInfo.p_STOINBOX.view && License.manufacture"><i class="fa fa-gg"></i>Stock Order - Inbox</a></li>
+                            <li><a href="#" ui-sref="Reports" ng-show="UserInfo.p_RPTWAREHOUSE.view"><i class="fa fa-gg"></i>Reports</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview" ng-show="License.manufacture">
+                        <a href="#" ui-sref="submenusub_mfg({'menu': 'sub_mfg'})">
+                            <div style="display:inline">
+                                <img src="clientside/dist/icon/stiching.png" class="icon-size" />
+                                <div class="row text-center subtitle">Production</div>
+                            </div>
+                            <span class="treemenuheader">Manufacturing</span>
+                            <i class="treemenuheader fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+			    <!--<li><a href="#" ui-sref="mfgdashboard" ng-show="UserInfo.p_MFGDASHBOARD.view"><i class="fa fa-gg"></i>Dashboard</a></li>-->
+                            <li><a href="#" ui-sref="GatePass" ng-show="UserInfo.p_GATEPASS.view"><i class="fa fa-gg"></i>Gate Pass</a></li>
+                            <li><a href="#" ui-sref="ComponentPO" ng-show="UserInfo.p_COMPONENTPO.view"><i class="fa fa-gg"></i>Component PO</a></li>
+                            <li><a href="#" ui-sref="BOMConsumption" ng-show="UserInfo.p_BOMCONSUMPTION.view"><i class="fa fa-gg"></i>BOM Consumption</a></li>
+                            <li><a href="#" ui-sref="bominvoice" ng-show="UserInfo.p_BOMINVOICE.view"><i class="fa fa-gg"></i>BOM Purchase</a></li>
+                            <li><a href="#" ui-sref="BOMPurchaseReturn" ng-show="UserInfo.p_BOMINVOICERETURN.view"><i class="fa fa-gg"></i>BOM Return</a></li>
+                            <li><a href="#" ui-sref="bominbox" ng-show="UserInfo.p_COMPONENTINBOX.view"><i class="fa fa-gg"></i>BOM Inbox</a></li>
+                            <li><a href="#" ui-sref="BOMOutward" ng-show="UserInfo.p_COMPONENTOUTWARD.view"><i class="fa fa-gg"></i>BOM Outward</a></li>
+                            <li><a href="#" ui-sref="BOMInward" ng-show="UserInfo.p_COMPONENTINWARD.view"><i class="fa fa-gg"></i>BOM Inward</a></li>
+                            <li><a href="#" ui-sref="Mfgswatch" ng-show="UserInfo.p_SWATCH.view"><i class="fa fa-gg"></i>Swatche/Folders</a></li>
+                            <li><a href="#" ui-sref="mfgsampleinbox" ng-show="UserInfo.p_SAMPLEINBOX.view"><i class="fa fa-gg"></i>Sample Inbox</a></li>
+                            <li><a href="#" ui-sref="workorder" ng-show="UserInfo.p_WORKORDER.view"><i class="fa fa-gg"></i>Work Order</a></li>
+                            <li><a href="#" ui-sref="joborder" ng-show="UserInfo.p_JOBORDER.view"><i class="fa fa-gg"></i>Job Order</a></li>
+                            <li><a href="#" ui-sref="woinbox" ng-show="UserInfo.p_WOINBOX.view"><i class="fa fa-gg"></i>Work Order - Inbox</a></li>
+                            <!--<li><a href="#" ui-sref="TailoringInbox" ng-show="UserInfo.p_WOINBOX.view"><i class="fa fa-gg"></i>Tailoring - Inbox</a></li>-->
+                            <li><a href="#" ui-sref="wogrn" ng-show="UserInfo.p_WOGRN.view"><i class="fa fa-gg"></i>Work Order - GRN</a></li>
+                            <li><a href="#" ui-sref="MfgTailoring" ng-show="UserInfo.p_TAILORING.view"><i class="fa fa-gg"></i>Tailoring</a></li>
+                            <li><a href="#" ui-sref="DesignGallery" ng-show="UserInfo.p_DESIGNGALLERY.view"><i class="fa fa-gg"></i>Design Gallery</a></li>
+                            <li><a href="#" ui-sref="FGBundle" ng-show="UserInfo.p_PACKSLIP.view"><i class="fa fa-gg"></i>Pack Slip</a></li>
+                            <li><a href="#" ui-sref="stockbinbox" ng-show="UserInfo.p_BINMANAGER.view"><i class="fa fa-gg"></i>BIN - Manager</a></li>
+                            <!--<li><a href="#" ui-sref="MfgAnalyser" ng-show="UserInfo.p_MFGANALYSER.view"><i class="fa fa-gg"></i>Stock Analyser</a></li>-->
+                            <li><hr /></li>
+                            <li><a href="#" ui-sref="skucreation" ng-show="UserInfo.p_SKUMASTER.view"><i class="fa fa-gg"></i>Design - SKU</a></li>
+                            <li><a href="#" ui-sref="bommaster" ng-show="UserInfo.p_BOMMASTER.view"><i class="fa fa-gg"></i>Component Master</a></li>
+                            <!--<li><a href="#" ui-sref="WOOrchestration" ng-show="UserInfo.p_WOORCHESTRATION.view"><i class="fa fa-gg"></i>Orchestration</a></li>-->
+                            <li><a href="#" ui-sref="BinStorage" ng-show="UserInfo.p_BINSTORAGE.view"><i class="fa fa-gg"></i>BIN Configuration</a></li>
+                            <li><a href="#" ui-sref="UniqueSequence" ng-show="UserInfo.p_UNIQUESEQUENCE.view"><i class="fa fa-gg"></i>Unique Sequence</a></li>
+                            <li><a href="#" ui-sref="MGRReflist" ng-show="UserInfo.p_MFGRREFERENCEMASTER.view"><i class="fa fa-gg"></i>Configuration</a></li>
+                            <li><a href="#" ui-sref="MFGReports" ng-show="UserInfo.p_RPTMFG.view"><i class="fa fa-gg"></i>Reports</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#" ui-sref="submenusub_crm({'menu': 'sub_crm'})">
+                            <div style="display:inline">
+                                <img src="clientside/dist/icon/crm6.png" class="icon-size" />
+                                <div class="row text-center subtitle">CRM</div>
+                            </div>
+                            <span class="treemenuheader">CRM</span>
+                            <i class="treemenuheader fa fa-angle-left pull-right"></i>
+                        </a>
+
+                        <ul class="treeview-menu">
+                            <li><a href="#" ui-sref="Customer" ng-show="UserInfo.p_CUSTOMERMASTER.view"><i class="fa fa-gg"></i>Customer</a></li>
+                            <li><a href="#" ui-sref="CustomerAdvManager" ng-show="UserInfo.p_CUSTOMERORDERS.view"><i class="fa fa-gg"></i>Customer Orders</a></li>
+                            <li><a href="#" ui-sref="BillPrint" ng-show="UserInfo.p_BILLPRINT.view"><i class="fa fa-gg"></i>Bill Print</a></li>
+                            <li><a href="#" ui-sref="LoyaltyMgmt" ng-show="UserInfo.p_CUSTOMERLOYALTYMGMT.view"><i class="fa fa-gg"></i>Loyalty Management</a></li>
+                            <li><a href="#" ui-sref="GiftVoucher" ng-show="UserInfo.p_GIFTVOUCHER.view"><i class="fa fa-gg"></i>Gift Voucher</a></li>
+                            <li><a href="#" ui-sref="Coupon" ng-show="UserInfo.p_COUPONS.view"><i class="fa fa-gg"></i>Gift Coupon</a></li>
+                            <li><a href="#" ui-sref="PriceList" ng-show="UserInfo.p_PRICELIST.view"><i class="fa fa-gg"></i>Price List</a></li>
+                            <li><a href="#" ui-sref="CRMAnalyser" ng-show="UserInfo.p_CUSTOMERANALYSER.view"><i class="fa fa-gg"></i>CRM Analyser</a></li>
+                            <li><a href="#" ui-sref="SendSMS" ng-show="UserInfo.p_CUSTOMERREPORTS.view"><i class="fa fa-gg"></i>Send SMS</a></li>
+                            <li><a href="#" ui-sref="FBDashboard" ng-show="UserInfo.p_FBDASHBOARD.view"><i class="fa fa-gg"></i>Feedback Dashboard</a></li>
+                            <li><a href="#" ui-sref="FBQuestion" ng-show="UserInfo.p_FBQUESTION.view"><i class="fa fa-gg"></i>Feedback Questions</a></li>
+                            <li><a href="#" ui-sref="FBReport" ng-show="UserInfo.p_FBREPORT.view"><i class="fa fa-gg"></i>Feedback Report</a></li>
+                            <li><a href="#" ui-sref="FBConfig" ng-show="UserInfo.p_FBCONFIG.view"><i class="fa fa-gg"></i>Feedback Form Configuration</a></li>
+                            <li><a href="#" ui-sref="CustomerDivert" ng-show="UserInfo.p_CUSTOMERDIVERT.view"><i class="fa fa-gg"></i>Customer Divert</a></li>
+                            <li><a href="#" ui-sref="LeadManagement" ng-show="UserInfo.p_LEADMANAGEMENT.view"><i class="fa fa-gg"></i>Lead Management</a></li>
+                            <li><a href="#" ui-sref="CRMConfig" ng-show="UserInfo.p_CRMCONFIGURATION.view"><i class="fa fa-gg"></i>Registration Form Configuration</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#" ui-sref="submenusub_sales({'menu': 'sub_sales'})">
+                            <div style="display:inline">
+                                <img src="clientside/dist/icon/sale.png" class="icon-size" />
+                                <div class="row text-center subtitle">Sales</div>
+                            </div>
+                            <span class="treemenuheader">Sales</span>
+                            <i class="treemenuheader fa fa-angle-left pull-right"></i>
+                        </a>
+
+                        <ul class="treeview-menu">
+                            <li ng-show="ShowDeliveryChallan"><a href="#" ui-sref="BulkSaleOffer" ng-show="UserInfo.p_BULKSALES.view"><i class="fa fa-gg"></i>Delivery Challan</a></li>
+                            <li ng-show="ShowEstimateBill"><a href="#" ui-sref="EstimateSaleOffer" ng-show="UserInfo.p_ESTIMATESALE.view"><i class="fa fa-gg"></i>Estimate Sale</a></li>
+                            <li><a href="#" ui-sref="SalesOffer" ng-show="UserInfo.p_SALES.view"><i class="fa fa-gg"></i>POS Sales</a></li>
+                            <li><a href="#" ui-sref="SalesOfferReturn" ng-show="UserInfo.p_SALERETURN.view"><i class="fa fa-gg"></i>POS Sales Return</a></li>
+                            <li><a href="#" ui-sref="POSInvoice" ng-show="UserInfo.p_POSINVOICE.view"><i class="fa fa-gg"></i>Dealer Sales Invoice</a></li>
+                            <li><a href="#" ui-sref="POSInvoiceReturn" ng-show="UserInfo.p_POSINVOICE.view"><i class="fa fa-gg"></i>Dealer Invoice Return</a></li>
+                            <!--<li><a href="#" ui-sref="SaleB2B" ng-show="UserInfo.p_B2BSALES.view"><i class="fa fa-gg"></i>B2B Sales</a></li>
+                            <li><a href="#" ui-sref="SaleReturnB2B" ng-show="UserInfo.p_B2BSALES.view"><i class="fa fa-gg"></i>B2B Sales Return</a></li>
+                            <li><a href="#" ui-sref="SaleB2BApproval" ng-show="License.b2bbu && UserInfo.p_B2BSALES.view"><i class="fa fa-gg"></i>B2B Sales On Approval</a></li>-->
+                            <li><a href="#" ui-sref="NonTextileSale" ng-show="UserInfo.p_TOUCHSALES.view"><i class="fa fa-gg"></i>Touch Sales</a></li>
+                            <li><a href="#" ui-sref="Settlements" ng-show="UserInfo.p_SETTLEMENT.view"><i class="fa fa-gg"></i>Settlement</a></li>
+                            <li><a href="#" ui-sref="Delivery" ng-show="UserInfo.p_DELIVERY.view"><i class="fa fa-gg"></i>Delivery</a></li>
+
+                            <li ng-show="ShowDeliveryRack"><a href="#" ui-sref="DeliveryRack" ng-show="UserInfo.p_DELIVERYRACK.view"><i class="fa fa-gg"></i>Delivery Rack</a></li>
+
+                            <li><a href="#" ui-sref="GiftDelivery" ng-show="UserInfo.p_GIFTDELIVERY.view"><i class="fa fa-gg"></i>Gift Delivery</a></li>
+                            <li><a href="#" ui-sref="GiftDeliveryIssue" ng-show="UserInfo.p_GIFTDELIVERYISSUE.view"><i class="fa fa-gg"></i>Gift Delivery Issue</a></li>
+                            <li><a href="#" ui-sref="GiftCouponIssue" ng-show="UserInfo.p_GIFTCOUPONISSUE.view"><i class="fa fa-gg"></i>Gift Coupon Issue</a></li>
+                            <li><a href="#" ui-sref="Alteration" ng-show="UserInfo.p_ALTERATION.view"><i class="fa fa-gg"></i>Alteration</a></li>
+
+                            <li ng-hide="ShowDeliveryChallan"><a href="#" ui-sref="BulkSaleOffer" ng-show="UserInfo.p_BULKSALES.view"><i class="fa fa-gg"></i>Sales on Approval</a></li>
+                            <li><a href="#" ui-sref="ItemSearch" ng-show="UserInfo.p_SEARCHITEM.view"><i class="fa fa-gg"></i>Stock Item Locator</a></li>
+                            <li><a href="#" ui-sref="Openingcash" ng-show="UserInfo.p_CASHOPENING.view"><i class="fa fa-gg"></i>Cash Opening</a></li>
+                            <li><a href="#" ui-sref="Closingcash" ng-show="UserInfo.p_CASHCLOSING.view"><i class="fa fa-gg"></i>Cash Closing</a></li>
+                            <li><a href="#" ui-sref="EmpSticker" ng-show="UserInfo.p_EMPLOYEESTICKER.view"><i class="fa fa-gg"></i>Employee Sticker</a></li>
+                            <li><a href="#" ui-sref="PromotionStatus" ng-show="License.promotions && UserInfo.p_SALEPROMOTION.view"><i class="fa fa-gg"></i>Promotion Activator</a></li>
+                            <li><a href="#" ui-sref="SalesInbox" ng-show="UserInfo.p_B2BINBOX.view"><i class="fa fa-gg"></i>B2B Sales Inbox</a></li>
+                            <li><a href="#" ui-sref="EcomInbox" ng-show="ShowEcommerce && UserInfo.p_ECOMINBOX.view"><i class="fa fa-gg"></i>ECOM Inbox</a></li>
+                            <li><a href="#" ui-sref="SReports" ng-show="UserInfo.p_RPTRETAIL.view"><i class="fa fa-gg"></i>Reports</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#" ui-sref="submenusub_fin({'menu': 'sub_fin'})">
+                            <div style="display:inline">
+
+                                <img src="clientside/dist/icon/finance.png" class="icon-size" />
+                                <div class="row text-center subtitle">Finance</div>
+                            </div>
+
+                            <span class="treemenuheader">Finance</span>
+                            <i class="treemenuheader fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="#" ui-sref="supplierpayment" ng-show="UserInfo.p_SUPPLIERPAYMENT.view"><i class="fa fa-gg"></i>Supplier Payment</a></li>
+                            <li><a href="#" ui-sref="transportpayment" ng-show="UserInfo.p_TRANSPORTPAYMENT.view"><i class="fa fa-gg"></i>Transport Payment</a></li>
+                            <li><a href="#" ui-sref="agentpayment" ng-show="UserInfo.p_AGENTPAYMENT.view"><i class="fa fa-gg"></i>Agent Payment</a></li>
+                            <li><a href="#" ui-sref="customerpayment" ng-show="UserInfo.p_CUSTOMERPAYMENT.view"><i class="fa fa-gg"></i>Credit Sale Collection</a></li>
+                            <li><a href="#" ui-sref="customercreditnote" ng-show="UserInfo.p_CUSTOMERCREDITNOTE.view"><i class="fa fa-gg"></i>Credit Note</a></li>
+                            <li><a href="#" ui-sref="ledger" ng-show="UserInfo.p_MANAGELEDGER.view"><i class="fa fa-gg"></i>Manage Ledger</a></li>
+                            <li><a href="#" ui-sref="voucher" ng-show="UserInfo.p_VOUCHERENTRY.view"><i class="fa fa-gg"></i>Voucher Entry</a></li>
+                            <li><a href="#" ui-sref="petticash" ng-show="UserInfo.p_PETTYCASH.view && !UserInfo.appsettings.finance_pettycashvoucher"><i class="fa fa-gg"></i>Petty Cash</a></li>
+                            <li><a href="#" ui-sref="petticash" ng-show="UserInfo.p_PETTYCASH.view && UserInfo.appsettings.finance_pettycashvoucher"><i class="fa fa-gg"></i>Cash Ledger</a></li>
+
+                            <li><a href="#" ui-sref="dailypl" ng-show="UserInfo.p_DAILYPANDL.view"><i class="fa fa-gg"></i>Daily P&amp;L</a></li>
+                            <li><a href="#" ui-sref="ChequeBox" ng-show="UserInfo.p_CHEQUEBOOK.view"><i class="fa fa-gg"></i>Cheque Book</a></li>
+
+                            <li><a href="#" ui-sref="BRS" ng-show="UserInfo.p_BRS.view"><i class="fa fa-gg"></i>BRS Book</a></li>
+
+                            <li><a href="#" ui-sref="ledgerpayable" ng-show="UserInfo.p_LEDGERPAYABLE.view"><i class="fa fa-gg"></i>Payable</a></li>
+                            <li><a href="#" ui-sref="ledgerreceivable" ng-show="UserInfo.p_LEDGERRECEIVABLE.view"><i class="fa fa-gg"></i>Receivable</a></li>
+
+                            <li><a href="#" ui-sref="daybook" ng-show="UserInfo.p_DAYBOOK.view"><i class="fa fa-gg"></i>Daybook</a></li>
+                            <li><a href="#" ui-sref="fintds" ng-show="UserInfo.p_FINTDS.view"><i class="fa fa-gg"></i>TDS Transactions</a></li>
+                            <li><a href="#" ui-sref="fingst" ng-show="UserInfo.p_FINGST.viewe"><i class="fa fa-gg"></i>GST Transactions</a></li>
+                            <li><a href="#" ui-sref="finanalyser" ng-show="UserInfo.p_FINANALYSER.view"><i class="fa fa-gg"></i>Analyser</a></li>
+                            <li><a href="#" ui-sref="trailbalance" ng-show="UserInfo.p_TRAILBALANCE.view"><i class="fa fa-gg"></i>Trail Balance</a></li>
+
+                            <li><a href="#" ui-sref="tradingaccount" ng-show="UserInfo.p_TRADINGACCOUNT.view"><i class="fa fa-gg"></i>Trading Account</a></li>
+                            <li><a href="#" ui-sref="profitandloss" ng-show="UserInfo.p_PROFITANDLOSS.view"><i class="fa fa-gg"></i>Profit &amp; Loss Account</a></li>
+                            <li><a href="#" ui-sref="balancesheet" ng-show="UserInfo.p_BALANCESHEET.view"><i class="fa fa-gg"></i>Balance Sheet</a></li>
+
+                            <li><a href="#" ui-sref="loanreconciliation" ng-show="UserInfo.p_LOANRECONCILIATION.view"><i class="fa fa-gg"></i>Loan Reconciliation</a></li>
+                            <li><a href="#" ui-sref="incentiveprocess" ng-show="UserInfo.p_INCENTIVEREPORT.view"><i class="fa fa-gg"></i>Incentive Report</a></li>
+                            <li><a href="#" ui-sref="tallyintegration" ng-show="UserInfo.p_TALLYINTEGRATION.view"><i class="fa fa-gg"></i>Tally Integration</a></li>
+                            <li><a href="#" ui-sref="TallyConfig" ng-show="UserInfo.p_TALLYCONFIG.view"><i class="fa fa-gg"></i>Tally Configuration</a></li>
+                            <li><a href="#" ui-sref="OpeningBalance" ng-show="UserInfo.p_LEDGEROB.view"><i class="fa fa-gg"></i>Opening Balance</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#" ui-sref="submenusub_store({'menu': 'sub_store'})">
+                            <div style="display:inline">
+                                <img src="clientside/dist/icon/purchase.png" class="icon-size" />
+                                <div class="row text-center subtitle">Store</div>
+                            </div>
+                            <span class="treemenuheader">Store</span>
+                            <i class="treemenuheader fa fa-angle-left pull-right"></i>
+                        </a>
+
+                        <ul class="treeview-menu">
+                            <li><a href="#" ui-sref="Inward" ng-show="UserInfo.p_INWARD.view"><i class="fa fa-gg"></i>Stock Inward</a></li>
+                            <li><a href="#" ui-sref="ReturnGoods" ng-show="UserInfo.p_TRANSFERGOODS.view"><i class="fa fa-gg"></i>Transfer Goods</a></li>
+			    <!--<li><a href="#" ui-sref="SalesEdit" ng-show="UserInfo.p_BILLEDIT.view"><i class="fa fa-gg"></i>Bill Edit</a></li>-->
+                            <li><a href="#" ui-sref="JobWorkInBox" ng-show="License.jobwork && (UserInfo.p_STOREJOBWORK.view || UserInfo.p_STOREJOBWORKGRN.view)"><i class="fa fa-gg"></i>Job Work - Inbox</a></li>
+                            <!--<li><a href="#" ui-sref="JobWork" ng-show="UserInfo.p_STOREJOBWORK.view"><i class="fa fa-gg"></i>Job Work Order</a></li>
+                            <li><a href="#" ui-sref="JobWorkGRN" ng-show="UserInfo.p_STOREJOBWORKGRN.view"><i class="fa fa-gg"></i>Job Work GRN</a></li>-->
+                            <!--<li><a href="#" ui-sref="TailoringOrder" ng-show="UserInfo.p_STORETAILORINGORDER.view"><i class="fa fa-gg"></i>Tailoring Order</a></li>-->
+                            <li><a href="#" ui-sref="SplitBarcode" ng-show="UserInfo.p_SPLITBARCODE.view"><i class="fa fa-gg"></i>Split Barcode</a></li>
+                            <li><a href="#" ui-sref="PackBarcode" ng-show="UserInfo.p_GIFTPACK.view"><i class="fa fa-gg"></i>Gift Pack Creation</a></li>
+                            <li><a href="#" ui-sref="LastBitBarcode" ng-show="UserInfo.p_LASTBIT.view"><i class="fa fa-gg"></i>Last Bit Conversion</a></li>
+                            <li><a href="#" ui-sref="PriceChanger" ng-show="UserInfo.p_PRICECHANGER.view"><i class="fa fa-gg"></i>Price Changer</a></li>
+                            <li><a href="#" ui-sref="StockManagement" ng-show="UserInfo.p_STOCKMARKER.view"><i class="fa fa-gg"></i>Stock Marker</a></li>
+                            <li><a href="#" ui-sref="MissingStock" ng-show="UserInfo.p_STOCKENTRY.view"><i class="fa fa-gg"></i>Direct Stock Entry</a></li>
+                            <li><a href="#" ui-sref="StockAdj" ng-show="UserInfo.p_STOCKADJUSTMENT.view"><i class="fa fa-gg"></i>Physical Stock Audit</a></li>
+                            <li><a href="#" ui-sref="PromotionScheme" ng-show="License.promotions && UserInfo.p_SALEPROMOTION.view"><i class="fa fa-gg"></i>Sale Promotion Scheme</a></li>
+                            <li><a href="#" ui-sref="ProductRequestForm" ng-show="UserInfo.p_POREQUESTFORM.view"><i class="fa fa-gg"></i>Purchase Request</a></li>
+                            <li><a href="#" ui-sref="ProductRequestQueue" ng-show="UserInfo.p_POREQUESTQUEUE.view"><i class="fa fa-gg"></i>Purchase Request Queue</a></li>
+                            <li><a href="#" ui-sref="PurchaseOrder" ng-show="UserInfo.p_PURCHASEORDER.view"><i class="fa fa-gg"></i>Purchase Order</a></li>
+                            <li><a href="#" ui-sref="StoreTransaction" ng-show="UserInfo.p_STORETRANSACTION.view"><i class="fa fa-gg"></i>Store Transaction</a></li>
+			    <li><a href="#" ui-sref="Dumping" ng-show="UserInfo.p_DUMPING.view"><i class="fa fa-gg"></i>Dumping</a></li>
+                            <li><a href="#" ui-sref="DailyPrice" ng-show="UserInfo.p_DAILYPRICE.view"><i class="fa fa-gg"></i>Daily Price</a></li>
+                            <!--<li><a href="#" ui-sref="DOA" ng-show="UserInfo.p_DEATHONARRIVAL.view"><i class="fa fa-gg"></i>Death On Arrival</a></li>
+                            <li><a href="#" ui-sref="PriceDrop" ng-show="UserInfo.p_PRICEDROP.view"><i class="fa fa-gg"></i>Price Drop</a></li>
+                            <li><a href="#" ui-sref="DailyPrice" ng-show="UserInfo.p_DAILYPRICE.view"><i class="fa fa-gg"></i>Daily Price</a></li>
+                            <li><a href="#" ui-sref="Recycle" ng-show="UserInfo.p_RECYCLE.view"><i class="fa fa-gg"></i>Recycle</a></li>
+                            <li><a href="#" ui-sref="BuyBack" ng-show="UserInfo.p_BUYBACK.view"><i class="fa fa-gg"></i>Buy Back</a></li>
+                            <li><a href="#" ui-sref="Recharge" ng-show="UserInfo.p_RECHARGE.view"><i class="fa fa-gg"></i>Recharge</a></li>-->
+                        </ul>
+                    </li>
+                    <li class="treeview" ng-show="License.payroll">
+                        <a href="#" ui-sref="submenusub_hr({'menu': 'sub_hr'})">
+
+
+                            <div style="display:inline">
+                                <img src="clientside/dist/icon/hr.png" class="icon-size" />
+                                <div class="row text-center subtitle">HR</div>
+                            </div>
+                            <span class="treemenuheader">Human Resources</span>
+                            <i class="treemenuheader fa fa-angle-left pull-right"></i>
+                        </a>
+
+                        <ul class="treeview-menu">
+                            <li><a href="#" ui-sref="Employee" ng-show="UserInfo.p_EMPLOYEE.view"><i class="fa fa-gg"></i>Employee</a></li>
+                            <li><a href="#" ui-sref="SalaryStructure" ng-show="UserInfo.p_SALARYSTRUCTURE.view"><i class="fa fa-gg"></i>Salary Structure</a></li>
+                            <li><a href="#" ui-sref="SalaryManagement" ng-show="UserInfo.p_SALARYMGMT.view"><i class="fa fa-gg"></i>Salary Management</a></li>
+                            <li><a href="#" ui-sref="TagetManagement" ng-show="UserInfo.p_TARGETMGMT.view"><i class="fa fa-gg"></i>Target Management</a></li>
+                            <li><a href="#" ui-sref="EmployeeIncharge" ng-show="UserInfo.p_EMPLOYEEINCHARGE.view"><i class="fa fa-gg"></i>Incharge Management</a></li>
+
+                            <li><a href="#" ui-sref="IncrementManagement" ng-show="UserInfo.p_INCREMENTMGMT.view"><i class="fa fa-gg"></i>Increment Management</a></li>
+                            <li><a href="#" ui-sref="SalaryDeduction" ng-show="UserInfo.p_SALARYDEDUCTION.view"><i class="fa fa-gg"></i>Salary Deduction</a></li>
+                            <li><a href="#" ui-sref="PayrollProcessing" ng-show="UserInfo.p_PAYROLL.view"><i class="fa fa-gg"></i>Payroll Processing</a></li>
+                            <li><a href="#" ui-sref="EmployeeSalary" ng-show="UserInfo.p_PAYROLL.view"><i class="fa fa-gg"></i>Custom Payroll</a></li>
+                            <li><a href="#" ui-sref="AdditionalPayroll" ng-show="UserInfo.p_ADDITIONALPAYROLL.view"><i class="fa fa-gg"></i>Additional Payroll</a></li>
+                            <li><a href="#" ui-sref="BonusProcessing" ng-show="UserInfo.p_BOUNSPAYROLL.view"><i class="fa fa-gg"></i>Bonus Processing</a></li>
+                            <li><a href="#" ui-sref="Advance" ng-show="UserInfo.p_EMPADVANCE.view"><i class="fa fa-gg"></i>Employee Advance</a></li>
+                            <li><a href="#" ui-sref="PaySlip" ng-show="UserInfo.p_PAYSLIP.view"><i class="fa fa-gg"></i>Pay Slip</a></li>
+                            <li><a href="#" ui-sref="ShiftAllocation" ng-show="UserInfo.p_SHIFTALLOCATION.view"><i class="fa fa-gg"></i>Shift Allocation</a></li>
+                            <li><a href="#" ui-sref="EmployeeLeave" ng-show="UserInfo.p_EMPLOYEELEAVE.view"><i class="fa fa-gg"></i>Employee Leave</a></li>
+                            <li><a href="#" ui-sref="PermissionSlip" ng-show="UserInfo.p_EMPLOYEEPERMISSION.view"><i class="fa fa-gg"></i>Permission/Leave Slip </a></li>
+
+                            <li><a href="#" ui-sref="holiday" ng-show="UserInfo.p_HOLIDAYMASTER.view"><i class="fa fa-gg"></i>Holiday Master</a></li>
+                            <li><a href="#" ui-sref="empinout" ng-show="UserInfo.p_EMPLOYEEINOUT.view"><i class="fa fa-gg"></i>Employee In/Out</a></li>
+                            <li><a href="#" ui-sref="formgeneration" ng-show="UserInfo.p_FORMGENERATION.view"><i class="fa fa-gg"></i>Form Generation</a></li>
+                            <li><a href="#" ui-sref="payrollreport" ng-show="UserInfo.p_RPTPAYROLL.view"><i class="fa fa-gg"></i>Payroll Report</a></li>
+                            <li><a href="#" ui-sref="HRReport" ng-show="UserInfo.p_RPTHR.view"><i class="fa fa-gg"></i>HR Report</a></li>
+                            <li><a href="#" ui-sref="HRDashboard" ng-show="UserInfo.p_RPTHRDASHBOARD.view"><i class="fa fa-gg"></i>HR Dashboard</a></li>
+                            <li><a href="#" ui-sref="FineCalc" ng-show="UserInfo.p_FINEREPORT.view"><i class="fa fa-gg"></i>Fine Calculation</a></li>
+                            <li><a href="#" ui-sref="HRReflist" ng-show="UserInfo.p_HRREFERENCEMASTER.view"><i class="fa fa-gg"></i>Configuration</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview" ng-show="License.basicanalytical || License.advanceanalytical">
+                        <a href="#" ui-sref="submenusub_anal({'menu': 'sub_anal'})">
+                            <div style="display:inline">
+                                <img src="clientside/dist/icon/analytical.png" class="icon-size" />
+                                <div class="row text-center subtitle">Analytical</div>
+                            </div>
+
+                            <span class="treemenuheader">Analytical Solution</span>
+                            <i class="treemenuheader fa fa-angle-left pull-right"></i>
+                        </a>
+
+                        <ul class="treeview-menu">
+                            <li><a href="#" ui-sref="StockAnalyser" ng-show="UserInfo.p_STOCKANALYSER.view"><i class="fa fa-gg"></i>360* Stock Analyzer</a></li>
+                            <li><a href="#" ui-sref="PurchaseAnalyser" ng-show="UserInfo.p_PURCHASEANALYSER.view"><i class="fa fa-gg"></i>360* Purchase Analyzer</a></li>
+                            <li><a href="#" ui-sref="PRAnalyser" ng-show="UserInfo.p_PRANALYSER.view"><i class="fa fa-gg"></i>360* Purchase Return</a></li>
+                            <li><a href="#" ui-sref="SalesAnalyser" ng-show="UserInfo.p_SALESANALYSER.view"><i class="fa fa-gg"></i>360* Sales Analyzer</a></li>
+                            <li><a href="#" ui-sref="SalesComparer" ng-show="UserInfo.p_SALESCOMPARER.view && License.advanceanalytical"><i class="fa fa-gg"></i>Sales Comparer</a></li>
+                            <li><a href="#" ui-sref="SalesVsPurchase" ng-show="UserInfo.p_SALESVSPURCHASE.view && License.advanceanalytical"><i class="fa fa-gg"></i>Sales Vs Purchase</a></li>
+                            <li><a href="#" ui-sref="SalesVsStock" ng-show="UserInfo.p_SALESVSSTOCK.view && License.advanceanalytical"><i class="fa fa-gg"></i>Sales Vs Stock</a></li>
+      			    <li><a href="#" ui-sref="StockMarkerAnalyser" ng-show="UserInfo.p_SMANALYSER.view"><i class="fa fa-gg"></i>Stock Marker Analyzer</a></li>
+                            <li><a href="#" ui-sref="ReorderReport" ng-show="UserInfo.p_REORDER.view"><i class="fa fa-gg"></i>Reorder Status</a></li>
+                            <li><a href="#" ui-sref="ReportBuilder" ng-show="UserInfo.p_REPORTBUILDER.view"><i class="fa fa-gg"></i>Report Builder</a></li>
+                            <li><a href="#" ui-sref="PurchaseBudget" ng-show="UserInfo.p_PURCHASEBUDGET.view"><i class="fa fa-gg"></i>Purchase Budget</a></li>
+			    <li><a href="#" ui-sref="ProductGallery" ng-show="UserInfo.p_PRODUCTGALLERY.view && License.imagegallery"><i class="fa fa-gg"></i>Product Gallery</a></li>
+                            <li><a href="#" ui-sref="PurchasePlanner" ng-show="UserInfo.p_PURCHASEPLANNER.view && License.advanceanalytical"><i class="fa fa-gg"></i>Purchase Planner</a></li>
+                            <!--<li><a href="#" ui-sref="SalesPlanner" ng-show="UserInfo.p_SALESPLANNER.view && License.advanceanalytical"><i class="fa fa-gg"></i>Sales Planner</a></li>
+                            <li><a href="#" ui-sref="SalesConversionAnalyser" ng-show="UserInfo.p_REVENUEGENERATION.view && License.advanceanalytical"><i class="fa fa-gg"></i>Revenue Generation</a></li>
+                            <li><a href="#" ui-sref="CoverDaysAnalyser" ng-show="UserInfo.p_COVERDAYS.view && License.advanceanalytical"><i class="fa fa-gg"></i>Cover Days</a></li>
+                            <li><a href="#" ui-sref="ProductMovement" ng-show="UserInfo.p_RPTPRODUCTMOVEMENT.view && License.advanceanalytical"><i class="fa fa-gg"></i>Product Movement</a></li>-->
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#" ui-sref="submenusub_pro({'menu': 'sub_pro'})">
+
+                            <div style="display:inline">
+
+                                <img src="clientside/dist/icon/product.png" class="icon-size" />
+                                <div class="row text-center subtitle">Masters</div>
+                            </div>
+
+                            <span class="treemenuheader">Masters</span>
+                            <i class="treemenuheader fa fa-angle-left pull-right"></i>
+                        </a>
+
+                        <ul class="treeview-menu">
+                            <li><a href="#" ui-sref="Product" ng-show="UserInfo.p_PRODUCTMASTER.view"><i class="fa fa-gg"></i>Product</a></li>
+                            <li><a href="#" ui-sref="ProductDesignMaster" ng-show="ShowProductDesign && UserInfo.p_PRODUCTDESIGN.view"><i class="fa fa-gg"></i>Product Design</a></li>
+                            <li><a href="#" ui-sref="Brand" ng-show="UserInfo.p_BRANDMASTER.view"><i class="fa fa-gg"></i>Brand</a></li>
+                            <li><a href="#" ui-sref="Tax" ng-show="UserInfo.p_TAXMASTER.view"><i class="fa fa-gg"></i>Tax</a></li>
+                            <li><a href="#" ui-sref="Items" ng-show="UserInfo.p_ITEMMASTER.view"><i class="fa fa-gg"></i>Item</a></li>
+                            <li><a href="#" ui-sref="supplier" ng-show="UserInfo.p_SUPPLIERMASTER.view"><i class="fa fa-gg"></i>Supplier</a></li>
+                            <li><a href="#" ui-sref="supplierproductgroups" ng-show="UserInfo.p_SUPPLIERPRODUCTGROUPS.view"><i class="fa fa-gg"></i>Vendor Agreement</a></li>
+                            <li><a href="#" ui-sref="Agent" ng-show="UserInfo.p_AGENTMASTER.view"><i class="fa fa-gg"></i>Agent</a></li>
+                            <li><a href="#" ui-sref="Transport" ng-show="UserInfo.p_TRANSPORTMASTER.view"><i class="fa fa-gg"></i>Transport</a></li>
+                            <li><a href="#" ui-sref="Tailor" ng-show="UserInfo.p_TAILORMASTER.view"><i class="fa fa-gg"></i>Tailor</a></li>
+                            <li><a href="#" ui-sref="ServiceCenter" ng-show="UserInfo.p_SERVICECENTERMASTER.view"><i class="fa fa-gg"></i>Service Center</a></li>
+                            <li><a href="#" ui-sref="BuyBackScheme" ng-show="UserInfo.p_BUYBACKSCHEME.view"><i class="fa fa-gg"></i>Buy Back Scheme</a></li>
+                            <li><a href="#" ui-sref="RechargeScheme" ng-show="UserInfo.p_RECHARGESCHEME.view"><i class="fa fa-gg"></i>Recharge Operators</a></li>
+                            <li><a href="#" ui-sref="EMIScheme" ng-show="UserInfo.p_EMISCHEME.view"><i class="fa fa-gg"></i>EMI Scheme</a></li>
+                            <li><a href="#" ui-sref="Employee" ng-show="UserInfo.p_EMPLOYEE.view && !License.payroll"><i class="fa fa-gg"></i>Employee</a></li>
+                            <li><a href="#" ui-sref="EmployeeIncharge" ng-show="UserInfo.p_EMPLOYEEINCHARGE.view && !License.payroll"><i class="fa fa-gg"></i>Incharge Management</a></li>
+                            <li><a href="#" ui-sref="empinout" ng-show="UserInfo.p_EMPLOYEEINOUT.view && !License.payroll"><i class="fa fa-gg"></i>Employee In/Out</a></li>
+                            <li><a href="#" ui-sref="HRReflist" ng-show="UserInfo.p_HRREFERENCEMASTER.view && !License.payroll"><i class="fa fa-gg"></i>HR Configuration</a></li>
+                            <li><a href="#" ui-sref="SalaryManagement" ng-show="UserInfo.p_SALARYMGMT.view && !License.payroll"><i class="fa fa-gg"></i>Salary Management</a></li>
+                            <li><a href="#" ui-sref="empinout" ng-show="UserInfo.p_EMPLOYEEINOUT.view && !License.payroll"><i class="fa fa-gg"></i>Employee In/Out</a></li>
+                            <li><a href="#" ui-sref="ProductReflist" ng-show="UserInfo.p_PRDREFERENCEMASTER.view"><i class="fa fa-gg"></i>Product Attributes</a></li>
+                            <li><a href="#" ui-sref="Referencelist" ng-show="UserInfo.p_REFERENCEMASTER.view"><i class="fa fa-gg"></i>Attributes</a></li>
+                            <li><a href="#" ui-sref="AttributeMapping" ng-show="UserInfo.p_ATTRIBUTEFILTER.view"><i class="fa fa-gg"></i>Attribute Filter</a></li>
+                            <!--<li><a href="#" ui-sref="RefillBox" ng-show="UserInfo.p_REFILLBOX.view"><i class="fa fa-gg"></i>Refill Box</a></li>-->
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#" ui-sref="submenusub_set({'menu': 'sub_set'})">
+                            <div style="display:inline">
+                                <img src="clientside/dist/icon/settings.png" class="icon-size" />
+                                <div class="row text-center subtitle">Setting</div>
+                            </div>
+                            <span class="treemenuheader">Settings</span>
+                            <i class="treemenuheader fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="#" ui-sref="Organisation" ng-show="UserInfo.RootUser"><i class="fa fa-gg"></i>Organisation</a></li>
+                            <li><a href="#" ui-sref="Company" ng-show="UserInfo.p_COMPANYMASTER.view"><i class="fa fa-gg"></i>Company</a></li>
+                            <li><a href="#" ui-sref="IncentiveStatus" ng-show="UserInfo.p_INCENTIVESTATUS.view"><i class="fa fa-gg"></i>Incentive Configuration</a></li>
+                            <li><a href="#" ui-sref="User" ng-show="UserInfo.p_USERMASTER.view"><i class="fa fa-gg"></i>User Management</a></li>
+                            <li><a href="#" ui-sref="NumberConfiguration" ng-show="UserInfo.p_NUMBERCONFIG.view"><i class="fa fa-gg"></i>Number Configuration</a></li>
+                            <li><a href="#" ui-sref="ApplicationSettings" ng-show="UserInfo.p_APPLICATIONSETTING.view"><i class="fa fa-gg"></i>Application Settings</a></li>
+                            <li><a href="#" ui-sref="ReportConfiguration" ng-show="UserInfo.p_RPTCONFIGURATION.view"><i class="fa fa-gg"></i>Printing Configuration</a></li>
+                            <li><a href="#" ui-sref="Schedular" ng-show="UserInfo.p_SCHEDULAR.view"><i class="fa fa-gg"></i>Job Schedular</a></li>
+                            <li><a href="#" ui-sref="Price" ng-show="UserInfo.p_PRICINGMASTER.view"><i class="fa fa-gg"></i>Margin Controller</a></li>
+                            <li><a href="#" ui-sref="ReorderConfiguration" ng-show="UserInfo.p_REORDER.view"><i class="fa fa-gg"></i>Reorder Configuration</a></li>
+                            <li><a href="#" ui-sref="datamigration" ng-show="UserInfo.p_DATAMIGRATION.view"><i class="fa fa-gg"></i>Data Migration</a></li>
+                            <!--<li><a href="#" ui-sref="SystemMapper" ng-show="UserInfo.p_SYSTEMMAPPER.view"><i class="fa fa-gg"></i>System Mapper</a></li>-->
+                            <li><a href="#" ui-sref="trace" ng-show="UserInfo.p_LOGTRACE.view"><i class="fa fa-gg"></i>Log Trace</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <div class="main-container side_open_width" on-size-changed="sizechanged()">
+            <div ui-view="container" style="margin-top:5px">
+
+            </div>
+        </div>
+        <footer class="main-footer side_open_width">
+
+            <div class="pull-right hidden-xs" title="{{License.buildinfo}}">
+                <b>Customer Care +91 93840 30115/6/7</b>
+            </div>
+            <strong><b>License</b>&nbsp;:&nbsp;{{License.key}}&nbsp;&nbsp;&copy;&nbsp;<a href="http://quantoretail.com">STORE SOFT SOLUTION PVT LTD.,</a>.</strong>
+        </footer>
+
+
+
+        <div class="clearfix" style="display:none">
+            <a ng-hide="true" id="submenu" style="background-color:antiquewhite" ui-sref="submenu({'title': submenu.title,'html': submenu.html, 'list':submenu.list})"><i class="fa fa-heartbeat" style="color:red;font-size:20px" aria-hidden="true"></i></a>
+        </div>
+    </div>
+
+    <!--<script src="clientside/all_js_min.js"></script>-->
+
+    <script src="clientside/plugins/jQuery/jQuery-2.1.4.min.js?v=25"></script>
+    <script src="clientside/plugins/pivot/jquery-ui.1.11.4.js?v=25"></script>
+
+    <script src="clientside/plugins/tmpl/jquery.tmpl.js?v=25"></script>
+    <script src="clientside/bootstrap/js/bootstrap.min.js?v=25"></script>
+    <script src="clientside/angular/Angular.js?v=25"></script>
+    <script src="clientside/angular/angular.ui.router.js?v=25"></script>
+    <script src="clientside/plugins/select2/select2.full.js?v=25"></script>
+    <script src="clientside/plugins_min.js?v=25"></script>
+    <script src="clientside/plugins/inview/angular-inview.js"></script>
+	
+    <!--
+    <script src="clientside/dist/js/perfect-scrollbar.js?v=25"></script>
+    <script src="clientside/plugins/datepicker/bootstrap-datepicker.js?v=25"></script>
+    <script src="clientside/plugins/select2/select2.full.js?v=25"></script>
+    <script src="clientside/plugins/input-mask/jquery.inputmask.js?v=25"></script>
+    <script src="clientside/plugins/input-mask/jquery.inputmask.date.extensions.js?v=25"></script>
+    <script src="clientside/plugins/input-mask/jquery.inputmask.extensions.js?v=25"></script>
+    <script src="clientside/plugins/datepicker/moment.min.js?v=25"></script>
+    <script src="clientside/plugins/daterangepicker/daterangepicker.js?v=25"></script>
+    <script src="clientside/plugins/colorpicker/bootstrap-colorpicker.min.js?v=25"></script>
+    <script src="clientside/plugins/timepicker/bootstrap-timepicker.min.js?v=25"></script>
+    <script src="clientside/plugins/slimScroll/jquery.slimscroll.min.js?v=25"></script>
+    <script src="clientside/plugins/iCheck/icheck.min.js?v=25"></script>
+    <script src="clientside/plugins/datatables/jquery.dataTables.min.js?v=25"></script>
+    <script src="clientside/plugins/datatables/dataTables.bootstrap.min.js?v=25"></script>
+    <script src="clientside/plugins/datepicker/angular-datepicker.js?v=25"></script>
+    <script src="clientside/plugins/ngdialog/ngDialog.js?v=25"></script>
+    <script src="clientside/plugins/toastr/ng-animate.js?v=25"></script>
+    <script src="clientside/plugins/toastr/angular-toastr.js?v=25"></script>
+    <script src="clientside/plugins/hotkey/hotkeys.js?v=25"></script>
+    <script src="clientside/plugins/chartjs/Chart.js?v=25"></script>
+    <script src="clientside/plugins/chartjs/angular-chart.js?v=25"></script>
+    <script src="clientside/plugins/datatables/jquery.dataTables.min.js?v=25"></script>
+    <script src="clientside/plugins/datatables/dataTables.bootstrap.min.js?v=25"></script>
+    <script src="clientside/plugins/Dialog/jquery-confirm.js?v=25"></script>
+    <script src="clientside/directive/angucomplete-alt.js?v=25"></script>
+    <script src="clientside/plugins/tree/angular.treeview.js?v=25"></script>
+    <script src="clientside/grid/jquery.event.drag-2.2.js?v=25"></script>
+    <script src="clientside/grid/jquery.event.drop-2.2.js?v=25"></script>
+    <script src="clientside/grid/jquery.dateFormat.js?v=25"></script>
+    <script src="clientside/grid/jquery.number.js?v=25"></script>
+    <script src="clientside/grid/jquery.event.drag-2.2.js?v=25"></script>
+    <script src="clientside/grid/jquery.mousewheel.js?v=25"></script>
+    <script src="clientside/plugins/summernote/summernote.min.js?v=25"></script>
+    <script src="clientside/plugins/Intract/fabric.js?v=25"></script>  
+    -->
+    <script src="clientside/plugins/inview/angular-inview.js"></script>	
+    <script src="clientside/plugins/pivot/pivot.js"></script>
+    <script src="clientside/plugins/pivot/plotly.js"></script>
+    <script src="clientside/plugins/pivot/plotly_renderers.js"></script>
+    <script src="clientside/plugins/pivot/d3.js"></script>
+    <script src="clientside/plugins/pivot/d3_renderers.js"></script> 	
+    <script src="clientside/plugins/xlsx/xlsx.full.min.js"></script>
+
+    <script src="clientside/main_min.js?v=25"></script>
+
+    <!--<script src="clientside/main/Blob.js?v=25"></script>
+    <script src="clientside/main/FileSaver.js?v=25"></script>
+    <script src="clientside/main/base64.js?v=25"></script>
+    <script src="clientside/main/angular-local-storage.js?v=25"></script>
+    <script src="clientside/main/angular-route.js?v=25"></script>
+    <script src="clientside/main/loading-bar.js?v=25"></script>
+    <script src="clientside/main/massautocomplete.js?v=25"></script>-->
+
+    <script src="clientside/main/startup.js?v=25"></script>
+
+    <script src="clientside/main/homeController.js?v=25"></script>
+    <script src="clientside/main/authService.js?v=25"></script>
+    <script src="clientside/main/authInterceptorService.js?v=25"></script>
+    <script src="clientside/main/RESTService.js?v=25"></script>
+    <script src="clientside/main/ContextService.js?v=25"></script>
+
+    <script src="clientside/controllers_min.js?v=25"></script>
+	<script src="clientside/controllers/EmployeeSalaryController.js?v=18"></script>
+    <script src="clientside/controllers/LRInvoiceItems.js?v=25"></script>
+    <script src="clientside/controllers/LRInvoicePriceController.js?v=25"></script>
+    <script src="clientside/MFG/controllers/WOInboxController.js?v=25"></script>
+
+    <!--<script src="clientside/controllers/LRInboxcontroller.js?v=25"></script>
+    <script src="clientside/controllers/Couriercontroller.js?v=25"></script>
+    <script src="clientside/controllers/LREntrycontroller.js?v=25"></script>
+    <script src="clientside/controllers/LRInvoiceItems.js?v=25"></script>
+    <script src="clientside/controllers/Invoicecontroller.js?v=25"></script>
+    <script src="clientside/controllers/IssueLRcontroller.js?v=25"></script>
+    <script src="clientside/controllers/ReceiptLRController.js?v=25"></script>
+    <script src="clientside/controllers/ScanDocumentcontroller.js?v=25"></script>
+    <script src="clientside/controllers/Barcodecontroller.js?v=25"></script>
+    <script src="clientside/controllers/Salescontroller.js?v=25"></script>
+    <script src="clientside/controllers/Settlementscontroller.js?v=25"></script>
+    <script src="clientside/controllers/DeliveryController.js?v=25"></script>
+    <script src="clientside/controllers/ItemController.js?v=25"></script>
+    <script src="clientside/controllers/suppliercontroller.js?v=25"></script>
+    <script src="clientside/controllers/Agentcontroller.js?v=25"></script>
+    <script src="clientside/controllers/Transportcontroller.js?v=25"></script>
+    <script src="clientside/controllers/Countrycontroller.js?v=25"></script>
+    <script src="clientside/controllers/CompanyController.js?v=25"></script>
+    <script src="clientside/controllers/EmployeeController.js?v=25"></script>
+    <script src="clientside/controllers/DashboardController.js?v=25"></script>
+    <script src="clientside/controllers/ProductController.js?v=25"></script>
+    <script src="clientside/controllers/Taxcontroller.js?v=25"></script>
+    <script src="clientside/controllers/ReferencelistController.js?v=25"></script>
+    <script src="clientside/controllers/OutwardsController.js?v=25"></script>
+    <script src="clientside/controllers/ReturnGoodsController.js?v=25"></script>
+    <script src="clientside/controllers/ReceiveGoodsController.js?v=25"></script>
+    <script src="clientside/controllers/InwardController.js?v=25"></script>
+    <script src="clientside/controllers/PurchasereturnController.js?v=25"></script>
+    <script src="clientside/controllers/ClosingcashController.js?v=25"></script>
+    <script src="clientside/controllers/OpeningcashController.js?v=25"></script>
+    <script src="clientside/controllers/SalesReturnController.js?v=25"></script>
+    <script src="clientside/controllers/SalesOfferController.js?v=25"></script>
+    <script src="clientside/controllers/OpeningcashController.js?v=25"></script>
+    <script src="clientside/controllers/ReportsController.js?v=25"></script>
+    <script src="clientside/controllers/PurchaseOrderController.js?v=25"></script>
+    <script src="clientside/controllers/ProductRequestqueuecontroller.js?v=25"></script>
+    <script src="clientside/controllers/CustomerController.js?v=25"></script>
+    <script src="clientside/controllers/UserController.js?v=25"></script>
+    <script src="clientside/controllers/stockadjustmentController.js?v=25"></script>
+    <script src="clientside/controllers/AnalyticsController.js?v=25"></script>
+    <script src="clientside/controllers/BrandController.js?v=25"></script>
+    <script src="clientside/controllers/SalesDashboardController.js?v=25"></script>
+    <script src="clientside/controllers/SettlementDashboardController.js?v=25"></script>
+    <script src="clientside/controllers/tracecontroller.js?v=25"></script>
+    <script src="clientside/controllers/PriceController.js?v=25"></script>
+    <script src="clientside/controllers/ReturnApprovalController.js?v=25"></script>
+    <script src="clientside/controllers/DailyExpencesController.js?v=25"></script>
+    <script src="clientside/controllers/DebitPaymentController.js?v=25"></script>
+    <script src="clientside/controllers/ProductRequestFormController.js?v=25"></script>
+    <script src="clientside/controllers/RefillBoxController.js?v=25"></script>
+    <script src="clientside/controllers/RefillSalesController.js?v=25"></script>
+    <script src="clientside/controllers/PriceChangerController.js?v=25"></script>
+    <script src="clientside/controllers/FestivalDiscountController.js?v=25"></script>
+    <script src="clientside/controllers/PurchaseReturnManual.js?v=25"></script>
+    <script src="clientside/controllers/LedgerController.js?v=25"></script>
+    <script src="clientside/controllers/vouchercontroller.js?v=25"></script>
+    <script src="clientside/controllers/reportformatconfigcontroller.js?v=25"></script>
+    <script src="clientside/controllers/SalesStatementController.js?v=25"></script>
+    <script src="clientside/controllers/salarymanagementController.js?v=25"></script>
+    <script src="clientside/controllers/PurchaseBudgetController.js?v=18"></script>
+    <script src="clientside/controllers/incrementmanagement.js?v=25"></script>
+    <script src="clientside/controllers/salarystructureController.js?v=25"></script>
+    <script src="clientside/controllers/holidaycontroller.js?v=25"></script>
+    <script src="clientside/controllers/payrollcontroller.js?v=25"></script>
+    <script src="clientside/controllers/payslipcontroller.js?v=25"></script>
+    <script src="clientside/controllers/EmployeeLeaveController.js?v=25"></script>
+    <script src="clientside/controllers/employeeadvancecontroller.js?v=25"></script>
+    <script src="clientside/controllers/AdvanceController.js?v=25"></script>
+    <script src="clientside/controllers/homepagecontroller.js?v=25"></script>
+    <script src="clientside/controllers/ShiftAllocationController.js?v=25"></script>
+    <script src="clientside/controllers/formgenerationcontroller.js?v=25"></script>
+    <script src="clientside/controllers/EmployeeinoutController.js?v=25"></script>
+    <script src="clientside/controllers/Applicationform.js?v=25"></script>
+    <script src="clientside/controllers/stockreportcontroller.js?v=25"></script>
+    <script src="clientside/controllers/SupplierPaymentController.js?v=25"></script>
+    <script src="clientside/controllers/ItemSearchController.js?v=25"></script>
+    <script src="clientside/controllers/PayrollReportController.js?v=25"></script>
+    <script src="clientside/controllers/RetailReportController.js?v=25"></script>
+    <script src="clientside/controllers/MissingStockController.js?v=25"></script>
+    <script src="clientside/controllers/WareHouseReportController.js?v=25"></script>
+    <script src="clientside/controllers/PromotionController.js?v=25"></script>
+    <script src="clientside/controllers/PromotionStatusController.js?v=25"></script>
+    <script src="clientside/controllers/CustomerPaymentController.js?v=25"></script>
+    <script src="clientside/controllers/StockAnalyserController.js?v=25"></script>
+    <script src="clientside/controllers/SalesAnalyserController.js?v=25"></script>
+    <script src="clientside/controllers/CoverDaysAnalyserController.js?v=25"></script>
+    <script src="clientside/controllers/SalesVsPurchaseAnalyserController.js?v=25"></script>
+    <script src="clientside/controllers/SalesConversionAnalyserController.js?v=25"></script>
+    <script src="clientside/controllers/PurchaseAnalyserController.js?v=25"></script>
+    <script src="clientside/controllers/SalesCompareAnalyserController.js?v=25"></script>
+    <script src="clientside/controllers/StockPositionController.js?v=25"></script>
+    <script src="clientside/controllers/ProductMovementController.js?v=25"></script>
+    <script src="clientside/controllers/TallyIntegrationController.js?v=25"></script>
+    <script src="clientside/controllers/HRReportController.js?v=25"></script>
+    <script src="clientside/controllers/HRDashboardController.js?v=25"></script>
+    <script src="clientside/controllers/EmployeeStickerPrintController.js?v=25"></script>
+    <script src="clientside/controllers/StockManagementController.js?v=25"></script>
+    <script src="clientside/controllers/PurchasePlannerController.js?v=25"></script>
+    <script src="clientside/controllers/SalesPlanAnalyserController.js?v=25"></script>
+    <script src="clientside/controllers/ProductGroupController.js?v=25"></script>
+    <script src="clientside/controllers/NonTextileSale.js?v=25"></script>
+    <script src="clientside/controllers/ApplicationSettingsControllers.js?v=25"></script>
+    <script src="clientside/controllers/GiftVoucherController.js?v=25"></script>
+    <script src="clientside/controllers/CouponSchemeController.js?v=25"></script>
+    <script src="clientside/controllers/SplitBarcodeController.js?v=25"></script>
+    <script src="clientside/controllers/PackBarcodeController.js?v=25"></script>
+    <script src="clientside/controllers/LastBitBarcodeController.js?v=25"></script>
+    <script src="clientside/controllers/incentivestatus.js?v=25"></script>
+    <script src="clientside/controllers/RetReportsController.js?v=25"></script>
+    <script src="clientside/controllers/NumberConfigurationController.js?v=25"></script>
+    <script src="clientside/controllers/DirectPurchaseEntryController.js?v=25"></script>
+    <script src="clientside/controllers/PettiCashManagement.js?v=25"></script>
+    <script src="clientside/controllers/DaybookController.js?v=25"></script>
+    <script src="clientside/controllers/IntrayController.js?v=25"></script>
+    <script src="clientside/controllers/MenuController.js?v=25"></script>
+    <script src="clientside/controllers/ReOrderController.js?v=25"></script>
+    <script src="clientside/controllers/WHController.js?v=25"></script>
+    <script src="clientside/controllers/RewardManagerController.js?v=25"></script>
+    <script src="clientside/controllers/CustomerAdvanceManagementController.js?v=25"></script>
+    <script src="clientside/controllers/SystemMapperController.js?v=25"></script>
+    <script src="clientside/controllers/ChequeBoxController.js"></script>
+    <script src="clientside/controllers/BRSController.js?v=18"></script>
+    <script src="clientside/controllers/FinanalyserController.js?v=18"></script>
+    <script src="clientside/controllers/FintdsController.js?v=18"></script>
+    <script src="clientside/controllers/AgentPaymentController.js?v=18"></script>
+    <script src="clientside/controllers/TransportPaymentController.js"></script>
+    <script src="clientside/controllers/ReportBuilderController.js?v=25"></script>
+    <script src="clientside/controllers/BillPrintController.js?v=25"></script>
+    <script src="clientside/controllers/LoyaltyConfiguration.js?v=25"></script>
+    <script src="clientside/controllers/LoyaltyManagementController.js?v=25"></script>
+    <script src="clientside/controllers/CRMReportsController.js?v=25"></script>
+    <script src="clientside/controllers/CustomerAnalyserController.js?v=25"></script>
+    <script src="clientside/controllers/LoanReconciliationController.js?v=25"></script>
+    <script src="clientside/controllers/IncentiveProcessController.js?v=25"></script>
+    <script src="clientside/controllers/DataMigrationController.js?v=25"></script>
+	<script src="clientside/controllers/LRPOGrnController.js?v=18"></script>
+    <script src="clientside/controllers/PurchaseOrderGRNController.js?v=18"></script>
+    <script src="clientside/controllers/POInboxController.js?v=18"></script>
+    <script src="clientside/controllers/GSTInboxController.js?v=25"></script>
+    <script src="clientside/controllers/STOInboxController.js?v=18"></script>
+    <script src="clientside/Feedback/controllers/CRMConfigController.js?v=25"></script>
+	-->
+    <!-- DataTables -->
+    <!--<script src="clientside/grid/slick.core.js"></script>
+    <script src="clientside/grid/slick.formatters.js"></script>
+    <script src="clientside/grid/slick.groupitemmetadataprovider.js"></script>
+    <script src="clientside/grid/slick.editors.js"></script>
+    <script src="clientside/grid/slick.grid.js"></script>
+    <script src="clientside/grid/slick.dataview.js"></script>
+    <script src="clientside/grid/slick.pager.js"></script>
+    <script src="clientside/grid/slick.checkboxselectcolumn.js"></script>
+    <script src="clientside/grid/slick.rowselectionmodel.js"></script>
+    <script src="clientside/grid/slick.cellcopymanager.js"></script>
+    <script src="clientside/grid/slick.grid.Ex.js"></script>
+    <script src="clientside/grid/slick.columngroup.js"></script>
+    <script src="clientside/grid/slick.dataview.Ex.js"></script>
+    <script src="clientside/grid/slick.cellselectionmodel.js"></script>
+    <script src="clientside/grid/slick.cellrangedecorator.js"></script>
+    <script src="clientside/grid/slick.cellrangeselector.js"></script>
+    <script src="clientside/grid/slick.columnpicker.js"></script>
+    <script src="clientside/grid/slick.cellexternalcopymanager.js"></script>
+    <script src="clientside/grid/slick.autotooltips.js"></script>
+    <script src="clientside/grid/slick.printpluggin.js"></script>-->
+
+    <script src="clientside/grid_min.js?v=25"></script>
+    <script src="clientside/grid/InfyGrid.js?v=25"></script>
+
+    <script type="text/ng-template" id="PrinterList">
+        <div class="ngdialog-message">
+
+            <div class="md-col-12">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                    <div class="col-md-8">
+                        <select class="form-control" select2='Company' style="width:100%;" ng-model="selectedcompany"
+                                ng-options="item.id as item.name for item in CompanyList track by item.id"
+                                ng-change="ChangeCompany()" focusid="selectedcompany" focusonenter="selectedserver"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="md-col-12">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-4 control-label">Print servers</label>
+                    <div class="col-md-8">
+                        <select class="form-control" select2='Server' style="width:100%;" ng-model="selectedserver"
+                                options="item.id as item.name for item in ServerList track by item.id"
+                                ng-change="GetPrinters()" focusid="selectedserver" focusonenter="selectedprinter"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="md-col-12">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-4 control-label">Printer</label>
+                    <div class="col-md-8">
+                        <select class="form-control" select2='Printer' style="width:100%;" ng-model="selectedprinter"
+                                options="item.id as item.name for item in ListOfPrinters track by item.id"
+                                focusid="selectedprinter"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md-col-12" ng-show="ShowPaperSizeList">
+                <div class="form-group">
+                    <div for="inputEmail3" class="col-md-4 control-label">
+                        Paper Size
+                    </div>
+                    <div class="col-md-8">
+                        <select class="form-control" select2='Report' style="width:100%;" ng-model="selectedpapersize"
+                                ng-options="item.id as item.name for item in PaperSizeList track by item.id"
+                                focusid="selectedformat"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md-col-12" ng-show="ShowReportList">
+                <div class="form-group">
+                    <div for="inputEmail3" class="col-md-4 control-label">
+                        Report
+                    </div>
+                    <div class="col-md-8">
+                        <select class="form-control" select2='Report' style="width:100%;" ng-model="selectedformat"
+                                ng-options="item.id as item.name for item in ReportList track by item.id"
+                                focusid="selectedformat" ng-change="ReportSelected()"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row"></div>
+            <div class="md-col-12">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-12 control-label">Current : <b>{{printerinfo}}</b></label>
+                </div>
+            </div>
+            <div class="row"></div>
+            <div class="ngdialog-buttons">
+                <div class="form-group" style="margin-left: 15px;margin-right: 15px;">
+                    <a class="glyphicon glyphicon-download" href="printerservice/installed.zip" title='preinstalled'>Preinstalled</a>
+                    <a class="glyphicon glyphicon-floppy-save" href="printerservice/DOTNETSETUP" title='dot net framework'>.Net</a>
+                    <a class="glyphicon glyphicon-print" href="printerservice/publish.htm">Driver</a>
+                    <a class="glyphicon glyphicon-alert" href="#" ng-click="Test()">Test</a>
+
+                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-show="ShowPDF" ng-click="Selected(true)">PDF</button>
+                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Current()">Current</button>
+                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Select</button>
+                    <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="LocationList">
+        <div class="ngdialog-message">
+
+            <div class="md-col-12">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                    <div class="col-md-8">
+                        <select class="form-control" select2='Company' style="width:100%;" ng-model="selectedcompany"
+                                ng-options="item.id as item.name for item in CompanyList track by item.id"
+                                focusid="selectedcompany" focusonenter="selectedlocation"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md-col-12">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                    <div class="col-md-8">
+                        <select class="form-control" select2='Location' style="width:100%;" ng-model="selectedlocation"
+                                ng-options="item.id as item.name for item in LocationList track by item.id"
+                                ng-change="FilterCounter()"
+                                focusid="selectedlocation" focusonenter="selectedcounter"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md-col-12">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-4 control-label">Counter</label>
+                    <div class="col-md-8">
+                        <select class="form-control" select2='Counter' style="width:100%;" ng-model="selectedcounter"
+                                ng-options="item.id as item.name for item in FilterdCounterList track by item.id"
+                                focusid="selectedcounter"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row"></div>
+            <div class="md-col-12">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-12 control-label">Current : <b>{{locationinfo}}</b></label>
+                </div>
+            </div>
+            <div class="row"></div>
+            <div class="ngdialog-buttons">
+                <button type="button" ng-show="UserInfo.appsettings.int_payment" class="ngdialog-button ngdialog-button-secondary pull-left" ng-click="ChangePaymentPort()">Payment Port</button>
+
+                <button type="button" ng-show="UserInfo.p_CANCHANGEDATE.view" class="ngdialog-button ngdialog-button-secondary pull-left" ng-click="ChangeDate()">Change Date</button>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Current()">Current</button>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Select</button>
+                <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="CrapImage">
+        <div class="ngdialog-message" style="width:640px;height:480px">
+            <div class="col-md-12 no-padding">
+                <canvas id="crapcanvas" width="640" height="480"></canvas>
+            </div>
+        </div>
+        <div class="ngdialog-buttons" style="margin-top:10px">
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-left" focusid="capture" onkeyenter="Capture(true)" ng-click="Capture(true)">Capture</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="CaptureImage">
+        <div class="ngdialog-message" style="width:640px;height:480px">
+            <div class="col-md-12 no-padding" ng-hide="ShowSnap">
+                <video id="video" width="640" height="480" autoplay></video>
+            </div>
+
+            <div class="col-md-12 no-padding" ng-show="ShowSnap">
+                <canvas id="canvas" width="640" height="480"></canvas>
+            </div>
+        </div>
+        <div class="ngdialog-buttons" style="margin-top:10px">
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-left" focusid="capture" onkeyenter="Capture(true)" ng-click="Capture(true)">Capture</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="LicenseExpiry">
+        <div class="ngdialog-message">
+            <div style="position:absolute;right:10px;top:10px">
+                <span style="font-size:large;color:orangered">{{timepending}}</span>
+            </div>
+            <div ng-hide="expired">
+                Your license going to expiry in {{days}}days&lsquo;s
+            </div>
+            <div ng-show="expired" style="font-size:large;color:orangered">
+                Your license already expired.
+            </div>
+            <div style="padding-top:20px">
+                Please contact Quanto Finance Team
+            </div>
+        </div>
+    </script>
+</body>
+</html>

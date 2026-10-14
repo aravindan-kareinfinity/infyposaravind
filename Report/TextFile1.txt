@@ -1,0 +1,19 @@
+﻿
+
+update company set name = 'QUANTO Company '||ID;
+
+update Supplier set name ='Supplier - ' ||id
+
+update SupplierCompany set name ='SupplierCompany - ' ||id
+
+update referencelist set name ='Quanto Location - ' ||id where type = 'LOCATION'
+
+update bill set billdate = billdate+'10 days' where billdate>'2019-10-01';
+
+update billsettlementmaster set settlementon=settlementon+'10 days'  where settlementon>'2019-10-01';
+
+update billsettlement set receiptdate=receiptdate+'10 days'  where receiptdate>'2019-10-01';
+
+update employee set name = 'Employee - ' || id
+
+

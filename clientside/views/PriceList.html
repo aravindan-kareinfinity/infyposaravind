@@ -1,0 +1,87 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            CRM /  Pricing List
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer"
+                ng-click="Search()"><a><i class="fa fa-search"></i>Edit Prices</a></li>
+            <li style="cursor:pointer"
+                ng-click="Save()"><a><i class="fa fa-sae"></i>Save Prices</a></li>
+            <li style="cursor:pointer"
+                ng-click="CreateDesign()"><a><i class="fa fa-download"></i>Create Design</a></li>
+            <li style="cursor:pointer"
+                ng-click="CreateCategory()"><a><i class="fa fa-download"></i>Create Category</a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-2">
+                        <div class="col-md-12 no-padding">
+                            <div id="gridDesigns">
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <div id="gridCustomers">
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <div id="gridCategory">
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-10 no-padding">
+                        <div id="gridResultContainer">
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+<script type="text/ng-template" id="ManageAttribute">
+    <div class="ngdialog-message">
+
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Name</label>
+                <div class="input-group input-group-sm col-sm-9 no-padding">
+                    <input type="text" class="input-sm form-control" placeholder="Name"
+                           ng-model="name" focusid="name" focusonenter="name">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

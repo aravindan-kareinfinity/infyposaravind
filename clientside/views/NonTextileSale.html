@@ -1,0 +1,786 @@
+﻿<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Touch Sales
+            <span ng-show="LastBill != null" style="color: indianred;font-weight: bolder;" ng-click="DirectPrint(LastBill)">
+                {{LastBill.billno}} - ₹{{LastBill.total}}
+            </span>
+        </h1>
+        <ol class="breadcrumb">
+
+
+            <li ng-click="ShowPaymentConfig()" ng-hide="!SupportOutOfStock || ShowOutOfStock"><a><i class="fa fa-cogs"></i>Payment Config</a></li>
+            <li ng-click="OutOfStock(true)" ng-hide="!SupportOutOfStock || ShowOutOfStock"><a><i class="fa fa-toggle-on"></i>Enable Out Of Stock</a></li>
+            <li ng-click="OutOfStock(false)" ng-show="SupportOutOfStock && ShowOutOfStock"><a><i class="fa fa-toggle-off"></i>Disable Out Of Stock</a></li>
+            <li ng-click="SaveOutOfStock()" ng-show="SupportOutOfStock && ShowOutOfStock && OutOfStockCount>0"><a><i class="fa fa-floppy-o"></i>Save Out Of Stock({{OutOfStockCount}})</a></li>
+            <li ng-click="Hold()" ng-hide="ShowAsVertical || ShowOutOfStock || !SupportOutOfStock"><a><i class="fa fa-bank"></i>Hold</a></li>
+            <li ng-click="clearBill()" ng-hide="ShowAsVertical || ShowOutOfStock"><a><i class="fa fa-remove"></i>Clear</a></li>
+
+            <li ng-click="ShowPaymentDialog(item)"
+                ng-repeat="item in PaymentConfig.options"
+                ng-show="!ShowAsVertical && !ShowOutOfStock && AutoSettlement && BillValue>0 && PaymentConfig.devicemode"><a>₹ {{item.name}}</a></li>
+            <li ng-click="UPIDialog()" ng-show="!ShowAsVertical && !ShowOutOfStock && AutoSettlement && BillValue>0 && PaymentConfig.upiqrmode"><a>₹ UPI</a></li>
+            <li ng-click="Save(true)" ng-show="!ShowAsVertical && !ShowOutOfStock && AutoSettlement && BillValue>0 && PaymentConfig.manualmode"><a>₹ Cash</a></li>
+            <li ng-click="Save(false)" ng-show="!ShowAsVertical && !ShowOutOfStock && AutoSettlement && BillValue>0 && PaymentConfig.manualmode"><a>₹ Other</a></li>
+            <li ng-click="Save(false)" ng-show="!ShowAsVertical && !ShowOutOfStock && !AutoSettlement && BillValue>0"><a><i class="fa fa-print"></i>Save</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box">
+            <div class="box-body">
+                <div class="col-md-12 no-padding">
+                    <div class="col-sm-8 col-md-8 sp-product-list-container">
+
+                        <form class="sp-typeahead-form" novalidate="">
+                            <div class="form-group">
+
+                                <div class="input-group input-group-sm col-md-12">
+                                    <input ng-model="query" class="form-control"
+                                           id="productSearch" name="productSearch"
+                                           onkeyenter="Search()"
+                                           placeholder="Search items" type="text">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-sm btn-flat" ng-click="keypressOnQuery('backspace')"><i class="fa fa-arrow-left"></i></button>
+                                        <button type="button" class="btn btn-danger btn-sm btn-flat" ng-click="keypressOnQuery('delete')"><i class="fa fa-close"></i></button>
+                                    </span>
+                                </div>
+                                <div class="topmargin col-md-12 no-padding">
+                                    <div class="col-md-12 no-padding">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm sp-grid-cell-contents highlight-color-4DB6AC" ng-click="keypressOnQuery('append',item)" ng-repeat="item in ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','T','S','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9','Space']" style="height:30px; margin-right:5px">{{item}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-4 col-md-4 sp-billed-items">
+                        <div class="sp-bill">
+                            <div class="col-md-12 no-padding" style="margin-top:5px">
+                                <div class="col-md-8 no-padding">
+                                    <div class="col-md-12 no-padding">
+                                        <b>COUNTER : </b> {{LocationName}}/{{CounterName}}/{{floorname}}
+                                    </div>
+                                    <div class="col-md-12 no-padding">
+                                        <b>DATE/TIME : </b>{{CurrentBilldate |date : 'dd-MM-yyyy hh:mm a'}}
+                                    </div>
+                                </div>
+                                <div class="col-md-4 no-padding" ng-show="BillValue>0 && !ShowOutOfStock && !ShowAsVertical">
+                                    <div style="position:absolute;right:5px;top:5px; border-radius: 50%; width: 80px; height: 60px; padding: 3px;
+ background: #fff; border: 3px solid #000; color: #000;" ng-show="BillValue>0 && !ShowOutOfStock">
+                                        <div style="width: 70px; text-align: center; margin-top: 10px; border-bottom: 2px solid #4db6ac; font-size: 9pt; font-weight: bold; ">₹{{BillValue|number:0}}</div>
+                                        <div style="width: 70px; text-align: center; font-size: 9pt; font-weight: bold;">{{BillQty|number:0}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="sp-panel-header" style="padding-top:10px">
+
+                                <div class="input-group input-group-sm col-md-6">
+                                    <input class="form-control" id="customerMobileLargeScreen" ng-model="customerPhone" placeholder="Customer mobile number" type="text">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-sm btn-flat" ng-click="keypressOnPhone('backspace')"><i class="fa fa-arrow-left"></i></button>
+                                        <button type="button" class="btn btn-danger btn-sm btn-flat" ng-click="keypressOnPhone('delete')"><i class="fa fa-close"></i></button>
+                                    </span>
+                                </div>
+
+                                <div class="col-md-12 no-padding">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm sp-grid-cell-contents highlight-color-4DB6AC" ng-click="keypressOnPhone('append',item)" ng-repeat="item in ['0','1','2','3','4','5','6','7','8','9']" style="height:30px; margin-right:5px">{{item}}</button>
+                                        <div style="float:left">
+                                            &nbsp;
+                                            &nbsp;
+                                        </div>
+                                        <button type="button" class="btn btn-sm sp-grid-cell-contents"
+                                                ng-click="Hold(item)"
+                                                ng-repeat="item in holdList"
+                                                style="height: 30px; margin-right: 5px; border-bottom:3px solid #b64d7e">
+                                            {{item.did}}
+                                        </button>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 no-padding">
+                    <div class="sp-product-list-container" ng-class="ShowAsVertical?'col-md-12':'col-md-8'">
+                        <div class="col-md-4 col-xs-4 no-padding">
+
+                            <div class="col-md-12" ng-style="panelheight" style="overflow-y:scroll;padding-left:0px;">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li ng-repeat="item in TouchItems" class="prodcategory">
+                                        <a ng-click="FilterCategory(item,$event)" style="margin-left:15px">
+                                            {{item.productgroup}}
+                                        </a>
+                                        <input type="checkbox" style="position:absolute;top:5px;right:1px;z-index:100"
+                                               ng-change="OutOfStockAll(item)"
+                                               ng-show="ShowOutOfStock"
+                                               ng-model="item.outofstock" />
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="sp-items-scroll col-md-8 col-lg-8 col-xs-8 sp-grid no-padding">
+                            <div class="col-md-12" style="overflow-y:scroll;padding-left:0px;" ng-style="productheight">
+                                <div class="col-md-3 col-lg-3 sp-grid-cell no-padding" ng-repeat="item in Products | filter:{productname:query}">
+                                    <div class="sp-grid-cell-contents highlight-color-4DB6AC" ng-click="Addtobill(item)">
+                                        <div class="sp-grid-cell-text">
+
+                                            <div ng-show="item.hasimage" style="position:absolute;top:20px;right:10px;width:50px;">
+                                                <small style="font-size:large"><i class="fa fa-inr"></i> {{item.rate}}</small>
+                                            </div>
+
+
+                                            <div ng-hide="item.hasimage" style="height:50px">
+                                                <small style="font-size:large"><i class="fa fa-inr"></i> {{item.rate}}</small>
+                                            </div>
+
+
+                                            <img ng-show="item.hasimage"
+                                                 ng-src="File/Show/{{UserInfo.OrganizationID}}/{{item.imageid}}"
+                                                 style="height:64px;width:64px;margin-right: 50px;" />
+
+
+                                            <div style="text-align: center; border-top: 1px solid #777;">
+                                                <span style="text-align: center;">
+                                                    {{item.productname}}
+                                                </span>
+                                                <div ng-show="ShowOutOfStock" style="position:absolute;bottom:10px;left:5px">
+                                                    <input type="checkbox" ng-model="item.outofstock" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12" ng-show="ShowAsVertical"> 
+                        <div class="col-md-8" ng-show="BillValue>0 && !ShowOutOfStock">
+                            <table class="table table-hover sp-product-list fixed_table"
+                                   fixed-header="300px">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th width="120px">Qty</th>
+                                        <th width="50px"><span class="sp-padright-10"></span>Price</th>
+                                        <th width="50px"><span class="sp-padright-10"></span>Value</th>
+                                        <th width="50px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="item in billItems">
+                                    <tr>
+                                        <td>
+                                            <div class="pull-left" style="width:60px">
+                                                <img ng-show="item.attributes.imageid != null"
+                                                     ng-src="File/Show/{{UserInfo.OrganizationID}}/{{item.attributes.imageid}}"
+                                                     style="height:32px;width:32px" />
+                                            </div>
+                                            <div class="pull-left" style="margin-left:5px">
+                                                {{item.productname}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group input-group-sm col-md-12">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-danger btn-xs btn-flat" ng-click="ChangeQty(item,-1)"><i class="fa fa-minus"></i></button>
+                                                </span>
+                                                <input ng-model="item.qty" class="form-control input-sm" type="text" ng-disabled="true" ng-change="CalculateBillValue()">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-primary btn-xs btn-flat" ng-click="ChangeQty(item,1)"><i class="fa fa-plus"></i></button>
+                                                </span>
+                                            </div>
+
+                                        </td>
+                                        <td class="sp-product-price">
+                                            <span class="sp-padright-10"></span>
+                                            <span class="sp-price">₹{{item.price}}</span>
+                                        </td>
+                                        <td class="sp-product-price">
+                                            <span class="sp-padright-10"></span>
+                                            <span class="sp-price">₹{{item.receivable}}</span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-sm btn-flat" ng-click="deleteitem(item)"><i class="fa fa-close"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-12 no-padding" ng-show="BillValue>0 && !ShowOutOfStock">
+
+                                <div class="col-md-12"
+                                     style="padding-top:10px"
+                                     ng-show="!ShowOutOfStock && AutoSettlement && BillValue>0 && PaymentConfig.upiqrmode">
+
+                                    <div class="col-md-12">
+
+                                        <button class="btn btn-sm btn-primary col-md-12"
+                                                ng-click="UPIDialog()"
+                                                style="font-size: 15pt; font-weight: bold; padding-top: 10px; height: 100px ">
+                                            <i class="fa fa-qrcode"></i> PAY NOW ₹{{BillValue|number:0}}
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-12" style="padding-right:0px;padding-top:0px">
+                                        <div class="col-md-6">
+                                            <div style="font-size: 20pt; font-weight: bold;padding-top:10px ">
+                                                Amount
+                                            </div>
+                                            <div style="font-size: 20pt; font-weight: bold;padding-top:10px ">
+                                                ₹{{BillValue|number:0}}
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div style="font-size: 20pt; font-weight: bold;padding-top:10px ">Qty</div>
+
+                                            <div style="font-size: 20pt; font-weight: bold;padding-top:10px ">
+                                                {{BillQty|number:0}}
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-md-12" style="margin-top:10px">
+                                        <button class="btn btn-sm btn-danger col-md-12"
+                                                ng-click="clearBill()"
+                                                style="font-size: 15pt; font-weight: bold;padding-top:10px;height:100px ">
+                                            START NEW
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-12"
+                                         style="padding-top:10px"
+                                         ng-show="!ShowOutOfStock && AutoSettlement && BillValue>0 && PaymentConfig.manualmode">
+                                        <div class="col-md-6 no-padding">
+                                            <button class="btn btn-sm btn-primary"
+                                                    ng-click="Save(true)"
+                                                    style="font-size: 20pt; font-weight: bold;padding-top:10px ">
+                                                ₹ CASH
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button class="btn btn-sm btn-primary"
+                                                    ng-click="Save(false)"
+                                                    style="font-size: 20pt; font-weight: bold;padding-top:10px ">
+                                                ₹ CARD
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div ng-click="ShowPaymentDialog(item)"
+                                         style="padding-top:10px"
+                                         class="col-md-6"
+                                         ng-repeat="item in PaymentConfig.options"
+                                         ng-show="!ShowOutOfStock && AutoSettlement && BillValue>0 && PaymentConfig.devicemode">
+                                        <button class="btn btn-sm btn-success"
+                                                style="font-size:xx-large;font-weight:bold;">
+                                            ₹ {{item.name}}
+                                        </button>
+                                    </div>
+
+                                </div>
+
+
+
+                              
+
+                            </div>
+
+                          
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-4 col-md-4 sp-billed-items" ng-hide="ShowAsVertical">
+                        <div class="sp-bill">
+
+                            <div class="sp-hide-if-sm-screen" style="padding-top:10px">
+
+                                <div>
+                                    <div class="sp-sold-items-scroll">
+
+
+                                        <table class="table table-hover sp-product-list fixed_table"
+                                               fixed-header="150px"
+                                               additionalheight="100">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th width="150px">Quantity</th>
+                                                    <th width="50px"><span class="sp-padright-10"></span>Price</th>
+                                                    <th width="75px"><span class="sp-padright-10"></span>Value</th>
+                                                    <th width="50px"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody ng-repeat="item in billItems">
+                                                <tr style="height:30px">
+                                                    <td>
+                                                        <div class="pull-left" style="width:40px">
+                                                            <img ng-show="item.attributes.imageid != null"
+                                                                 ng-src="File/Show/{{UserInfo.OrganizationID}}/{{item.attributes.imageid}}"
+                                                                 style="height:32px;width:32px" />
+                                                        </div>
+                                                        <div class="pull-left" style="margin-left:5px;position:relative;left:0px">
+                                                            {{item.productname}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm col-md-12">
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-danger btn-sm btn-flat" ng-click="ChangeQty(item,-1)"><i class="fa fa-minus"></i></button>
+                                                            </span>
+                                                            <input ng-model="item.qty" class="form-control input-sm" type="number" ng-change="CalculateBillValue()">
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-primary btn-sm btn-flat" ng-click="ChangeQty(item,1)"><i class="fa fa-plus"></i></button>
+                                                            </span>
+                                                        </div>
+
+                                                    </td>
+                                                    <td class="sp-product-price">
+                                                        <span class="sp-padright-10"></span>
+                                                        <span class="sp-price">₹{{item.price}}</span>
+                                                    </td>
+                                                    <td class="sp-product-price">
+                                                        <span class="sp-padright-10"></span>
+                                                        <span class="sp-price">₹{{item.receivable}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger btn-sm btn-flat" ng-click="deleteitem(item)"><i class="fa fa-close"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+<script type="text/ng-template" id="PaymentDialog">
+    <div class="ngdialog-message">
+        <div class="row row-padbot-15">
+            <div class="col-md-12 no-padding">
+                <label for="inputPassword3" class="col-md-12 control-label">
+                    Payment Engine
+                </label>
+                <label for="inputPassword3" class="col-md-12 control-label">
+                    {{PaymentIntegration.Integrater.name}}
+                </label>
+            </div>
+            <div class="col-md-12 no-padding">
+                <label for="inputPassword3" class="col-md-12 control-label">
+                    Amount
+                </label>
+                <label for="inputPassword3" class="col-md-12 control-label">
+                    {{Settlement.receivable}}
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-hide="PaymentIntegrationRunning" ng-click="Selected(true)">Pay</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-hide="PaymentIntegrationRunning" ng-click="closeThisDialog()">Close</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-show="PaymentIntegrationRunning" ng-click="Selected(false)">Cancel</button>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="UPIPaymentDialog">
+    <div class="ngdialog-message">
+        <div class="col-md-12">
+            <img ng-src="{{'data:image/png;base64,'+Base64}}" ng-style="qrheight" ng-show="Base64 != null" />
+        </div>
+    </div>
+    <div class="ngdialog-buttons" style="margin-top:275px">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Cancel()">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="PaymentConfigDialog">
+    <div class="ngdialog-message">
+        <div class="row row-padbot-15">
+            <label for="inputPassword3" class="col-md-12 control-label">
+                Payment Mode
+            </label>
+            <div class="col-md-4 no-padding">
+                <label for="inputPassword3" class="col-md-12 control-label">
+                    Manual
+                </label>
+                <label for="inputPassword3" class="col-md-12 control-label">
+                    <input type="checkbox" ng-model="PaymentIntegration.Integrater.manualmode" />
+                </label>
+            </div>
+            <div class="col-md-4 no-padding">
+                <label for="inputPassword3" class="col-md-12 control-label">
+                    UPI QR
+                </label>
+                <label for="inputPassword3" class="col-md-12 control-label">
+                    <input type="checkbox" ng-model="PaymentIntegration.Integrater.upiqrmode" />
+                </label>
+            </div>
+            <div class="col-md-4 no-padding">
+                <label for="inputPassword3" class="col-md-12 control-label">
+                    Payment Engine
+                </label>
+                <label for="inputPassword3" class="col-md-12 control-label">
+                    <input type="checkbox" ng-model="PaymentIntegration.Integrater.devicemode" /> {{PaymentIntegration.Integrater.name}}
+                </label>
+            </div>
+            <div class="col-md-12">
+                <div>Supported Options</div>
+                <div class="pull-left"
+                     style="margin-right:10px"
+                     ng-repeat="item in PaymentIntegration.Integrater.Options"><input type="checkbox" ng-model="item.selected" />{{item.name}}</div>
+            </div>
+            <div class="col-md-12">
+                <div>Default Device</div>
+                <select class="form-control"
+                        style="width:100%"
+                        select2='Device'
+                        ng-model="PaymentIntegration.deviceid"
+                        options="item.code as item.name for item in SwippingList track by item.code"></select>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="SettlementDialog">
+    <div class="ngdialog-message">
+        <div class="col-md-12">
+
+            <div class="row row-padbot-15">
+                <label for="inputEmail3" class="col-md-4 control-label">BILL(s) AMOUNT</label>
+                <div class="col-md-3" style="color:dodgerblue;font-size:xx-large;vertical-align:top;">
+                    {{Settlement.billamount | number:system_salesroundingdigit}}
+                </div>
+
+                <label for="inputPassword3" class="col-md-3 control-label">DISCOUNT AMOUNT</label>
+                <div class="col-md-2" style="color:dodgerblue;font-size:xx-large;vertical-align:top;">
+                    {{Settlement.billadditionaldiscount+Settlement.additionaldiscount | number:system_salesroundingdigit}}
+                </div>
+            </div>
+
+            <div class="row row-padbot-15">
+                <div class="col-md-4">
+                    NET AMOUNT
+                </div>
+                <div class="col-md-3" style="color:brown;font-size:xx-large;vertical-align:top;">
+                    {{Settlement.receivable | number:system_salesroundingdigit}}
+                </div>
+
+                <div class="col-md-5" ng-show="Settlement.balanceamount>0" style="padding-left:0px">
+                    <label for="inputPassword3" class="col-md-6 control-label">BALANCE</label>
+                    <div class="col-md-6" style="color:orangered;font-size:xx-large;vertical-align:top;">
+                        {{Settlement.balanceamount | number:system_salesroundingdigit}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-padbot-15">
+                <div class="col-md-4">
+                    RECEIVED
+                </div>
+                <div class="col-md-3" style="color:darkgreen;font-size:xx-large;vertical-align:top;">
+                    {{Settlement.paidamount | number:system_salesroundingdigit}}
+                </div>
+
+                <div class="col-md-5" ng-show="Settlement.balanceamount<0" style="padding-left:0px">
+                    <label for="inputPassword3" class="col-md-4 control-label" ng-show="Settlement.returnbillvalue>0">REFUND</label>
+                    <label for="inputPassword3" class="col-md-4 control-label" ng-show="Settlement.returnbillvalue==0">RETURN</label>
+
+                    <div class="col-md-6 text-right" ng-hide="Settlement.billamount<0" style="color:orangered;vertical-align:top;font-size:xx-large;">
+                        {{Settlement.balanceamount*-1|number :system_salesroundingdigit}}
+                    </div>
+
+                    <div class="col-md-4 text-right" ng-show="Settlement.billamount<0 && !system_posdisablerefund" style="color:orangered;vertical-align:top;font-size:xx-large;">
+                        <button class="btn-sm btn-success pull-right" ng-click="Refund()">Refund {{Settlement.balanceamount*-1|number :system_salesroundingdigit}}</button>
+                    </div>
+                    <div class="col-md-4 text-right" ng-show="system_supportcustcreditnote && UserInfo.p_SUPPORTCREDITNOTESETTLEMENT.view && Settlement.billamount<0" style="color:orangered;vertical-align:top;font-size:xx-large;">
+                        <button class="btn-sm btn-default pull-right" ng-click="RefundWithCreditNote()">Cr.Note {{Settlement.balanceamount*-1|number :system_salesroundingdigit}}</button>
+                    </div>
+
+                </div>
+                <div class="col-md-5" ng-show="Settlement.paymentinfo.adjustment_enable" style="padding-left:0px;">
+                    <label for="inputPassword3" class="col-md-6 control-label">ADJUST</label>
+                    <div class="col-md-6 no-padding">
+                        <input type="text" class="form-control input-sm" placeholder="Denomination"
+                               ng-change="PaidChanged('ADJ')"
+                               ng-model="Settlement.paymentinfo.adjustment_paid" focusid="adjustment_paid" onkeyenter="checkbalanceandgo('cashpaid')">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-padbot-15" ng-show="Settlement.paymentinfo.discount_enable && UserInfo.p_CANAPPROVEDISCOUNT.view">
+                <label for="inputPassword3" class="col-md-4 control-label">DISCNT</label>
+                <div class="col-md-3">
+                    <input type="text" class="form-control input-sm" ng-model="Settlement.paymentinfo.discount_paid"
+                           focusid="discountpaid" focusonenter="discountapprovedby"
+                           ng-change="PaidChanged('DISCNT')" placeholder="Amount">
+                </div>
+                <div class="col-md-5" style="padding-left:0px">
+                    <select class="form-control" select2='Employee' style="width: 100%;" ng-model="Settlement.paymentinfo.discount_approvedBy"
+                            focusonenter="discountremarks"
+                            focusid="discountapprovedby" options="item.id as item.code for item in EmployeeList track by item.id"></select>
+                </div>
+            </div>
+
+            <div class="row row-padbot-15" ng-show="Settlement.paymentinfo.discount_paid>0 && UserInfo.p_CANAPPROVEDISCOUNT.view">
+                <label for="inputPassword3" class="col-md-4 control-label">REMARK</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="remark" focusid="discountremarks"
+                           onkeyenter="checkbalanceandgo('cashpaid')"
+                           ng-model="Settlement.paymentinfo.discount_info">
+                </div>
+            </div>
+
+
+            <div class="row row-padbot-15" ng-show="UserInfo.appsettings.int_payment">
+                <div class="col-md-12 no-padding" ng-show="UserInfo.appsettings.int_paymode==1">
+                    <label for="inputPassword3" class="col-md-4 control-label">{{PaymentIntegration.Integrater.name}}</label>
+                    <div class="col-md-8">
+                        <div class="input-group input-group-sm">
+                            <select class="form-control" select2='Bank' style="width: 100%;" ng-model="PaymentIntegration.optionid"
+                                    focusid="Innoviti_optionid" focusonenter="Innoviti_pay"
+                                    options="item.id as item.name for item in PaymentIntegration.Integrater.Options track by item.id"></select>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-info btn-flat"
+                                        focusid="Innoviti_pay"
+                                        style="width:70px"
+                                        ng-click="PaymentIntegration.Integrater.Run(PaymentIntegration.optionid,Settlement)">
+                                    Pay
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-md-12 no-padding" ng-show="UserInfo.appsettings.int_paymode==2">
+                    <label for="inputPassword3" class="col-md-4 control-label">{{PaymentIntegration.Integrater.name}}</label>
+                    <div class="col-md-3" style="padding-right:0px">
+                        <select class="form-control" select2='Mode'
+                                focusid="Razerpay_optionid" focusonenter="Razerpay_mode"
+                                ng-change="PaymentIntegration.lock=false"
+                                ng-model="PaymentIntegration.optionid"
+                                style="width:100%"
+                                options="item.id as item.name for item in PaymentIntegration.Integrater.Options track by item.id"></select>
+
+                    </div>
+                    <div class="col-md-5" style="padding-left:0px">
+                        <div class="input-group input-group-sm">
+                            <div class="col-md-12 no-padding">
+                                <select class="form-control" select2='Device'
+                                        style="width:100%"
+                                        ng-disabled="PaymentIntegration.lock"
+                                        ng-model="PaymentIntegration.deviceid"
+                                        ng-change="PaymentIntegration.configChanged(PaymentIntegration.deviceid,SwippingList)"
+                                        focusid="Razerpay_mode" focusonenter="Razer_pay"
+                                        options="item.code as item.name for item in SwippingList track by item.code"></select>
+                            </div>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-info btn-flat"
+                                        style="width:70px"
+                                        focusid="Razer_pay" ng-hide="PaymentIntegrationRunning"
+                                        ng-click="PaymentIntegration.Integrater.Run(PaymentIntegration.deviceid,PaymentIntegration.deviceconfig,PaymentIntegration.optionid,Settlement)">
+                                    Swipe
+                                </button>
+                                <button type="button" class="btn btn-danger btn-flat"
+                                        style="width:70px"
+                                        ng-show="PaymentIntegrationRunning"
+                                        ng-click="PaymentIntegration.Integrater.Cancel()">
+                                    Cancel
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 no-padding" ng-show="UserInfo.appsettings.int_paymode==3">
+                    <label for="inputPassword3" class="col-md-4 control-label">{{PaymentIntegration.Integrater.name}}</label>
+                    <div class="col-md-3" style="padding-right:0px">
+                        <select class="form-control" select2='Mode'
+                                style="width:100%"
+                                focusid="Pinelab_optionid" focusonenter="Pinelab_mode"
+                                ng-model="PaymentIntegration.optionid"
+                                ng-change="PaymentIntegration.lock=false"
+                                options="item.id as item.name for item in PaymentIntegration.Integrater.Options track by item.id"></select>
+
+                    </div>
+                    <div class="col-md-5" style="padding-left:0px">
+                        <div class="input-group input-group-sm">
+                            <div class="col-md-12 no-padding">
+                                <select class="form-control"
+                                        style="width:100%"
+                                        select2='Device'
+                                        ng-disabled="PaymentIntegration.lock"
+                                        ng-model="PaymentIntegration.deviceid"
+                                        focusid="Pinelab_mode" focusonenter="Pinelab_pay"
+                                        ng-change="PaymentIntegration.configChanged(PaymentIntegration.deviceid,SwippingList)"
+                                        options="item.code as item.name for item in SwippingList track by item.code"></select>
+                            </div>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-info btn-flat"
+                                        style="width:70px"
+                                        focusid="Pinelab_pay" ng-hide="PaymentIntegrationRunning"
+                                        ng-click="PaymentIntegration.Integrater.Run(PaymentIntegration.deviceid,PaymentIntegration.deviceconfig,PaymentIntegration.optionid,Settlement)">
+                                    Swipe
+                                </button>
+                                <button type="button" class="btn btn-danger btn-flat"
+                                        style="width:70px"
+                                        ng-show="PaymentIntegrationRunning"
+                                        ng-click="PaymentIntegration.Integrater.Cancel()">
+                                    Cancel
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row row-padbot-15">
+                <label for="inputPassword3" class="col-md-4 control-label">CARD</label>
+                <div class="input-group input-group-sm" style="padding-right:15px">
+                    <div class="col-md-12" ng-hide="system_swippingmachine" style="padding-right:0px">
+                        <select class="form-control" select2='Bank' style="width: 100%;" ng-model="Settlement.paymentinfo.card_bankid" focusid="bankid"
+                                options="item.id as item.name for item in BankList track by item.id"></select>
+                    </div>
+                    <div class="col-md-12" ng-show="system_swippingmachine" style="padding-right:0px">
+                        <select class="form-control" select2='Machine' style="width: 100%;" ng-model="Settlement.paymentinfo.card_machineid" focusid="cardmachineid"
+                                options="item.id as item.name for item in SwippingList track by item.id"></select>
+                    </div>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info btn-flat"
+                                style="width:70px"
+                                ng-click="TouchPayment('CARD')">
+                            Pay
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class="row row-padbot-15">
+                <label for="inputPassword3" class="col-md-4 control-label">UPI</label>
+
+                <div class="input-group input-group-sm" style="padding-right:15px">
+                    <div class="col-md-12" style="padding-right:0px">
+                        <select class="form-control" select2='UPI Proivder' style="width: 100%;"
+                                ng-model="Settlement.paymentinfo.upiproviderid"
+                                focusid="upiprovider"
+                                onkeyenter="checkbalanceandgo('creditpaid')"
+                                options="item.id as item.code for item in UPIProviderList track by item.id"></select>
+                    </div>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info btn-flat"
+                                ng-click="TouchPayment('UPI')" style="width:70px">
+                            Pay
+                        </button>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="row row-padbot-15" ng-show="Settlement.paymentinfo.has_credit">
+                <div for="inputPassword3" class="col-md-4 control-label"><div class="pull-left col-md-6 no-padding">CREDIT</div><div class="pull-right"><input ng-model="Settlement.paymentinfo.credit_partly" type="checkbox" />&nbsp;&nbsp;Partly</div></div>
+                <div class="input-group input-group-sm" style="padding-right:15px">
+                    <div class="col-md-12" style="padding-right:0px">
+                        <select class="form-control" select2='Employee' style="width: 100%;" ng-model="Settlement.paymentinfo.credit_approved"
+                                focusid="approvedby" options="item.id as item.code for item in EmployeeList track by item.id"></select>
+                    </div>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info btn-flat"
+                                style="width:70px"
+                                ng-click="TouchPayment('CREDIT')">
+                            Pay
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class="row row-padbot-15">
+                <label for="inputPassword3" class="col-md-4 control-label">VOUCHER</label>
+                <div class="input-group input-group-sm" style="padding-right:15px">
+                    <div class="col-md-12" style="padding-right:0px">
+                        <input type="text" class="form-control input-sm"
+                               focusid="voucher_id"
+                               ng-model="Settlement.paymentinfo.voucher_last">
+                    </div>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info btn-flat"
+                                style="width:70px"
+                                ng-click="TouchPayment('VOUCHER')">
+                            Add
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class="row row-padbot-15" ng-show="Settlement.paymentinfo.voucher_paid>0">
+                <label for="inputPassword3" class="col-md-4 control-label">REMARK</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control input-sm" style="width: 100%;"
+                           placeholder="remark"
+                           focusid="voucher_reference"
+                           ng-model="Settlement.paymentinfo.voucher_reference">
+                </div>
+            </div>
+
+            <div class="row row-padbot-15" ng-show="voucherlist.length>0">
+                <div class="col-md-12">
+                    <div class="table-responsive mailbox-messages">
+                        <table fixed-header="120px" class="fixed_table">
+                            <thead>
+                                <tr>
+                                    <th style="width:150px">Code</th>
+                                    <th style="width:100px">Amount</th>
+                                    <th style="width:70px;text-align:center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in voucherlist">
+                                    <td style="font-size:smaller;color:brown">{{item.code}}</td>
+                                    <td>{{item.amount}}&nbsp;&nbsp;/&nbsp;&nbsp;{{item.available}}</td>
+                                    <td>
+                                        <button type="button" class="btn-danger btn btn-xs" ng-click="ManageSearchItem('Delete',item)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+
+    </div>
+</script>

@@ -1,0 +1,72 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+           Finance /  Transport Payments Info
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'supplier payment', 'supplierbill')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-click="printInfyGrid(igrid)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-click="SearchTransportPaymentReport()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box primary">
+            <div class="box-body">
+                <div class="col-md-3 no-padding">
+
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>MODE</label>
+                            <select class="form-control" select2="" style="width: 100%;" ng-options="item.id as item.name for item in TransportModes track by item.id" ng-model="SearchCondition.sourcemode" focusid="sourcemode" focusonenter="transportid"></select>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>TRANSPORT</label>
+                            <select class="form-control" select2="" style="width: 100%;" 
+                                    ng-options="item.id as item.name for item in Transports track by item.id" 
+                                    ng-model="SearchCondition.transportid" focusid="transportid" focusonenter="paymentdate"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>PAYMENT DATE</label>
+                            <div class="input-group-sm">
+                                <input type="text" class="form-control pull-right input-sm"
+                                       daterange="SearchCondition.fromdate,SearchCondition.todate" focusid="paymentdate" focusonenter="Receiptno">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>RECEIPT NO</label>
+                            <div class="input-group-sm">
+                                <input type="text" class="form-control input-sm" id="inputEmail3"
+                                       placeholder="" ng-model="SearchCondition.invoiceno" focusid="Receiptno">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-9 no-padding">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

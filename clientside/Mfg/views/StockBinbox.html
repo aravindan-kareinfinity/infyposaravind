@@ -1,0 +1,107 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Bin Storage
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="Add2Bin()"><a><i class="fa fa-save"></i>Store</a></li>
+            <li style="cursor:pointer" ng-click="RemovefromBin()"><a><i class="fa fa-trash"></i>Remove</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-12 no-padding">
+                    <form name="agent">
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-4" style="padding-right:0px">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                                    <div class="col-md-8">
+
+                                        <div class="input-group input-group-sm col-md-12">
+                                            <select class="form-control select2" style="width: 100%;"
+                                                    select2="" ng-options="item.id as item.name for item in Location track by item.id"
+                                                    ng-model="Binstorage.locationid"></select>
+                                            <span class="input-group-btn" style="width:10px">
+                                                <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="LoadConfiguration()">
+                                                    <i class=" glyphicon glyphicon-circle-arrow-down"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12" style="padding-top:10px;padding-left:0px">
+                                    <div class="col-md-12" style="overflow-y:scroll;padding-left:0px;" ng-style="panelheight">
+                                        <div data-angular-treeview="true"
+                                             data-tree-id="bintree"
+                                             data-tree-model="bintreedata"
+                                             data-node-id="id"
+                                             data-node-label="name"
+                                             data-node-children="children">
+                                        </div>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                            </div>
+                            <div class="col-md-8" style="padding-left:0px">
+                                <div class="col-md-12 no-padding">
+                                    <div class="col-md-1 no-padding">
+                                        Code
+                                    </div>
+                                    <div class="col-md-2 no-padding">
+                                        <input type="text" style="width:100%"
+                                               placeholder="Bin-Code"
+                                               ng-change="CurrentBinStock = {}"
+                                               onkeyenter="Searchbinstock()"
+                                               focusid="mfgbinstoragecode" 
+                                               focusonenter="uan"
+                                               class="input-sm form-control" ng-model="mfgbinstoragecode" />
+                                    </div>
+                                    <div class="col-md-1 no-padding" style="font-size:medium;color:brown;margin-top:5px;margin-left:10px">
+                                        {{CurrentBinStock.allocated}}/{{CurrentBinStock.maxqty}}
+                                    </div>
+                                    <div class="col-md-2 no-padding">
+                                        <input type="text" style="width:100%"
+                                               placeholder="UAN"
+                                               focusid="uan" 
+                                               focusonenter="qty"
+                                               ng-change="CurrentAvailableStock = [];CurrentStock=0;CurrentAllocated=0;"
+                                               class="input-sm form-control" ng-model="uan"
+                                               onkeyenter="Searchavailablestock()" />
+                                    </div>
+                                    <div class="col-md-2 no-padding">
+                                        <input type="text" style="width:100%"
+                                               placeholder="qty"
+                                               focusid="qty" 
+                                               class="input-sm form-control"
+                                               ng-model="qty"
+                                               onkeyenter="Add2Bin()"/>
+                                    </div>
+                                    <div class="col-md-1 no-padding" style="font-size:medium;color:brown;margin-top:5px">
+                                        {{CurrentAllocated}}/{{CurrentStock+CurrentAllocated}}
+                                    </div>
+                                </div>
+                                <div class="col-md-12 no-padding" style="margin-top:10px" id="gridContainer">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+
+    </section>
+</div>

@@ -1,0 +1,281 @@
+﻿      <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a> HR / Bonus Processing
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="ShowPayroll" style="cursor:pointer" ng-click="exporttoExcel('payroll','salreport',0)"><a><i class="fa fa-download"></i>Export</a></li>
+            <li ng-show="ShowPayroll" style="cursor:pointer" ng-click="Generate()"><a><i class="fa fas fa-search-plus"></i>Generate</a></li>
+            <li ng-show="ShowPayroll" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li ng-show="ShowPayroll" style="cursor:pointer" ng-click="printDiv()"><a><i class="fa fa fa-print"></i>Print</a></li>
+
+            <li ng-show="ShowLeave" style="cursor:pointer" ng-click="GenerateLeave()"><a><i class="fa fa fa-print"></i>Generate</a></li>
+            <li ng-show="ShowLeave" style="cursor:pointer" ng-click="exporttoExcel('leave','leavereport',0)"><a><i class="fa fa fa-print"></i>Export</a></li>
+            <li ng-show="ShowLeave" style="cursor:pointer" ng-click="SearchIncentives(1)"><a><i class="fa fa fa-print"></i>Search</a></li>
+
+
+            <li ng-show="ShowIncentive" style="cursor:pointer" ng-click="GenerateIncentive()"><a><i class="fa fa fa-print"></i>Generate</a></li>
+            <li ng-show="ShowIncentive" style="cursor:pointer" ng-click="exporttoExcel('incentive','incentive',0)"><a><i class="fa fa fa-print"></i>Export</a></li>
+            <li ng-show="ShowIncentive" style="cursor:pointer" ng-click="SearchIncentives(2)"><a><i class="fa fa fa-print"></i>Search</a></li>
+
+
+            <li ng-show="ShowBonus" style="cursor:pointer" ng-click="GenerateBonus()"><a><i class="fa fa fa-print"></i>Generate</a></li>
+            <li ng-show="ShowBonus" style="cursor:pointer" ng-click="exporttoExcel('bonus','bonusreport',0)"><a><i class="fa fa fa-print"></i>Export</a></li>
+            <li ng-show="ShowBonus" style="cursor:pointer" ng-click="SearchIncentives(3)"><a><i class="fa fa fa-print"></i>Search</a></li>
+
+
+            <li ng-show="ShowBeta" style="cursor:pointer" ng-click="GenerateBeta()"><a><i class="fa fa fa-print"></i>Generate</a></li>
+            <li ng-show="ShowBeta" style="cursor:pointer" ng-click="exporttoExcel('beta','betareport',0)"><a><i class="fa fa fa-print"></i>Export</a></li>
+            <li ng-show="ShowBeta" style="cursor:pointer" ng-click="SearchIncentives(5)"><a><i class="fa fa fa-print"></i>Search</a></li>
+
+
+            <li ng-show="ShowOvertime" style="cursor:pointer" ng-click="GenerateOT()"><a><i class="fa fa fa-print"></i>Generate</a></li>
+            <li ng-show="ShowOvertime" style="cursor:pointer" ng-click="exporttoExcel('ot','otreport',0)"><a><i class="fa fa fa-print"></i>Export</a></li>
+            <li ng-show="ShowOvertime" style="cursor:pointer" ng-click="SearchIncentives(4)"><a><i class="fa fa fa-print"></i>Search</a></li>
+
+            <li ng-show="ShowSummary" style="cursor:pointer" ng-click="SearchIncentives(0)"><a><i class="fa fa fa-print"></i>Search</a></li>
+            <li ng-show="DailyWages" style="cursor:pointer" ng-click="SearchDailyWages(0)"><a><i class="fa fa fa-print"></i>Search</a></li>
+
+            <li ng-show="ShowPayrollUploader" style="cursor:pointer" ng-click="SaveSalaryChanges()"><a><i class="fa fa fa-save"></i>Save</a></li>
+
+            <li ng-show="ShowPayrollUploader" style="cursor:pointer" ng-click="exporttoExcel('uploadsalary','Salary Uploader',0)"><a><i class="fa fa fa-download"></i>Export</a></li>
+            <li ng-show="ShowPayrollUploader" style="cursor:pointer" ng-click="Searchforploader()"><a><i class="fa fa fa-search-plus"></i>Search</a></li>
+            <li ng-show="ShowPayrollUploader" style="cursor:pointer">
+                <file-upload class="file-upload"
+                             style="display:inline-block"
+                             ng-model="uploaderfile"
+                             filemodel="uploaderfile"
+                             onuploadcomplete='uploaderfilecompleted'
+                             uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'>
+                    <i class="fa fa-upload"></i>
+                    <span>Upload</span>
+                </file-upload>
+            </li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info" ng-hide="ShowSearch">
+                    <div class="box-body">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Types Of Payroll</label>
+                                <div class="col-md-8">
+                                    <select class="form-control input-sm" select2="" ng-change="PayrollProce()" style="width: 100%;" options="item.id as item.name for item in ParollProcess track by item.id" ng-model="Payroll.payrolltypeid"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" ng-show="Payroll.payrolltypeid>2 && Payroll.payrolltypeid<6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Configuration</label>
+                                <div class="col-md-8">
+                                    <select class="form-control input-sm" select2="" style="width: 100%;" ng-change="ConfigChanged()" options="item.id as item.name for item in SpecialPayment track by item.id" ng-model="configid"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Your Page Content Here -->
+                        <div class="col-md-12">
+                            <!-- Horizontal Form -->
+                            <div class="" ng-show="ShowBonus">
+                                <div class="box-body">
+                                    <div class="header">
+                                        <h4 class="box-title">Bonus</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <!-- basic details starts -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+
+                                                        <label for="inputEmail3" class="col-md-4 control-label">From</label>
+                                                        <div class="col-md-5" style="padding-right:0px">
+                                                            <select class="input-sm form-control" select2="" ng-model="frommonth" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                                        </div>
+                                                        <div class="col-md-3" style="padding-left:0px">
+                                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="fromyear">
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- basic details ends -->
+                                            <div class="col-md-4">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Department</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="departmentid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">To</label>
+                                                        <div class="col-md-5" style="padding-right:0px">
+                                                            <select class="input-sm form-control" select2="" ng-model="tomonth" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                                        </div>
+                                                        <div class="col-md-3" style="padding-left:0px">
+                                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="toyear">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Employee</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control select2 input-sm" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!--<div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4  pull-right">
+                                                            <button class="glyphicon glyphicon-download-alt btn btn-success btn-sm btn-block" ng-click="exporttoExcel('bonus','bonusreport',0)">Export</button>
+                                                        </div>
+                                                        <div class="col-md-4  pull-right">
+                                                            <button class="btn btn-primary btn-sm btn-primary btn-block" ng-click="GenerateBonus()">Generate</button>
+                                                        </div>
+                                                        <div class="col-md-4  pull-right">
+                                                            <button class="btn btn-primary btn-sm btn-warning btn-block" ng-click="SearchIncentives(3)" data-widget="go" data-toggle="tooltip" title="Go">Search</button>
+                                                        </div>
+                                                    </div>
+                                                </div>-->
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 no-padding" id="gridContainer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+
+
+        <script type="text/ng-template" id="ShowAdditionalInfo">
+            <div class="ngdialog-message">
+                <div class="md-col-12">
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> <b>{{additionalinfo.name}}</b></label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> <b>Gross :</b> {{additionalinfo.gross}}</label>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> <b>Date Of Join :</b> {{additionalinfo.doj}}</label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"><b> Releaving On </b>: {{additionalinfo.dor}}</label>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> encashment mode</label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.encashmentmode}}</label>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> encashment days</label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.leaveencashmentdays}}</label>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> totaldays </label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.totaldays}}</label>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> holidays </label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.holidays}}</label>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> sundays </label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.sundays}}</label>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> working days </label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.workingdays}}</label>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> accepted days </label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.acceptedworkday}}</label>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> leave taken</label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.leavetaken}}</label>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> sunday leaves</label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.sundayleaves}}</label>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> holiday leaves</label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.holidayleaves}}</label>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-6 control-label"> leave total</label>
+                            <label for="inputEmail3" class="col-md-6 control-label text-right"> {{additionalinfo.leavetotal}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="ngdialog-buttons">
+                    <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+                </div>
+            </div>
+        </script>
+
+    </section>
+</div>

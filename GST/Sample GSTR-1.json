@@ -1,0 +1,841 @@
+{
+  "gstin": "33AACPG0230G1ZM",
+  "fp": "052018",
+  "gt": 0.00,
+  "cur_gt": 0.00,
+  "b2b": [
+    {
+      "ctin": "33AADCB0715F1ZD",
+      "inv": [
+        {
+          "inum": "INV/000047",
+          "idt": "01-05-2018",
+          "val": 76224.00,
+          "pos": "33",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 0.00,
+                "rt": 0,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "txval": 72594.00,
+                "rt": 5,
+                "camt": 1814.85,
+                "samt": 1814.85,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        }
+      ]
+    },
+    {
+      "ctin": "33AAGPS1727C1Z2",
+      "inv": [
+        {
+          "inum": "INV/000049",
+          "idt": "01-05-2018",
+          "val": 10248.00,
+          "pos": "33",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 0.00,
+                "rt": 0,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "txval": 9760.00,
+                "rt": 5,
+                "camt": 244.00,
+                "samt": 244.00,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        },
+        {
+          "inum": "INV/000052",
+          "idt": "03-05-2018",
+          "val": 124.00,
+          "pos": "33",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 0.00,
+                "rt": 0,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "txval": 118.00,
+                "rt": 5,
+                "camt": 3.00,
+                "samt": 3.00,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        },
+        {
+          "inum": "INV/000056",
+          "idt": "05-05-2018",
+          "val": 8673.00,
+          "pos": "33",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 0.00,
+                "rt": 0,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "txval": 8260.00,
+                "rt": 5,
+                "camt": 206.50,
+                "samt": 206.50,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        },
+        {
+          "inum": "INV/000057",
+          "idt": "05-05-2018",
+          "val": 55125.00,
+          "pos": "33",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 0.00,
+                "rt": 0,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "txval": 52500.00,
+                "rt": 5,
+                "camt": 1312.50,
+                "samt": 1312.50,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        },
+        {
+          "inum": "INV/000059",
+          "idt": "07-05-2018",
+          "val": 231.00,
+          "pos": "33",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 0.00,
+                "rt": 0,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "txval": 220.00,
+                "rt": 5,
+                "camt": 5.50,
+                "samt": 5.50,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        },
+        {
+          "inum": "INV/000064",
+          "idt": "09-05-2018",
+          "val": 292.00,
+          "pos": "33",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 0.00,
+                "rt": 0,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "txval": 278.00,
+                "rt": 5,
+                "camt": 7.00,
+                "samt": 7.00,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        }
+      ]
+    },
+    {
+      "ctin": "32AECPV9270M1ZY",
+      "inv": [
+        {
+          "inum": "INV/000054",
+          "idt": "04-05-2018",
+          "val": 14679.00,
+          "pos": "32",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 0.00,
+                "rt": 0,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "txval": 13980.00,
+                "rt": 5,
+                "iamt": 699.00,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        }
+      ]
+    },
+    {
+      "ctin": "37AABFN5070A1ZP",
+      "inv": [
+        {
+          "inum": "INV/000068",
+          "idt": "14-05-2018",
+          "val": 23625.00,
+          "pos": "37",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 0.00,
+                "rt": 0,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "txval": 22500.00,
+                "rt": 5,
+                "iamt": 1125.00,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        },
+        {
+          "inum": "INV/000072",
+          "idt": "15-05-2018",
+          "val": 10500.00,
+          "pos": "37",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 0.00,
+                "rt": 0,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "txval": 10000.00,
+                "rt": 5,
+                "iamt": 500.00,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        }
+      ]
+    },
+    {
+      "ctin": "32AKHPS5369R1Z9",
+      "inv": [
+        {
+          "inum": "INV/000074",
+          "idt": "15-05-2018",
+          "val": 24465.00,
+          "pos": "32",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 0.00,
+                "rt": 0,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "txval": 23300.00,
+                "rt": 5,
+                "iamt": 1165.00,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        }
+      ]
+    },
+    {
+      "ctin": "32AAIFP4183D1ZG",
+      "inv": [
+        {
+          "inum": "INV/000073",
+          "idt": "15-05-2018",
+          "val": 22019.00,
+          "pos": "32",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 0.00,
+                "rt": 0,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "txval": 20970.00,
+                "rt": 5,
+                "iamt": 1049.00,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        }
+      ]
+    },
+    {
+      "ctin": "32ABCFM5880B1ZL",
+      "inv": [
+        {
+          "inum": "INV/000075",
+          "idt": "16-05-2018",
+          "val": 24465.00,
+          "pos": "32",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 0.00,
+                "rt": 0,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "txval": 23300.00,
+                "rt": 5,
+                "iamt": 1165.00,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        }
+      ]
+    },
+    {
+      "ctin": "33AAACS8577K1ZW",
+      "inv": [
+        {
+          "inum": "SL/OT/004",
+          "idt": "31-05-2018",
+          "val": 72347.00,
+          "pos": "33",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 61311.00,
+                "rt": 18,
+                "camt": 5518.00,
+                "samt": 5518.00,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        }
+      ]
+    },
+    {
+      "ctin": "33AAPFV4236Q1ZG",
+      "inv": [
+        {
+          "inum": "SL/OT/005",
+          "idt": "31-05-2018",
+          "val": 50976.00,
+          "pos": "33",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 43200.00,
+                "rt": 18,
+                "camt": 3888.00,
+                "samt": 3888.00,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        }
+      ]
+    },
+    {
+      "ctin": "33AABCT0343B1Z5",
+      "inv": [
+        {
+          "inum": "SL/OT/006",
+          "idt": "31-05-2018",
+          "val": 31448.00,
+          "pos": "33",
+          "rchrg": "N",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 26650.00,
+                "rt": 18,
+                "camt": 2399.00,
+                "samt": 2399.00,
+                "csamt": 0.00
+              }
+            }
+          ],
+          "inv_typ": "R"
+        }
+      ]
+    }
+  ],
+  "b2cs": [
+    {
+      "rt": 0,
+      "sply_ty": "INTRA",
+      "pos": "33",
+      "typ": "OE",
+      "txval": 0.00,
+      "camt": 36.69,
+      "samt": 36.69,
+      "csamt": 0.00
+    },
+    {
+      "rt": 3,
+      "sply_ty": "INTRA",
+      "pos": "33",
+      "typ": "OE",
+      "txval": 240031.00,
+      "camt": 3600.63,
+      "samt": 3600.63,
+      "csamt": 0.00
+    },
+    {
+      "rt": 5,
+      "sply_ty": "INTRA",
+      "pos": "33",
+      "typ": "OE",
+      "txval": 66225593.19,
+      "camt": 1655601.65,
+      "samt": 1655601.65,
+      "csamt": 0.00
+    },
+    {
+      "rt": 12,
+      "sply_ty": "INTRA",
+      "pos": "33",
+      "typ": "OE",
+      "txval": 4221435.00,
+      "camt": 253286.31,
+      "samt": 253286.31,
+      "csamt": 0.00
+    },
+    {
+      "rt": 18,
+      "sply_ty": "INTRA",
+      "pos": "33",
+      "typ": "OE",
+      "txval": 806333.00,
+      "camt": 72570.02,
+      "samt": 72570.02,
+      "csamt": 0.00
+    },
+    {
+      "rt": 28,
+      "sply_ty": "INTRA",
+      "pos": "33",
+      "typ": "OE",
+      "txval": 298421.00,
+      "camt": 41778.44,
+      "samt": 41778.44,
+      "csamt": 0.00
+    }
+  ],
+  "cdnr": [
+    {
+      "ctin": "33AASFP2770Q1ZG",
+      "nt": [
+        {
+          "ntty": "C",
+          "nt_num": "SSR/000012",
+          "nt_dt": "16-05-2018",
+          "p_gst": "N",
+          "inum": "INV/001128",
+          "idt": "05-03-2018",
+          "val": 25704.00,
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "rt": 0,
+                "txval": 0.00,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "rt": 5,
+                "txval": 24480.00,
+                "camt": 612.00,
+                "samt": 612.00,
+                "csamt": 0.00
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ctin": "33AGIPR9650H1Z1",
+      "nt": [
+        {
+          "ntty": "C",
+          "nt_num": "SSR/000013",
+          "nt_dt": "16-05-2018",
+          "p_gst": "N",
+          "inum": "INV/001146",
+          "idt": "08-03-2018",
+          "val": 25043.00,
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "rt": 0,
+                "txval": 0.00,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "rt": 5,
+                "txval": 23850.00,
+                "camt": 596.50,
+                "samt": 596.50,
+                "csamt": 0.00
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ctin": "33ADFFS9267D1ZX",
+      "nt": [
+        {
+          "ntty": "C",
+          "nt_num": "SSR/000020",
+          "nt_dt": "29-05-2018",
+          "p_gst": "N",
+          "inum": "INV/000987",
+          "idt": "17-01-2018",
+          "val": 8401.00,
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "rt": 0,
+                "txval": 0.00,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            },
+            {
+              "num": 2,
+              "itm_det": {
+                "rt": 5,
+                "txval": 8001.00,
+                "camt": 200.00,
+                "samt": 200.00,
+                "csamt": 0.00
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "hsn": {
+    "data": [
+      {
+        "num": 1,
+        "hsn_sc": "12121",
+        "desc": "OUTWARD SUPPLIES 5",
+        "uqc": "OTH",
+        "qty": 0,
+        "val": 4376914.73,
+        "txval": 4168490.19,
+        "iamt": 0.00,
+        "camt": 104212.27,
+        "samt": 104212.27,
+        "csamt": 0.00
+      },
+      {
+        "num": 2,
+        "hsn_sc": "7117",
+        "desc": "Imitation Jewellery",
+        "uqc": "OTH",
+        "qty": 0,
+        "val": 72.10,
+        "txval": 70.00,
+        "iamt": 0.00,
+        "camt": 1.05,
+        "samt": 1.05,
+        "csamt": 0.00
+      },
+      {
+        "num": 3,
+        "hsn_sc": "12322",
+        "desc": "Textile",
+        "uqc": "OTH",
+        "qty": 0,
+        "val": 119753.00,
+        "txval": 114050.00,
+        "iamt": 5703.00,
+        "camt": 0.00,
+        "samt": 0.00,
+        "csamt": 0.00
+      },
+      {
+        "num": 4,
+        "hsn_sc": "997212",
+        "desc": "Rent",
+        "uqc": "OTH",
+        "qty": 0,
+        "val": 154771.00,
+        "txval": 131161.00,
+        "iamt": 0.00,
+        "camt": 11805.00,
+        "samt": 11805.00,
+        "csamt": 0.00
+      }
+    ]
+  },
+  "doc_issue": {
+    "doc_det": [
+      {
+        "doc_num": 1,
+        "doc_typ": "Invoices for outward supply",
+        "docs": [
+          {
+            "num": 1,
+            "from": "INV/000047",
+            "totnum": 347,
+            "cancel": 0,
+            "net_issue": 347
+          },
+          {
+            "num": 2,
+            "from": "SL/OT/004",
+            "to": "SL/OT/006",
+            "totnum": 3,
+            "cancel": 0,
+            "net_issue": 3
+          }
+        ]
+      },
+      {
+        "doc_num": 2,
+        "doc_typ": "Invoices for inward supply from unregistered person",
+        "docs": [
+          {
+            "num": 1,
+            "totnum": 51,
+            "cancel": 0,
+            "net_issue": 51
+          },
+          {
+            "num": 2,
+            "from": "68",
+            "to": "168",
+            "totnum": 1,
+            "cancel": 0,
+            "net_issue": 1
+          },
+          {
+            "num": 3,
+            "totnum": 1,
+            "cancel": 0,
+            "net_issue": 1
+          },
+          {
+            "num": 4,
+            "from": "JL/325",
+            "to": "JL/663",
+            "totnum": 13,
+            "cancel": 0,
+            "net_issue": 13
+          },
+          {
+            "num": 5,
+            "from": "amn-11/24/04/201",
+            "to": "000054/05/05/201",
+            "totnum": 2,
+            "cancel": 0,
+            "net_issue": 2
+          },
+          {
+            "num": 6,
+            "from": "PUR/EXP/269",
+            "to": "PUR/EXP/700",
+            "totnum": 94,
+            "cancel": 0,
+            "net_issue": 94
+          },
+          {
+            "num": 7,
+            "from": "RCM/EXP/030",
+            "to": "RCM/EXP/034",
+            "totnum": 3,
+            "cancel": 0,
+            "net_issue": 3
+          }
+        ]
+      },
+      {
+        "doc_num": 5,
+        "doc_typ": "Credit Note",
+        "docs": [
+          {
+            "num": 1,
+            "from": "SKS/038549",
+            "to": "SKS/093031",
+            "totnum": 64,
+            "cancel": 0,
+            "net_issue": 64
+          }
+        ]
+      },
+      {
+        "doc_num": 4,
+        "doc_typ": "Debit Note",
+        "docs": [
+          {
+            "num": 1,
+            "from": "DRS/000015/02/05",
+            "to": "PDIS759/31/05/20",
+            "totnum": 287,
+            "cancel": 0,
+            "net_issue": 287
+          }
+        ]
+      }
+    ]
+  }
+}

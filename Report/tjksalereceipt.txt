@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+   <PageSetting>
+      <Setting topmargin="0" leftmargin="5" bottommargin="0" fixedbilltypes="CUSTOMER COPY,SHOP COPY" rightmargin="5" width="288" height="auto" landscape="false" />
+   </PageSetting>
+   <Header>
+      <Line>
+         <Content type="Logo" align="center">0,0,100,100</Content>
+      </Line>
+      <Line>
+         <Content type="Field" name="billdisplay" length="288" align="center" />
+      </Line>
+
+      <Line HasValue="hascustomer">
+         <Content type="Line" length="288" />
+      </Line>
+      <Line HasValue="hascustomer">
+         <Content type="Word" length="2" align="left" />
+         <Content type="Word" length="88" align="left" style="Verdana,7,bold">Customer Name</Content>
+         <Content type="Word" length="10" align="left">:</Content>
+         <Content type="Field" name="customername" length="200" style="Verdana,7" />
+      </Line>
+      <Line HasValue="hascustomer">
+         <Content type="Word" length="2" align="left" />
+         <Content type="Word" length="88" align="left" style="Verdana,7,bold">Contact  No</Content>
+         <Content type="Word" length="10" align="left" style="Verdana,7,bold">:</Content>
+         <Content type="Field" name="customer.mobileno" length="200" style="Verdana,7" />
+      </Line>
+      <Line HasValue="hasgst">
+         <Content type="Word" length="2" align="left" />
+         <Content type="Word" length="88" align="left" style="Verdana,7,bold">GST  No</Content>
+         <Content type="Word" length="10" align="left" style="Verdana,7,bold">:</Content>
+         <Content type="Field" name="customer.gstno" style="Verdana,7" length="200" />
+      </Line>
+      <Line>
+         <Content type="Word" length="2" align="left" />
+         <Content type="Word" length="88" align="left" style="Verdana,7,bold">BILL No</Content>
+         <Content type="Word" length="10" align="left" style="Verdana,7,bold">:</Content>
+         <Content type="Field" name="billno" length="90" align="left" style="Verdana,7" />
+         <Content type="Word" length="35" align="center" style="Verdana,7,bold">Date :</Content>
+         <Content type="Field" style="Verdana,7" name="billdate" length="50" align="left" format="dd/MM/yyyy" />
+      </Line>
+   </Header>
+   <Body Length="0" Type="Table" Height="200" DisableGrid='True' WrapRow='True'>
+      <Line type="Table" Thermal='True'>
+         <Content type="Field" name="orderid" text="S.N" Length="17" align="left"  style="Verdana,6" />
+         <Content type="Field" name="barcode" text="BARCODE" Length="40" align="left"  style="Verdana,6"  />
+         <Content type="Field" name="printingname" text="PRODUCTS" Length="90" align="left"  style="Verdana,6"  />
+         <Content type="Field" name="qtyinmeter" text="MTR" Length="25" align="right"  style="Verdana,6"  />
+         <Content type="Field" name="qtyinpiece" text="QTY" Length="25" align="right" format="F2" Total='true'  style="Verdana,6"  />
+         <Content type="Field" name="salerate" text="RATE" Length="25" align="right" format="F0"  style="Verdana,6"  />
+         <Content type="Field" name="totaldiscountpercentage" text="DISC" Length="25" Suffix="%" align="right"  style="Verdana,6"  />
+         <Content type="Field" name="receivable" text="AMT" Length="25" align="right" format="F0"  Total='true'  style="Verdana,6"  />
+      </Line>
+   </Body>
+   <Footer>
+      <Line>
+         <Content type="Word" length="200" align="right" style="bold">Total Amount     :</Content>
+         <Content type="Field" name="totalamount" text="" Length="75" style="bold" align="right" format="F2" />
+      </Line>
+      <Line HasValue="hasdiscount">
+         <Content type="Word" length="200" align="right" style="bold">Discount         :</Content>
+         <Content type="Field" name="totaldiscount" text="" Length="75" style="bold" align="right" format="F2" />
+      </Line>
+      <Line>
+         <Content type="Word" length="200" align="right" style="large">Net Amount   :</Content>
+         <Content type="Field" name="total" text="" Length="75" style="large" align="right" format="F2" />
+      </Line>
+      <Line>
+         <Content type="Line" length="288" />
+      </Line>
+
+      <Line type="Table" field="BillTax"  Thermal='True'>
+      <Content type='Field' name='taxpercentage' text='Tax %' Length='80' align='right' format='F0' Suffix='%' style="Verdana,6"/>
+      <Content type='Field' name='amount' text='Amount' Length='75' align='right' format='F2'  Prefix='₹' Total='true' style="Times New Roman,6"/>
+      <Content type='Field' name='igsttax' text='IGST' Length='40' align='right' format='F2' Total='true' style="Verdana,6"/>
+      <Content type='Field' name='cgsttax' text='CGST' Length='40' align='right' format='F2' Total='true' style="Verdana,6"/>
+      <Content type='Field' name='sgsttax' text='SGST' Length='40' align='right' format='F2' Total='true' style="Verdana,6"/>
+      </Line>
+
+      <Line>
+         <Content type="Line" length="288" />
+      </Line>
+      <Line>
+         <Content type="Barcode" name="billno" length="288" align="center" Height='40' />
+      </Line>
+     <Line>
+         <Content type="Word" length="288" align="center"></Content>
+      </Line>
+      <Line>
+         <Content type="Word" length="288" align="center">FOR MORE UPDATES AND COMPLAINS</Content>
+      </Line>
+      <Line>
+         <Content type="Word" length="288" align="center" style="bold">Whatsapp to 9655933153</Content>
+      </Line>
+      <Line>
+         <Content type="Line" length="288" />
+      </Line>
+      <Line>
+         <Content type="Word" length="288" align="center">THANK YOU***VISIT AGAIN</Content>
+      </Line>
+      <Line />
+      <Line>
+         <Content type="Word" length="288" align="center" style="bold">visit us @ www.tirupathyjaulykadal.com</Content>
+      </Line>
+   </Footer>
+</Config>

@@ -1,0 +1,133 @@
+﻿<div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>Incentive Processing</h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+<li><a href back-button>Back</a></li>
+                <li class="active">Incentive Processing</li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <!-- first row starts  -->
+            <div class="box box-primary">
+                <div class="box-body">
+                    <form name="productrequestform">
+                        <div class="col-md-12">
+                            <!-- basic details starts -->
+                            <div class="col-md-6">
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 control-label">From Date</label>
+                                    <div class="col-md-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="input-sm form-control pull-right" datemodule="IncentiveProcessing.requestedon" ng-model="IncentiveProcessing.RequestedOn">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Approved By</label>
+                                        <div class="col-md-8">
+                                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Employees track by item.id" ng-model="IncentiveProcessing.requestedby"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Department</label>
+                                        <div class="col-md-8">
+                                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Employees track by item.id" ng-model="IncentiveProcessing.requestedby"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- basic details ends -->
+                            <div class="col-md-6">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">To Date</label>
+                                        <div class="col-md-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="input-sm form-control pull-right" datemodule="ProductRequest.requestedon" ng-model="IncentiveProcessing.RequestedOn">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-md-4 control-label">Section</label>
+                                        <div class="col-md-8 no-padding">
+                                            <select class="input-sm form-control" select2="" ng-model="IncentiveProcessing.reasonid" options="item.id as item.name for item in ReasonList track by item.id"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                        <div class="col-md-8 no-padding">
+                                            <select class="input-sm form-control" options="item.id as item.name for item in BuyingCompany track by item.id" ng-model="IncentiveProcessing.companyid" select2="Select Company"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-md-12 pull-right">
+                            <label for="inputEmail3" class="col-md-4 control-label text-green" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+                            <button class="btn btn-primary btn-sm btn-warning col-md-1 pull-right" ng-click="Clear()">Clear</button>
+                            <button class="btn btn-primary btn-sm btn-primary col-md-1 pull-right btn_pad" ng-click="Save()">Save</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script type="text/ng-template" id="ProductSearch">
+    <div class="ngdialog-message">
+        <div class="table-responsive mailbox-messages">
+            <div class="col-md-12" ng-show="ShowCreate">
+                <label for="inputPassword3" class="col-md-4">Printing Name</label>
+                <div class="input-group input-group-sm col-md-8">
+                    <input type="text" class="input-sm form-control" ng-model="printingname">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info btn-flat" ng-click="Create()">Create</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <table fixed-header="150px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:100px">Name</th>
+                            <th style="width:150px">Detail</th>
+                            <th style="width:40px">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in PopupList">
+                            <td>{{item.printingname}}</td>
+                            <td>{{item.display}}</td>
+                            <td><button type="button" class="btn btn-xs btn-primary" ng-click="Selected(item)">Select</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

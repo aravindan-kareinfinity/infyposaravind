@@ -1,0 +1,819 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Warehouse / Invoice ({{companygst}}->{{suppliergst}})
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="Clear()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" ng-disabled="SaveRequest" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.save" ng-disabled="SaveRequest" style="cursor:pointer" ng-click="ImportInvoice()"><a><i class="fa fa-clone"></i>Clone Invoice</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <!--<li ng-show="Navigation.create" style="cursor:pointer" ng-click="Print()"><a><i class="fa fa-print"></i>Print</a></li>-->
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="Download()"><a><i class="fa fa-print"></i>Print Invoice</a></li>
+            <li ng-show="Navigation.searchentity && SearchResult.length>0" style="cursor:pointer" ng-click="exporttoExcel(igrid,'InvoiceEntryReport', 'lrinvoice')"><a><i class="fa fa-download"></i>Export</a></li>
+
+            <li ng-show="Navigation.searchentity && SearchResult.length>0 && selectedcount>0"
+                style="cursor:pointer" ng-click="ChangeSettled(true)"><a><i class="fa fa-edit"></i>Mark Settled</a></li>
+
+            <li ng-show="Navigation.searchentity && SearchResult.length>0 && selectedcount>0"
+                style="cursor:pointer" ng-click="ChangeSettled(false)"><a><i class="fa fa-edit"></i>Mark Unsettled</a></li>
+
+
+            <li ng-show="Navigation.searchentity && supportapproval && intray_pur_prt && selectedcount>0" style="cursor:pointer"
+                ng-click="ChangeStatus(true)"><a><i class="fa fa-user-plus"></i>Approve ({{selectedcount}})</a></li>
+            <li ng-show="Navigation.searchentity && supportapproval && intray_pur_prt && selectedcount>0" style="cursor:pointer"
+                ng-click="ChangeStatus(false)"><a><i class="fa fa-user-times"></i>Reject ({{selectedcount}})</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="col-md-9 no-padding">
+                            <div class="col-md-4">
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 form-group required control-label">Company</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control input-sm" select2='Buying Company'
+                                                style="width: 100%;"
+                                                options="item.id as item.name for item in BuyingCompany track by item.id"
+                                                ng-model="InvoiceItem.companyid"
+                                                ng-change="CompanyChanged()"
+                                                focusid="companyid" focusonenter="suppliercompanyid"></select>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 form-group required control-label">Supplier</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control input-sm" select2='Supplier Company'
+                                                style="width: 100%;"
+                                                options="item.id as item.name for item in SupplierCompany track by item.id"
+                                                ng-model="InvoiceItem.suppliercompanyid"
+                                                focusid="suppliercompanyid"
+                                                ng-change="SupplierCompChanged()"
+                                                focusonenter="invoiceno"></select>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-4 required form-group control-label">Entry Date</label>
+                                    <div class="col-md-8">
+
+                                        <input type="text" class="form-control input-sm pull-right" focusid="entrydate" ng-disabled="disableinvoiceentrydate"
+                                               focusonenter="taxamounton" datemodule="InvoiceItem.entrydate" ng-model="InvoiceItem.entrydate" id="datepicker">
+
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="col-md-4">
+                                        <label for="inputEmail3" class="form-group control-label">Interstate</label>
+                                    </div>
+                                    <div class="col-md-2" style="padding-right:0px">
+                                        <input type="checkbox" class="flat-red" style="margin-right:20px" ng-model="InvoiceItem.isinterstatesale">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="inputEmail3" class="form-group control-label pull-right">Credit Note</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="checkbox" class="flat-red pull-right" ng-model="InvoiceItem.iscreditnote">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-6 form-group required control-label">Invoice Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control input-sm pull-right"
+                                               focusid="invoicedate" focusonenter="taxamounton" datemodule="InvoiceItem.invoicedate"
+                                               ng-model="InvoiceItem.invoicedate" id="datepicker">
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-6 form-group required control-label">Invoice No</label>
+                                    <div class="col-md-6">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" focusid="invoiceno" focusonenter="invoicedate" ng-model="InvoiceItem.invoiceno">
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-3">
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-5 form-group required control-label">LR No</label>
+                                    <div class="col-md-7">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;"
+                                               ng-readonly="true" ng-model="Invoice.lrnoInfo">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-5 form-group required control-label">LR Expense</label>
+                                    <div class="col-md-7">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;"
+                                               ng-model="Invoice.lrexpense" ng-readonly="true" ng-show="!Invoice.editlrexpense">
+
+                                        <input method="text" class="form-control input-sm" style="width: 100%;"
+                                               ng-model="Invoice.lrnewexpense" ng-show="Invoice.editlrexpense">
+
+                                        <button style="position:absolute;color:green;right:45px;top:3px;height:24px;width:24px"
+                                                ng-show="Invoice.editlrexpense" ng-click="LRExpenseChanged('Save')">
+                                            <i class="fa fa-check"></i>
+                                        </button>
+                                        <button style="position:absolute;color:indianred;right:20px;top:3px;height:24px;width:24px"
+                                                ng-show="Invoice.editlrexpense" ng-click="LRExpenseChanged('Cancel')">
+                                            <i class="fa fa-close"></i>
+                                        </button>
+                                        <button style="position:absolute;color:indianred;right:20px;top:3px;height:24px;width:24px"
+                                                ng-hide="Invoice.editlrexpense" ng-click="LRExpenseChanged('Show')">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-9 no-padding" style="font-size:small;font-weight:lighter">
+
+                            <table fixed-header="180px" class="fixed_table" id="resulttable">
+                                <thead>
+                                    <tr>
+                                        <th style="width:100px">Type</th>
+                                        <th style="width:100px">Amount On</th>
+                                        <th style="width:100px">Dis%</th>
+                                        <th style="width:100px">Discount</th>
+                                        <th style="width:100px">Tax</th>
+                                        <th style="width:100px">T.Value</th>
+                                        <th style="width:100px">Nett Amount</th>
+                                        <th style="width:50px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="max-height:200px">
+
+                                        <td>
+                                            <select class="form-control input-sm" select2="Amount On" style="width:100%;" options="item.id as item.name for item in EntryTypes track by item.id"
+                                                    ng-model="InvoiceTax.type" ng-change="typeChanged()" focusid="entrytype"
+                                                    onkeyenter="validatetype()"></select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control input-sm" ng-change="Compute('amounton')"
+                                                   ng-model="InvoiceTax.amounton" onkeyenter="calculator('amounton')"
+                                                   focusid="taxamounton" focusonenter="taxdiscountpercentage">
+                                        </td>
+
+                                        <td>
+                                            <input type="text" class="form-control input-sm" ng-change="Compute('discountpercentage')"
+                                                   ng-model="InvoiceTax.discountpercentage" focusid="taxdiscountpercentage" onkeyenter="validatediscountpercent()">
+                                        </td>
+
+                                        <td>
+                                            <input type="text" class="form-control input-sm" ng-change="Compute('discount')"
+                                                   ng-model="InvoiceTax.discount"
+                                                   focusid="taxdiscount" onkeyenter="validatetax()">
+                                        </td>
+                                        <td>
+                                            <div ng-show="InvoiceTax.typeinfo.tax">
+                                                <select class="form-control input-sm" select2="Amount On" style="width:100%;" ng-options="item.code as item.name for item in purchaseTax track by item.code"
+                                                        ng-model="InvoiceTax.taxid" ng-change="taxChanged()" focusid="taxtaxid" focusonenter="taxnetamount"></select>
+                                            </div>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <span ng-show="InvoiceTax.typeinfo.tax && InvoiceTax.typeinfo.id != 8">{{InvoiceTax.taxamount}} @ {{InvoiceTax.percentage}}%</span>
+
+                                            <input type="text" ng-hide="InvoiceTax.typeinfo.tax && InvoiceTax.typeinfo.id != 8" class="form-control input-sm"
+                                                   ng-change="Compute('taxamount')"
+                                                   ng-model="InvoiceTax.taxamount"
+                                                   focusid="taxamount" focusonenter="taxnetamount">
+                                        </td>
+                                        <td>
+                                            <input method="text" class="form-control input-sm" ng-change="Compute('netamount')" ng-model="InvoiceTax.netamount"
+                                                   onkeyenter="AddTaxItem()" focusid="taxnetamount">
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-primary btn-flat pull-right" style="width: 100%;" ng-click="AddTaxItem()">
+                                                <i class="fa fas fa-plus"></i>
+                                                Add
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="item in InvoiceItem.Lrinvoicetaxitems">
+                                        <td>{{SearchRef(item.type,EntryTypes)}}</td>
+                                        <td>{{item.amounton}}</td>
+                                        <td>{{item.discountpercentage}}</td>
+                                        <td>{{item.discount}}</td>
+                                        <td>{{SearchRef(item.taxid,purchaseTaxActual)}}</td>
+                                        <td>{{item.taxamount}} @ {{item.percentage}}%</td>
+                                        <td>{{item.netamount}}</td>
+                                        <!--<td width="35px">
+                                            <button type="button" class="btn btn-block btn-success btn-xs pull-left"
+                                                    ng-click="ManageInvoiceTypeItem('edittax',item)" style="width:30px">
+                                                <i class="fa fas fa-file"></i>
+                                            </button>
+                                        </td>-->
+                                        <td width="35px">
+                                            <button type="button" class="btn btn-block btn-danger btn-xs pull-left"
+                                                    ng-click="ManageInvoiceTypeItem('deletetax',item)" style="width:30px">
+                                                <i class="fa fas fa-trash"></i>
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="col-md-12" style="padding-bottom:5px;padding-left:0px">
+
+
+                                <div class="col-md-6" style="padding-left:0px">
+                                    <div class="col-md-12 no-padding">
+                                        <div class="col-md-3 no-padding">
+                                            <label for="inputEmail3" class="control-label">Bill Value</label>
+
+                                            <input method="text" class="form-control input-sm" style="width: 100%;" focusid="billvalue" focusonenter="expensepercentage"
+                                                   ng-model="InvoiceItem.billvalue" onkeyenter="calculator('billvalue')">
+                                        </div>
+                                        <div class="col-md-2 no-padding">
+                                            <label for="inputEmail3" class="control-label">Expense %</label>
+                                            <input method="text" class="form-control input-sm"
+                                                   style="width: 100%;" focusid="expensepercentage" focusonenter="expenseperpiece"
+                                                   ng-model="InvoiceItem.expensepercentage">
+                                        </div>
+                                        <div class="col-md-2 no-padding">
+                                            <label for="inputEmail3" class="control-label">Expense ₹</label>
+                                            <input method="text" class="form-control input-sm"
+                                                   style="width: 100%;" focusid="expenseperpiece" focusonenter="noofpieces"
+                                                   ng-model="InvoiceItem.expenseperpiece">
+                                        </div>
+                                        <div class="col-md-2 no-padding">
+                                            <label for="inputEmail3" class="control-label">Pieces</label>
+                                            <input method="text" class="form-control input-sm" style="width: 100%;" focusid="noofpieces"
+                                                   focusonenter="noofbundle" ng-model="InvoiceItem.noofpieces">
+                                        </div>
+
+                                        <div class="col-md-2 no-padding">
+                                            <label for="inputEmail3" class="control-label">Bundles</label>
+                                            <input method="text" class="form-control input-sm" style="width: 100%;"
+                                                   ng-model="InvoiceItem.noofbundle" focusid="noofbundle"
+                                                   ng-change="CalculatePless()">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 no-padding" ng-show="InvoiceItem.hastds">
+                                        <div class="col-md-3" style="padding-left:0px;padding-right:0px;padding-top:5px">
+                                            TDS Value
+                                        </div>
+                                        <div class="col-md-4 no-padding">
+                                            <!--ng-change="ComputeTDS()"-->
+                                            <select class="form-control" select2='TDS Ledger' style="width:100%;"
+                                                    ng-model="InvoiceItem.tdsledgerid"
+                                                    options="item.id as item.displayname for item in TDSLedgers track by item.id"></select>
+                                        </div>
+                                        <div class="col-md-2 no-padding">
+                                            <input method="text" class="form-control input-sm" style="width: 100%;"
+                                                   ng-model="InvoiceItem.tdspercentage">
+                                            <div style="position:absolute;right:10px;top:5px">
+                                                %
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 no-padding">
+                                            <input method="text" class="form-control input-sm" style="width: 100%;"
+                                                   ng-model="InvoiceItem.tdsamount">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6" style="padding-left:0px;padding-right:0px">
+                                    <div class="col-md-5">
+
+                                        <div class="col-md-12 no-padding">
+                                            <!--<input type="checkbox" ng-model="InvoiceItem.isinclusiveall">
+                                            <label for="inputEmail3" class="control-label">Inclusive All</label>-->
+                                            <input type="checkbox" style="align-content:center" ng-model="InvoiceItem.isinclusivetax">
+                                            <label for="inputEmail3" class="control-label">Tax Included On Price</label>
+                                        </div>
+                                        <div class="col-md-12 no-padding">
+                                            <input type="checkbox" ng-model="InvoiceItem.isinclusivediscount">
+                                            <label for="inputEmail3" class="control-label">Discount on Total Value</label>
+                                        </div>
+
+                                        <div class="col-md-12 no-padding">
+                                            <input type="checkbox" ng-model="InvoiceItem.hastds">
+                                            <label for="inputEmail3" class="control-label">TDS</label>
+                                            <div style="position:absolute;top:0px;right:0px" ng-show="InvoiceItem && InvoiceItem!=null && InvoiceItem.baseamount>0">
+                                                <button type="button" class="btn btn-success btn-xs" ng-click="ComputeTDS()">Refresh</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-7">
+
+                                        <div class="col-md-12 no-padding">
+
+                                            <!--<input type="checkbox" ng-model="InvoiceItem.isinclusiveall">
+                                            <label for="inputEmail3" class="control-label">Inclusive All</label>-->
+
+                                            <input type="checkbox" style="align-content:center" ng-model="InvoiceItem.isvendorbill">
+                                            <label for="inputEmail3" class="control-label">Internal Vendor</label>
+                                        </div>
+                                        <div class="col-md-12 no-padding">
+                                            <div class="col-md-7 no-padding">
+                                                <div class="col-md-12 no-padding">
+                                                    <input type="checkbox" style="align-content:center" ng-model="InvoiceItem.isrcm">
+                                                    <label for="inputEmail3" class="control-label">RCM</label>
+                                                </div>
+                                                <div class="col-md-12 no-padding">
+                                                    <input type="checkbox" ng-model="InvoiceItem.hascommission">
+                                                    <label for="inputEmail3" class="control-label">Agent Commission</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5 no-padding">
+                                                <div class="pull-right">
+                                                    <button type="button" class="btn btn-sm btn-primary" ng-click="AddInvoice()"
+                                                            ng-disabled="InvoiceItem.baseamount==0">
+                                                        Add Invoice
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-5 control-label">Base Amount</label>
+                                    <div class="col-md-7">
+                                        <input type="number" class="form-control input-sm" style="width: 100%;" ng-readonly="true" focusid="baeamount" focusonenter="rounding" ng-model="InvoiceItem.baseamount" ng-change="CalculateTotal()">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-5 control-label">Discount</label>
+                                    <div class="col-md-7">
+                                        <input type="number" class="form-control input-sm" style="width: 100%;"
+                                               focusid="discount" focusonenter="baseamount" ng-readonly="true"
+                                               ng-model="InvoiceItem.discount" ng-change="CalculateTotal()">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-5 control-label">Pcs Discount</label>
+                                    <div class="col-md-7">
+                                        <div class="col-md-12 no-padding">
+                                            <div class="col-md-6 no-padding">
+                                                <input type="text" class="form-control input-sm"
+                                                       focusid="discount" focusonenter="baseamount" style="width: 100%;"
+                                                       ng-model="InvoiceItem.plessvalue" ng-change="CalculatePless()">
+
+                                            </div>
+                                            <div class="col-md-6 no-padding">
+                                                <input type="number" class="form-control input-sm"
+                                                       focusid="discount" focusonenter="baseamount"
+                                                       ng-readonly="true" style="width: 100%;"
+                                                       ng-model="InvoiceItem.plessdiscount">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-5 control-label">Tax Charges</label>
+                                    <div class="col-md-7">
+                                        <input type="number" class="form-control input-sm" style="width: 100%;" ng-readonly="true" ng-model="InvoiceItem.taxamount">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-5 control-label">Gross Amount</label>
+                                    <div class="col-md-7">
+                                        <input type="number" class="form-control input-sm" style="width: 100%;" ng-readonly="true" ng-model="InvoiceItem.grossamount">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-5 control-label">Rounding</label>
+                                    <div class="col-md-7">
+                                        <input type="number" class="form-control input-sm" style="width: 100%;" focusid="rounding" ng-change="CalculateTotal(false)" ng-model="InvoiceItem.otheramount">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-5 control-label">Net Amount</label>
+                                    <div class="col-md-7">
+                                        <input type="number" class="form-control input-sm" style="width: 100%;" ng-readonly="true"
+                                               ng-model="InvoiceItem.totalamount">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-9 no-padding">
+                            <!-- /.row -->
+                            <div class="row row-padbot-15">
+                                <div class="col-md-12">
+                                    <table fixed-header="120px" class="fixed_table" additionalheight="370">
+                                        <thead>
+                                            <tr>
+                                                <th width="150px">Company</th>
+                                                <th width="120px">Invoice No</th>
+                                                <th width="100px">Date</th>
+                                                <th width="100px">Bundles/Piece</th>
+                                                <th width="100px">Base</th>
+                                                <th width="100px">Tax</th>
+                                                <th width="100px">Expense %/₹</th>
+                                                <th width="100px">Total</th>
+                                                <th width="100px">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in Invoice.Items">
+                                                <td>{{SearchRef(item.suppliercompanyid,SupplierCompany)}}</td>
+                                                <td>{{item.invoiceno}}</td>
+                                                <td>{{item.invoicedate | date:'dd-MM-yyyy'}}</td>
+                                                <td>{{item.noofbundle}} / {{item.noofpieces}}</td>
+                                                <td>{{item.baseamount}}</td>
+                                                <td>{{item.taxamount}}</td>
+                                                <td>{{item.expensepercentage}}% / {{item.expenseperpiece}}₹</td>
+                                                <td>{{item.totalamount}}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-info btn-xs" ng-click="ManageInvoiceTypeItem('EditInvoice',item)">Edit</button>
+                                                    <button type="button" class="btn btn-danger btn-xs" ng-click="ManageInvoiceTypeItem('DeleteInvoice',item)">Delete</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-5 control-label">PO Type</label>
+                                    <div class="col-md-7">
+                                        <select class="form-control" select2='PO Type' style="width:100%;" ng-model="InvoiceItem.ptype" options="item.id as item.name for item in POType track by item.id" focusid="potypeid" focusonenter="poid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-5 control-label">PO No</label>
+                                    <div class="col-md-7">
+                                        <select class="form-control" select2='PO Type' style="width:100%;" ng-model="InvoiceItem.purchaseorderid"
+                                                options="item.id as item.name for item in POList track by item.id"
+                                                ng-change="SetPONo()"
+                                                focusid="poid" focusonenter="receivinglocationid"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.row -->
+                <div class="row row-padbot-15">
+
+                    <label for="inputEmail3" class="col-md-8 control-label text-green" ng-show="ErrorMessage.length>0" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+
+                    <div class="col-md-8" ng-hide="ErrorMessage.length>0">
+                        <div class="col-md-2 no-padding">
+                            Inverse Calculation
+                        </div>
+                        <div class="col-md-10 no-padding">
+                            <div class="col-md-3">
+                                <select class="form-control input-sm" select2="Amount On" style="width:100%;" ng-options="item.code as item.name for item in purchaseTax track by item.code"
+                                        ng-model="taxid" ng-change="Compute('taxChanged')"></select>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control input-sm"
+                                       ng-change="Compute('directamount')"
+                                       placeholder="tax value"
+                                       ng-model="taxValue"
+                                       focusonenter="ddiscountpercentage"
+                                       focusid="dtaxValue">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control input-sm" placeholder="bill value"
+                                       ng-model="billValue" ng-readonly="true">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control input-sm"
+                                       placeholder="discount %"
+                                       ng-change="Compute('directdiscount')"
+                                       ng-model="discountpercentage"
+                                       focusonenter="dAdddirect"
+                                       focusid="ddiscountpercentage">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control input-sm"
+                                       ng-model="discountvalue" ng-readonly="true">
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-sm btn-warning pull-right btn-flat"
+                                        focusid="dAdddirect" ng-click="AddDirect(taxid,taxValue,billValue,discountpercentage,discountvalue)">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 pull-right">
+                        <button class="btn btn-sm btn-warning pull-right btn-flat" ng-click="Clear()">Clear</button>
+                        <button class="btn btn-sm btn-success pull-right btn-flat" style="margin-left:5px;margin-right:5px" ng-disabled="SaveRequest" ng-click="Save(false)">Save</button>
+                        <button class="btn btn-sm btn-primary pull-right btn-flat" style="margin-left:5px;margin-right:5px" ng-disabled="SaveRequest" ng-show="Invoice.modeofdelivery != 1 || Invoice.status>201" ng-click="Save(true)">Save &amp; Next</button>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <div class="box box-primary" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-3">
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">LR Entry No</label>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control input-sm" onkeyenter="Search()" ng-model="SearchCondition.lrentryno" focusid="first" />
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Entry No</label>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control input-sm" onkeyenter="Search()" ng-model="SearchCondition.invoiceentryno" focusid="first" />
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+
+                            <label for="inputEmail3" class="col-md-12">LR No</label>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control input-sm" ng-model="SearchCondition.lrno" onkeyenter="Search()" />
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Supplier</label>
+                            <div class="col-md-12">
+                                <select class="form-control input-sm" select2="" style="width: 100%;" ng-model="SearchCondition.supplierid" options="item.id as item.name for item in Suppliers track by item.id"> </select>
+                            </div>
+
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+
+                            <label for="inputEmail3" class="col-md-12">Invoice No</label>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control input-sm" ng-model="SearchCondition.invoiceno" onkeyenter="Search()" />
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Invoice Date</label>
+                            <div class="col-md-12">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" daterange="SearchCondition.fromdate,SearchCondition.todate"
+                                           class="input-sm form-control pull-right">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+
+                            <label for="inputEmail3" class="col-md-12">Entry Date</label>
+                            <div class="col-md-12">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" daterange="SearchCondition.entryfromdate,SearchCondition.entrytodate" class="input-sm form-control pull-right">
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+
+                            <label for="inputEmail3" class="col-md-12">Barcoded Date</label>
+                            <div class="col-md-12">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" daterange="SearchCondition.barcodedfromdate,SearchCondition.barcodedtodate" class="input-sm form-control pull-right">
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Direct Settlement</label>
+                            <div class="col-md-12">
+                                <select class="form-control input-sm" select2="" style="width: 100%;"
+                                        ng-model="SearchCondition.paymentmode"
+                                        options="item.id as item.name for item in PaymentModes track by item.id"> </select>
+                            </div>
+
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </div>
+
+                <!-- /.row -->
+                <!-- /.row -->
+                <div class="col-md-9 no-padding">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+
+
+
+
+<script type="text/ng-template" id="CloneInvoice">
+    <div class="ngdialog-message">
+
+        <div class="md-col-12">
+
+            <label for="inputEmail3" class="col-md-5 control-label">Invoice No</label>
+            <div class="input-group input-group-sm col-sm-7" style="padding-right:15px">
+                <input type="text" class="input-sm form-control" placeholder="Code"
+                       ng-model="invoiceno" focusid="code" focusonenter="name">
+                <span class="input-group-btn" style="width:10px">
+                    <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="SearchInvoice()">
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                    </button>
+                </span>
+            </div>
+
+        </div>
+        <div class="md-col-12" style="height:400px">
+            <div class="col-md-12 no-padding" ng-show="HasInvoice">
+                <div class="col-md-4 no-padding">
+                    <label for="inputEmail3" class="col-md-12">New Invoice No</label>
+                    <div class="col-md-12">
+                        <input type="text" class="input-sm form-control" placeholder="Invoice No"
+                               ng-model="Invoice.invoiceno" focusid="invoiceno">
+                    </div>
+                </div>
+                <div class="col-md-4 no-padding">
+                    <label for="inputEmail3" class="col-md-12">New Invoice Date</label>
+                    <div class="col-md-12">
+                        <input type="text" class="input-sm form-control" placeholder="Invoice Date"
+                               datemodule="Invoice.invoicedate" ng-model="Invoice.invoicedate" focusid="invoicedate">
+                    </div>
+                </div>
+                <div class="col-md-4 no-padding">
+                    <label for="inputEmail3" class="col-md-12">New Entry Date</label>
+                    <div class="col-md-12">
+                        <input type="text" class="input-sm form-control" placeholder="Entry Date"
+                               datemodule="Invoice.entrydate" ng-model="Invoice.entrydate" focusid="entrydate">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 no-padding" ng-show="HasInvoice">
+                <div class="col-md-3">
+                    <label for="inputEmail3" class="col-md-12 no-padding">Gross</label>
+                    <div class="col-md-12 no-padding">
+                        <input type="text" class="input-sm form-control" placeholder="Invoice No"
+                               ng-model="Invoice.baseamount" focusid="invoiceno">
+                    </div>
+                </div>
+                <div class="col-md-6 no-padding">
+                    <div class="col-md-4 no-padding">
+                        <label for="inputEmail3" class="col-md-12 no-padding">Discount</label>
+                        <div class="col-md-12 no-padding">
+                            <input type="text" class="input-sm form-control" placeholder="Invoice Date"
+                                   ng-model="Invoice.discount" focusid="invoicedate">
+                        </div>
+                    </div>
+                    <div class="col-md-4 no-padding">
+                        <label for="inputEmail3" class="col-md-12 no-padding">Other</label>
+                        <div class="col-md-12 no-padding">
+                            <input type="text" class="input-sm form-control" placeholder="Invoice Date"
+                                   ng-model="Invoice.otheramount" focusid="invoicedate">
+                        </div>
+                    </div>
+                    <div class="col-md-4 no-padding">
+                        <label for="inputEmail3" class="col-md-12 no-padding">Tax</label>
+                        <div class="col-md-12 no-padding">
+                            <input type="text" class="input-sm form-control" placeholder="Invoice Date"
+                                   ng-model="Invoice.taxamount" focusid="invoicedate">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="inputEmail3" class="col-md-12 no-padding">Total</label>
+                    <div class="col-md-12 no-padding">
+                        <input type="text" class="input-sm form-control" placeholder="Entry Date"
+                               ng-model="Invoice.totalamount" focusid="entrydate">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12" style="margin-top:10px" id="grdinvoicedetail">
+
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-12" style="padding-left:0px">
+            <div class="col-md-6 no-padding" ng-show="HasInvoice">
+                <label for="inputEmail3" class="col-md-5 control-label">Invoice Date/No</label>
+                <div class="input-group input-group-sm col-sm-7 no-padding">
+                    <div class="col-md-7 no-padding">
+                        <input type="text" class="input-sm form-control" ng-disabled="true" placeholder="Invoice Date"
+                               datemodule="oldinvoicedate" ng-model="oldinvoicedate" focusid="date">
+                    </div>
+                    <div class="col-md-5 no-padding">
+                        <input type="text" class="input-sm form-control" ng-disabled="true" placeholder="Invoice Date"
+                               ng-model="oldinvoiceno" focusid="date">
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Clone()">Clone</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,876 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Work Order
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="WorkOrder && WorkOrder.id>0" ng-click="Print()"><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="LastSaved()"><a><i class="fa fa-trash"></i>Last Saved</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary">
+            <div class="box-body ">
+                <div class="col-md-12 no-padding" ng-hide="ShowSearch">
+
+                    <div class="col-md-3 no-padding">
+
+                        <table fixed-header="400px" class="fixed_table" additionalheight="0">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Work Order Details
+
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="col-md-12 no-padding" style="padding-left:1px;padding-right:1px;border-bottom: 1px solid #ccc;padding-top:15px">
+                                            <div class="col-md-4 no-padding pull-left">
+                                                <label class="smalllabel" style="color:brown"><b>Mode</b></label>
+                                            </div>
+                                            <div class="col-md-4">
+
+                                                <span class="pull-left" style="padding-left:5px">
+                                                    <input type="radio" style="position:absolute;left:5px" ng-model="WorkOrder.mode"
+                                                           value="Internal" />Internal
+                                                </span>
+                                            </div>
+                                            <div class="col-md-4">
+
+                                                <span class="pull-left" style="padding-left:5px">
+                                                    <input type="radio" ng-model="WorkOrder.mode"
+                                                           style="position:absolute;left:5px"
+                                                           value="External" />External
+                                                </span>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-md-12 no-padding" style="padding-left:1px;padding-right:1px">
+                                            <div class="col-md-6 no-padding">
+                                                <label class="smalllabel" style="color:brown"><b>Order No</b></label>
+                                                <input method="text" class="form-control input-sm" readonly="readonly"
+                                                       style="width: 100%;" focusid="first" focusonenter="wodate"
+                                                       ng-model="WorkOrder.workorderno">
+                                            </div>
+                                            <div class="col-md-6" style="padding-left:0px;padding-right:2px">
+                                                <label class="smalllabel" style="color:brown"><b>Order Date</b></label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control input-sm pull-right"
+                                                           focusid="wodate" focusonenter="expectdate"
+                                                           datemodule="WorkOrder.wodate"
+                                                           ng-model="WorkOrder.wodate" id="datepicker">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 no-padding" style="padding-left:1px;padding-right:1px">
+                                            <div class="col-md-6 no-padding">
+                                                <label class="smalllabel" style="color:brown"><b>Expect</b></label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control input-sm pull-right"
+                                                           focusid="expectdate" focusonenter="status"
+                                                           datemodule="WorkOrder.expectdate"
+                                                           ng-model="WorkOrder.expectdate" id="datepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="padding-left:0px;padding-right:2px">
+
+                                                <label class="smalllabel" style="color:brown"><b>Status</b></label>
+                                                <select class="form-control" select2='status' style="width:100%;"
+                                                        ng-options="item.id as item.name for item in StatusList track by item.id"
+                                                        ng-model="WorkOrder.statusid" focusid="status"
+                                                        focusonenter="companyid"></select>
+                                            </div>
+
+                                            <!--<div class="col-md-6 no-padding">
+                                                <label class="smalllabel" style="color:brown"><b>Delivery</b></label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control input-sm pull-right"
+                                                           focusid="deliverydate" focusonenter="companyid"
+                                                           datemodule="WorkOrder.deliverydate"
+                                                           ng-model="WorkOrder.deliverydate" id="datepicker">
+                                                </div>
+                                            </div>-->
+                                        </div>
+
+                                        <!--<div class="col-md-12 no-padding" style="padding-left:1px;padding-right:1px">
+                                            <div class="col-md-12 no-padding">
+                                                <label class="smalllabel" style="color:brown"><b>Orchestration</b></label>
+                                                <select class="form-control" select2='Company' style="width:100%;"
+                                                        ng-options="item.id as item.name for item in MfgFlowList track by item.id"
+                                                        ng-model="WorkOrder.woflowid" focusid="woflowid"
+                                                        focusonenter="companyid"></select>
+                                            </div>
+                                        </div>-->
+
+                                        <div class="col-md-12 no-padding" style="padding-left:1px;padding-right:1px">
+                                            <div class="col-md-12 no-padding">
+                                                <label class="smalllabel" style="color:brown"><b>Company/Location</b></label>
+                                                <div class="col-md-12 no-padding">
+
+                                                    <div class="col-md-6 no-padding">
+                                                        <select class="form-control" select2='Company' style="width:100%;"
+                                                                ng-options="item.id as item.name for item in BuyingCompany track by item.id"
+                                                                ng-model="WorkOrder.companyid" focusid="companyid"
+                                                                focusonenter="locationid"></select>
+                                                    </div>
+
+                                                    <div class="col-md-6" style="padding-left:0px;padding-right:2px">
+                                                        <select class="form-control" select2='Location' style="width:100%;"
+                                                                ng-options="item.id as item.name for item in WarehouseLocations track by item.id"
+                                                                ng-model="WorkOrder.locationid" focusid="locationid"
+                                                                onkeyenter="WorkOrder.mode == 'External'?setFocusissuedby():setFocusissuedby()"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-md-12 no-padding" style="padding-left:1px;padding-right:1px">
+
+                                            <label class="smalllabel" style="color:brown"><b>Issued By/Workflow</b></label>
+                                            <div class="col-md-12 no-padding">
+                                                <div class="col-md-6 no-padding">
+                                                    <select class="form-control" select2='Issued By' style="width:100%;"
+                                                            ng-options="item.id as item.name for item in Employee track by item.id"
+                                                            ng-model="WorkOrder.issuedby" focusid="issuedby"
+                                                            onkeyenter="WorkOrder.mode == 'External'?setFocussupplierid():setFocusworkflowid()"
+                                                            focusonenter="workflowid"></select>
+                                                </div>
+                                                <div class="col-md-6" style="padding-left:0px;padding-right:2px">
+                                                    <select class="form-control" select2='Workflow' style="width:100%;"
+                                                            ng-disabled="WorkOrder.mode == 'External'"
+                                                            ng-options="item.id as item.name for item in WorkflowList track by item.id"
+                                                            ng-model="WorkOrder.woflowid"
+                                                            focusid="workflowid"
+                                                            ng-change="WorkflowChanged()"
+                                                            onkeyenter="IsSampleBased ?setFocuscustomerid() : (WorkOrder.mode == 'External'?setFocussupplierid():setFocusreceivedby())"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 no-padding" ng-show="IsSampleBased"
+                                             style="padding-left:1px;padding-right:2px">
+                                            <label class="smalllabel" style="color:brown"><b>Customer</b></label>
+                                            <select class="form-control" select2='Customer' style="width:100%;"
+                                                    ng-options="item.id as item.name for item in Customers track by item.id"
+                                                    ng-model="WorkOrder.customerid"
+                                                    focusid="customerid"
+                                                    ng-change="CustomerChanged()"
+                                                    onkeyenter="WorkOrder.mode == 'External'?setFocussupplierid():setFocusreceivedby()"></select>
+                                        </div>
+
+                                        <div class="col-md-12 no-padding" ng-show="WorkOrder.mode == 'External'"
+                                             style="padding-left:1px;padding-right:2px">
+
+                                            <label class="smalllabel" style="color:brown"><b>Supplier</b></label>
+                                            <select class="form-control" select2='Supplier' style="width:100%;"
+                                                    ng-options="item.id as item.name for item in SupplierCompany track by item.id"
+                                                    ng-model="WorkOrder.suppliercompanyid"
+                                                    focusid="supplierid"
+                                                    ng-change="SupplierChanged()"
+                                                    focusonenter="extjobcardno"></select>
+                                        </div>
+
+                                        <div class="col-md-12 no-padding"
+                                             ng-show="WorkOrder.mode == 'Internal'"
+                                             style="padding-left:1px;padding-right:2px">
+                                            <div class="col-md-6 no-padding">
+                                                <label class="smalllabel" style="color:brown"><b>Recieve By</b></label>
+                                                <select class="form-control" select2='Recieve By' style="width:100%;"
+                                                        ng-options="item.id as item.name for item in Employee track by item.id"
+                                                        ng-model="WorkOrder.receivedby" focusid="receivedby"
+                                                        focusonenter="jobcardno"></select>
+                                            </div>
+                                            <div class="col-md-6 no-padding">
+                                                <div class="col-md-6 no-padding">
+                                                    <label class="smalllabel" style="color:brown"><b>Job Card</b></label>
+                                                    <input method="text" class="form-control input-sm"
+                                                           style="width: 100%;" focusid="jobcardno" focusonenter="lotno"
+                                                           ng-model="WorkOrder.jobcardno">
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <label class="smalllabel" style="color:brown"><b>Lot#</b></label>
+                                                    <input method="text" class="form-control input-sm"
+                                                           style="width: 100%;" focusid="lotno" focusonenter="remarks"
+                                                           ng-model="WorkOrder.lotno">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 no-padding" ng-show="WorkOrder.mode == 'External'"
+                                             style="padding-left:1px;padding-right:2px">
+                                            <div class="col-md-12 no-padding">
+                                                <label class="smalllabel" style="color:brown"><b>Job Card/Lot #</b></label>
+                                            </div>
+                                            <div class="col-md-12 no-padding">
+                                                <div class="col-md-6 no-padding">
+                                                    <input method="text" class="form-control input-sm"
+                                                           style="width: 100%;" focusid="extjobcardno" focusonenter="extlotno"
+                                                           ng-model="WorkOrder.jobcardno">
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <input method="text" class="form-control input-sm"
+                                                           style="width: 100%;" focusid="extlotno" focusonenter="remarks"
+                                                           ng-model="WorkOrder.lotno">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 no-padding" style="padding-left:1px;padding-right:2px">
+
+                                            <label class="smalllabel" style="color:brown"><b>Remarks</b></label>
+                                            <textarea class="form-control input-sm" rows="18" focusid="remarks" ng-model="WorkOrder.remarks"></textarea>
+
+                                        </div>
+
+
+
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-9 no-padding">
+
+                        <div class="col-md-12" ng-show="!IsSampleBased && WorkOrder.onlybom">
+                            <div class="col-md-1 no-padding">
+                                <label class="smalllabel" style="color:brown"><b>S. No</b></label>
+                                <input type="text" class="input-sm form-control" placeholder="S. No" ng-model="ItemDetails.sno"
+                                       focusid="bomsno"
+                                       focusonenter="fromfabricid">
+                            </div>
+
+                            <div class="col-md-7 no-padding" style="padding-left:1px;padding-right:1px">
+
+
+
+                                <div class="col-md-6 no-padding" style="padding-left:1px;padding-right:1px">
+                                    <div class="col-md-8 no-padding">
+                                        <label class="smalllabel" style="color:brown"><b>From Fabric</b></label>
+                                        <select class="input-sm form-control" select2="Select Product"
+                                                ng-model="ItemDetails.fabricid"
+                                                ng-options="item.id as item.title for item in FabricList track by item.id"
+                                                style="width:100%"
+                                                ng-change="BOMFabricChanged()"
+                                                focusid="fromfabricid"
+                                                focusonenter="fromcolourid"></select>
+                                    </div>
+                                    <div class="col-md-4 no-padding">
+                                        <label class="smalllabel" style="color:brown"><b>Colour</b></label>
+                                        <select class="input-sm form-control" select2="Select Product"
+                                                ng-model="ItemDetails.colourid"
+                                                ng-options="item.id as item.name for item in FromColourList track by item.id"
+                                                style="width:100%"
+                                                focusid="fromcolourid"
+                                                focusonenter="tofabricid"></select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6 no-padding" style="padding-left:1px;padding-right:1px">
+                                    <div class="col-md-8 no-padding">
+                                        <label class="smalllabel" style="color:brown"><b>To Fabric</b></label>
+                                        <select class="input-sm form-control" select2="Select Product"
+                                                ng-model="ItemDetails.efabricid"
+                                                ng-options="item.id as item.title for item in FabricList track by item.id"
+                                                style="width:100%"
+                                                ng-change="BOMToFabricChanged()"
+                                                focusid="tofabricid"
+                                                focusonenter="tocolourid"></select>
+                                    </div>
+                                    <div class="col-md-4 no-padding">
+                                        <label class="smalllabel" style="color:brown"><b>Colour</b></label>
+                                        <select class="input-sm form-control" select2="Select Product"
+                                                ng-model="ItemDetails.efabriccolourid"
+                                                ng-options="item.id as item.name for item in ToColourList track by item.id"
+                                                style="width:100%"
+                                                focusid="tocolourid"
+                                                focusonenter="bomoutqty"></select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4 no-padding" style="padding-left:1px;padding-right:1px">
+                                <div class="col-md-4 no-padding">
+                                    <label class="smalllabel" style="color:brown"><b>Issue Qty</b></label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;"
+                                           placeholder="Cost" ng-change="fixTax(true)"
+                                           focusid="bomoutqty"
+                                           focusonenter="bominqty"
+                                           selectAllOnFocus="true"
+                                           ng-model="ItemDetails.outqty">
+                                </div>
+
+                                <div class="col-md-4 no-padding">
+                                    <label class="smalllabel" style="color:brown"><b>Receive Qty</b></label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;"
+                                           placeholder="Cost" ng-change="fixTax(true)"
+                                           focusid="bominqty"
+                                           focusonenter="bomcost"
+                                           selectAllOnFocus="true"
+                                           ng-model="ItemDetails.inqty">
+                                </div>
+
+                                <div class="col-md-4 no-padding"
+                                     style="padding-left:1px;padding-right:1px">
+                                    <label class="smalllabel" style="color:brown"><b>Cost</b></label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="input-sm form-control" style="width: 100%;"
+                                               placeholder="Cost"
+                                               focusid="bomcost"
+                                               onkeyenter="AddBOMItem()"
+                                               selectAllOnFocus="true"
+                                               ng-model="ItemDetails.cost">
+
+                                        <span class="input-group-btn" style="width:10px">
+                                            <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddBOMItem()">
+                                                <i class=" glyphicon glyphicon-plus-sign"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" ng-hide="WorkOrder.onlybom || IsSampleBased">
+                            <div class="col-md-7 no-padding" style="padding-left:1px;padding-right:1px">
+
+                                <div class="col-md-1 no-padding">
+                                    <label class="smalllabel" style="color:brown"><b>S. No</b></label>
+                                    <input type="text" class="input-sm form-control" placeholder="S. No" ng-model="ItemDetails.sno"
+                                           focusid="sno"
+                                           onkeyenter="mfg_fabricbasedorder ? setFocusfabricid():setFocusdeisgnid()">
+                                </div>
+
+                                <div class="col-md-3 no-padding" style="padding-left:1px;padding-right:1px"
+                                     ng-hide="mfg_fabricbasedorder">
+                                    <label class="smalllabel" style="color:brown"><b>Product</b></label>
+                                    <select class="input-sm form-control" select2="Select Product"
+                                            ng-model="ItemDetails.productid"
+                                            ng-options="item.id as item.name for item in ProductList track by item.id"
+                                            style="width:100%"
+                                            ng-change="productChange()"
+                                            focusid="productid"></select>
+                                </div>
+
+                                <div class="col-md-3 no-padding" style="padding-left:1px;padding-right:1px"
+                                     ng-show="mfg_fabricbasedorder">
+                                    <label class="smalllabel" style="color:brown"><b>Fabric</b></label>
+                                    <select class="input-sm form-control" select2="Select Fabric"
+                                            ng-model="ItemDetails.fabricid"
+                                            ng-options="item.id as item.name for item in FabricList track by item.id"
+                                            style="width:100%"
+                                            ng-change="fabricChange()"
+                                            focusid="fabricid"></select>
+                                </div>
+
+                                <div class="no-padding"
+                                     ng-class="mfg_designclass"
+                                     style="padding-left:1px;padding-right:1px">
+                                    <label class="smalllabel" style="color:brown"><b>Design</b></label>
+                                    <select class="input-sm form-control" select2="Select Design"
+                                            ng-model="ItemDetails.designid"
+                                            ng-change="designChanged()"
+                                            ng-options="item.id as item.name for item in DesignList track by item.id"
+                                            style="width:100%"
+                                            focusid="deisgnid"></select>
+                                </div>
+
+                                <div class="col-md-3 no-padding"
+                                     ng-hide="mfg_fabricbasedorder"
+                                     style="padding-left:1px;padding-right:1px">
+                                    <label class="smalllabel" style="color:brown"><b>Size Group</b></label>
+
+                                    <select class="input-sm form-control" select2="Size Group"
+                                            ng-model="ItemDetails.sizegroupid"
+                                            style="width:100%"
+                                            ng-options="item.id as item.name for item in SizeGroups track by item.id"
+                                            focusid="sizegroupid"
+                                            focusonenter="colourid"></select>
+                                </div>
+
+                                <div class="col-md-5 no-padding"
+                                     ng-show="mfg_fabricbasedorder">
+
+                                    <div class="col-md-3 no-padding">
+                                        <label class="smalllabel" style="color:brown"><b>Meter</b></label>
+                                        <input type="text" class="input-sm form-control" style="width: 100%;" placeholder="InQty"
+                                               focusid="inqty" focusonenter="length"
+                                               ng-model="ItemDetails.inqty" selectAllOnFocus="true">
+                                    </div>
+
+                                    <div class="col-md-3 no-padding">
+                                        <label class="smalllabel" style="color:brown"><b>Length</b></label>
+                                        <input type="text" class="input-sm form-control" style="width: 100%;" placeholder="Length"
+                                               focusid="length" focusonenter="cutratio"
+                                               ng-model="ItemDetails.length" selectAllOnFocus="true">
+                                    </div>
+
+                                    <div class="col-md-3 no-padding">
+                                        <label class="smalllabel" style="color:brown"><b>C.Ratio</b></label>
+                                        <input type="text" class="input-sm form-control" style="width: 100%;"
+                                               placeholder="Cut Ratio"
+                                               focusid="cutratio" focusonenter="cost"
+                                               ng-model="ItemDetails.cutratio" selectAllOnFocus="true">
+                                    </div>
+
+                                    <div class="col-md-3 no-padding">
+                                        <label class="smalllabel" style="color:brown"><b>Cost</b></label>
+                                        <input type="text" class="input-sm form-control" style="width: 100%;"
+                                               placeholder="Cost" ng-change="fixTax(true)"
+                                               focusid="cost"
+                                               focusonenter="colourid"
+                                               selectAllOnFocus="true"
+                                               ng-model="ItemDetails.cost">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5" n style="padding-left:1px;padding-right:1px">
+
+                                <div class="col-md-4 no-padding" style="padding-left:1px;padding-right:1px">
+                                    <label class="smalllabel" style="color:brown"><b>Colour</b></label>
+
+                                    <select class="input-sm form-control" select2="Colour"
+                                            ng-model="ItemDetails.designitemname"
+                                            ng-options="item.dname as item.display for item in ColourList track by item.dname"
+                                            style="width:100%"
+                                            focusid="colourid" focusonenter="sleeveid"></select>
+                                </div>
+                                <div class="col-md-4 no-padding" style="padding-left:1px;padding-right:1px">
+                                    <label class="smalllabel" style="color:brown"><b>Sleeve</b></label>
+
+                                    <select class="input-sm form-control" select2="Sleeve"
+                                            ng-model="ItemDetails.sleeveid"
+                                            ng-options="item.id as item.name for item in SleeveList track by item.id"
+                                            style="width:100%"
+                                            focusid="sleeveid"
+                                            onkeyenter="mfg_fabricbasedorder ? setFocussizeid():setFocussizeqty()"></select>
+                                </div>
+
+                                <div class="col-md-4 no-padding"
+                                     ng-hide="mfg_fabricbasedorder"
+                                     style="padding-left:1px;padding-right:1px">
+                                    <label class="smalllabel" style="color:brown"><b>Qty</b></label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="input-sm form-control" style="width: 100%;"
+                                               placeholder="Quantity"
+                                               focusid="sizeqty"
+                                               onkeyenter="AddSizeGroupItem()"
+                                               selectAllOnFocus="true"
+                                               ng-model="ItemDetails.sizeqty">
+
+                                        <span class="input-group-btn" style="width:10px">
+                                            <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddSizeGroupItem()">
+                                                <i class=" glyphicon glyphicon-plus-sign"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 no-padding"
+                                     ng-show="mfg_fabricbasedorder"
+                                     style="padding-left:1px;padding-right:1px">
+                                    <label class="smalllabel" style="color:brown"><b>Size</b></label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="input-sm form-control" style="width: 100%;"
+                                               placeholder="size"
+                                               focusid="sizeid"
+                                               onkeyenter="AddItem()"
+                                               selectAllOnFocus="true"
+                                               ng-model="ItemDetails.size">
+
+                                        <span class="input-group-btn" style="width:10px">
+                                            <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddItem()">
+                                                <i class=" glyphicon glyphicon-plus-sign"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" ng-show="IsSampleBased">
+
+                            <div class="col-md-6 no-padding">
+                                <div class="col-md-12 no-padding">
+                                    <div class="no-padding col-md-6">
+                                        <label for="inputEmail3" class="control-label no-margin">Sample</label>
+                                        <select class="input-sm form-control" select2="Select Colour" style="width:100%"
+                                                ng-model="ItemDetails.sampleid"
+                                                options="item.id as item.name for item in CustomerSampleList track by item.id"
+                                                focusid="sampleid"
+                                                ng-change="SampleChanged()"
+                                                focusonenter="sampledesignid"></select>
+                                    </div>
+                                    <div class="no-padding col-md-6">
+                                        <label for="inputEmail3" class="control-label no-margin">Design</label>
+                                        <select class="input-sm form-control" select2="Select Colour" style="width:100%"
+                                                ng-model="ItemDetails.sampledesignid"
+                                                options="item.id as item.name for item in CustomerSampleDesignList track by item.id"
+                                                focusid="sampledesignid"
+                                                focusonenter="samplesinglesize"
+                                                ng-change="SampleDesignChanged()"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 no-padding">
+                                    <div class="col-md-6 no-padding" ng-show="ItemDetails.sampleimageid && ItemDetails.sampleimageid != null && ItemDetails.sampleimageid != ''">
+                                        <a class="pull-left" ng-href="File/Show/0/{{ItemDetails.sampleimageid}}" target="_blank">
+                                            <img style="height: 64px; width: 128px" ng-src="File/Show/0/{{ItemDetails.sampleimageid}}" />
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6 no-padding" ng-show="ItemDetails.designimageid && ItemDetails.designimageid != null && ItemDetails.designimageid != ''">
+                                        <a class="pull-right" ng-href="File/Show/0/{{ItemDetails.designimageid}}" target="_blank">
+                                            <img style="height: 64px; width: 128px" ng-src="File/Show/0/{{ItemDetails.designimageid}}" />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 no-padding">
+                                <div class="col-md-8 no-padding" style="overflow-y:auto">
+                                    <div class="col-md-12 no-padding">
+                                        <label for="inputEmail3" class="control-label no-margin no-padding col-md-6">Sales Order</label>
+
+                                        <div class="input-group input-group-sm" style="width:100%">
+                                            <select class="input-sm form-control" select2="Select Colour" style="width:100%"
+                                                    ng-model="ItemDetails.salesorderid"
+                                                    options="item.id as item.name for item in CustomerSOList track by item.id"
+                                                    ng-change="SalesOrderChanged()"></select>
+                                            <span class="input-group-btn" style="width:10px">
+                                                <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddAllSOPending()">
+                                                    <i class=" glyphicon glyphicon-plus-sign"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-md-12 no-padding" ng-repeat="item in SampleSizeList">
+                                        <label for="inputEmail3" class="control-label no-padding col-md-6">{{item.name}}</label>
+                                        <div class="col-md-3 no-padding">
+                                            <input type="text" class="form-control input-sm" style="width:100%"
+                                                   placeholder="SO Qty"
+                                                   ng-model="item.oqty" ng-readonly="true" ng-disabled="true" />
+                                        </div>
+                                        <div class="col-md-3 no-padding">
+                                            <input type="text" class="form-control input-sm" style="width:100%"
+                                                   ng-change="SampleQtyChanged()"
+                                                   placeholder="Prd Qty"
+                                                   ng-model="item.qty" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 no-padding">
+
+                                   
+                                    <div class="col-md-12 no-padding">
+                                        <label for="inputEmail3" class="col-md-12 control-label no-padding no-margin">Total Qty</label>
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control input-sm"
+                                                   ng-readonly="true"
+                                                   style="width:100%"
+                                                   ng-model="ItemDetails.totalqtyqty" />
+                                            <span class="input-group-btn" style="width:10px">
+                                                <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddSampleItem()">
+                                                    <i class=" glyphicon glyphicon-plus-sign"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding" style="font-size:large;color:orangered">
+                                    {{SearchRef(ItemDetails.prddivisionid,ProductDivision,'')}}
+                                </div>
+
+                                <div class="col-md-6 no-padding" style="font-size:large;color:orangered">
+                                    {{SearchRef(ItemDetails.productid,ProductList,'')}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" ng-show="!IsSampleBased && ItemDetails.Customize && !WorkOrder.onlybom">
+                            <table class="fixed_table">
+                                <thead style="border: 1px solid #ccc;">
+                                    <tr>
+                                        <th style="border: 1px solid #ccc;width:50px">S.No</th>
+                                        <th style="border: 1px solid #ccc;width:150px">Design</th>
+                                        <th style="border: 1px solid #ccc;width:80px">Faric</th>
+                                        <th style="border: 1px solid #ccc;width:80px">Colour</th>
+                                        <th style="border: 1px solid #ccc;width:80px">Sleeve</th>
+                                        <th style="border: 1px solid #ccc;width:50px">Meter</th>
+                                        <th style="border: 1px solid #ccc;width:50px">Con</th>
+                                        <th style="border: 1px solid #ccc;width:50px">Qty</th>
+                                        <th style="border: 1px solid #ccc;width:50px" ng-repeat="item in ItemDetails.sizelist">
+                                            {{item.name}}
+                                        </th>
+                                    </tr>
+                                    <tr ng-show="mfg_fabricbasedorder">
+                                        <th colspan="8" style="border: 1px solid #ccc;">Cutting Ratio</th>
+                                        <th style="border: 1px solid #ccc;width:50px" ng-repeat="item in ItemDetails.sizelist">
+                                            <input type="text"
+                                                   style="width:50px" ng-change="ChangeCR('cutratio')"
+                                                   ng-model="item.cutratio" class="input-sm" />
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="border: 1px solid #ccc;">
+                                            {{ItemDetails.sno}}
+                                        </td>
+                                        <td style="border: 1px solid #ccc;">{{ItemDetails.designname}}</td>
+                                        <td style="border: 1px solid #ccc;">{{ItemDetails.Fabric}}</td>
+                                        <td style="border: 1px solid #ccc;">{{ItemDetails.Colour}}</td>
+                                        <td style="border: 1px solid #ccc;">{{ItemDetails.Sleeve}}</td>
+                                        <td style="border: 1px solid #ccc;"> <input type="text" style="width:50px" ng-model="ItemDetails.inqty" ng-change="ChangeCR('inqty')" class="input-sm" /> </td>
+                                        <td style="border: 1px solid #ccc;"> <input type="text" style="width:50px" ng-model="ItemDetails.cutratio" ng-change="ChangeCR('cutratio')" class="input-sm" /> </td>
+                                        <td style="border: 1px solid #ccc;"> <input type="text" style="width:50px" ng-model="ItemDetails.outqty" ng-change="ChangeCR('outqty')" class="input-sm" /> </td>
+                                        <td style="border: 1px solid #ccc;" ng-repeat="item in ItemDetails.sizelist">
+                                            <input type="text" style="width:50px" ng-model="item.qty"
+                                                   ng-change="ChangeCR('sizeqty')" class="input-sm" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="row" style="padding-top: 10px;padding-bottom: 10px;">
+                                <div class="pull-left" style="padding-left: 10px;">
+                                    <button type="button" class="btn btn-info btn-sm" ng-disabled="NegativeStock"
+                                            ng-click="AddInternalItem()">
+                                        <i class="fa fa-file">&nbsp;&nbsp;Add to Work Order</i>
+                                    </button>
+                                </div>
+                                <div class="pull-left" style="padding-left: 10px;">
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                            ng-click="ItemDetails.Customize = false;ConfigureGrid(100)">
+                                        <i class="fa fa-trash-o">&nbsp;&nbsp;Remove</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" id="gridContainer" style="padding-top:8px">
+
+                        </div>
+
+                        <div class="col-md-12" style="margin-top:10px" ng-show="igrid != null">
+                            <div class="col-sm-2">
+                                <div class="col-sm-12" style="padding-left:0px"><b>TOTAL</b></div>
+                            </div>
+
+                            <div class="col-md-10 no-padding">
+                                <div class="col-sm-2" ng-hide="WorkOrder.onlybom">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Qty&nbsp;&nbsp;<b>{{WorkOrder.totalqty|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-2" ng-show="WorkOrder.onlybom">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Issuing&nbsp;&nbsp;<b>{{WorkOrder.totalqty|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-2" ng-show="WorkOrder.onlybom">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Receiving&nbsp;&nbsp;<b>{{WorkOrder.totalinqty|number:0}}</b></div>
+                                </div>
+
+
+                                <div class="col-sm-2">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:orangered">Gross&nbsp;&nbsp;<b>{{WorkOrder.taxable|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Tax&nbsp;&nbsp;<b>{{WorkOrder.taxamount|number:2}}</b></div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:green">Net&nbsp;&nbsp;<b>{{WorkOrder.total|number:0}}</b></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-12 no-padding" ng-show="ShowSearch">
+
+                    <div class="col-md-3" style="padding-right:0px">
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12">Order Issued</label>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="pull-left">
+                                                <input type="radio" ng-model="SearchCondition.Mode"
+                                                       value="All" />
+                                            </div>
+
+                                            <div class="pull-left" style="padding-left:5px">All</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="pull-left">
+                                                <input type="radio" ng-model="SearchCondition.Mode"
+                                                       value="Internal" />
+                                            </div>
+
+                                            <div class="pull-left" style="padding-left:5px">Internal</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="pull-left">
+                                                <input type="radio" ng-model="SearchCondition.Mode"
+                                                       value="External" />
+                                            </div>
+                                            <div class="pull-left" style="padding-left:5px">External</div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12">Work Order No</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control input-sm"
+                                               onkeyenter="Search()" ng-model="SearchCondition.workorderno" focusid="first" />
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12">Company</label>
+                                    <div class="col-md-12">
+                                        <select class="form-control input-sm" select2="" style="width: 100%;" ng-model="SearchCondition.companyid"
+                                                ng-options="item.id as item.name for item in BuyingCompany track by item.id"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12">Supplier</label>
+                                    <div class="col-md-12">
+                                        <select class="form-control input-sm" select2="" style="width: 100%;"
+                                                ng-model="SearchCondition.suppliercompanyid"
+                                                ng-options="item.id as item.name for item in SupplierCompany track by item.id"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12">Order Date</label>
+                                    <div class="col-md-12">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" daterange="SearchCondition.fromdate,SearchCondition.todate" class="input-sm form-control pull-right">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+
+                                    <label for="inputEmail3" class="col-md-12">Due Date</label>
+                                    <div class="col-md-12">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" daterange="SearchCondition.duefromdate,SearchCondition.duetodate" class="input-sm form-control pull-right">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </div>
+                    <div class="col-md-9" style="padding-right:0px">
+                        <div class="col-md-12 no-padding" id="searchgridContainer">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+</div>
+
+
+<script type="text/ng-template" id="ChooseTemplate">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="row row-padbot-15">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-3 control-label">Template</label>
+                    <div class="input-group input-group-sm col-sm-6 no-padding">
+                        <select class="form-control" select2='Select Template' style="width:100%;"
+                                ng-model="templateid"
+                                options="item.id as item.name for item in ReportList track by item.id"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-7">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">OK</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>

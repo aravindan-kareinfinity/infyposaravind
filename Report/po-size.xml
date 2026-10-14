@@ -1,0 +1,114 @@
+<Config>
+  <PageSetting>
+    <Setting topmargin='40' leftmargin='20' bottommargin='30' rightmargin='10' width='900' height='700' style='Verdana,8,regular'></Setting>
+  </PageSetting>
+  <Header LineHeight='15' style='Verdana,8,bold'>
+    <Line>
+      <Content type='Image' src="0W000000000" align='left'>0,30,100,100</Content>
+      <Content type='Field' name='company.name' length='700' align='center' style='Verdana,14,bold'></Content>
+    </Line>
+    <Line>
+      <Content type='Word'  length='100' align='left'></Content>
+      <Content type='Field' name='company.address' length='300' align='left'></Content>
+      <Content type='Word' length='80' align='left'>PO NO  #    </Content>
+      <Content type='Field' name='pono' length='170' align='left' style='Verdana,10,bold'></Content>
+    </Line>
+    <Line>
+      <Content type='Word'  length='400' align='left'></Content>
+      <Content type='Word' length='80' align='left'>PO Date     </Content>
+      <Content type='Field' name='podate' length='170' align='left' format='dd/MM/yyyy'></Content>
+    </Line>
+    <Line>
+      <Content type='Word'  length='100' align='left'></Content>
+      <Content type='Word' length='60' align='left'>GSTIN </Content>
+      <Content type='Field' name='company.tinanddate' length='240' align='left'></Content>
+      <Content type='Word' length='80' align='left'>Due Date  </Content>
+      <Content type='Field' name='expectedate' length='170' align='left' format='dd/MM/yyyy'></Content>
+    </Line>
+    <Line>
+      <Content type='Word'  length='100' align='left'></Content>
+      <Content type='Word' length='60' align='left'>PAN NO</Content>
+      <Content type='Field' name='company.pan' length='240' align='left'></Content>
+      <Content type='Word' length='190' align='left'>GOODS TO BE DELIVERED WITHIN </Content>
+      <Content type='Field' name='duedays' length='20' align='left' style='Verdana,10,bold'></Content>
+      <Content type='Word'  length='50' align='left'>DAYS</Content>
+    </Line>
+    <Line>
+      <Content type='Line' length='580'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='700' align='center' style='Verdana,10,bold'>PURCHASE ORDER</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='200' align='center' style='Verdana,9,bold'>VENDOR DETAILS</Content>
+      <Content type='Word' length='100' align='center' style='Verdana,9,bold'></Content>
+      <Content type='Word' length='200' align='center' style='Verdana,9,bold'>SHIP TO</Content>
+      <Content type='Word' length='100' align='center' style='Verdana,9,bold'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='50' align='left' style='Verdana,8,bold'>To</Content>
+      <Content type='Field' name='supplier.name' length='300' align='left'></Content>
+      <Content type='Field' name='company.name' length='350' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='50' align='left' style='Verdana,8,bold'>Address</Content>
+      <Content type='Field' name='suppliercompany.address' length='300' align='left' ></Content>
+      <Content type='Field' name='company.address' length='350' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='350' align='left'></Content>
+      <Content type='Word' length='350' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='50' align='left' style='Verdana,8,bold'>GSTIN</Content>
+      <Content type='Field' name='suppliercompany.tinanddate' length='300' align='left'></Content>
+      <Content type='Field' name='company.tinanddate' length='300' align='left'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='50' align='left' style='Verdana,8,bold'>AGENT</Content>
+      <Content type='Field' name='agent.name' length='150' align='left'></Content>
+      <Content type='Field' name='agent.contactno' length='150' align='left' ></Content>
+      <Content type='Word' length='50' align='left' style='Verdana,8,bold'>FREIGHT</Content>
+      <Content type='Field' name='freight' length='100' align='left' ></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='700' align='center' style='Verdana,10,bold'>PRODUCT DETAILS</Content>
+    </Line>
+  </Header>
+  <Body Type='Table' length='10' HeaderHeight='20' LineHeight='15' style='Verdana,8,regular'>
+    <Line type='Table'>
+      <Content type='Field' name='sno' text="S.NO" Length='40'/>
+      <Content type='Field' name='designid' text="DESIGN" Length='100' align='left'/>
+      <Content type='Field' name='pricerange' text="RATE/RANGE" Length='90' align='left'/>
+      <Content type='Dynamicfield' name='jumpqty[{0}].qty' text="QTY/MTRS" Length='40' align='right' format='N0' Total='true'/>
+    </Line>
+  </Body>
+  <Footer>
+    <Line/>
+    <Line>
+      <Content type='Word' length='250' align='left' >Prepared By</Content>
+      <Content type='Word' length='200' align='left' >Purchase Incharge </Content>
+      <Content type='Word' length='200' align='left' >Management Signatory </Content>
+    </Line>
+    <Line/>
+    <Line>
+      <Content type='Word' length='350' align='left' style='Verdana,10,bold'>Terms &amp; Conditions</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='600' align='left'>1. We reserve the right to reject the supply or cancel the whole or any part of the order if the supply is not as per requisite or a delay </Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='600' align='left'>   in the  execution of the order or mismatch in the price. </Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='600' align='left'>2. We are not responsible to theft or damage in the course of transit.</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='600' align='left'>3. All taxes as applicable.</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='600' align='left'>4. Please quote our PO no. in all your future correspondence.</Content>
+    </Line>
+    <Line/>
+  </Footer>
+</Config>

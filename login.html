@@ -1,0 +1,113 @@
+﻿
+<!DOCTYPE html>
+<html ng-app="InfinityLab">
+<head>
+    <title>Infy POS | Log in</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Creative Sign In form template Responsive, Login form web template,Flat Pricing tables,Flat Drop downs  Sign up Web Templates, Flat Web Templates, Login sign up Responsive web template, SmartPhone Compatible web template, free web designs for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- Custom Theme files -->
+    <link href="Clientside/assets/css/style.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="clientside/favicon.ico">
+    <!-- //Custom Theme files -->
+    <!-- font-awesome icons -->
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="Clientside/plugins/iCheck/square/blue.css">
+
+    <!-- //font-awesome icons -->
+    <!-- web font -->
+    <link href="//fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <!-- //web font -->
+    <!-- jQuery 2.1.4 -->
+    <script src="Clientside/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="Clientside/bootstrap/js/bootstrap.min.js"></script>
+    <!-- iCheck -->
+    <script src="Clientside/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- Angular Js -->
+    <script src="clientside/angular/angular.min.js"></script>
+    <script src="clientside/angular/angular.ui.router.js"></script>
+    <script src="clientside/main/angular-local-storage.js"></script>
+    <script src="clientside/main/angular-route.js"></script>
+    <script src="clientside/main/app.js"></script>
+    <script src="clientside/main/loading-bar.js"></script>
+    <script src="clientside/main/authService.js"></script>
+    <script src="clientside/main/authInterceptorService.js"></script>
+    <script src="clientside/main/loginController.js"></script>
+    <script src="clientside/main/WebPrintService.js"></script>
+</head>
+<body class="hold-transition login-page" ng-controller="loginController">
+    <!-- main -->
+    <div class="main-agile">
+        <div class="w3ls-signup">
+            <div class="w3ls-signup-right">
+                <div class="login-agileits-top">
+                    <form>
+                        <img src="Clientside/assets/images/companylogo-v1.png" alt="" style="width: 100%; height: 100%; align:center" />
+                        <div class="" id="login" ng-hide="loginpage">
+                            <div class="form-group has-feedback" ng-show="getOrganization">
+                                <p style="font:icon">Organization</p>
+                                <input type="text" class="name" name="user name" placeholder="Code"
+                                       data-ng-model="loginData.orgName" onkeyenter="OnEnterKey('organization')" focusid="organization">
+                            </div>
+                            <div class="form-group has-feedback">
+                                <p style="font:icon">User Name</p>
+                                <input type="text" class="name" name="user name" placeholder="User Name"
+                                       data-ng-model="loginData.username" onkeyenter="OnEnterKey('username')" focusid="username">
+                            </div>
+                            <div class="form-group has-feedback">
+                                <p style="font:icon">Password</p>
+                                <input type="password" class="password" name="Password" placeholder="Password"
+                                       data-ng-model="loginData.password" onkeyenter="OnEnterKey('password')"
+                                       focusid="password">
+                            </div>
+                            <button class="buttonselector" ng-click="login()">Sign In</button>
+                            <button class="buttonselector" ng-show="ShowRefreshButton" ng-click="refresh()">Refresh Token</button>
+                            <div class="col-md-12">
+                                <p style="float:left;font:icon;display:inline" ng-dblclick="ShowRefreshButton=true"><h7 style="color:orangered;font-size:small" ng-hide="message != ''" title="{{ipaddress}}">{{license}}</h7></p>
+                                <p style="float:left;font:icon;display:inline"><h7 style="color:orangered">{{message}}</h7></p>
+                                <p style="float:right;font:icon;display:inline"><a href="#" class="lable"><h7 style="font-size:small" ng-click="ShowReset()">Reset-Password</h7></a></p>
+                            </div>
+                            <p>&nbsp;</p>
+                        </div>
+                        <div class="" id="login" ng-show="loginpage">
+                            <div class="form-group has-feedback">
+                                <p style="font:icon">User Name</p>
+                                <input type="text" class="name" name="user name" placeholder="User Name" data-ng-model="loginData.username" autofocus>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <p style="font:icon">Old Password</p>
+                                <input type="password" class="password" name="Password" placeholder="Old Password" data-ng-model="loginData.password" >
+                            </div>
+                            <div class="form-group has-feedback">
+                                <p style="font:icon">New Password</p>
+                                <input type="password" class="password" name="Password" placeholder="New Password" data-ng-model="loginData.newpassword" >
+                            </div>
+                            <div class="form-group has-feedback">
+                                <p style="font:icon">Retype Password</p>
+                                <input type="password" class="password" name="Password" placeholder="Retype Password" data-ng-model="loginData.confirmpassword" >
+                            </div>
+                            <button class="buttonselector" ng-disabled="loginData.confirmpassword!=loginData.newpassword" ng-click="changepassword()">Change Password</button>
+                            <p style="text-align:left;font:icon;"><a href="#" class="lable"><h7>{{message}}</h7></a></p>
+                            <p style="text-align:right;font:icon;"><a href="#" class="lable"><h7 ng-click="ShowReset()">Back</h7></a></p>
+                            <!--<button class="buttonselector" ng-click="ShowReset()">Back</button>-->
+                        </div>
+                        <!--<button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="login()">Sign In</button>-->
+
+                    </form>
+                </div>
+            </div>
+            <div class="clear"> </div>
+        </div>
+        
+        <!-- copyright -->
+        <div class="copyright">
+            <p> © 2017 All rights reserved. |&nbsp;STORE SOFT SOLUTION PVT.LTD</p>
+        </div>
+        <!-- //copyright -->
+    </div>
+    <!-- //main -->
+</body>
+</html>

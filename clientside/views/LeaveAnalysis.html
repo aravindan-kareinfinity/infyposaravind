@@ -1,0 +1,92 @@
+﻿<div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>Leave Analysis</h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+<li><a href back-button>Back</a></li>
+                <li class="active">Leave Analysis</li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <!-- first row starts  -->
+            <div class="box box-primary">
+                <div class="box-body">
+                    <form name="productrequestform">
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12 col-sm-12">
+                                <!-- basic details starts -->
+                                <div class="col-md-4">
+                                    <div class="row row-padbot-15">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-sm-3 col-md-3 control-label">Department</label>
+                                            <div class="col-sm-8 col-md-8">
+                                                <select class="form-control" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="Employee.classification.department"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- basic details ends -->
+                                <div class="col-md-3">
+                                    <div class="row row-padbot-15">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Month</label>
+                                            <div class="col-md-8 col-sm-8">
+                                                <select class="input-sm form-control" select2="" ng-model="Advance.monthid" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="row row-padbot-15">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Year</label>
+                                            <div class="col-md-8 col-sm-8">
+                                                <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="Advance.year">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="row row-padbot-15">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-warning btn-sm glyphicon glyphicon-search align-right" ng-click="Search()"></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-md-12 pull-right">
+                            <label for="inputEmail3" class="col-md-4 control-label text-green" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+                            <button class="btn btn-primary btn-sm btn-warning col-md-1 pull-right" ng-click="Clear()">Clear</button>
+                            <button class="btn btn-primary btn-sm btn-primary col-md-1 pull-right btn_pad" ng-click="Save()">Save</button>
+                        </div>
+
+                    </form>
+
+                    <table class="table">
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Leave Date</th>
+                        </tr>
+                        <tr ng-repeat="item in SearchResult">
+                            <td></td>
+                            <td>{{item.employeecode}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.basicpay}}</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

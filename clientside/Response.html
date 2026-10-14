@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+
+        .topbanner {
+            height: 160px;
+            background-image: url(../File/Show/0/{{desktopbanner}});
+            background-size: cover; 
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 650px;
+            margin: auto;
+            margin-top: 12px;
+            border-radius: 8px;
+            border: 1px solid #dadce0;
+        }
+
+        .header {
+            background-color: #fff;
+            margin-top: 0;
+            page-break-inside: avoid;
+            width: 624px;
+            margin: auto
+        }
+
+    </style>
+</head>
+<body>
+    <div class="topbanner" style="margin-bottom:10px">
+
+    </div>
+    <div class="header" style="margin-bottom:10px;display:{{hassuccess}}">
+        {{feedbackresponse}}
+    </div>
+    <div class="header" style="margin-bottom:10px;display:{{hasfailed}}">
+        {{failedresponse}}
+    </div>
+</body>
+</html>

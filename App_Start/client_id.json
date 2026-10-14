@@ -1,0 +1,24 @@
+var google = {
+  "web": {
+    "client_id": "549507093065-9kefjftkaca3j26r8lcm4e9t6uh35ft9.apps.googleusercontent.com",
+    "project_id": "infypos",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://accounts.google.com/o/oauth2/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "pEL0ZlXaNJhnBvmIaWzwkTX0",
+    "redirect_uris": [ "http://www.kareinfinity.com/InfyPOS/GoogleCallback" ],
+    "javascript_origins": [ "http://www.kareinfinity.com" ]
+  }
+};
+
+
+var facebook = {
+  "web": {
+    "appid": "1180926861950960",
+    "secret": "093cce34fa3d13cb7621d9d517203287",
+    "apptoken" :  "1180926861950960|0hpv6aD8yhMNytX_4FxHjW_YmRQ",
+    "redirect_uris": [ "http://www.kareinfinity.com/InfyPOS/GoogleCallback" ],
+    "javascript_origins": [ "http://www.kareinfinity.com" ]
+  }
+}
+

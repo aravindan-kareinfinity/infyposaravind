@@ -1,0 +1,106 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Work Order - Inbox
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="LRIssue()"><a><i class="fa fas fa-angle-double-up"></i>Issue</a></li>
+            <li style="cursor:pointer" ng-click="LRReceipt()"><a><i class="fa fas fa-angle-double-down"></i>Receipt</a></li>
+            <li style="cursor:pointer" ng-click="LRInvoice()"><a><i class="fa far fa-list-alt"></i>Invoice</a></li>
+            <li style="cursor:pointer" ng-click="LRProducts()"><a><i class="fa fas fa-list-ol"></i>Products</a></li>
+            <li style="cursor:pointer" ng-click="ProductBarcode()"><a><i class="fa fas fa-barcode"></i>Barcode</a></li>
+            <li style="cursor:pointer" ng-click="StatusChange('Cancel')"><a><i class="fa fa-times-circle"></i>Cancel</a></li>
+            <li style="cursor:pointer" ng-click="StatusChange('Working')"><a><i class="fa fas fa-spinner"></i>Working</a></li>
+            <li style="cursor:pointer" ng-click="StatusChange('Completed')"><a><i class="fa fas fa-hourglass-end"></i>Completed</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'whdashboard', 'dashboard')"><a><i class="fa fa-download"></i></a></li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-6 col-sm-6">
+                        <label for="inputEmail3" class="col-sm-1 col-md-2 control-label no-padding">Type</label>
+                        <div class="col-sm-4 col-md-4">
+                            <select class="form-control input-sm" select2="Type" ng-change="typechanged()" ng-options="item.id as item.name for item in ItemTypes track by item.id" ng-model="SearchRequest.typeid"></select>
+                        </div>
+                        <label for="inputEmail3" class="col-sm-1 col-md-2 control-label no-padding">Supplier</label>
+                        <div class="col-sm-4 col-md-4">
+                            <select class="form-control input-sm" select2='Supplier' ng-model="SearchRequest.supplierid" ng-options="item.id as item.name for item in Suppliers track by item.id"
+                                    ng-change="supplierchanged()"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Status</label>
+                        <div class="col-sm-4 col-md-4">
+                            <select class="form-control input-sm" select2="Status" ng-change="statuschanged()" ng-options="item.id as item.name for item in StatusList track by item.id" ng-model="SearchRequest.statusid"></select>
+                        </div>
+                        <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Date</label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto" class="form-control pull-right input-sm">
+                        </div>
+                        <div class="col-sm-2 col-md-2 no-padding">
+                            <button type="button" class="btn btn-primary btn-sm btn-box pull-right" ng-click="Search()">Search</button>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-6 col-sm-6">
+                        <label for="inputEmail3" class="col-sm-2 col-md-1 control-label no-padding">Status</label>
+                        <div class="col-sm-2 col-md-4">
+
+                        </div>
+                        <label for="inputEmail3" class="col-sm-4 col-md-1 control-label no-padding">Date</label>
+                        <div class="col-sm-2 col-md-4">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto" class="form-control pull-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <button type="button" class="btn btn-block btn-primary pull-left" ng-click="Search()">Search</button>
+                    </div>
+                    <div class="col-sm-5 no-padding">
+                        <label for="inputEmail3" class="col-sm-1 control-label no-padding">Status</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" select2="Status" ng-options="item.id as item.name for item in StatusList track by item.id" ng-model="SearchRequest.statusid"></select>
+                        </div>
+                        <label for="inputEmail3" class="col-sm-1 control-label no-pad">Date</label>
+                        <div class="col-sm-5 no-padding">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto" class="form-control pull-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-block btn-primary pull-left" ng-click="Search()">Search</button>
+                    </div>-->
+
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12" id="gridContainer">
+                       
+
+
+                    </div>
+                </div>
+
+              
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+

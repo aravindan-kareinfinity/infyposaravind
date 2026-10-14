@@ -1,0 +1,491 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Finance / Tally Configuration
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-show="Company" ng-click="Save()"><a><i class="fa fa-save"></i>Save <span style="font-size:large;color:orangered">{{Company.name}}</span> Tally Configuration</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content" ng-init="ShowAllCompany()">
+
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <label style="font-size:large;color:brown">COMPANY LIST</label>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-5" id="report">
+                        <div class="table-responsive mailbox-messages">
+                            <table class="fixed_table" id="purchaseentry"
+                                   additionalheight="20" fixed-header="360px">
+                                <thead>
+                                    <tr>
+                                        <th width="40px">SNO </th>
+                                        <th style="width:50px">Code</th>
+                                        <th style="width:150px">Name</th>
+                                        <th style="width:50px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SearchResult" ng-style="item.style">
+                                        <td>{{$index+1}}</td>
+                                        <td>{{item.code}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-success"
+                                                    ng-click="ShowTallyConfig(item)">
+                                                Configure
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7" id="report">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label style="font-size:large;color:brown">Tally Server</label>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-6 no-padding">
+
+                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">Company</label>
+                                    <div class="col-md-12 no-padding">
+                                        <input method="text" class="form-control input-sm"
+                                               style="width: 100%;"
+                                               ng-model="Company.tallyconfig.companyname"
+                                               focusid="company" focusonenter="computer">
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4 no-padding">
+
+                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">Computer</label>
+                                    <div class="col-md-12 no-padding">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.machine" focusid="computer" focusonenter="port">
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2 no-padding">
+
+                                    <label for="inputEmail3" class="col-md-12 no-padding control-label">Port</label>
+                                    <div class="col-md-12 no-padding">
+                                        <input method="text" class="form-control input-sm"
+                                               style="width: 100%;" ng-model="Company.tallyconfig.port" focusid="port" focusonenter="mode">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" style="padding-left:0px;padding-right:0px;padding-bottom:10px;padding-top:10px">
+                                <div class="col-md-4">
+                                    <label style="font-size:large;color:brown">Select - Tally Config</label>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <button class="btn btn-primary pull-right" style="margin-left:10px" ng-click="tallyconfigtype='PAYMODE'">Payment Modes</button>
+                                    <button class="btn btn-primary pull-right" style="margin-left:10px" ng-click="tallyconfigtype='VOUCHERTYPE'">Voucher Types</button>
+                                    <button class="btn btn-success pull-right" style="margin-left:10px" ng-click="tallyconfigtype='SALES'">Sales</button>
+                                    <button class="btn btn-warning pull-right" ng-click="tallyconfigtype='PURCHASE'">Purchase</button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding" ng-show="tallyconfigtype=='PAYMODE'">
+                                <div class="col-md-12">
+                                    <label style="font-size:large;color:brown">Payment Modes</label>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label>CASH</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.paymode_cash">
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label>NEFT/ONLINE</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.paymode_neft">
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label>UPI</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.paymode_upi">
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <label>CHEQUE/DD</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.paymode_cheque">
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <label>CREDIT CARD</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.paymode_card">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding" ng-show="tallyconfigtype=='VOUCHERTYPE'">
+                                <div class="col-md-12">
+                                    <label style="font-size:large;color:brown">Voucher Types</label>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label>Purchase</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.vouchertype_purchase">
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label>Sales</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.vouchertype_sales">
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label>Purchase return</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.vouchertype_purchasereturn">
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <label>Sales return</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.vouchertype_salesreturn">
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <label>Supplier Payment</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.vouchertype_supplierpayment">
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <label>Customer Payment</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.vouchertype_customerpayment">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding" ng-show="tallyconfigtype=='PURCHASE'">
+                                <div class="col-md-12">
+                                    <div class="col-md-6 no-padding">
+                                        <label>Voucher No</label>
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Data_Purchase_VoucherNo" focusid="pvoucherno" focusonenter="pvnarration">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>Narration</label>
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Data_Purchase_Narration" focusid="pvnarration" focusonenter="purchaseaccount">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Purchase Account (Local)</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Supplies_Localstate" focusid="purchaseaccount" focusonenter="interstate">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Purchase Account (Interstate)</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Supplies_Interstate" focusid="interstate" focusonenter="inputgst">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Purchase Account (Stock)</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Supplies_StockTransfer" focusid="interstate" focusonenter="inputgst">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Purchase Account (Expense)</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Supplies_Expenses" focusid="interstate" focusonenter="inputgst">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Input CGST</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Input_CGST" focusid="inputgst" focusonenter="inputsgst">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Input SGST</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Input_SGST" focusid="inputsgst" focusonenter="inputigst">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Input IGST</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Input_IGST" focusid="inputigst" focusonenter="inwardexpense">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Inward Expenses</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.InwardExpenses" focusid="inwardexpense" focusonenter="inwardexpenseGST">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>InwardExpenses(GST)</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.InwardExpenses_GST" focusid="inwardexpenseGST" focusonenter="inwardexpenseIGST">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>InwardExpenses(IGST)</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.InwardExpenses_IGST" focusid="inwardexpenseIGST" focusonenter="tds">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>TDS</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.TDS" focusid="tds" focusonenter="discount">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Discount</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Discount" focusid="discount" focusonenter="rounding">
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label>Rounding</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Rounding" focusid="rounding" focusonenter="inwardexpenseIGST">
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-6 no-padding">
+                                        <label>Local Region</label>
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Region_Local" focusid="Region_Local" focusonenter="Region_Interstate">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>Interstate Region</label>
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Region_Interstate" focusid="Region_Interstate" focusonenter="supplier">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Supplier</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Supplier" focusid="supplier">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Agent</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Agent">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Payment Cash</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Payment_Cash">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Payment Bank</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Payment_Bank">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Data Configuration</label>
+                                    <div class="col-md-12 no-padding">
+                                        <div class="col-md-2 no-padding">
+                                            <label>Exclude Address <input type="checkbox" style="margin-left:10px" ng-model="Company.tallyconfig.configuration.Data_Purchase_Address" /></label>
+                                        </div>
+                                        <div class="col-md-2 no-padding">
+                                            <label>Exclude Master <input type="checkbox" style="margin-left:10px" ng-model="Company.tallyconfig.configuration.Data_Purchase_Master" /></label>
+                                        </div>
+                                        <div class="col-md-8 no-padding">
+                                            <div class="col-md-3 no-padding">
+                                                <label>Entry No<input type="checkbox" style="margin-left:10px" ng-model="Company.tallyconfig.configuration.Data_Purchase_EntryNo" /></label>
+                                            </div>
+                                            <div class="col-md-2 no-padding">
+                                                <label>Approval<input type="checkbox" style="margin-left:10px" ng-model="Company.tallyconfig.configuration.Data_Purchase_Approval" /></label>
+                                            </div>
+                                            <div class="col-md-2 no-padding">
+                                                <label>App. Date<input type="checkbox" style="margin-left:10px" ng-model="Company.tallyconfig.configuration.Data_Purchase_ApprovalDate" /></label>
+                                            </div>
+                                            <div class="col-md-3 no-padding">
+                                                <label>Cost Centre<input type="checkbox" style="margin-left:10px" ng-model="Company.tallyconfig.configuration.Data_Purchase_Datacentre" /></label>
+                                            </div>
+                                            <div class="col-md-2 no-padding">
+                                                <label>GST<input type="checkbox" style="margin-left:10px" ng-model="Company.tallyconfig.configuration.Data_Purchase_GSTInfo" /></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding" ng-show="tallyconfigtype=='SALES'">
+
+                                <div class="col-md-12">
+                                    <div class="col-md-6 no-padding">
+                                        <label>Reference No</label>
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Data_Sales_Reference" focusid="svoucherno" focusonenter="slnarration">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>Narration</label>
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Data_Sales_Narration" focusid="slnarration" focusonenter="purchaseaccount">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <label>Cash</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Cash" focusid="cash" focusonenter="bank">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Bank</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Bank">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>UPI</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.UPI">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Outward Supplies - LOCAL</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.OutwardSupplies_Localstate" focusid="outwardslocal" focusonenter="outwardsinterstate">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Outward Supplies - INTERSTATE</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.OutwardSupplies_Interstate" focusid="outwardsinterstate" focusonenter="outputcgst">
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label>Outward Supplies - B2B LOCAL</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.B2BOutwardSupplies_Localstate" focusid="outwardslocal" focusonenter="outwardsinterstate">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Outward Supplies - B2B INTERSTATE</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.B2BOutwardSupplies_Interstate" focusid="outwardsinterstate" focusonenter="outputcgst">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Outward Supplies - B2B TRANSFER</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.B2BOutwardSupplies_StockTransfer" focusid="interstate" focusonenter="inputgst">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Outward Supplies - B2B ONLINE - LOCAL</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.B2BOutwardSupplies_Onlinelocal" focusid="interstate" focusonenter="inputgst">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Outward Supplies - B2B ONLINE - INTERSTATE</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.B2BOutwardSupplies_OnlineInterstate" focusid="interstate" focusonenter="inputgst">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Output CGST</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Output_CGST" focusid="outputcgst" focusonenter="outputsgst">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Output SGST</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Output_SGST" focusid="outputsgst" focusonenter="outputigst">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Output IGST</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Output_IGST" focusid="outputigst" focusonenter="rounding1">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Rounding</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Rounding" focusid="rounding1" focusonenter="cusotmer1">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Customer</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Customer" focusid="cusotmer1" focusonenter="employee">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Customer Payment Discount</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.CustomerPaymentDiscount" focusid="cusotmerpaymentdiscount" focusonenter="employee">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Vouchers(Credit/Gifg) </label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.CustomerVouchers" focusid="cusotmerpaymentdiscount" focusonenter="employee">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Employee</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Company.tallyconfig.configuration.Employee" focusid="employee" focusonenter="">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Data</label>
+                                    <div class="col-md-12 no-padding">
+                                        <div class="col-md-3 no-padding">
+                                            <label>Exclude Address <input type="checkbox" ng-model="Company.tallyconfig.configuration.Data_Sales_Address" /></label>
+                                        </div>
+                                        <div class="col-md-3 no-padding">
+                                            <label>Exclude Master <input type="checkbox" ng-model="Company.tallyconfig.configuration.Data_Sales_Master" /></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 ">Name</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control input-sm" ng-model="SearchCondition.name">
+                            </div>
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-1">
+                                <button type="button" class="pull-right btn btn-block btn btn-sm btn btn-primary" ng-click="SwitchPanel()">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 ">Contact Person</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control input-sm" ng-model="SearchCondition.contactperson">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 "></label>
+                            <div class="col-md-5">
+                            </div>
+                            <div class="col-sm-4"></div>
+                            <div class="col-md-1">
+                                <button type="button" class="pull-right btn btn-sm btn btn-block btn btn-warning" ng-click="Search()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <div class="row row-padbot-15">
+
+                    <div class="col-md-12">
+                        <div class="table-responsive mailbox-messages">
+                            <table fixed-header="500px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:10px">&nbsp;</th>
+                                        <th style="width:100px">Name</th>
+                                        <th style="width:100px">Contact Person</th>
+                                        <th style="width:100px">Contact No</th>
+                                        <th style="width:100px">Email Id</th>
+                                        <th style="width:100px">Address</th>
+                                        <th style="width:100px">City</th>
+                                        <th style="width:100px;text-align:center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SearchResult">
+                                        <td></td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.contactperson}}</td>
+                                        <td>{{item.contactno}}</td>
+                                        <td>{{item.emailid}}</td>
+                                        <td>{{item.address}}</td>
+                                        <td>{{SearchRef(item.cityid,Cities)}}</td>
+                                        <td>
+                                            <button type="button" class="btn-danger btn btn-xs" ng-click="ManageSearchItem('Delete',item)">Delete</button>
+                                            <button type="button" class="btn-primary btn btn-xs" ng-click="ManageSearchItem('Edit',item)">Edit</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.content -->
+        </div>
+
+
+
+    </section>
+</div>
+<!-- /.content-wrapper -->

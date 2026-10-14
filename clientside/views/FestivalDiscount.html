@@ -1,0 +1,358 @@
+﻿<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Store / Festival Discount
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+<li><a href back-button>Back</a></li>
+            <li class="active"> Fixed Discount</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                <div class="col-md-8">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in BuyingCompany track by item.id" ng-model="FestivalDiscount.companyid" focusid="first"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                                <div class="col-md-8">
+                                    <select class="input-sm form-control" select2='' options="item.id as item.name for item in Locations track by item.id" ng-model="FestivalDiscount.locationid"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Discount Apply By</label>
+                                <div class="col-md-8">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.code for item in Employee track by item.id" ng-model="FestivalDiscount.schemeappliedby"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label"><h4>Filter</h4></label>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-3 control-label">Date</label>
+                                <div class="col-md-7">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="input-sm form-control datepicker" datemodule="FestivalDiscount.schemedate" ng-model="FestivalDiscount.SchemeDate">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="pull-right btn-sm btn-box btn btn-warning" ng-click="SwitchPanel()">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-3 control-label">Mode</label>
+                                <div class="col-md-9">
+                                    <select class="input-sm form-control" select2="" ng-model="FestivalDiscount.discountmode" options="item.id as item.name for item in DiscountModes track by item.id"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-3 control-label" ng-show="FestivalDiscount.discountmode==1">Fixed Discount</label>
+                                <label for="inputEmail3" class="col-md-3 control-label" ng-show="FestivalDiscount.discountmode==2">Discount %</label>
+                                <div class="col-md-3">
+                                    <input method="text" class="input-sm form-control" ng-model="FestivalDiscount.discountvalue">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="inputEmail3" class="col-md-7 control-label">Rounding near</label>
+                                    <div class="col-md-5" style="padding-right:0px">
+                                        <input method="text" class="input-sm form-control" style="width: 100%;" ng-model="FestivalDiscount.rounding">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-3 control-label">Reason</label>
+                                <div class="col-md-9">
+                                    <input method="text" class="input-sm form-control" style="width: 100%;" ng-model="FestivalDiscount.reason">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Supplier</label>
+                                <div class="col-sm-8">
+                                    <select class="input-sm form-control" select2='Company' ng-model="FestivalDiscount.filter.supplierid" options="item.id as item.name for item in Suppliers track by item.id"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Product</label>
+                                <div class="col-md-8">
+                                    <select class="input-sm form-control" select2='' options="item.id as item.name for item in Products track by item.id" ng-model="FestivalDiscount.filter.productid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Barcode</label>
+                                <div class="col-md-8">
+                                    <div class="input-group input-group-sm">
+                                        <input method="text" class="input-sm form-control" style="width: 100%;" ng-model="FestivalDiscount.barcode" onkeyenter="SearchByBarcode(FestivalDiscount.barcode)" placeholder="Barcode">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info btn-box btn-sm" ng-click="SearchByBarcode(FestivalDiscount.barcode)">Go!</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-3 control-label">Brand Name</label>
+                                <div class="col-md-9">
+                                    <select class="input-sm form-control" select2='' options="item.id as item.name for item in BrandName track by item.id" ng-model="FestivalDiscount.filter.brandid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-3 control-label">Material</label>
+                                <div class="col-md-9">
+                                    <select class="input-sm form-control" select2='' ng-model="FestivalDiscount.filter.materialid" options="item.id as item.name for item in Material track by item.id"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <a class="pull-right  btn btn-primary btn-box btn-sm" ng-show="FestivalDiscount.id>0 && FestivalDiscount.status==1" ng-click="ChangeDiscount(0)">Rollback Discount</a>
+                                    <a class="pull-right  btn btn-primary btn-box btn-sm" ng-show="FestivalDiscount.id>0 && FestivalDiscount.status==0" ng-click="ChangeDiscount(1)">Apply Discount</a>
+                                    <a class="pull-left  btn btn-info btn-sm btn-box" style="margin-right:10px"  ng-click="PrintBarcode()">Print Barcode</a>
+                                    <a class="pull-left btn-sm btn-box btn btn-primary" ng-click="SearchItems(true,0)">Search filtered items</a>
+                                    <a class="btn btn-primary btn-box btn-sm pull-right" ng-click="Save()">Save</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.col -->
+
+            </div>
+            <div class="col-md-12" ng-show="ErrorMessage != null">
+                <label for="inputEmail3" class="control-label text-green" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+            </div>
+
+            <!-- /.row -->
+
+            <div class="row row-padbot-15">
+                <div class="col-md-12">
+                    <div class="table-responsive mailbox-messages">
+                        <table fixed-header="200px" additionalheight="260" class="fixed_table">
+                            <thead>
+                                <tr>
+                                    <th style="width:20px"><input type="checkbox" ng-model="item.selected" /></th>
+                                    <th style="width:150px">Printing Name</th>
+                                    <th style="width:100px">Barcode</th>
+                                    <th style="width:100px">Price</th>
+                                    <th style="width:100px">Discount</th>
+                                    <th style="width:100px">Addln Dist</th>
+                                    <th style="width:100px">Scheme Dist</th>
+                                    <th style="width:100px">Sales Price</th>
+                                    <th style="width:100px">Stock Qty</th>
+                                    <th style="width:100px">Salable Stock</th>
+                                    <th style="width:100px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="item in ItemList">
+                                <tr ng-hide="item.status==2">
+                                    <td><input type="checkbox" ng-model="item.selected" /></td>
+                                    <td>{{item.printingname}}</td>
+                                    <td>{{item.barcode}}</td>
+                                    <td>{{item.price}}</td>
+                                    <td>{{item.discount}}</td>
+                                    <td>{{item.additionaldiscount}}</td>
+                                    <td>{{item.applieddiscount}}</td>
+                                    <td>{{item.price-item.discount-item.additionaldiscount-item.applieddiscount}}</td>
+                                    <td>{{item.stockqty}}</td>
+                                    <td>{{item.salablestock}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="ManageSearchItem('Delete Item',item)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+            <div class="box-body">
+
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label"> Company</label>
+                            <div class="col-md-5">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="type.id  as type.name for type in BuyingCompany track by type.id" ng-model="SearchCondition.companyid"></select>
+                            </div>
+                            <div class="col-md-5">
+                                <button type="button" class="pull-right btn btn-primary btn-sm btn-box" ng-click="SwitchPanel()">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">From Date</label>
+                            <div class="col-md-5">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="input-sm form-control datepicker" datemodule="SearchCondition.fromdate" ng-model="SearchCondition.FromDate">
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">To Date</label>
+                            <div class="col-md-5">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="input-sm form-control datepicker" datemodule="SearchCondition.todate" ng-model="SearchCondition.ToDate">
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <button type="button" class="pull-right btn-sm btn-box btn btn-warning" ng-click="Search()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+
+
+                <div class="row row-padbot-15">
+
+
+                    <div class="col-md-12">
+
+                        <div class="table-responsive mailbox-messages">
+
+                            <table fixed-header="500px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:10px">&nbsp;</th>
+                                        <th style="width:300px">Company</th>
+                                        <th style="width:100px">Date</th>
+                                        <th style="width:100px">Mode</th>
+                                        <th style="width:50px">Value</th>
+                                        <th style="width:100px">Status</th>
+                                        <th style="width:100px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SearchResult">
+                                        <td></td>
+                                        <td>{{SearchRef(item.companyid,BuyingCompany)}}</td>
+
+                                        <td>{{item.schemedate | date:'dd-MM-yyyy'}}</td>
+                                        <td>{{SearchRef(item.discountmode,DiscountModes)}}</td>
+                                        <td>{{item.discountvalue}}</td>
+
+                                        <td>{{SearchRef(item.status,Status)}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="ManageSearchItem('Delete',item)">Delete</button>
+                                            <button type="button" class="btn btn-primary btn-xs" ng-click="ManageSearchItem('Edit',item)">Edit</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.content -->
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script type="text/ng-template" id="ChooseBarecodes">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <table fixed-header="200px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:300px">Product</th>
+                            <th style="width:100px">Barcode</th>
+                            <th style="width:100px">Select</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in BarcodeList">
+                            <td>{{item.name}}</td>
+                            <td>{{item.code}}</td>
+                            <td style="text-align:center"><input type="checkbox" ng-model="item.selected" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Select</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>

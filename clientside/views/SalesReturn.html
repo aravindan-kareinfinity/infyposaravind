@@ -1,0 +1,238 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Sales Retrun
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+<li><a href back-button>Back</a></li>
+            <li class="active">Sales Return</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="row row-padbot-15">
+
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Return Date</label>
+                                <div class="col-sm-4">
+
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" datemodule="SalesReturn.returndate" ng-model="SalesReturn.returndate">
+                                    </div>
+
+                                </div>
+
+                                <label for="inputEmail3" class="col-sm-2 control-label">SR No</label>
+                                <div class="col-sm-3 no-padding">
+                                    <input type="text" class="form-control input-sm" ng-readonly="true" placeholder="" ng-model="SalesReturn.srno">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Company</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control input-sm" select2="" ng-model="SalesReturn.companyid" options="item.id as item.name for item in BuyingCompany track by item.id"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Customer Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control input-sm" placehoder="" ng-model="SalesReturn.customername">
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <label for="txtname" class="control-label">Interstate</label>
+                                    <input type="checkbox" class="flat-red pull-right" ng-model="SalesReturn.isinterstatesale">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">S.R No</label>
+
+
+                                <div class="col-md-4 no-padding">
+                                    <div class="input-group input-group-sm col-md-12">
+                                        <input method="text" class="input-sm form-control" ng-model="searchsrno" placeholder="SR No" onkeyenter="SearchSR()">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info btn-flat" ng-click="SearchSR()">Go!</button>
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Search Bill</label>
+
+                                <div class="col-md-4 no-padding">
+                                    <div class="input-group input-group-sm col-md-12">
+                                        <input method="text" class="input-sm form-control" ng-model="SalesReturn.billno" focusid="searchbillno" placeholder="Bill No" onkeyenter="Search('BILLNO')">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info btn-flat" ng-click="Search('BILLNO')">Go!</button>
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <label for="inputEmail3" class="col-sm-5 control-label">Bill Date</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" ng-disabled="true" class="form-control pull-right" datemodule="SalesReturn.billdate" ng-model="SalesReturn.billdate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Barcode</label>
+
+
+                                <div class="col-md-10 no-padding">
+                                    <div class="input-group input-group-sm col-md-12">
+                                        <input method="text" class="input-sm form-control" ng-model="SalesReturn.barcode" placeholder="Bill No" onkeyenter="Search('BILLNO')">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info btn-flat" ng-click="Search('BARCODE')">Go!</button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <table fixed-header="250px" class="fixed_table">
+                            <thead>
+                                <tr>
+                                    <th style="width:100px">Barcode</th>
+                                    <th style="width:100px">Name</th>
+                                    <th style="width:100px">Qty</th>
+                                    <th style="width:100px">Return Qty</th>
+
+                                    <th style="width:100px">Rate</th>
+                                  
+                                    <th style="width:100px">Discount</th>
+
+                                    <th style="width:100px">Refund Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in SalesReturn.Billreturnitems">
+                                    <td>{{item.barcode}}</td>
+                                    <td>{{item.printingname}}</td>
+                                    <td>{{item.qty}}</td>
+                                    <td><input type="text" class="form-control input-sm" ng-change="ReturnAmountChanged(item)" ng-model="item.rqty"></td>
+
+                                    <td>{{item.salerate}}</td>
+                                    <td>{{item.discount}}</td>
+                                    <td>{{item.receivable}}</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6 no-padding">
+                        <div class="row row-padbot-15 no-padding">
+                            <table fixed-header="150px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:100px">Particulars</th>
+                                        <th style="width:100px">On Amount</th>
+                                        <th style="width:100px">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SalesReturn.currentbilltax">
+                                        <td>{{item.taxpercentage}}%</td>
+                                        <td>{{item.amount | number:2}}</td>
+                                        <td>{{item.tax | number:2}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="row row-padbot-15" style="margin-left:25px">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Return Qty</label>
+                                <div class="col-sm-8">
+                                    <label>{{SalesReturn.qty}}</label>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="row row-padbot-15" style="margin-left:25px">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Return Discount</label>
+                                <div class="col-sm-8">
+                                    <label>{{SalesReturn.discount}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" style="margin-left:25px">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Return Amount</label>
+                                <div class="col-sm-8">
+                                    <label>{{SalesReturn.receivable}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+
+                        </div>
+                        <div class="row row-padbot-15" style="margin-left:25px">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Voucher Code</label>
+                                <div class="col-sm-4">
+                                    <input type="password" name="name" class="form-control input-sm" placeholder="" ng-readonly="true" ng-model="SalesReturn.vouchercode">
+                                </div>
+                                <div class="col-md-4 no-padding">
+                                    <button type="button" class="pull-right btn-sm btnMarginer btn btn-primary" ng-click="Print(SalesReturn)">Print</button>
+                                    <button type="button" class="pull-right btn-sm btnMarginer btn btn-success" style="margin-right:10px" ng-click="Save()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15" style="margin-left:25px">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="control-label text-green" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<!-- Page script -->

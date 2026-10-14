@@ -1,0 +1,222 @@
+﻿<div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+                Sales / RACKS
+            </h1>
+            <ol class="breadcrumb" ng-show="!HistoryMode">
+                <li ng-show="AllowDelete && selectedcount>0" style="cursor:pointer" ng-click="UpdateStatus(false,false,true)"><a><i class="fa fa-file"></i>Clear</a></li>
+                <li ng-show="AllowDelete && selectedcount>0" style="cursor:pointer" ng-click="UpdateStatus(false,true,false)"><a><i class="fa fa-file"></i>Delete</a></li>
+                <li ng-hide="InactiveRacks  || selectedcount>0" style="cursor:pointer" ng-click="AddRack()"><a><i class="fa fa-file"></i>Add Rack</a></li>
+                <li ng-hide="InactiveRacks  || selectedcount>0" style="cursor:pointer" ng-click="Margeto(true)"><a><i class="fa fa-file"></i>Merge Rack</a></li>
+                <li ng-show="!InactiveRacks && selectedcount>1" style="cursor:pointer" ng-click="Margeto(false)"><a><i class="fa fa-file"></i>Merge Rack({{selectedcount}})</a></li>
+                <li ng-show="!InactiveRacks && selectedcount==1" style="cursor:pointer" ng-click="EditRack()"><a><i class="fa fa-file"></i>Edit Rack</a></li>
+                <li ng-hide="InactiveRacks && selectedcount==0" style="cursor:pointer" ng-click="SearchList(true);"><a><i class="fa fa-search"></i>Show In-Active</a></li>
+                <li ng-show="InactiveRacks && selectedcount==0" style="cursor:pointer" ng-click="SearchList(false);"><a><i class="fa fa-search"></i>Show Active</a></li>
+
+                <li ng-show="InactiveRacks && selectedcount>0" style="cursor:pointer" ng-click="UpdateStatus(false);"><a><i class="fa fa-search"></i>Enable Racks</a></li>
+                <li ng-show="!InactiveRacks && selectedcount>0" style="cursor:pointer" ng-click="UpdateStatus(true);"><a><i class="fa fa-search"></i>Disable Racks</a></li>
+
+                <li ng-show="selectedcount == 1" style="cursor:pointer" ng-click="ShowHistory(true)"><a><i class="fa fa-history"></i>History</a></li>
+            </ol>
+            <ol class="breadcrumb" ng-show="HistoryMode">
+                <li style="cursor:pointer" ng-click="ShowHistory(false)"><a><i class="fa fa-backward"></i>Delivery Racks</a></li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <!-- Your Page Content Here -->
+            <div class="box box-primary">
+                <div class="box-body">
+
+                    <div class="col-md-12" style="padding-bottom:10px" ng-hide="HistoryMode">
+                        <div class="col-md-2 no-padding">
+                            Bill / Card No
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group input-group-sm" style="width:100%">
+                                <input type="text" style="width:100%" onkeyenter="RelaseRack(billno)" focusid="billno" class="input-sm" ng-model="billno" />
+                                <span class="input-group-btn" style="width:10px">
+                                    <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="RelaseRack(billno)">
+                                        <i class="glyphicon glyphicon-plus-sign"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 no-padding">
+                            <span style="font-size:large;color:white;background-color:orangered" ng-show="ReleaseCounterMissmatch">{{ReleaseCounter}}</span>
+                            <span style="font-size:large;color:orangered" ng-hide="ReleaseCounterMissmatch">{{ReleaseCounter}}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-5">
+                                Auto Referesh
+                            </div>
+
+                            <div class="input-group input-group-sm col-md-7">
+                                <select class="input-sm form-control " select2="Select Product" ng-model="refereshid"
+                                        onkeyenter="RefreshChanged()"
+                                        ng-disabled="true"
+                                        options="item.id as item.name for item in RefereshList track by item.id" style="width:100%"
+                                        focusid="itemid"></select>
+                                <span class="input-group-btn" style="width:10px">
+                                    <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="RefreshChanged()">
+                                        <i class="glyphicon glyphicon-plus-sign"></i>
+                                    </button>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" style="padding-bottom:10px" ng-show="HistoryMode">
+                        <div class="col-md-2 no-padding">
+                            Rack No
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group input-group-sm" style="width:100%">
+                                <input type="text" style="width:100%" ng-readonly="true" class="input-sm" ng-model="HistoryRack.code" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="input-group input-group-sm col-md-6">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control datepicker input-sm" datemodule="historydate"
+                                           ng-model="historydate">
+                                </div>
+                                <span class="input-group-btn" style="width:10px">
+                                    <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="SearchHistory()">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" style="padding-left:0px">
+                        <div class="col-md-12" id="gridRackContainer">
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>
+
+<script type="text/ng-template" id="AddRack">
+    <div class="ngdialog-message">
+        <div class="col-md-12" style="padding-top: 10px;padding-bottom: 10px;font-size: 15pt;">
+            RACK Configuration
+        </div>
+        <div class="col-md-12 no-padding">
+            <div class="md-col-12" style="padding-top:10px">
+                <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                <div class="col-sm-8 col-md-8">
+                    <select class="form-control input-sm" style="width: 100%;" select2="Cheque"
+                            options="item.id as item.name for item in Locations track by item.id"
+                            ng-model="rack.locationid "></select>
+                </div>
+            </div>
+            <div class="md-col-12" style="padding-top:10px">
+                <label for="inputEmail3" class="col-md-4 control-label">Code</label>
+                <div class="col-sm-8 col-md-8">
+                    <input type="text" class="form-control input-sm" style="width:100%" ng-model="rack.code" />
+                </div>
+            </div>
+            <div class="md-col-12" style="padding-top:10px">
+                <div class="col-md-4" style="padding-right:0px">
+                    <label for="inputEmail3" class="col-md-12 control-label no-padding">Group</label>
+                    <div class="col-sm-12 col-md-12 no-padding">
+                        <input type="text" class="form-control input-sm" style="width:100%" ng-model="rack.grp" />
+                    </div>
+                </div>
+                <div class="col-md-4 no-padding">
+                    <label for="inputEmail3" class="col-md-12 control-label no-padding">Row</label>
+                    <div class="col-sm-12 col-md-12 no-padding">
+                        <input type="text" class="form-control input-sm" style="width:100%" ng-model="rack.row" />
+                    </div>
+                </div>
+                <div class="col-md-4" style="padding-left:0px">
+                    <label for="inputEmail3" class="col-md-12 control-label no-padding">Column</label>
+                    <div class="col-sm-12 col-md-12 no-padding">
+                        <input type="text" class="form-control input-sm" style="width:100%" ng-model="rack.col" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="ngdialog-buttons" style="padding-top:130px">
+            <div class="md-col-12" style="padding-bottom: 30px;padding-top: 40px;padding-right: 15px;">
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Save()">OK</button>
+                <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+
+<script type="text/ng-template" id="EstimateBills">
+    <div class="ngdialog-message">
+        <div class="col-md-12" style="padding-top: 10px;padding-bottom: 10px;font-size: 15pt;">
+            Remove
+        </div>
+
+        <div class="col-sm-12 col-md-12">
+            <select class="form-control input-sm" style="width: 100%;" select2="Cheque"
+                    options="item.id as item.name for item in bills track by item.id"
+                    ng-model="billid"></select>
+        </div>
+
+        <div class="ngdialog-buttons" style="padding-top:130px">
+            <div class="md-col-12" style="padding-bottom: 30px;padding-top: 40px;padding-right: 15px;">
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Save()">OK</button>
+                <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="Margeto">
+    <div class="ngdialog-message">
+        <div class="col-md-12" style="padding-top: 10px;padding-bottom: 10px;font-size: 15pt;">
+            Marge to
+        </div>
+
+
+        <div class="col-sm-12 col-md-12">
+            <select class="form-control input-sm" style="width: 100%;" select2="Cheque"
+                    options="item.id as item.name for item in rows track by item.id"
+                    ng-model="rackid"></select>
+        </div>
+
+
+        <div class="col-md-12" style="padding-top: 10px;padding-bottom: 10px;font-size: 15pt;">
+            <div ng-repeat="row in rows">
+                {{row.name}} &nbsp;
+            </div>
+        </div>
+
+        <div class="ngdialog-buttons" style="padding-top:130px">
+            <div class="md-col-12" style="padding-bottom: 30px;padding-top: 40px;padding-right: 15px;">
+                <div class="col-md-6 no-padding">
+                    <input class="input-sm" style="width:100%" ng-model="rackcode" onkeyenter="AddRackCode()" />
+                </div>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Save()">OK</button>
+                <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+</script>

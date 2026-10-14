@@ -1,0 +1,479 @@
+﻿<div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+
+
+                <span ng-show="IsSampleBased" style="font-size:20px;" ng-style="{'color': 'orangered'}">Packing</span>
+
+                <span ng-hide="IsUANBased || IsSampleBased" style="font-size:20px" ng-style="ActionMode==3 && {'color': 'orangered'}"
+                      ng-click="SelectOption(3)">Bill &amp; Combo / </span>
+
+                <span ng-hide="IsSampleBased" style="font-size:20px;" ng-style="ActionMode==1 && {'color': 'orangered'}"
+                      ng-click="SelectOption(1)">Billing</span>
+
+                <span ng-hide="IsUANBased || IsSampleBased" style="font-size:20px"
+                      ng-style="ActionMode==2 && {'color': 'orangered'}"
+                      ng-click="SelectOption(2)"> / Combo Creator</span>
+            </h1>
+            <ol class="breadcrumb">
+                <li ng-show="FGBundle && FGBundle.id && FGBundle.id>0" style="cursor:pointer" ng-click="UpdateBox(FGBundle.id)"><a><i class="fa fa-refresh"></i>Refresh</a></li>
+
+                <li ng-show="FGBundle && FGBundle.id && FGBundle.id>0 && selectedcount>0" style="cursor:pointer"
+                    ng-click="UpdateMrp()"><a><i class="fa fa-refresh"></i>MRP</a></li>
+
+                <li ng-show="(FGBundle && FGBundle.id && FGBundle.id>0) || (LastFGBundle && LastFGBundle.id && LastFGBundle.id>0)" ng-repeat="item in PrintList">
+                    <a ng-hide="FGBundle != null" ng-click="PrintSlip(item.id,FGBundle.id)"><i class="fa fa-print"></i>{{item.code}}</a>
+                    <a ng-show="LastFGBundle != null" ng-click="PrintSlip(item.id,LastFGBundle.id)"><i class="fa fa-print"></i>LAST - {{item.code}}</a>
+                </li>
+                <li ng-show="Navigation.create" style="cursor:pointer" ng-click="LastSaved()"><a><i class="fa fa-edit"></i>Last Saved</a></li>
+                <li ng-show="Navigation.create" style="cursor:pointer" ng-click="Clear()"><a><i class="fa fa-file"></i>New</a></li>
+                <li ng-show="Navigation.save" style="cursor:pointer" ng-click="PrintItems()"><a><i class="fa fa-barcode"></i>Print</a></li>
+                <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <!-- first row starts  -->
+            <div class="box box-primary">
+                <div class="box-body" ng-hide="ShowSearch">
+
+
+                    <div class="col-md-12 col-sm-12" style="padding-left:5px;padding-right:5px">
+                        <!-- basic details starts -->
+                        <div class="col-md-3 no-padding">
+
+
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">Company</label>
+                                    <div class="no-padding">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;"
+                                                ng-options="item.id  as item.name for item in CompanyList track by item.id"
+                                                ng-model="FGBundle.companyid" focusid="companyid"
+                                                focusonenter="fromlocationid"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">Location</label>
+                                    <div class="no-padding">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;"
+                                                ng-model="FGBundle.locationid"
+                                                ng-options="item.id as item.name for item in AllLocation track by item.id"
+                                                focusid="fromlocationid" focusonenter="bundlecode"></select>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="no-padding control-label">Pack Code</label>
+                                    <div class="no-padding">
+                                        <div class="input-group input-group-sm">
+                                            <input method="text" class="input-sm form-control" style="width:100%" ng-model="FGBundle.code"
+                                                   focusid="bundlecode" onkeyenter="SearchByCode(true)">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-sm btn-box" ng-click="SearchByCode(true)">
+                                                    <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">Date</label>
+                                    <div class="no-padding">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="input-sm form-control pull-right "
+                                                   datemodule="FGBundle.packedon" ng-model="FGBundle.packedon"
+                                                   focusid="packedon" focusonenter="packedby">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">Packed By</label>
+                                    <div class="no-padding">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;"
+                                                ng-options="item.id  as item.code for item in Employee track by item.id"
+                                                ng-model="FGBundle.packedby" focusid="packedby" focusonenter="sono"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="no-padding control-label">SO. No</label>
+                                    <div class="input-group input-group-sm">
+                                        <input method="text" class="input-sm form-control" style="width:100%" ng-model="FGBundle.sono"
+                                               focusid="sono" onkeyenter="SearchSaleOrder(FGBundle.sono)">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info btn-sm btn-box" ng-click="SearchSaleOrder(FGBundle.sono,true)">
+                                                <i class="glyphicon glyphicon-plus-sign" aria-hidden="true"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12 no-padding">
+                                <label for="inputEmail3" class="control-label">Customer</label>
+                                <div class="no-padding">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;"
+                                            options="item.id as item.name for item in Customers track by item.id"
+                                            ng-change="CustomerChanged()"
+                                            ng-model="FGBundle.customerid" focusid="packedby" focusonenter="billbarcode"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding " ng-show="IsSampleBased">
+                                <div class="no-padding col-md-6">
+                                    <label for="inputEmail3" class="control-label no-margin">Sample</label>
+                                    <select class="input-sm form-control" select2="Select Colour" style="width:100%"
+                                            ng-model="FGBundle.sampleid"
+                                            options="item.id as item.name for item in CustomerSampleList track by item.id"
+                                            focusid="sampleid"
+                                            ng-change="SampleChanged()"
+                                            focusonenter="sampledesignid"></select>
+                                </div>
+                                <div class="no-padding col-md-6">
+                                    <label for="inputEmail3" class="control-label no-margin">Design</label>
+                                    <select class="input-sm form-control" select2="Select Colour" style="width:100%"
+                                            ng-model="FGBundle.soid"
+                                            options="item.id as item.name for item in CustomerSOList track by item.id"
+                                            focusid="sampledesignid"
+                                            focusonenter="samplesinglesize"
+                                            ng-change="SampleDesignChanged()"></select>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding " ng-show="IsSampleBased">
+                                <div class="col-md-12 no-padding" ng-repeat="item in SampleSizeList">
+                                    <label for="inputEmail3" class="control-label no-padding col-md-6">{{item.name}}</label>
+                                    <div class="col-md-3 no-padding">
+                                        <input type="text" class="form-control input-sm" style="width:100%"
+                                               placeholder="SO Qty"
+                                               ng-model="item.oqty" ng-readonly="true" ng-disabled="true" />
+                                    </div>
+                                    <div class="col-md-3 no-padding">
+                                        <input type="text" class="form-control input-sm" style="width:100%"
+                                               ng-change="SampleQtyChanged()"
+                                               placeholder="Prd Qty"
+                                               ng-model="item.qty" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12 no-padding">
+                                    <label for="inputEmail3" class="control-label no-padding col-md-6">Total Qty</label>
+                                    <div class="col-md-6 no-padding">
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control input-sm" style="width:100%"
+                                                   placeholder="Total Qty"
+                                                   ng-model="FGBundle.totalqtyqty" ng-readonly="true" ng-disabled="true" />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-sm btn-box" ng-click="AddSO2Packing()">
+                                                    <i class="glyphicon glyphicon-plus-sign" aria-hidden="true"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding" ng-show="ActionMode==1 || IsSampleBased">
+                                <div class="col-md-12 no-padding">
+                                    <label for="inputEmail3" class="control-label">Packing Slips</label>
+                                    <div class="no-padding">
+                                        <div class="input-group input-group-sm">
+                                            <div class="col-md-4 no-padding">
+                                                <select class="input-sm form-control" select2="" style="width: 100%;"
+                                                        ng-options="item.id  as item.name for item in PackslipSearchModes track by item.id"
+                                                        ng-model="SearchCondition.searchmode"></select>
+                                            </div>
+                                            <div class="col-md-8 no-padding">
+
+                                                <input type="text" class="form-control pull-right input-sm"
+                                                       daterange="SearchCondition.fromdate,SearchCondition.todate">
+                                            </div>
+
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-sm btn-box"
+                                                        ng-click="SearchPendingBills()">
+                                                    <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                                                </button>
+                                            </span>
+
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-sm btn-box"
+                                                        ng-click="exporttoExcel(pgrid,'PackageSlip')()">
+                                                    <i class="glyphicon glyphicon-download" aria-hidden="true"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 no-padding" id="pendingpackslipsContainer">
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding" ng-hide="ActionMode==1 || IsSampleBased">
+                                <div class="col-md-12 no-padding">
+                                    <label for="inputEmail3" class="control-label">Combo Designs</label>
+                                    <div class="no-padding">
+                                        <div class="input-group input-group-sm">
+                                            <div class="col-md-6 no-padding">
+                                                <select class="input-sm form-control" select2="" style="width: 100%;"
+                                                        options="item.id as item.name for item in SetProductList track by item.id"
+                                                        ng-change="ProductChanged()"
+                                                        ng-model="FGBundle.productid" focusid="productid" focusonenter="designid"></select>
+                                            </div>
+                                            <div class="col-md-6 no-padding">
+                                                <select class="input-sm form-control" select2="" style="width: 100%;"
+                                                        options="item.id as item.name for item in Designs track by item.id"
+                                                        ng-model="FGBundle.designid" focusid="designid" focusonenter="searchcombodesign"></select>
+                                            </div>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-sm btn-box"
+                                                        focusid="searchcombodesign"
+                                                        ng-click="Add2Combo()">
+                                                    <i class="glyphicon glyphicon-plus-sign" aria-hidden="true"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 no-padding" id="soitemsContainer">
+
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="col-md-12 no-padding">
+                                <label for="inputEmail3" class=" no-padding col-sm-6 col-md-6 text-green control-label">{{FGBundle.statusdisplay}}</label>
+                                <label class=" no-padding pull-right control-label text-green col-sm-6 pull-right" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-9" style="padding-left:10px;padding-right:5px">
+
+
+
+                            <div class="col-md-12 no-padding">
+                                <div ng-class="ShowBillItems && ShowComboitems && !IsSampleBased ? 'col-md-7':'col-md-12'" style="padding-left:0px;padding-right:5px" ng-show="ShowBillItems">
+                                    <div class="col-md-12 no-padding">
+                                        <label class="smalllabel" style="color:brown"><b>Packing/Billing Barcode</b></label>
+                                        <input type="text" class="form-control input-sm"
+                                               ng-model="FGBundle.billbarcode" focusid="billbarcode"
+                                               onkeyenter="SearchBarcode(FGBundle.billbarcode)">
+
+                                    </div>
+                                    <div class="col-md-12 no-padding" id="gridItemContainer">
+
+                                    </div>
+                                </div>
+                                <div ng-class="ShowBillItems && ShowComboitems ? 'col-md-5':'col-md-12'" ng-show="ShowComboitems && !IsSampleBased" style="padding-left:0px;padding-right:5px">
+                                    <div class="col-md-12 no-padding">
+                                        <input type="checkbox" ng-model="autosetbarcode" style="position:absolute;left:0px" />
+                                        <label class="smalllabel" style="color:brown;padding-left:25px"><b>Set Item Barcode</b></label>
+
+                                        <div ng-hide="autosetbarcode" class="pull-right">
+                                            <button class="btn-xs btn btn-success" ng-click="CreateComboItem()">Create Combo</button>
+                                        </div>
+
+                                        <div ng-show="autosetbarcode" class="pull-right">
+                                            <input type="checkbox" ng-model="mixedbarcode" style="position:absolute;right:0px" />
+                                            <label class="smalllabel" style="color:brown;padding-right:25px"><b>Mixed Barcodes</b></label>
+                                        </div>
+
+                                        <div class="col-md-12 no-padding">
+                                            <input type="text" class="form-control input-sm"
+                                                   ng-model="FGBundle.comboitembarcode" focusid="bomcode"
+                                                   onkeyenter="SearchComboitem(FGBundle.comboitembarcode,true)">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12 no-padding" id="gridSetItemContainer">
+
+                                    </div>
+                                    <div class="col-md-12" style="padding-left:0px;padding-right:0px;padding-top:5px;padding-bottom:5px">
+                                        <div class="pull-left">
+                                            <button class="btn-xs btn btn-success" ng-click="GenerateCombo()">Generate Set Stock</button>
+                                        </div>
+
+                                        <div class="pull-right">
+                                            <button class="btn-xs btn btn-primary" ng-click="PrintBarcode()">Print Barcode</button>
+                                        </div>
+
+                                        <div class="pull-right">
+                                            <span style="padding-right:10px">Set Qty <b>{{SetTotalQty}}</b></span>
+                                        </div>
+
+                                        <!--<div class="pull-right" style="padding-right:10px">
+                                            <button class="btn-xs btn btn-info" ng-click="MoveToPack()">Move to Pack</button>
+                                        </div>-->
+
+                                    </div>
+                                    <div class="col-md-12 no-padding" id="gridSetContainer">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+                </div>
+            </div>
+
+
+        </section>
+
+        <!-- /.content -->
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="ComboCreatorDirect">
+    <div class="ngdialog-message" style="margin-bottom:30px">
+        <div class="col-md-12" style="padding-bottom:20px">
+
+            <label>Combo</label>
+            <select class="input-sm form-control" select2="" style="width: 100%;" ng-model="selecteduan"
+                    ng-change="designchanged()"
+                    ng-options="item.uan as item.display for item in designlist track by item.uan"></select>
+
+        </div>
+
+        <div class="col-md-12" ng-show="selecteduan" style="padding-bottom:20px">
+            <label>Qty</label>
+
+            <input type="text" size="5" class="form-control input-sm" ng-model="qty" />
+        </div>
+
+    </div>
+    <div class="ngdialog-buttons" style="padding-right:15px">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-show="selecteduan && qty" ng-click="Selected()">Create</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(null)">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="ComboCreator">
+    <div class="ngdialog-message" style="margin-bottom:30px">
+        <div class="col-md-12" style="padding-bottom:20px">
+
+            <div class="col-md-6 no-padding">
+                <label>Design</label>
+                <select class="input-sm form-control" select2="" style="width: 100%;" ng-model="designid"
+                        ng-change="designchanged()"
+                        ng-options="item.id as item.code for item in DesignList track by item.id"></select>
+            </div>
+            <div class="col-md-6 no-padding" ng-show="designid">
+                <label>Colour</label>
+
+
+                <select class="input-sm form-control" select2="" style="width: 100%;" ng-model="designitemcode"
+                        ng-change="designitemchanged()"
+                        ng-options="item.code as item.code for item in DesignItemList track by item.code"></select>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-12" ng-show="designid" style="padding-bottom:20px">
+            <div class="col-md-6 no-padding" ng-show="designid">
+                <label>Size</label>
+                <select class="input-sm form-control" select2="" style="width: 100%;" ng-model="sizeid"
+                        ng-change="sizeselected()"
+                        ng-options="item.id as item.name for item in SizeList track by item.id"></select>
+            </div>
+
+
+            <div class="col-md-6 no-padding" ng-show="designid">
+                <label>Qty</label>
+
+                <input type="text" class="form-control input-sm" ng-model="qty" />
+
+            </div>
+        </div>
+
+    </div>
+    <div class="ngdialog-buttons" style="padding-right:15px">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-show="ComboItem != null" ng-click="Selected()">Create</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(null)">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="SupplierSearch">
+    <div class="ngdialog-message">
+        <div class="table-responsive mailbox-messages">
+            <table fixed-header="150px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th style="width:25px">&nbsp;</th>
+                        <th style="width:150px">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in SupplierList">
+                        <td><input type="checkbox" ng-model="item.selected" /></td>
+                        <td>{{item.name}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-6">
+
+            <div class="col-md-8">Selected</div>
+            <div class="col-md-2"><input type="checkbox" ng-model="selectall" ng-change="selectallChanged()" /></div>
+        </div>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">OK</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(null)">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="BoxCharges">
+    <div class="ngdialog-message">
+
+        <div class="col-md-12">
+            <div class="row row-padbot-15">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-12 control-label">Box</label>
+                    <div class="col-md-12">
+                        <select class="form-control input-sm" style="width: 100%;" select2=""
+                                options="city.id as city.name for city in Parent.BoxList track by city.id" ng-model="boxid"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Change()">Change</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

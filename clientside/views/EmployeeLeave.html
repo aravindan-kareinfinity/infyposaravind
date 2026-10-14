@@ -1,0 +1,304 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a> HR /
+            Employee Leave
+        </h1>
+        <ol class="breadcrumb">
+            <!--<li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+            <li><a href back-button>Back</a></li>
+            <li class="active">Employee Leave</li>-->
+            <li style="cursor:pointer" ng-hide="ShowNew" ng-click="AddNew()"><a><i class="fa fa-file"></i>New</a></li>
+            <li style="cursor:pointer" ng-hide="ShowNew" ng-click="Search()"><a><i class="fa fa-search"></i>Search</a></li>
+            <li style="cursor:pointer" ng-hide="ShowNew" ng-click="exportigrid(igrid,'leave.xls','Leave Chart')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-show="ShowNew" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li style="cursor:pointer" ng-show="ShowNew" ng-click="Delete(ApplyLeave)"><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li style="cursor:pointer" ng-show="ShowNew" ng-click="SwitchPanel()"><a><i class="fa fa-times-circle"></i>Cancel</a></li>
+
+        </ol>
+    </section>
+    <section class="content">
+
+        <div ng-hide="ShowNew">
+            <!-- Your Page Content Here -->
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="form-horizontal box-body">
+
+
+                        <div class="col-md-3" style="padding-left:0px">
+
+
+
+                            <div class="row">
+                                <label for="inputEmail3" class="col-md-12">Display Mode</label>
+                                <div class="col-md-12">
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Modes track by department.id" ng-model="mode"></select>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <label for="inputEmail3" class="col-md-12">Company</label>
+                                <div class="col-md-12">
+                                    <select class="form-control" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="col-md-12">Section</label>
+                                    <div class="col-md-12">
+                                        <select class="form-control" style="width: 100%;" select2="" options="location.id as location.name for location in Division track by location.id" ng-model="sectionid"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="col-md-12">Floor</label>
+                                    <div class="col-md-12">
+                                        <select class="form-control" style="width: 100%;" select2="" options="floor.id as floor.name for floor in Floors track by floor.id" ng-model="floorid"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <label for="inputEmail3" class="col-md-12">Deptartment</label>
+                                <div class="col-md-12">
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="departmentid"></select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <label for="inputEmail3" class="col-md-12">Location</label>
+                                <div class="col-md-12">
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="location.id as location.name for location in Locations track by location.id" ng-model="locationid"></select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <label for="inputEmail3" class="col-md-12">Range Date</label>
+                                <div class="col-md-12">
+
+                                    <input type="text" style="width:100%" daterange="fromdate,todate" class="form-control pull-right input-sm">
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <label for="inputEmail3" class="col-md-12">Employee</label>
+                                <div class="col-md-12">
+                                    <select class="form-control select2 input-sm" style="width: 100%;"
+                                            ng-change="Search()" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+                                <label for="inputEmail3" class="col-md-12">Working/Salary Mode</label>
+                                <div class="col-md-6" style="padding-right:0px">
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in WorkingModes track by item.id" ng-model="workingmode"></select>
+                                </div>
+                                <div class="col-md-6" style="padding-left:0px">
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in SalaryModes track by item.id" ng-model="salarymode"></select>
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="row">
+
+
+                                <div class="col-md-12">
+                                    <label class="col-md-10" style="padding-left:0px">Except Holiday and Sunday</label>
+                                    <div class="pull-right">
+                                        <input type="checkbox" ng-model="workdays_exceptholiday" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+
+
+                                <div class="col-md-12">
+                                    <label class="col-md-10" style="padding-left:0px">Synchronize In-Out</label>
+                                    <div class="pull-right">
+                                        <input type="checkbox" ng-model="syncinoutleaves" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-9">
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-12" style="vertical-align:top;font-size:large;color:brown">{{Status}}</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive mailbox-messages" style="overflow:hidden"  ng-show="SearchResult.length>0">
+
+                                        <div id="gridLeave">
+
+                                        </div>
+
+                                        
+                                    </div>
+
+                                    <div class="table-responsive mailbox-messages" ng-show="SummaryResult.length>0">
+                                        <table fixed-header="500px" class="fixed_table" additionalheight="20" id="leavesummary">
+                                            <thead>
+                                                <tr>
+                                                    <th width="50px">Code</th>
+                                                    <th width="200px">Name</th>
+                                                    <th width="120px">Designation</th>
+                                                    <th width="50px">Days</th>
+                                                    <th>Detail</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in SummaryResult">
+                                                    <td>{{item.code}}</td>
+                                                    <td>{{item.name}}</td>
+                                                    <td>{{item.designation}}</td>
+                                                    <td>{{item.days}}</td>
+                                                    <td>
+                                                        <div ng-repeat="detail in item.leaves">
+                                                            <div class="col-sm-3">
+                                                                <span>{{detail.fromdate | date : 'dd'}}({{detail.days | number :2}})</span>
+                                                                <button type="button" class="btn-primary btn btn-xs" ng-click="ManageSearchItem('Edit',detail)">
+                                                                    Edit
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                    <div class="table-responsive mailbox-messages" style="overflow:hidden"  ng-show="mode == 4 && CheckResult != null">
+                                        <div id="gridleavecheck">
+
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.content -->
+        </div>
+
+        <div ng-show="ShowNew">
+            <!-- Your Page Content Here -->
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <form class="form-horizontal box-body" selfvalidate="Save">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtname" class="col-md-4 control-label">Staff Name</label>
+                                <div class="col-md-8">
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" required ng-model="ApplyLeave.employeeid"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtname" class="col-md-4 control-label">Leave Name</label>
+                                <div class="col-md-8">
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in refleavetypelist track by item.id" ng-model="ApplyLeave.leavetype"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtname" class="col-md-4 control-label">Start Date</label>
+                                <div class="col-md-4">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" datemodule="ApplyLeave.fromdate" ng-model="ApplyLeave.fromdate">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in refTimeMode track by item.id" required ng-model="ApplyLeave.fromdatehalfday"></select>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="txtname" class="col-md-4 control-label">End Date</label>
+                                <div class="col-md-4">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" datemodule="ApplyLeave.todate" ng-model="ApplyLeave.todate">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in refTimeMode track by item.id" ng-model="ApplyLeave.todatehalfday"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtname" class="col-md-4 control-label">Is Half day</label>
+                                <div class="col-md-2">
+                                    <input type="checkbox" class="flat-red" ng-model="ApplyLeave.ishalfday">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="txtname" class="col-md-4 control-label">Approved</label>
+                                <div class="col-md-2">
+                                    <input type="checkbox" class="flat-red" ng-model="ApplyLeave.approved">
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="form-control select2" style="width: 100%;" select2="Approved By" options="item.id as item.code for item in Employee track by item.id" 
+                                            ng-show="ApplyLeave.approved"
+                                            ng-model="ApplyLeave.approvedby"></select>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="txtname" class="col-md-4 control-label">Deduct Salary</label>
+                                <div class="col-md-8">
+                                    <input type="checkbox" class="flat-red" ng-model="ApplyLeave.deductsalary">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtname" class="col-md-4 control-label">Reason</label>
+                                <div class="col-md-8">
+                                    <textarea name="address" class="form-control" rows="3" ng-model="ApplyLeave.reason" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="Status">
+                                <label for="txtname" class="col-md-4 control-label">Status</label>
+                                <div class="col-md-8">
+                                    <select class="form-control select2" style="width: 100%;" select2="" 
+                                            ng-options="item.code as item.value for item in refstatuslist track by item.code" ng-model="ApplyLeave.status"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.box-body -->
+                <!-- /. box -->
+            </div>
+            <!-- /.content -->
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->

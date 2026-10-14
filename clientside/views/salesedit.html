@@ -1,0 +1,334 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Bill Edit
+        </h1>
+
+        <ol class="breadcrumb">
+            <li ng-hide="ShowSearch" style="cursor:pointer" ng-click="Clear()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-hide="ShowSearch" style="cursor:pointer" ng-click="SearchStock()"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-hide="ShowSearch" style="cursor:pointer" ng-click="exporttoExcel(igrid,'Sale Edit')"><a><i class="fa fa-download"></i>Export</a></li>
+            <li ng-hide="ShowSearch" style="cursor:pointer" ng-show="SearchCondition.actionaccepted" ng-click="Apply()"><a><i class="fa fa-edit"></i>Apply</a></li>
+            <li ng-hide="ShowSearch" style="cursor:pointer" ng-show="taxdifference>0 || valuedifference>0" ng-click="SaveBillHistory()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="StockResult.length>0" style="cursor:pointer" ng-click="exporttoExcel(igrid,'Stock')"><a><i class="fa fa-download"></i>Export</a></li>
+            <li ng-show="!ShowSearch" style="cursor:pointer" ng-click="ShowSearch=!ShowSearch"><a><i class="fa fas fa-search-plus"></i>Search Changes</a></li>
+            <li ng-show="ShowSearch" style="cursor:pointer" ng-click="ShowSearch=!ShowSearch"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="ShowSearch" style="cursor:pointer" ng-click="SearchChanges()"><a><i class="fa fa-search"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-success">
+            <div class="box-body">
+                <div class="col-md-12 no-padding" ng-hide="ShowSearch">
+                    <div class="col-md-3">
+
+                        <div class="col-md-12 no-padding">
+
+                            <div class="col-md-12 no-padding">
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Company</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Company track by item.id" ng-model="SearchCondition.companyid"></select>
+                                </div>
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Location</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Location track by item.id" ng-model="SearchCondition.locationid"></select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Include</label>
+                                <div class="col-md-7 no-padding">
+                                    <div class="col-md-3 no-padding" style="padding-left:0px">
+                                        <input type="checkbox" ng-model="SearchCondition.includecash" />
+                                        <label class="col-md-12 no-padding">Cash</label>
+                                    </div>
+                                    <div class="col-md-3 no-padding" style="padding-left:0px">
+                                        <input type="checkbox" ng-model="SearchCondition.includecard" />
+                                        <label class="col-md-12 no-padding">Card</label>
+                                    </div>
+                                    <div class="col-md-3 no-padding" style="padding-left:0px">
+                                        <input type="checkbox" ng-model="SearchCondition.includecredit" />
+                                        <label class="col-md-12 no-padding">Credit</label>
+                                    </div>
+                                    <div class="col-md-3 no-padding" style="padding-left:0px">
+                                        <input type="checkbox" ng-model="SearchCondition.includeb2b" />
+                                        <label class="col-md-12 no-padding">B2B</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5 no-padding">
+                                    <div class="col-md-4 no-padding">
+                                        <input type="checkbox" ng-model="SearchCondition.includegst" />
+                                        <label class="col-md-12 no-padding">GST</label>
+                                    </div>
+                                    <div class="col-md-4 no-padding">
+                                        <input type="checkbox" ng-model="SearchCondition.includediscount" />
+                                        <label class="col-md-12 no-padding">Disct</label>
+                                    </div>
+                                    <div class="col-md-2 no-padding">
+                                        <input type="checkbox" ng-model="SearchCondition.includeaditionaldiscount" />
+                                        <label class="col-md-12 no-padding">AD</label>
+                                    </div>
+                                    <div class="col-md-2 no-padding">
+                                        <input type="checkbox" ng-model="SearchCondition.includescheme" />
+                                        <label class="col-md-12 no-padding">SD</label>
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+                            <div class="col-md-12 no-padding">
+                                <label>Product</label>
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Product track by item.id" ng-model="SearchCondition.productid"></select>
+                            </div>
+
+
+
+
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label>Section</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Sections track by item.id" ng-model="SearchCondition.sectionid"></select>
+                                </div>
+
+                                <div class="col-md-6 no-padding">
+                                    <label>Brand</label>
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Brand track by item.id" ng-model="SearchCondition.brandid"></select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">From Date</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3"
+                                           placeholder="price" datemodule="SearchCondition.billdatefrom" ng-model="SearchCondition.billdatefrom">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">To Date</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3"
+                                           placeholder="price" datemodule="SearchCondition.billdateto" ng-model="SearchCondition.billdateto">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">From Bill Value</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="price" ng-model="SearchCondition.billvaluefrom">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">To Bill Value</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="discount" ng-model="SearchCondition.billvalueto">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">From Selling</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="price" ng-model="SearchCondition.pricefrom">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">To Selling</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="discount" ng-model="SearchCondition.priceto">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">From Margin</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="price" ng-model="SearchCondition.marginfrom">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">To Margin</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="discount" ng-model="SearchCondition.marginto">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">Pur.Tax Percentage</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="price" ng-model="SearchCondition.purchasetaxpercentage">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">SaleTax Percentage</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="discount" ng-model="SearchCondition.salestaxpercentage">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">Bill No</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="price" ng-model="SearchCondition.billno">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">Barcode</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="discount" ng-model="SearchCondition.barcode">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" ng-show="taxdifference != 0 || valuedifference != 0" style="padding-left:0px;padding-right:0px;padding-top:20px">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">Tax Difference</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3"
+                                           placeholder="price"
+                                           ng-readonly="true"
+                                           ng-model="taxdifference">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">Value Difference</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3"
+                                           ng-readonly="true"
+                                           placeholder="discount" ng-model="valuedifference">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9 no-padding">
+                        <div class="col-md-12" style="padding-top:0px;padding-left:0px;padding-bottom:10px">
+                            <div class="col-md-2 no-padding">
+                                <label for="inputEmail3" class="control-label">Action</label>
+                                <select class="input-sm form-control" select2="" style="width: 100%;"
+                                        options="item.id  as item.name for item in ActionModes track by item.id"
+                                        ng-model="SearchCondition.actionmode"></select>
+                            </div>
+                            <div class="col-md-1 no-padding" ng-hide="SearchCondition.actionmode=='5'">
+                                <div class="col-md-12" style="align-content:center;text-align:center">
+                                    <label for="inputEmail3" class="control-label">Increase</label>
+                                </div>
+                                <div class="col-md-12" style="align-content:center;text-align:center">
+                                    <input type="radio" value="increase" name="actiontype" id="actiontype"
+                                           placeholder="price" ng-model="SearchCondition.actiontype">
+                                </div>
+                            </div>
+                            <div class="col-md-1 no-padding" ng-hide="SearchCondition.actionmode=='5'">
+                                <div class="col-md-12" style="align-content:center;text-align:center">
+                                    <label for="inputEmail3" class="control-label">Decrease</label>
+                                </div>
+                                <div class="col-md-12" style="align-content:center;text-align:center">
+                                    <input type="radio" value="decrease" name="actiontype" id="actiontype"
+                                           placeholder="price" ng-model="SearchCondition.actiontype">
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 no-padding" ng-show="SearchCondition.actionmode=='5'">
+                                <label for="inputEmail3" class="control-label">Minimum Barcode</label>
+                                <input type="text" class="form-control input-sm" id="inputPassword3"
+                                       placeholder="price" ng-model="SearchCondition.minimumbarcode">
+                            </div>
+
+                            <div class="col-md-1 no-padding" ng-show="SearchCondition.actionmode=='5'">
+                                <label for="inputEmail3" class="control-label">Minimum Bill Qty</label>
+                                <input type="text" class="form-control input-sm" id="inputPassword3"
+                                       placeholder="price" ng-model="SearchCondition.minimumqty">
+                            </div>
+
+                            <div class="col-md-1 no-padding" ng-show="SearchCondition.actionmode!='5'">
+                                <label for="inputEmail3" class="control-label">%</label>
+                                <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="price"
+                                       ng-model="SearchCondition.actionvalue">
+                            </div>
+
+                            <div class="col-md-2 no-padding" ng-show="SearchCondition.actionmode=='4' && SearchCondition.actionmode!='5'">
+                                <label for="inputEmail3" class="control-label">Scheme</label>
+                                <select class="input-sm form-control" select2="" style="width: 100%;"
+                                        options="item.id  as item.name for item in PromotionSchemes track by item.id"
+                                        ng-model="SearchCondition.actionschemeid"></select>
+                            </div>
+
+                            <div class="col-md-1 no-padding">
+
+
+                                <div class="col-md-12" style="align-content:center;text-align:center">
+                                    <label for="inputEmail3" class="control-label ">Accept</label>
+                                </div>
+                                <div class="col-md-12" style="align-content:center;text-align:center">
+                                    <input type="checkbox" value="increase" name="actiontype" id="actiontype"
+                                           placeholder="price" ng-model="SearchCondition.actionaccepted">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="col-md-12" style="padding-left:0px;padding-right:0px" id="gridContainer">
+
+
+                        </div>
+                        <div class="col-md-12" style="padding-left:0px;padding-right:0px">
+                            <label for="inputEmail3" class="control-label"
+                                   style="vertical-align:top;font-size:10px;color:brown;">
+                                Sales Bill Value , Tax Value may change, re-print the bills, issue to the customer
+                                (All the editing will be recorded in bill history,Dont delete the bill history for future reference)
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-md-12 no-padding" ng-show="ShowSearch">
+                    <div class="col-md-3">
+
+                        <div class="col-md-12 no-padding">
+
+                            <div class="col-md-12 no-padding">
+
+                                <label>Company</label>
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Company track by item.id" ng-model="SearchCondition.companyid"></select>
+
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+
+                                <label>Location</label>
+                                <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Location track by item.id" ng-model="SearchCondition.locationid"></select>
+
+                            </div>
+
+                            
+
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">From Date</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3"
+                                           placeholder="price" datemodule="SearchCondition.billdatefrom" ng-model="SearchCondition.fromdate">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">To Date</label>
+                                    <input type="text" class="form-control input-sm" id="inputPassword3"
+                                           placeholder="price" datemodule="SearchCondition.billdateto" ng-model="SearchCondition.todate">
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-9 no-padding">
+                        
+
+                        <div class="col-md-12" style="padding-left:0px;padding-right:0px" id="gridSearchContainer">
+
+
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>

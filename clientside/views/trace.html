@@ -1,0 +1,103 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+           Settings / Trace
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-hide="(!UserInfo.RootUser || OrganizationSelected) && Trace.enable" ng-click="Setconfig(true)"><a><i class="fa fa-print"></i>Enable</a></li>
+            <li style="cursor:pointer" ng-show="(!UserInfo.RootUser || OrganizationSelected) && Trace.enable" ng-click="Setconfig(false)"><a><i class="fa fa-print"></i>Disable</a></li>
+            <li style="cursor:pointer" ng-show="!UserInfo.RootUser || OrganizationSelected" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <!-- Your Page Content Here -->
+            <div class="col-md-12">
+                <div class="box-body no-padding">
+                    <div class="box box-info">
+                        <div class="box-header">
+
+                            <div class="col-md-12 no-padding" ng-show="UserInfo.RootUser">
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Organization code</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="input-sm form-control" style="width:100%"
+                                               ng-change="OrganizationSelected=false"
+                                               ng-model="organizationcode" />
+                                    </div>
+                                    <div class="col-md-1 no-padding">
+                                        <button class="btn btn-success btn-sm" ng-click="SearchOrganization()">Search</button>
+                                    </div>
+                                    <div class="col-md-4 no-padding">
+                                        Current Organization : {{OrganizationName}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding"  ng-show="!UserInfo.RootUser || OrganizationSelected">
+                                <div class="form-group col-md-2">
+                                    <label for="inputEmail3" class="control-label">Type</label>
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.code as item.value for item in reftypelist track by item.code" ng-model="Trace.type"></select>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="inputEmail3" class="control-label">Request Url</label>
+                                    <input type="text" class="form-control input-sm" id="number" ng-model="Trace.requesturl">
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="inputEmail3" class="control-label">Info</label>
+                                    <input type="text" class="form-control input-sm" id="number" ng-model="Trace.info">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Logged On</label>
+                                    <div class="input-group-sm">
+                                        <input type="text" class="form-control input-sm" style="width:100%" daterange="Trace.fromdate,Trace.todate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <form class="form-horizontal">
+                            <div class="table-responsive">
+                                <table class="table no-margin">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 30px">Type</th>
+                                            <th style="width: 100px">Logged Date</th>
+                                            <th>Source</th>
+                                            <th>Information</th>
+                                            <th>Request Url</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in SearchResult">
+                                            <td>{{item.type}}</td>
+                                            <td>{{item.loggedat |date:'dd-MM-yyyy hh:mm:ss'}}</td>
+                                            <td>{{item.methodName}}</td>
+                                            <td>
+                                                <b>{{item.exception}}</b><br />
+                                                {{item.info}}
+                                            </td>
+                                            <td>{{item.requesturl}}</td>
+                                            <td><button type="button" class="btn-primary btn btn-xs" ng-click="View(item)" ng-show="UserInfo.p_HOMEPAGE.modify" data-widget="edit" data-toggle="tooltip" title="View"><i class="fa fa-eye" aria-hidden="true"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </section>
+
+</div>

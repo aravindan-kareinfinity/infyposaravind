@@ -1,0 +1,713 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Warehouse / Item Locator
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="ItemHistory(true)"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li style="cursor:pointer" ng-show="result.stock.imageid.length>0">
+                <a target="_blank" href="File/Show/{{UserInfo.OrganizationID}}/{{result.stock.imageid}}">
+                    <img style="height:32px" ng-src="File/Thumbnail/{{UserInfo.OrganizationID}}/{{result.stock.imageid}}" />
+                </a>
+            </li>
+
+            <li style="cursor:pointer" ng-show="system_posmultiprice && result.stock" ng-click="ShowMultiPrice()"><a><i class="fa fa-tags info"></i>Price List</a></li>
+            <li style="cursor:pointer" ng-show="result.stock.serialno.length>0 && result.stock.ismultiprice" ng-click="MultiPriceSerialno(false)"><a><i class="fa fa-tags danger"></i>Disable Multipe Price</a></li>
+            <li style="cursor:pointer" ng-show="result.stock.serialno.length>0 && !result.stock.ismultiprice" ng-click="MultiPriceSerialno(true)"><a><i class="fa fa-tags success"></i>Enable Multiple Price</a></li>
+
+            <li style="cursor:pointer" ng-show="UserInfo.p_BARCODEGEN.print" ng-click="PrintBarcode()"><a><i class="fa fa-barcode"></i>Print</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <!-- Your Page Content Here -->
+            <div class="col-md-12">
+                <!-- Horizontal Form -->
+                <div class="box box-info">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <!--<div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control input-sm" select2="" style="width: 100%;" options="item.id as item.name for item in BuyingCompany track by item.id" ng-model="SearchCondition.companyid"></select>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Mode</label>
+                                        <div class="col-md-8">
+                                            <input type="radio" ng-model="SearchCondition.searchmode" name="mode" ng-value="0" />
+                                            <label for="inputEmail3" class="control-label">All Sales</label>&nbsp;&nbsp;
+                                            <input type="radio" ng-model="SearchCondition.searchmode" name="mode" ng-value="1" />
+                                            <label for="inputEmail3" class="control-label">Sales</label>&nbsp;&nbsp;
+                                            <input type="radio" ng-model="SearchCondition.searchmode" name="mode" ng-value="2" />
+                                            <label for="inputEmail3" class="control-label">Stock</label>
+                                            <input type="radio" ng-model="SearchCondition.searchmode" name="mode" ng-value="3" />
+                                            <label for="inputEmail3" class="control-label">Image</label>
+                                            <input type="radio" ng-model="SearchCondition.searchmode" name="mode" ng-value="4" />
+                                            <label for="inputEmail3" class="control-label">Estimate</label>&nbsp;&nbsp;
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Barcode</label>
+                                        <div class="col-md-8" style="margin-right:0px">
+
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="SearchCondition.barcode" ng-maxlength="150" onkeyenter="ItemHistory(false)" focusid="first" >
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="ItemHistory(false)">Go</button>
+                                                </span>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Product</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control input-sm" select2="" style="width: 100%;" options="item.id as item.name for item in Products track by item.id" ng-model="SearchCondition.productid" focusid="product" focusonenter="style" ></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Style</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control input-sm" select2="" style="width: 100%;" options="item.id as item.name for item in styles track by item.id" ng-model="SearchCondition.styleid" focusid="style" focusonenter="size" ></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Size</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control input-sm" select2="" style="width: 100%;" options="item.id as item.name for item in sizes track by item.id" ng-model="SearchCondition.sizeid" focusid="size" focusonenter="supplier" ></select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Supplier</label>
+                                        <div class="col-md-8 col-sm-8">
+                                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id  as item.name for item in Suppliers track by item.id" ng-model="SearchCondition.supplierid" focusid="supplier" focusonenter="customermobno" ></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-7">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group" ng-hide="system_isb2bapplication">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Customer Mobile No</label>
+                                        <div class="col-md-4" style="margin-right:0px">
+                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="SearchCondition.mobileno" ng-maxlength="150" focusid="customermobno" focusonenter="billno" >
+                                        </div>
+                                        <div class="col-md-4" style="margin-left:0px">
+                                            <input type="text" class="form-control input-sm" ng-readonly="true" style="width: 100%;" ng-model="SearchCondition.customername" ng-maxlength="150">
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-show="system_isb2bapplication">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Customer</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control input-sm" select2="" style="width: 100%;" options="item.id as item.name for item in Customers track by item.id" ng-model="SearchCondition.customerid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Bill No/Date</label>
+
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="SearchCondition.billno" ng-maxlength="150" focusid="billno" focusonenter="billdaterange" >
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control input-sm" style="width:100%" daterange="SearchCondition.fromdate,SearchCondition.todate" focusid="billdaterange" focusonenter="billvalue" >
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Bill Value Range / Price Range</label>
+                                        <div class="col-md-4">
+                                            <div class="col-md-6 no-padding">
+                                                <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="SearchCondition.billamtfrom" ng-maxlength="150" focusid="billvalue" focusonenter="pricerange" >
+                                            </div>
+                                            <div class="col-md-6 no-padding">
+                                                <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="SearchCondition.billamtto" ng-maxlength="150" focusid="pricerange" focusonenter="pricefrom" >
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-6 no-padding">
+                                                <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="SearchCondition.pricefrom" ng-maxlength="150" focusid="pricefrom" focusonenter="priceto" >
+                                            </div>
+                                            <div class="col-md-6 no-padding">
+                                                <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="SearchCondition.priceamtto" ng-maxlength="150"  focusid="priceto" focusonenter="brand" >
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Brand / Design</label>
+                                        <div class="col-md-4" style="margin-right:0px">
+                                            <select class="form-control input-sm" select2="" style="width: 100%;" options="item.id as item.name for item in BrandName track by item.id" ng-model="SearchCondition.brandid" focusid="brand" focusonenter="design" ></select>
+                                        </div>
+                                        <div class="col-md-4" style="margin-left:0px">
+                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="SearchCondition.designid" ng-maxlength="150" focusid="design" focusonenter="pattern" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Pattern/Color</label>
+                                        <div class="col-md-4" style="margin-right:0px">
+                                            <select class="form-control input-sm" select2="" style="width: 100%;" options="item.id  as item.name for item in patterns track by item.id" ng-model="SearchCondition.patternid" focusid="pattern" focusonenter="color"></select>
+                                        </div>
+
+                                        <div class="col-md-4" style="margin-left:0px">
+                                            <select class="form-control input-sm" select2="" style="width: 100%;" options="item.id  as item.name for item in ColorList track by item.id" ng-model="SearchCondition.colorid" focusid="color" focusonenter="meterial" ></select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Material/Type</label>
+                                        <div class="col-md-4" style="margin-right:0px">
+                                            <select class="form-control input-sm" select2="" style="width: 100%;" options="item.id  as item.name for item in materials track by item.id" ng-model="SearchCondition.materialid" focusid="meterial" focusonenter="type1" ></select>
+                                        </div>
+                                        <div class="col-md-4" style="margin-left:0px">
+                                            <select class="input-sm form-control" select2="" style="width: 100%;" options="item.id as item.name for item in TypeList track by item.id" ng-model="SearchCondition.typeid" focusid="type1" ></select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row row-padbot-15" ng-hide="result.lrinvoice == null || UserInfo.p_HIDESUPPLIER.view">
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <b>LR Information</b>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td>Barcode</td>
+                                            <td><span style="font-size:small;font-weight:bolder;color:black">{{result.stock.barcode}}</span></td>
+                                        </tr>
+                                        <tr ng-show="result.stock.serialno.length>0">
+                                            <td>GLN Code</td>
+                                            <td><span style="font-size:small;font-weight:bolder;color:black">{{result.stock.serialno}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%">LR Entry No / Stock Age</td>
+                                            <td width="50%">
+                                                {{result.lrinvoice.lrentryno}} &nbsp; <span style="font-size:medium;font-weight:bolder;color:green">[{{result.lrinvoice.stockdays}} &nbsp;days]</span>
+                                                &nbsp; <span style="font-size:medium;font-weight:bolder;color:orangered">[{{result.lrinvoice.stockbatch}}]</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%">LR No / Date</td>
+                                            <td width="50%">{{result.lrinvoice.lrno}} / {{result.lrinvoice.lrentrydate | date:'dd-MM-yyyy'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Supplier Name</td>
+                                            <td>{{result.lrinvoice.suppliername}} / {{result.lrinvoice.suppliercityname}}</td>
+                                        </tr>
+                                        <tr ng-show="result.jobWorkdetails != null && !UserInfo.p_SHOWVALUE.view" style="font-weight:bolder">
+                                            <td>Job Work</td>
+                                            <td> Charge : {{result.jobWorkdetails.jobworkchargetotal}} - Entry No : {{result.jobWorkdetails.entryno}}/{{result.jobWorkdetails.entrydate | date:'dd-MM-yyyy'}}</td>
+                                        </tr>
+                                        <tr ng-show="result.jobWorkdetails != null" style="font-weight:bolder">
+                                            <td>Job Worker</td>
+                                            <td>{{result.jobWorkdetails.jobworkername}} / {{result.jobWorkdetails.jobworkercity}}</td>
+                                        </tr>
+                                        <tr ng-show="result.lrinvoice.sourcesuppliername != '' && result.lrinvoice.suppliername != result.lrinvoice.sourcesuppliername">
+                                            <td>Source Supplier Name</td>
+                                            <td>{{result.lrinvoice.sourcesuppliername}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td ng-show="result.lrinvoice.agentname != null">Agent Name</td>
+                                            <td>{{result.lrinvoice.agentname}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Invoice No</td>
+                                            <td>{{result.lrinvoice.invoiceno}} / {{result.stock.companyname}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Invoice Date</td>
+                                            <td>{{result.lrinvoice.invoicedate | date:'dd-MM-yyyy'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Invoice Entry Date</td>
+                                            <td>{{result.lrinvoice.entrydate | date:'dd-MM-yyyy'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%">Product</td>
+                                            <td width="50%">{{result.stock.printingname}}</td>
+                                        </tr>
+
+                                        <tr ng-hide="UserInfo.p_SHOWVALUE.view">
+                                            <td>Base/Cost Price</td>
+                                            <td>{{result.stock.basebuyingprice | number:2}} / {{result.stock.buyingprice | number:2}} [{{result.stock.purchasediscount}}@{{result.stock.purchasediscountpercentage}}%]</td>
+                                        </tr>
+
+                                        <tr ng-show="result.returnhistory != null && result.returnhistory.length>0 && !UserInfo.p_SHOWVALUE.view" style="font-weight:bolder">
+                                            <td>Supplier Discount</td>
+                                            <td>
+                                                <table>
+                                                    <tbody ng-repeat="item in result.returnhistory">
+                                                        <tr>
+                                                            <td>
+                                                                {{item.rate}}@{{item.taxpercentage}}%
+                                                                &nbsp;On&nbsp;
+                                                                {{item.returnno}} - ({{item.returndate | date:'dd-MM-yyyy'}})
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+
+                                        <tr ng-hide="UserInfo.p_SHOWVALUE.view">
+                                            <td>Net Cost Price (Incln.Purchase Tax)</td>
+                                            <td>{{result.stock.ibuyingprice | number:2}} [{{(result.stock.taxpercentage * result.stock.buyingprice / 100) | number:2}} @{{result.stock.taxpercentage}}%]</td>
+                                        </tr>
+
+
+                                        <tr ng-hide="UserInfo.p_SHOWVALUE.view">
+                                            <td>Selling Price [Price - Discount]</td>
+                                            <td>{{(result.stock.price - result.stock.discount) | number:2}}&nbsp;[{{result.stock.price | number:2}} - {{result.stock.discount | number:2}}]</td>
+                                        </tr>
+                                        <tr ng-show="system_supportmrp && !UserInfo.p_SHOWVALUE.view">
+                                            <td>MRP</td>
+                                            <td>{{(result.stock.mrp) | number:2}}</td>
+                                        </tr>
+                                        <tr ng-hide="UserInfo.p_SHOWVALUE.view || result.stock.dealerprice<=0">
+                                            <td>Whole Sale Price</td>
+                                            <td>{{result.stock.dealerprice}}</td>
+                                        </tr>
+                                        <tr ng-hide="UserInfo.p_SHOWVALUE.view">
+                                            <td>Sales Tax</td>
+                                            <td>{{result.stock.salestaxamount | number:2}}@{{result.stock.salestaxpercent}}%</td>
+                                        </tr>
+                                        <tr ng-hide="UserInfo.p_SHOWVALUE.view">
+                                            <td title="Difference between Net Cost Price and Selling Price">Margin Percentage</td>
+                                            <td title="Difference between Net Cost Price and Selling Price">{{result.stock.marginpercent | number:2}}</td>
+                                        </tr>
+                                        <tr ng-hide="UserInfo.p_SHOWVALUE.view">
+                                            <td title="Difference between Cost Price and Selling Price (Excluding Sales Tax)">Net Margin Percentage</td>
+                                            <td title="Difference between Cost Price and Selling Price (Excluding Sales Tax)">{{result.stock.netmarginpercent | number:2}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-sm-12">
+                                    &nbsp;
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-sm btn-primary btn-flat" ng-click="Moveto('invoice')">Invoice</button>
+                                    <button type="button" class="btn btn-sm btn-primary btn-flat" ng-click="Moveto('product')">Products</button>
+                                    <button type="button" class="btn btn-sm btn-primary btn-flat" ng-click="Moveto('barcode')">Barcode</button>
+                                    <button type="button" class="btn btn-sm btn-primary btn-flat pull-right" ng-click="GetTransferHistory(SearchCondition.barcode)">Transfer History</button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <b>Product Attributes</b>
+                                </div>
+                                <div class="col-md-12">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td width="50%">Brand</td>
+                                            <td width="50%">
+                                                <span ng-show="result.jobWorkdetails != null && result.jobWorkdetails.detail != null && result.jobWorkdetails.detail.brandname!=''">
+                                                    {{result.jobWorkdetails.detail.brandname}} ->
+                                                </span>
+                                                {{SearchRef(result.stock.brandid,BrandName)}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Colour</td>
+                                            <td>
+                                                <span ng-show="result.jobWorkdetails != null && result.jobWorkdetails.detail != null && result.jobWorkdetails.detail.colourname!=''">
+                                                    {{result.jobWorkdetails.detail.colourname}} ->
+                                                </span>
+                                                {{result.stock.colourname}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pattern</td>
+                                            <td>
+                                                <span ng-show="result.jobWorkdetails != null && result.jobWorkdetails.detail != null && result.jobWorkdetails.detail.patternname!=''">
+                                                    {{result.jobWorkdetails.detail.patternname}} ->
+                                                </span>
+                                                {{result.stock.patternname}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Style</td>
+                                            <td>
+                                                <span ng-show="result.jobWorkdetails != null && result.jobWorkdetails.detail != null && result.jobWorkdetails.detail.stylename!=''">
+                                                    {{result.jobWorkdetails.detail.stylename}} ->
+                                                </span>
+                                                {{result.stock.stylename}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Material</td>
+                                            <td>
+                                                <span ng-show="result.jobWorkdetails != null && result.jobWorkdetails.detail != null && result.jobWorkdetails.detail.materialname!=''">
+                                                    {{result.jobWorkdetails.detail.materialname}} ->
+                                                </span>
+                                                {{result.stock.materialname}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Type</td>
+                                            <td>
+                                                <span ng-show="result.jobWorkdetails != null && result.jobWorkdetails.detail != null && result.jobWorkdetails.detail.typename!=''">
+                                                    {{result.jobWorkdetails.detail.typename}} ->
+                                                </span>
+                                                {{result.stock.typename}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sleeve</td>
+                                            <td>{{result.stock.sleevename}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fit</td>
+                                            <td>{{result.stock.fitname}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Price Tag</td>
+                                            <td>{{result.stock.pricetagname}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Design</td>
+                                            <td>
+                                                <span ng-show="result.jobWorkdetails != null && result.jobWorkdetails.detail != null && result.jobWorkdetails.detail.glndesignid!=''">
+                                                    {{result.jobWorkdetails.detail.glndesignid}} ->
+                                                </span>
+                                                {{result.stock.designid}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Size</td>
+                                            <td>
+                                                <span ng-show="result.jobWorkdetails != null && result.jobWorkdetails.detail != null && result.jobWorkdetails.detail.sizename!=''">
+                                                    {{result.jobWorkdetails.detail.sizename}} ->
+                                                </span>
+                                                {{result.stock.sizename}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-12">
+                                    <b>Warehouse Stock</b>
+                                </div>
+                                <div class="col-md-12">
+                                    <table style="width:80%">
+                                        <tr>
+                                            <td>Purchase Qty</td>
+                                            <td>{{result.stock.qty}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Transfered</td>
+                                            <td>{{result.stock.transfered}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Returned</td>
+                                            <td>{{result.stock.returnqty}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Damaged Qty</td>
+                                            <td>{{result.stock.damagedqty}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Journal(Physical Audit Qty)</td>
+                                            <td>{{result.stock.journalqty}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Stock</td>
+                                            <td>{{result.stock.qty-(result.stock.transfered+result.stock.damagedqty+result.stock.journalqty+result.stock.returnqty)}}</td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="result.salablegoods != null">
+                            <div class="col-md-12">
+                                <b>Retail Stock</b>
+                            </div>
+                            <div class="col-md-12">
+                                <table id="payroll" fixed-header="200px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:50px">S.No</th>
+                                            <th style="width:100px">Location</th>
+                                            <th style="width:70px">Barcode</th>
+                                            <th style="width:50px">Inward</th>
+                                            <th style="width:50px">Sold</th>
+                                            <th style="width:50px">Damaged</th>
+                                            <th style="width:50px">Journal</th>
+                                            <th style="width:50px">Approved</th>
+                                            <th style="width:50px">Stock</th>
+                                            <th style="width:50px">Price</th>
+                                            <th style="width:50px">Discount</th>
+                                            <th style="width:50px">Selling Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="item in result.salablegoods">
+                                        <tr>
+
+                                            <td>{{$index+1}}</td>
+                                            <td>{{SearchRef(item.locationid,Location)}}</td>
+                                            <td>{{item.barcode}}</td>
+                                            <td>{{item.iqty}}</td>
+                                            <td>{{item.oqty}}</td>
+                                            <td>{{item.dqty}}</td>
+                                            <td>{{item.jqty}}</td>
+                                            <td>{{item.aqty}}</td>
+                                            <td>{{item.iqty-(item.oqty+item.dqty+item.jqty+item.aqty) | number:2}}</td>
+                                            <td>{{item.price}}</td>
+                                            <td>{{item.discount}}</td>
+                                            <td>{{item.price-item.discount | number:2}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <div class="row row-padbot-15" ng-show="result.transferHistories != null">
+                            <div class="col-md-12">
+                                <b>Transfers</b>
+                            </div>
+                            <div class="col-md-12">
+                                <table id="payroll" fixed-header="200px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:100px">S.No</th>
+                                            <th style="width:100px">Code</th>
+                                            <th style="width:100px">From</th>
+                                            <th style="width:100px">To</th>
+                                            <th style="width:100px">Packed On</th>
+                                            <th style="width:100px">Packed Qty</th>
+                                            <th style="width:100px">Received On</th>
+                                            <th style="width:100px">Received Qty</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="item in result.transferHistories">
+                                        <tr>
+                                            <td>{{$index+1}}</td>
+                                            <td>{{item.code}}</td>
+                                            <td>{{SearchRef(item.fromlocationid,Location)}}</td>
+                                            <td>{{SearchRef(item.tolocationid,Location)}}</td>
+                                            <td>{{item.packedon | date:'dd-MM-yyyy'}}</td>
+                                            <td>{{item.transferedqty | number:2}}</td>
+                                            <td>{{item.receivedon |date:'dd-MM-yyyy'}}</td>
+                                            <td>{{item.qty | number:2}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="result.audithistory != null && result.audithistory.length>0">
+                            <div class="col-md-12">
+                                <b>
+                                    Journal Entries
+                                </b>
+                            </div>
+                            <div class="col-md-12">
+                                <table id="payroll" fixed-header="200px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:30px">S.No</th>
+                                            <th style="width:100px">Employee</th>
+                                            <th style="width:100px">Location</th>
+                                            <th style="width:100px">Intial Stock Qty</th>
+                                            <th style="width:100px">Journal</th>
+                                            <th style="width:100px">New Stock Qty</th>
+                                            <th style="width:100px">Changed On</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="item in result.audithistory">
+                                        <tr>
+                                            <td>{{$index+1}}</td>
+                                            <td>{{item.empname}}</td>
+                                            <td>{{SearchRef(item.locationid,Location)}}</td>
+                                            <td>{{item.whenqty | number:2}}</td>
+                                            <td>{{item.auditqty | number:2}}</td>
+                                            <td>{{item.whenqty+item.auditqty | number:2}}</td>
+                                            <td>{{item.modifiedon | date:'dd-MM-yyyy hh:mm a'}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="result.pricehistory != null && result.pricehistory.length>0">
+                            <div class="col-md-12">
+                                <b>
+                                    Price Changes
+                                </b>
+                            </div>
+                            <div class="col-md-12">
+                                <table id="payroll" fixed-header="200px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:100px">S.No</th>
+                                            <th style="width:100px">Location</th>
+                                            <th style="width:100px">Changed By</th>
+                                            <th style="width:140px">Changed On</th>
+                                            <th style="width:200px">Price Change</th>
+                                            <th style="width:200px">Discount Change</th>
+                                            <th style="width:120px">Value Difference</th>
+                                            <th style="width:100px">Stock</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="item in result.pricehistory">
+                                        <tr>
+                                            <td>{{$index+1}}</td>
+                                            <td>{{SearchRef(item.locationid,Location)}}</td>
+                                            <td>{{item.empname}}</td>
+                                            <td>{{item.createdon | date:'dd-MM-yyyy hh:mm a'}}</td>
+                                            <td>{{item.oprice | number:2}} -> {{item.nprice | number:2}}</td>
+                                            <td>{{item.odiscount | number:2}} -> {{item.ndiscount | number:2}}</td>
+                                            <td>{{item.changevalue | number:2}}</td>
+                                            <td>{{item.stockqty| number:2}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="SearchCondition.searchmode == '0' || SearchCondition.searchmode == '1' || SearchCondition.searchmode == '4'">
+                            <div class="col-md-12">
+                                <b>Sold Bills</b>
+                            </div>
+                            <div class="col-md-12">
+                                <div id="gridContainer">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+
+
+
+<script type="text/ng-template" id="UpdateImage">
+    <div class="ngdialog-message">
+        <div class="col-md-12 no-padding" ng-hide="ShowSnap">
+            <video id="video" width="640" height="480" autoplay></video>
+        </div>
+
+        <div class="col-md-12 no-padding" ng-show="ShowSnap">
+            <canvas id="canvas" width="640" height="480"></canvas>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary pull-left" ng-click="Capture()">Capture</button>
+        <div class="pull-left" ng-show="Billitemid>0">Capture RETURN good image</div>
+        <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="closeThisDialog()">Close</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="Save()">Save</button>
+    </div>
+</script>
+
+
+
+<script type="text/ng-template" id="MultiplePriceList">
+    <div class="ngdialog-message">
+
+
+
+        <table id="payroll" fixed-header="200px" class="fixed_table">
+            <thead>
+                <tr>
+                    <th style="width:50px">S.No</th>
+                    <th style="width:100px">Date</th>
+                    <th style="width:100px">Location</th>
+                    <th style="width:50px">Price</th>
+                    <th style="width:50px">MRP</th>
+                    <th style="width:100px">Status</th>
+                    <th style="width:50px">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="item in Results">
+                <tr>
+                    <td>{{$index+1}}</td>
+                    <td>{{item.addon | date:'dd-MM-yyyy hh:mm a'}}</td>
+                    <td>{{Parent.SearchRef(item.locationid,Parent.Location)}}</td>
+                    <td>{{item.price | number:2}}</td>
+                    <td>{{item.mrp | number:2}}</td>
+                    <td ng-show="item.isactive">Active</td>
+                    <td ng-hide="item.isactive">{{item.removedon | date:'dd-MM-yyyy hh:mm a'}}</td>
+                    <td>
+                        <button type="button" class="btn-primary btn btn-xs"
+                                ng-click="Disable(item)">
+                            Disable
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-8 no-padding">
+            <div class="col-md-6 no-padding">
+                <select class="form-control input-sm"
+                        select2="Location" style="width: 100%;"
+
+                        options="item.id as item.name for item in Parent.Location track by item.id" ng-model="locationid"></select>
+            </div>
+            <div class="col-md-3">
+                <input type="text" placeholder="Price" class="input-sm" style="width:100%" ng-model="price" />
+            </div>
+            <div class="col-md-3">
+                <input type="text" placeholder="MRP" class="input-sm" style="width:100%" ng-model="mrp" />
+            </div>
+        </div>
+        <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="closeThisDialog()">Close</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="Save()">Add Price</button>
+    </div>
+</script>

@@ -1,0 +1,21 @@
+<Line HideValue="hasexchange">
+    <Content type='Word' length='15' align='left'  style='bold'> Total Amt :</Content>
+      <Content type='Field' name='totalamount' text="" Length='10' style='bold' align='right' format='F2'/>
+    </Line>
+<Line HasValue="hasexchange">
+    <Content type='Word' length='15' align='left'  style='bold'> Return    :</Content>
+      <Content type='Field' name='totalamount_return' text="" Length='10' style='bold' align='right' format='F2'/>
+    </Line>
+<Line HasValue="hasexchange">
+	 <Content type='Word' length='15' align='left'  style='bold'> Exchange  :</Content>
+      <Content type='Field' name='totalamount_exchange' text="" Length='10' style='bold' align='right' format='F2'/>
+    </Line>	
+<Line HasValue="hasdiscount &amp;&amp; !hasexchange">
+    <Content type='Word' length='15' align='left'  style='bold'> Discount  :</Content>
+      <Content type='Field' name='totaldiscount' text="" Length='10' style='bold' align='right' format='F2'/>
+    </Line>
+<Line>
+    <Content type='Word' length='12' align='left'  style='large'> Net Amt:</Content>
+      <Content type='Field' name='total' text="" Length='8' style='large' align='right' format='F2'/>
+    </Line>
+

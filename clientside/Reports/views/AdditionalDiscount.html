@@ -1,0 +1,98 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class=" fa fa-arrow-left" style="font-size:large"></i></a>
+          Sales /  Biller Discount Report
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'additional discount', 'addisc')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-click="printInfyGrid(igrid)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-click="SearchAdditionalDiscount()"><a><i class="fa fa-search-plus"></i>Search</a></li>
+
+            <!--<li><a href="#"><i class="fa fa-dashboard"></i> Reports</a></li>
+            <li class="active">Reports</li>-->
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box primary">
+            <div class="box-body">
+
+                <div class="col-md-3">
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>COMPANY</label>
+                            <select class="form-control" select2='Company' ng-options="item.id as item.name for item in Company track by item.id" ng-model="SearchCondition.companyid" focusid="company" focusonenter="fromdate"  ></select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label>FROM DATE</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="input-sm form-control datepicker" datemodule="SearchCondition.fromdate" ng-model="SearchCondition.fromdate" focusid="fromdate" focusonenter="todate" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label>TO DATE</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="input-sm form-control datepicker" datemodule="SearchCondition.todate" ng-model="SearchCondition.todate" focusid="todate" focusonenter="location" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label>LOCATION</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Location track by item.id"
+                                    ng-model="SearchCondition.locationid" focusid="location" focusonenter="billerwise" ></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding" ng-hide="true">
+                        <label>Billerwise</label>
+                        <div class="col-md-12">
+                            <input type="checkbox" ng-model="SearchCondition.billerwise=true" focusid="billerwise"  />
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <div class="col-md-4" style="padding-top:15px;">
+
+                            </div>
+                            <div class="col-md-2" style="padding-top:15px;">
+                            </div>
+                            <div class="col-md-2" style="padding-top:15px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9 no-padding">
+
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</div>

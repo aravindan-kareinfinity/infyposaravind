@@ -1,0 +1,556 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Work Order Orchestration
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.print" style="cursor:pointer" ng-click=""><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-4 no-padding">
+                    <form name="agent">
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-4 form-group control-label">Name</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control input-sm" style="width: 100%;"
+                                               ng-model="WOOrchestration.name" required focusid="first">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-4">
+                                <label for="inputEmail3" class="form-group control-label">Mode</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-left">
+                                    <input type="radio" ng-model="WOOrchestration.mode"
+                                           value="Internal" />
+                                </div>
+
+                                <div class="pull-left" style="padding-left:5px">Internal</div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-left">
+                                    <input type="radio" ng-model="WOOrchestration.mode"
+                                           value="External" />
+                                </div>
+                                <div class="pull-left" style="padding-left:5px">External</div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-4">
+                                <label for="inputEmail3" class="form-group control-label">BOM</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-left">
+                                    <input type="radio" ng-model="WOOrchestration.bomsupport"
+                                           value="Yes" />
+                                </div>
+
+                                <div class="pull-left" style="padding-left:5px">Yes</div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-left">
+                                    <input type="radio" ng-model="WOOrchestration.bomsupport"
+                                           value="No" />
+                                </div>
+                                <div class="pull-left" style="padding-left:5px">No</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-4">
+                                <label for="inputEmail3" class="form-group control-label">Finish Goods</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-left">
+                                    <input type="radio" ng-model="WOOrchestration.fgsupport"
+                                           value="Yes" />
+                                </div>
+
+                                <div class="pull-left" style="padding-left:5px">Yes</div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-left">
+                                    <input type="radio" ng-model="WOOrchestration.fgsupport"
+                                           value="No" />
+                                </div>
+                                <div class="pull-left" style="padding-left:5px">No</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-4">
+                                <label for="inputEmail3" class="form-group control-label">Stages</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-left">
+                                    <input type="radio" ng-model="WOOrchestration.stagesupport"
+                                           value="Yes" />
+                                </div>
+
+                                <div class="pull-left" style="padding-left:5px">Yes</div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-left">
+                                    <input type="radio" ng-model="WOOrchestration.stagesupport"
+                                           value="No" />
+                                </div>
+                                <div class="pull-left" style="padding-left:5px">No</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-4">
+                                <label for="inputEmail3" class="form-group control-label">Tailoring</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control" select2='Charge Type' style="width:100%;"
+                                        ng-options="item.id as item.name for item in TailoringMode track by item.id"
+                                        ng-model="WOOrchestration.tailoringmode" focusid="issuedby"
+                                        focusonenter="receivedby"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding" ng-show="WOOrchestration.tailoringmode==1">
+                            <div class="col-md-4">
+                                <label for="inputEmail3" class="form-group control-label">Charge</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control" select2='Charge Type' style="width:100%;"
+                                        ng-options="item.id as item.name for item in JobOrderCharges track by item.id"
+                                        ng-model="WOOrchestration.tailoringchargeid" focusid="issuedby"
+                                        focusonenter="receivedby"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding" ng-show="WOOrchestration.tailoringmode==1">
+                            <div class="col-md-4">
+                                Inward Product
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-left">
+                                    <input type="radio" ng-model="WOOrchestration.inwardsupport"
+                                           value="Yes" />
+                                </div>
+
+                                <div class="pull-left" style="padding-left:5px">Yes</div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-left">
+                                    <input type="radio" ng-model="WOOrchestration.inwardsupport"
+                                           value="No" />
+                                </div>
+                                <div class="pull-left" style="padding-left:5px">No</div>
+                            </div>
+
+                        </div>
+
+
+
+                        <!--<div class="col-md-12">
+                            <div class="col-md-4 no-padding">
+                                <label>Size Mode</label>
+                            </div>
+                            <div class="col-md-8 no-padding">
+                                <select class="form-control" select2='Location' style="width:100%;"
+                                        ng-options="item.id as item.name for item in SizeModes track by item.id"
+                                        ng-model="WOOrchestration.sizemode" focusid="issuedby"
+                                        focusonenter="receivedby"></select>
+                            </div>
+                        </div>-->
+
+                        <div class="col-md-12" style="height:25px;margin-top:25px" ng-show="WOOrchestration.stagesupport == 'Yes'">
+                            <div class="pull-left">
+                                Process Stages
+                            </div>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-xs btn-primary "
+                                        ng-click="OnStageAction('New',WOOrchestration.stages)">
+                                    <i class="fa fa-file"></i>&nbsp;New Stage
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"
+                             ng-show="WOOrchestration.stagesupport == 'Yes'"
+                             ng-repeat="stage in WOOrchestration.stages track by $index">
+
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-1 no-padding" style="margin-top:10px;">
+                                    <input type="checkbox" name="stageselected"
+                                           id="stageselected"
+                                           ng-model="stage.selected"
+                                           ng-change="OnStageSelected(stage)" />
+                                </div>
+                                <div class="col-md-8 no-padding" style="padding-left:1px;padding-right:1px;margin-top:10px;">
+
+                                    <div class="col-md-12 no-padding">
+                                        <select class="form-control" select2='Core Stage' style="width:100%;"
+                                                ng-options="item.id as item.name for item in CoreStages track by item.id"
+                                                ng-model="stage.corestageid" focusid="corestageid"
+                                                ng-change="corestagechange()"
+                                                focusonenter="adddiscount"></select>
+                                    </div>
+
+                                    <div class="col-md-12 no-padding">
+                                        <input type="text" class="input-sm form-control"
+                                               ng-model="stage.name" />
+                                    </div>
+
+                                    <div class="col-md-12 no-padding" style="margin-top:10px">
+                                        <div class="col-md-6 no-padding">
+                                            Jobwork Charge
+                                        </div>
+                                        <div class="col-md-6 no-padding">
+                                            <div class="pull-left">Fixed Charge</div>
+                                            <input type="checkbox" class="pull-right"
+                                                   style="margin-right:10px"
+                                                   ng-model="stage.hasfixedcharge" />
+                                        </div>
+                                        <div class="col-md-12 no-padding" style="margin-top:10px" ng-show="stage.hasfixedcharge">
+                                            <div class="col-md-6 no-padding">
+                                                Amount
+                                            </div>
+                                            <div class="col-md-6 no-padding">
+                                                <input class="form-control input-sm" type="number"
+                                                       ng-model="fixedcharge" ng-readonly="!stage.hasfixedcharge" style="width:100%" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 no-padding" style="margin-top:10px" ng-hide="stage.hasfixedcharge">
+                                            <select class="form-control" select2='Charge Type' style="width:100%;"
+                                                    ng-options="item.id as item.name for item in JobCharges track by item.id"
+                                                    ng-model="stage.joborderchargeid" focusid="issuedby"
+                                                    focusonenter="receivedby"></select>
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3 no-padding" style="margin-top:10px;">
+                                    <div class="pull-right" style="padding-top:5px">
+                                        <button type="button" class="btn btn-xs btn-primary "
+                                                ng-click="OnStageAction('Delete',WOOrchestration.stages,stage)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-xs btn-primary"
+                                                ng-click="OnStageAction('MoveDown',WOOrchestration.stages,stage)">
+                                            <i class="fa fa-arrow-down"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-xs btn-primary "
+                                                ng-click="OnStageAction('MoveUp',WOOrchestration.stages,stage)">
+                                            <i class="fa fa-arrow-up"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-1 no-padding" style="margin-top:10px;">
+                                    &nbsp;
+                                </div>
+
+                                <div class="col-md-8 no-padding" style="margin-top:10px">
+
+                                    <div class="col-md-6 no-padding">
+                                        <div class="pull-left">
+                                            Duration
+                                        </div>
+                                        <input type="text"
+                                               class="pull-right"
+                                               style="width:50px"
+                                               ng-model="stage.duration" />
+                                    </div>
+                                    <div class="col-md-6 no-padding" ng-show="stage.corestageid==3">
+                                        <div class="pull-left">
+                                            Inward Product
+                                        </div>
+                                        <input type="checkbox"
+                                               class="pull-right"
+                                               name="tailoringselected"
+                                               id="tailoringselected"
+                                               style="margin-right:10px"
+                                               ng-model="stage.supportinward" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="col-md-8 no-padding" ng-show="WOOrchestration.stagesupport == 'Yes'">
+
+                    <div class="col-md-12" ng-show="CurrentStage != null">
+                        <div class="col-md-12 no-padding" style="color:brown;font-size:medium">
+                            <div class="col-md-3 no-padding">
+                                <label class="smalllabel"><b>Stage</b></label>
+                                <select class="form-control" select2='Stage' style="width:100%;"
+                                        ng-options="item.id as item.name for item in MfgStages track by item.id"
+                                        ng-model="CurrentStage.mfgstageid" focusid="stageid"
+                                        ng-change="MfgStageChanged()"
+                                        focusonenter="locationid"></select>
+                            </div>
+
+                            <div class="col-md-3 no-padding" style="padding-left:1px;padding-right:1px">
+                                <label class="smalllabel"><b>Material Source</b></label>
+                                <select class="form-control" select2='Location' style="width:100%;"
+                                        ng-options="item.id as item.name for item in MaterialType track by item.id"
+                                        ng-model="CurrentStage.sourcematerial" focusid="sourcemateriaid"
+                                        focusonenter="outcomeid"></select>
+                            </div>
+
+                            <div class="col-md-3 no-padding" style="padding-left:1px;padding-right:1px">
+
+                                <label class="smalllabel"><b>Job Outcome</b></label>
+                                <select class="form-control" select2='Location' style="width:100%;"
+                                        ng-options="item.id as item.name for item in MaterialType track by item.id"
+                                        ng-model="CurrentStage.outcomematerial" focusid="outcomeid"
+                                        focusonenter="iomode"></select>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" ng-show="CurrentStage != null">
+
+                        <div class="col-md-3 no-padding" style="border-right:1px solid grey;border-left:1px solid grey">
+                            <label><b>Type</b></label>
+                            <select class="form-control" select2='Location' style="width:100%;"
+                                    ng-options="item.id as item.name for item in ConsumptionTypes track by item.id"
+                                    ng-model="CurrentBOM.consumtiontype" focusid="iomode"
+                                    focusonenter="receivedby"></select>
+                        </div>
+
+
+                        <div class="col-md-3 no-padding" ng-show="CurrentBOM.consumtiontype == 1">
+                            <label><b>Category</b></label>
+                            <select class="form-control" select2='Location' style="width:100%;"
+                                    ng-options="item.id as item.name for item in BOMCategories track by item.id"
+                                    ng-model="CurrentBOM.categoryid"
+                                    ng-change="categoryChange()"
+                                    focusid="iomode"
+                                    focusonenter="receivedby"></select>
+                        </div>
+                        <div class="col-md-3 no-padding" ng-show="CurrentBOM.consumtiontype == 1">
+                            <label><b>BOM</b></label>
+                            <select class="form-control" select2='Location' style="width:100%;"
+                                    ng-options="item.id as item.name for item in BOMList track by item.id"
+                                    ng-model="CurrentBOM.bomid" focusid="iomode"
+                                    focusonenter="receivedby"></select>
+                        </div>
+                        <div class="col-md-3 no-padding" ng-hide="CurrentBOM.consumtiontype == 1">
+                            <label><b>Job Charge</b></label>
+                            <select class="form-control" select2='Location' style="width:100%;"
+                                    ng-options="item.id as item.name for item in StageJobcharges track by item.id"
+                                    ng-model="CurrentBOM.chargeid" focusid="iomode"
+                                    focusonenter="receivedby"></select>
+                        </div>
+                        <div class="col-md-3 no-padding" ng-hide="CurrentBOM.consumtiontype == 1">
+                            <div class="col-md-6 no-padding">
+                                <label><b>Duration</b></label>
+                                <input type="text" class="input-sm form-control"
+                                       ng-model="CurrentBOM.duration"
+                                       style="width:100%" />
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label><b>Cost</b></label>
+                                <input type="text" class="input-sm form-control"
+                                       ng-model="CurrentBOM.cost"
+                                       style="width:100%" />
+                            </div>
+
+                        </div>
+                        <div class="pull-right">
+                            <button type="button"
+                                    style="margin-top:30px"
+                                    class="btn btn-xs btn-primary "
+                                    ng-click="AddConsumption()">
+                                <i class="fa fa-plus"></i>&nbsp;Add
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-12"
+                         ng-show="CurrentStage != null"
+                         style="padding-top:30px;
+                        color:brown;font-weight:bold;
+                        border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;">
+                        <label class="smalllabel"><b>Materials/Cost/Time</b></label>
+                    </div>
+                    <div class="col-md-12"
+                         ng-show="CurrentStage != null"
+                         ng-repeat="item in CurrentStage.bomitems track by $index">
+
+                        <div class="col-md-12"
+                             style="padding-bottom:10px;padding-left: 0px;padding-right: 0px;">
+                            <div class="col-md-4" style="padding-left:0px">
+                                {{$index+1}}.&nbsp;&nbsp;{{SearchRef(item.type,ConsumptionTypes)}}
+                            </div>
+
+                            <div class="col-md-3" ng-show="item.type==1">
+                                {{SearchRef(item.categoryid,BOMCategories)}}
+                            </div>
+                            <div class="col-md-3" ng-show="item.type==1">
+                                {{SearchRef(item.bomid,BOMAllList)}}
+                            </div>
+                            <div class="col-md-3" ng-hide="item.type==1">
+                                {{SearchRef(item.chargeid,JobCharges)}}
+                            </div>
+                            <div class="col-md-3" ng-hide="item.type==1">
+                                <div class="col-md-5 no-padding">
+                                    {{item.duration}} Minutes
+                                </div>
+                                <div class="col-md-2 no-padding">
+                                    /
+                                </div>
+                                <div class="col-md-5 no-padding">
+                                    {{item.cost}}₹
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-xs btn-primary "
+                                            ng-click="OnStageAction('DeleteItem',CurrentStage.bomitems,item)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-xs btn-primary "
+                                            ng-click="OnStageAction('EditItem',CurrentStage.bomitems,item)">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Name</label>
+                            <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.name">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-4 no-padding">
+                            <label for="inputEmail3" class="form-group control-label">Mode</label>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="pull-left">
+                                <input type="radio" ng-model="SearchCondition.mode"
+                                       value="Internal" />
+                            </div>
+
+                            <div class="pull-left" style="padding-left:5px">Internal</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="pull-left">
+                                <input type="radio" ng-model="SearchCondition.mode"
+                                       value="External" />
+                            </div>
+                            <div class="pull-left" style="padding-left:5px">External</div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-4 no-padding">
+                            <label for="inputEmail3" class="form-group control-label">BOM</label>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="pull-left">
+                                <input type="radio" ng-model="SearchCondition.bomsupport"
+                                       value="Yes" />
+                            </div>
+
+                            <div class="pull-left" style="padding-left:5px">Yes</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="pull-left">
+                                <input type="radio" ng-model="SearchCondition.bomsupport"
+                                       value="No" />
+                            </div>
+                            <div class="pull-left" style="padding-left:5px">No</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-4 no-padding">
+                            <label for="inputEmail3" class="form-group control-label">Stages</label>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="pull-left">
+                                <input type="radio" ng-model="SearchCondition.stagesupport"
+                                       value="Yes" />
+                            </div>
+
+                            <div class="pull-left" style="padding-left:5px">Yes</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="pull-left">
+                                <input type="radio" ng-model="SearchCondition.stagesupport"
+                                       value="No" />
+                            </div>
+                            <div class="pull-left" style="padding-left:5px">No</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-4 no-padding">
+                            <label>Size Mode</label>
+                        </div>
+                        <div class="col-md-8 no-padding">
+                            <select class="form-control" select2='Location' style="width:100%;"
+                                    ng-options="item.id as item.name for item in SizeModes track by item.id"
+                                    ng-model="SearchCondition.sizemode" focusid="issuedby"
+                                    focusonenter="receivedby"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 no-padding">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.content -->
+    </section>
+</div>
+<!-- /.content-wrapper -->

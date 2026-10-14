@@ -1,0 +1,1117 @@
+﻿ <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Warehouse / Barcode Generation
+            <small>{{message}}</small>
+        </h1>
+        <ol class="breadcrumb" ng-show="ShowImage">
+            <li style="cursor:pointer" ng-click="ShowImage=false"><a><i class="fa fa-search"></i>Hide Image</a></li>
+        </ol>
+
+        <ol class="breadcrumb" ng-hide="ShowImage">
+            <li style="cursor:pointer" ng-show="!ShowSearch && SelectedRowCount==0" ng-click="SwitchPanel()"><a><i class="fa fa-search"></i>Search</a></li>
+            <li style="cursor:pointer" ng-show="ShowSearch" ng-click="Search()"><a><i class="fa fa-search"></i>Search</a></li>
+            <li style="cursor:pointer" ng-show="ShowSearch && SearchResult.length>0" ng-click="exporttoExcel(igrid,'Invoice Entries', 'Invoice')"><a><i class="fa fa-download"></i>Export</a></li>
+            <li style="cursor:pointer" ng-show="currentitem != null && currentitem.id>0 && CanEdit" ng-click="Conversion2Bit(currentitem)"><a><i class="fa fas fa-location-arrow"></i>To Bit</a></li>
+            <li style="cursor:pointer" ng-show="currentitem != null && currentitem.id>0 && CanEdit" ng-click="Conversion(currentitem)"><a><i class="fa fas fa-location-arrow"></i>To Multiple</a></li>
+            <li style="cursor:pointer" ng-show="currentitem != null && currentitem.id>0 && CanEdit" ng-click="SizeChange(currentitem)"><a><i class="fa fas fa-location-arrow"></i>Size/Qty Change</a></li>
+            <!--<li style="cursor:pointer" ng-show="currentitem != null && currentitem.id>0" ng-click="Mismatch(currentitem)"><a><i class="fa fas fa-location-arrow"></i>Shortage</a></li>-->
+            <li style="cursor:pointer" ng-show="currentitem != null && currentitem.id>0" ng-click="Damaged(currentitem)"><a><i class="fa fas fa-location-arrow"></i>Shortage/Damaged</a></li>
+            <li style="cursor:pointer" ng-show="hasselected && CanDelete" ng-click="DeleteBarcode()"><a><i class="fa fa-trash"></i>Remove Barcode</a></li>
+            <li style="cursor:pointer" ng-show="hasselected" ng-click="ShowMarkerDialog()"><a><i class="fa fa-star"></i>Marker</a></li>
+            <li style="cursor:pointer" ng-show="hasselected && CanChangePrice && !HideSellingValue" ng-click="UpdatePrice()"><a><i class="fa fa-save"></i>Update Price</a></li>
+
+            <li style="cursor:pointer" ng-show="hasselected && SelectedRowCount>0 && CanEdit" ng-click="ShowDNCN()"><a><i class="fa fa-save"></i>DN/CN({{SelectedRowCount}})</a></li>
+            <li style="cursor:pointer" ng-show="hasselected && SupportLocationBased" ng-click="ShowLocationBasedBarcode()"><a><i class="fa fa-save"></i>Retail Location</a></li>
+            <li style="cursor:pointer" ng-show="hasselected && CanEdit" ng-click="SaveMultiple(currentitem)"><a><i class="fa fa-save"></i>Save All</a></li>
+            <li style="cursor:pointer" ng-show="currentitem != null && currentitem.id>0 && CanEdit" ng-click="Save(currentitem)"><a><i class="fa fa-save"></i>Save</a></li>
+            <!--<li style="cursor:pointer" ng-show="Invoice.isgenerated" ng-click="PrintVendorInvoice()"><a><i class="fa fa-print"></i>Print Invoice</a></li>-->
+            <li style="cursor:pointer" ng-show="Invoice.Lrinvoiceitems.length>0" ng-click="PrintVendorInvoice()"><a><i class="fa fa-print"></i>Print Bill</a></li>
+
+            <li style="cursor:pointer" ng-show="Invoice.Lrinvoiceitems.length>0 && Invoice.allowgenerte && (currentitem == null || currentitem.id  == 0)" ng-click="PrintSelected(true,0)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-hide="currentitem == null || currentitem.id  == 0 || Invoice.Lrinvoiceitems.length == 0" ng-click="PrintSelected(true,currentitem.id)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-show="Invoice.Lrinvoiceitems.length>0 && Invoice.allowgenerte" ng-click="PrintSelected(false)"><a><i class="fa fa-print"></i>Choose Barcode</a></li>
+            <li style="cursor:pointer" ng-show="!ShowSearch && hasselected" ng-click="BuildImageGrid()"><a><i class="fa fa-file-image-o"></i>Images</a></li>
+            <li style="cursor:pointer" ng-show="!ShowSearch && hasselected && License.manufacture" ng-click="BuildSKUDesign()"><a><i class="fa fa-barcode"></i>Sync SKU</a></li>
+            <li style="cursor:pointer" ng-show="ShowSearch" ng-click="SwitchPanel()"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li style="cursor:pointer" ng-show="Invoice.Lrinvoiceitems.length>0" ng-click="exporttoExcel(egrid,'vendorinvoice', 'vendorinvoice')"><a><i class="fa fa-download"></i></a></li>
+        </ol>
+
+
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+
+                <div class="row row-padbot-15">
+
+                    <div class="col-md-9" id="gridList" style="padding-right:5px;padding-left:15px">
+                    </div>
+
+                    <!--<div class="col-md-9" style="padding-right:5px;padding-left:15px">
+                        <table fixed-header="500px" additionalheight="250" class="fixed_table"
+                               style="font-size:small;line-height:12px">
+                            <thead>
+                                <tr>
+                                    <th width="30px"><input type="checkbox" class="checkbox-inline" ng-model="SelectAll" ng-change="SelectAllChanged()" /></th>
+                                    <th width="40px">Sl.</th>
+                                    <th width="125px">Product</th>
+                                    <th width="100px">Size</th>
+                                    <th width="100px">Design</th>
+                                    <th width="80px">Qty</th>
+                                    <th width="110px">Cost</th>
+                                    <th width="110px">Margin</th>
+
+                                    <th width="125px" ng-hide="item.SelectedItem && CanChangePrice">Price</th>
+                                    <th width="125px" ng-show="item.SelectedItem && CanChangePrice">Price</th>
+
+                                    <th width="125px" ng-hide="item.SelectedItem && CanChangePrice">Discount</th>
+                                    <th width="125px" ng-show="item.SelectedItem && CanChangePrice">Discount</th>
+
+                                    <th width="100px">Final</th>
+
+                                    <th width="80px">Gnrd</th>
+                                    <th width="80px"></th>
+                                    <th width="80px">Barcode</th>
+                                    <th width="40px">&nbsp;&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in Invoice.Lrinvoiceitems">
+                                    <td><input type="checkbox" class="checkbox-inline" ng-change="Changprintingeqty(item)" ng-model="item.SelectedItem" /></td>
+                                    <td>{{item.sno}}</td>
+                                    <td>{{SearchProductRef(item)}}</td>
+                                    <td>{{SearchRefDirect(item.Details.sizeid,SizeList)}}</td>
+                                    <td>{{item.designid}}</td>
+                                    <td>{{item.buyingqty}}<span ng-show="item.returnqty>0">({{item.actualqty}})</span></td>
+                                    <td>{{item.basebuyingprice}}/{{item.buyingprice}}</td>
+                                    <td>{{item.marginpercentage}}%</td>
+
+                                    <td ng-hide="item.SelectedItem && CanChangePrice">{{item.sellingprice}}</td>
+
+                                    <td ng-show="item.SelectedItem && CanChangePrice">
+                                        <input ng-show="item.SelectedItem" tablecell type="text" class="form-control input-sm" style="width: 90%"
+                                               ng-change="MRPChanged(item)" ng-model="item.mrp">
+                                    </td>
+
+                                    <td ng-hide="item.SelectedItem && CanChangePrice">{{item.salediscountpercentage}}% @ {{item.salediscount}}</td>
+
+
+                                    <td ng-hide="item.SelectedItem && CanChangePrice">{{item.sellingprice-item.salediscount}}</td>
+
+
+
+                                    <td ng-show="item.SelectedItem && CanChangePrice">
+                                        <input type="text" class="form-control input-sm no-padding" tablecell style="width: 90%"
+                                               ng-change="salediscountChanged(item)" ng-model="item.salediscountpercentage">
+                                    </td>
+
+
+                                    <td ng-show="item.SelectedItem && CanChangePrice">
+                                        <input type="text" class="form-control input-sm no-padding" tablecell style="width: 90%"
+                                               ng-change="finalpriceChanged(item)" ng-model="item.finalprice">
+                                    </td>
+
+                                    <td>{{item.sellableqty}}</td>
+                                    <td style="margin-right:5px">
+                                        <input type="text" class="form-control input-sm" style="width: 90%" tablecell
+                                               ng-model="item.newqty" ng-show="item.SelectedItem">
+                                    </td>
+                                    <td><div style="width:100px;overflow:hidden;text-overflow: ellipsis;">{{item.barcode}}</div></td>
+                                    <td>
+                                        <button type="button" ng-hide="item.itemid!=0" class="btn btn-danger btn-xs"
+                                                ng-click="MapProduct(item)">
+                                            <i class="fa fa-edit" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" ng-hide="item.itemid==0" class="btn btn-xs"
+                                                ng-class="item.stocklocationid>0 ? 'btn-primary' : 'btn-success' "
+                                                ng-click="MapProduct(item)">
+                                            <i class="fa fa-edit" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>-->
+
+                    <div class="col-md-3" style="padding-left:5px;padding-right:5px">
+
+                        <div class="col-md-12" style="border-bottom:2px solid dodgerblue;padding-bottom:3px;padding-left:2px"
+                             ng-show="currentitem != null && currentitem.id>0">
+                            <button class="btn btn-orange btn-sm btn-xs pull-right"
+                                    ng-show="system_barcodeonceprint && CanResetBarcodePrintCount"
+                                    style="margin-left:10px"
+                                    ng-click="ResetPrint(currentitem)">
+                                <i class="fa fa-barcode">&nbsp;<label>Reset</label></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm btn-xs pull-right"
+                                    ng-click="CollectImage()">
+                                <i class="fa fa-image">&nbsp;<label>Image</label></i>
+                            </button>
+                            <div class="col-md-6 no-padding">
+                                <file-upload class="btn btn-xs btn-primary btn-rad btn-trans file-upload"
+                                             resize="true" max-width="1280"
+                                             max-height="1280" preview="false" ng-model="barcodefile"
+                                             filemodel="barcodefile"
+                                             filetype="DATA"
+                                             onuploadcomplete='fileuploadedcomplete'
+                                             uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                                             multiple="false">
+                                    <i class="fa fa-upload">&nbsp;<label>Barcode</label></i>
+                                </file-upload>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding"
+                             style="padding-top:10px;padding-bottom:10px"
+                             ng-show="(currentitem != null && currentitem.id>0 && currentitem.imgid != '') && !hideimage">
+                            <img style="width:128px;height:128px;top:10px;left:10px"
+                                 ng-src="File/Show/{{UserInfo.OrganizationID}}/{{currentitem.imgid}}" />
+                            <div style="position:absolute;left:115px;top:2px">
+                                <i class="fa fa-close" style="color:white;background-color:black" ng-click="hideimage=true"></i>
+                            </div>
+
+                            <div style="position:absolute;bottom:0px;right:0px;
+                            width:100%;height:30px;">
+                                <a class="btn pull-right btn-success btn-xs" style="margin-right: 10px;margin-top: 10px;"
+                                   target="_blank" href="File/Show/{{UserInfo.OrganizationID}}/{{currentitem.imgid}}">
+                                    <i class="fa fa-file-image-o"></i>
+                                </a>
+                                <a class="btn pull-right btn-success btn-xs" style="margin-right: 10px;margin-top: 10px;"
+                                   target="_blank" href="File/Download/{{UserInfo.OrganizationID}}/{{currentitem.imgid}}">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                                <a class="btn pull-right btn-success btn-xs" style="margin-right: 10px;margin-top: 10px;"
+                                   ng-click="CaptureImage(currentitem)">
+                                    <i class="fa fa-camera"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding"
+                             style="padding-top:10px;padding-bottom:10px"
+                             ng-hide="(currentitem != null && currentitem.id>0 && currentitem.imgid != '')">
+
+                            <div class="col-md-12" style="padding-left:2px" ng-hide="HideSupplier">
+                                <div class="col-md-3 no-padding">
+                                    <label for="inputEmail3" style="color:brown">SUPPLIER</label>
+                                </div>
+                                <div class="col-md-9" style="color:brown">
+                                    <b>{{Invoice.suppliercompanyname}}</b>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="padding-left:2px">
+                                <div class="col-md-3 no-padding">
+                                    <label for="inputEmail3" style="color:brown">COMPANY</label>
+                                </div>
+                                <div class="col-md-9" style="color:brown">
+                                    <b>{{Invoice.companyname}}</b>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="padding-left:2px">
+                                <div class="col-md-3 no-padding">
+                                    <label for="inputEmail3" style="color:brown">PIECES</label>
+                                </div>
+                                <div class="col-md-9" style="color:brown">
+                                    <b>{{Invoice.noofpieces}}/{{Invoice.noofbundle}}</b>
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-12" style="padding-left:2px">
+                                <div class="col-md-3 no-padding">
+                                    <label for="inputEmail3" style="color:brown">INV. NO</label>
+                                </div>
+                                <div class="col-md-9" style="color:brown">
+                                    <b>{{Invoice.invoiceno}}/{{Invoice.invoicedate | date :'dd-MM-yyyy'}}</b>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="padding-left:2px">
+                                <div class="col-md-3 no-padding">
+                                    <label for="inputEmail3" style="color:brown">ENTRY.NO</label>
+                                </div>
+                                <div class="col-md-9" style="color:brown">
+                                    <b>{{Invoice.lrentryno}}/{{Invoice.entrydate | date :'dd-MM-yyyy'}}</b>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 no-padding" ng-show="(currentitem != null && currentitem.id>0) || hasselected">
+                            <div class="col-md-12" style="padding-left:2px">
+                                <label for="inputEmail3">Product</label>
+                                <select class="form-control" style="width: 100%;" select2="Product"
+                                        options="product.id as product.name for product in ProductList track by product.id" ng-model="currentitem.productid" focusid="product" focusonenter="brandname"></select>
+                            </div>
+
+                            <div class="col-md-12" style="padding-left:2px" ng-show="SupportQtyEdit">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3">Qty</label>
+                                    <input type="text" style="width:100%" class="input-sm form-control" ng-model="currentitem.buyingqty" />
+                                </div>
+
+                                <div class="col-md-6 no-padding">
+                                    <input style="position:absolute;top:0px;left:0px" ng-model="editnewbuyingqty" ng-change="currentitem.newbuyingqty=editnewbuyingqty?currentitem.buyingqty:0" type="checkbox" />
+                                    <div for="inputEmail3" style="height:22px;margin-left:25px">Change Qty</div>
+                                    <input type="text" style="width:100%" ng-readonly="!editnewbuyingqty" class="input-sm form-control" ng-model="currentitem.newbuyingqty" />
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-6" style="padding-right:0px;padding-left:2px">
+                                <label for="inputEmail3">BrandName</label>
+
+                                <select class="form-control" style="width: 100%;" select2="Brand" options="brand.id as brand.name for brand in BrandName track by brand.id" viewmodel="currentitem.Details.brandname"
+                                        ng-model="currentitem.Details.brandid" focusid="brandname" focusonenter="size"></select>
+                            </div>
+
+                            <div class="col-md-6" style="padding-left:0px;padding-left:2px">
+                                <label for="inputEmail3">Size</label>
+
+                                <select class="form-control" select2="" style="width: 100%;" options="size.id as size.name for size in SizeList track by size.id" viewmodel="currentitem.Details.sizename" ng-model="currentitem.Details.sizeid" focusid="size" focusonenter="stylemode"></select>
+                            </div>
+
+                            <div class="col-md-6" style="padding-right:0px;padding-left:2px">
+                                <label for="inputEmail3">Style</label>
+
+                                <select class="form-control" select2="" style="width: 100%;" options="style.id as style.name for style in StyleList track by style.id" viewmodel="currentitem.Details.stylename" ng-model="currentitem.Details.styleid" focusid="stylemode" focusonenter="design"></select>
+                            </div>
+
+                            <div class="col-md-6" style="padding-left:0px">
+                                <label for="inputEmail3">Design</label>
+                                <input tablecell type="text" class="form-control input-sm" style="width: 100%" ng-model="currentitem.designid" focusid="design" focusonenter="materialwarrenty">
+                            </div>
+
+                            <div class="col-md-6" style="padding-right:0px;padding-left:2px">
+                                <label for="inputEmail3">Material</label>
+
+                                <select class="form-control" style="width: 100%;" select2="Material" options="material.id as material.name for material in MaterialList track by material.id" viewmodel="currentitem.Details.materialname" ng-model="currentitem.Details.materialid" focusid="materialwarrenty" focusonenter="patternquality"></select>
+                            </div>
+
+                            <div class="col-md-6" style="padding-left:0px">
+                                <label for="inputEmail3">Pattern</label>
+
+                                <select class="form-control" style="width: 100%;" select2="Pattern" options="pattern.id as pattern.name for pattern in PatternList track by pattern.id" viewmodel="currentitem.Details.patternname" ng-model="currentitem.Details.patternid" focusid="patternquality" focusonenter="sleeveid"></select>
+                            </div>
+
+                            <div class="col-md-6" style="padding-right:0px;padding-left:2px">
+                                <label for="inputEmail3">Sleeve</label>
+
+                                <select class="form-control" style="width: 100%;" select2="Sleeve" options="sleeve.id as sleeve.name for sleeve in SleeveList track by sleeve.id" viewmodel="currentitem.Details.sleevename" ng-model="currentitem.Details.sleeveid" focusid="sleeveid" focusonenter="fit"></select>
+                            </div>
+
+                            <div class="col-md-6" style="padding-left:0px">
+                                <label for="inputEmail3">Fit</label>
+                                <select class="form-control" style="width: 100%;" select2="Fit" options="fit.id as fit.name for fit in FitList track by fit.id" viewmodel="currentitem.Details.fitname" ng-model="currentitem.Details.fitid" focusid="fit" focusonenter="type"></select>
+                            </div>
+
+                            <div class="col-md-6" style="padding-right:0px;padding-left:2px">
+                                <label for="inputEmail3">Type</label>
+
+                                <select class="form-control" select2="Type"
+                                        options="item.id as item.name for item in TypeList track by item.id"
+                                        viewmodel="currentitem.Details.typename"
+                                        style="width:100%"
+                                        ng-model="currentitem.Details.typeid" focusid="type" focusonenter="color"></select>
+                            </div>
+                            <div class="col-md-6" style="padding-left:0px">
+                                <label for="inputEmail3">Color</label>
+
+                                <select class="form-control" select2="" style="width: 100%;" options="color.id as color.name for color in ColorList track by color.id" viewmodel="currentitem.Details.colourname" ng-model="currentitem.Details.colourid" focusid="color" focusonenter="serialno"></select>
+                            </div>
+
+
+                            <div class="col-md-6" style="padding-right:0px;padding-left:2px" ng-hide="HideCostingValue">
+                                <label>GLN/EAN/IMEI No</label>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" placeholder="GLN/IMEI No"
+                                       ng-model="currentitem.Details.serialno" focusid="serialno" focusonenter="dprate">
+                            </div>
+
+                            <div class="col-md-12" style="padding-left:0px;" ng-show="HideCostingValue">
+                                <label>GLN/EAN/IMEI No</label>
+                                <input type="text" class="input-sm form-control" style="width: 100%;" placeholder="GLN/IMEI No"
+                                       ng-model="currentitem.Details.serialno" focusid="serialno" focusonenter="dprate">
+                            </div>
+
+                            <div class="col-md-6" style="padding-left:0px" ng-hide="HideCostingValue">
+                                <div class="col-md-6 no-padding">
+                                    <label>DP Rate</label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" placeholder="DpRate"
+                                           ng-model="currentitem.Details.dealerprice" focusid="dprate" focusonenter="minrate">
+                                </div>
+
+                                <div class="col-md-6 no-padding">
+                                    <label ng-style="Mandatory.serialno">Min Rate</label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;" placeholder="Minrate"
+                                           ng-model="currentitem.Details.minrate" focusid="minrate" focusonenter="mrp">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="padding-left:0px;" ng-show="SupportPriceTags">
+                                <label>Price TAG</label>
+                                <select class="form-control" select2="Price Tag" style="width:100%" ng-model="currentitem.Details.pricetagid"
+                                        ng-options="item.id as item.name for item in PriceTagList track by item.id"></select>
+                            </div>
+
+                            <div ng-show="EnableList" class="col-md-12">
+                                <label for="inputEmail3">Barcode</label>
+                                <select class="form-control" select2="" ng-model="currentitem.barcode" ng-options="item.code as item.code for item in CurrentBarcodeList track by item.code"></select>
+                            </div>
+
+
+
+                            <div class="col-md-12" style="padding-left:2px;"
+                                 ng-hide="(currentitem != null && currentitem.id>0) || CanChangePrice ==false || HideSellingValue">
+
+                                <div class="col-md-4 no-padding">
+                                    <label for="inputEmail3">MRP</label>
+                                    <input type="text" class="form-control input-sm" style="width: 100%"
+                                           ng-change="MRPChanged(currentitem)" ng-model="currentitem.mrp" focusid="mrp" focusonenter="discount">
+                                </div>
+                                <div class="col-md-4 no-padding">
+                                    <label for="inputEmail3">Discount</label>
+                                    <input type="text" class="form-control input-sm" style="width: 100%"
+                                           ng-change="salediscountChanged(currentitem)" ng-model="currentitem.salediscountpercentage" focusid="discount" focusonenter="damage">
+                                </div>
+
+                                <div class="col-md-4 no-padding">
+                                    <label for="inputEmail3">Damages</label>
+                                    <input type="text" class="form-control input-sm"
+                                           style="width: 100%;" ng-model="currentitem.damagedqty" focusid="damage">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-4 no-padding">
+                                    <label for="inputEmail3" style="color:brown;font-size:large" ng-show="totalmeter>0">{{totalmeter}}/{{totalqty}}/{{totalsalableqty}}</label>
+                                    <label for="inputEmail3" style="color:brown;font-size:large" ng-hide="totalmeter>0">{{totalqty}}/{{totalsalableqty}}</label>
+                                </div>
+                                <div class="col-md-8 no-padding">
+                                    <label for="inputEmail3" class="pull-right" ng-show="currentitem != null && currentitem.id>0" style="color:orangered;font-size:large">
+                                        <span style="width:100px;overflow:hidden;text-overflow: ellipsis;">{{currentitem.barcode}}</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-8 no-padding"
+                                     ng-show="CanCreate && currentitem != null && currentitem.id>0 && currentitem.allowgenerte && Invoice.allowgenerte && !Invoice.isintercompanytransfer">
+                                    <button class="btn btn-primary btn-xs pull-right" ng-click="GenerateBarcode(currentitem)">Generate Barcode</button>
+                                </div>
+
+                                <div class="col-md-8 no-padding" ng-hide="currentitem != null && currentitem.id >0">
+                                    <button class="btn btn-primary  pull-right btn-xs" ng-show="CanCreate && Invoice.PendingBarcodes>0 && Invoice.allowgenerte && !Invoice.isintercompanytransfer"
+                                            ng-click="GenarateBarcodeMultiple()">
+                                        Pending Barcode
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <!--<div class="row row-padbot-15">
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary  btn-xs" ng-show="currentitem == null || currentitem.id  == 0" ng-click="PrintSelected(true,0)">Print Selected Barcode</button>
+                        <button class="btn btn-primary  btn-xs" ng-hide="currentitem == null || currentitem.id  == 0" ng-click="PrintSelected(true,currentitem.id)">Print Barcode</button>
+                        <button class="btn btn-primary  btn-xs" ng-click="PrintSelected(false)">Choose Barcode</button>
+
+                        <label for="inputEmail3" style="color:brown;font-size:large" ng-show="totalmeter>0">{{totalmeter}}/{{totalqty}}/{{totalsalableqty}}</label>
+                        <label for="inputEmail3" style="color:brown;font-size:large" ng-hide="totalmeter>0">{{totalqty}}/{{totalsalableqty}}</label>
+
+                        <label for="inputEmail3" ng-show="currentitem != null && currentitem.id>0" class="pull-right"
+                               title="Click to Change size" style="color:brown;font-size:large">BARCODES</label>
+                    </div>
+
+                    <div class="col-sm-6" style="padding-left:0px;padding-right:0px">
+
+                        <div class="col-sm-6">
+                            <label for="inputEmail3" ng-show="currentitem != null && currentitem.id>0" style="color:orangered;font-size:large">{{currentitem.barcode}}</label>
+
+                            <div class="pull-right" ng-show="currentitem != null && currentitem.id>0 && currentitem.allowgenerte">
+                                <input ng-hide="true" size="2" type="text" ng-model="currentitem.newbarcode" />
+                                <button class="btn btn-primary btn-xs" ng-click="GenerateBarcode(currentitem)">Generate Barcode</button>
+                            </div>
+
+                            <div class="pull-right" ng-hide="currentitem != null && currentitem.id >0">
+                                <button class="btn btn-primary  btn-xs" ng-show="Invoice.PendingBarcodes>0" ng-click="GenarateBarcodeMultiple()">Generate Pending Barcode</button>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="inputEmail3">{{message}}</label>
+                            <div class="pull-right">
+
+                                <button class="btn btn-primary btn-xs" ng-click="DeleteBarcode()" ng-show="hasselected && CanDelete">Remove</button>
+
+                                <button class="btn btn-primary btn-xs" ng-click="UpdatePrice()" ng-show="hasselected && CanChangePrice">Update All Price</button>
+                                <button class="btn btn-primary btn-box btn-xs" ng-click="SaveMultiple(currentitem)" ng-show="hasselected">Save All</button>
+
+                                <button class="btn btn-success btn-xs " ng-click="Save(currentitem)"
+                                        ng-show="currentitem != null && currentitem.id>0">
+                                    Save
+                                </button>
+
+                                <button class="btn btn-primary btn-xs" ng-click="Conversion2Bit(currentitem)" ng-show="currentitem != null && currentitem.id>0">Change to BIT</button>
+                                <button class="btn btn-primary btn-xs" ng-click="Conversion(currentitem)" ng-show="currentitem != null && currentitem.id>0">Convert to Multiple</button>
+                                <button class="btn btn-primary btn-xs" ng-click="SizeChange(currentitem)" ng-show="currentitem != null && currentitem.id>0">Size Change</button>
+                                <button class="btn btn-primary btn-xs" ng-click="Mismatch(currentitem)" ng-show="currentitem != null && currentitem.id>0">Qty Mismatch</button>
+                                <button class="btn btn-primary btn-xs" ng-click="Damaged(currentitem)" ng-show="currentitem != null && currentitem.id>0">Damaged</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+
+
+        <div class="box box-primary" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-3 no-padding">
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>COMPANY</label>
+                            <div class="input-group-sm">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-model="SearchCondition.companyid" options="item.id as item.name for item in BuyingCompany track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>SUPPLIER</label>
+                            <div class="input-group-sm">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-model="SearchCondition.supplierid" options="item.id as item.name for item in Suppliers track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>INVOICE DATE</label>
+                            <div class="input-group-sm">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" daterange="SearchCondition.fromdate,SearchCondition.todate" class="input-sm form-control pull-right">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>ENTRY DATE</label>
+                            <div class="input-group-sm">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" daterange="SearchCondition.entryfromdate,SearchCondition.entrytodate" class="input-sm form-control pull-right">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>INVOICE NO</label>
+                            <div class="input-group-sm">
+                                <input type="text" class="input-sm form-control" ng-model="SearchCondition.invoiceno" focusid="first" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="padding-bottom:5px;padding-left:0px;padding-right:0px">
+                        <div class="col-md-12">
+                            <label>LR ENTRY NO</label>
+                            <div class="input-group-sm">
+                                <input type="text" class="input-sm form-control" ng-model="SearchCondition.lrentryno" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Entry No</label>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control input-sm" onkeyenter="Search()" ng-model="SearchCondition.invoiceentryno" />
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Barcode</label>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control input-sm" onkeyenter="Search()" ng-model="SearchCondition.barcode" />
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                </div>
+
+                <div class="col-md-9 no-padding">
+
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </section>
+</div><!--End Product details-->
+<!-- /.content-wrapper -->
+
+
+<script type="text/ng-template" id="ChooseBarecodes">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <table fixed-header="300px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">SL</th>
+                            <th style="width:200px">Product</th>
+                            <th style="width:120px">Barcode</th>
+                            <th style="width:80px">No</th>
+                            <th style="width:60px">Qty</th>
+                            <th style="width:130px">Copy</th>
+                            <th style="width: 100px;">
+                                <input style="margin-left:25px" type="checkbox" ng-model="selectall" ng-change="selectchanged(selectall)" />
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in BarcodeList|filter:searchbarcode">
+                            <td>{{item.sno}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.code}}</td>
+                            <td>{{item.no}}</td>
+                            <td>{{item.qty}}</td>
+                            <td><input type="number" ng-model="item.copy" ng-change="selectchanged()" /></td>
+                            <td><input style="margin-left:25px" type="checkbox" ng-model="item.selected" ng-change="selectchanged()" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons" style="margin-top:10px">
+            <div>
+                <input ng-model="selectall" type="checkbox" ng-change="SelectAllChanged(BarcodeList)" class="pull-left" />
+                <input type="text" ng-model="searchbarcode" style="width:125px" placeholder="Barcode" class="pull-left" />
+                <input type="text" ng-model="fixcopy" style="width:70px" onkeyenter="SetCopy()" placeholder="Copies" class="pull-left" />
+                <input type="text" ng-model="fixno" style="width:100px" onkeyenter="SetSelection()" placeholder="from-to" class="pull-left" />
+                <input type="number" ng-model="packagesize" style="width:70px" placeholder="Package Size" class="pull-left" />
+                <label ng-bind="TotalCopy" style="color:brown;font-size:large;padding-left:5px" class="pull-left"></label>
+            </div>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Select</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="ResetBarecodes">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <table fixed-header="300px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">SL</th>
+                            <th style="width:200px">Product</th>
+                            <th style="width:120px">Barcode</th>
+                            <th style="width:80px">No</th>
+                            <th style="width:60px">Qty</th>
+                            <th style="width:130px">Count</th>
+                            <th style="width: 100px;">
+                                <input style="margin-left:25px" type="checkbox" ng-model="selectall" ng-change="selectchanged(selectall)" />
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in BarcodeList|filter:searchbarcode">
+                            <td>{{item.sno}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.code}}</td>
+                            <td>{{item.no}}</td>
+                            <td>{{item.qty}}</td>
+                            <td><input type="number" ng-model="item.count" ng-change="selectchanged()" /></td>
+                            <td><input style="margin-left:25px" type="checkbox" ng-model="item.selected" ng-change="selectchanged()" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons" style="margin-top:10px">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Select</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>
+
+
+
+<script type="text/ng-template" id="BitConversion">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="row row-padbot-15">
+                <div class="form-group col-md-4">
+                    <label style="color:brown"><b>Product</b></label>
+                    <label for="inputEmail3" class="col-md-12 control-label">
+                        <select class="form-control" style="width: 100%;" select2="Product"
+                                options="product.id as product.name for product in ProductList track by product.id"
+                                ng-model="ItemDetails.productid"></select>
+                    </label>
+                </div>
+                <div class="input-group input-group-sm col-sm-8 no-padding">
+                    <div class="col-md-3" style="padding-left:1px;padding-right:1px">
+                        <label style="color:brown"><b>Qty</b></label>
+                        <input type="text" class="input-sm form-control" focusonenter="mrp" placeholder="Qty" ng-model="sizeInfo" focusid="sizeInfo">
+                    </div>
+                    <div class="col-md-3" style="padding-left:1px;padding-right:1px">
+                        <label style="color:brown"><b>MRP</b></label>
+                        <input type="text" class="input-sm form-control" style="width: 100%;" placeholder="MRP" focusid="mrp" ng-change="mrpChange()"
+                               focusonenter="salediscountpercentage" ng-model="ItemDetails.mrp">
+                    </div>
+                    <div class="col-md-3 no-padding">
+                        <label style="color:brown"><b>Discnt %</b></label>
+                        <input type="text" class="input-sm form-control" style="width: 100%;" placeholder="salediscountpercentage" ng-change="salediscountChanged()"
+                               focusid="salediscountpercentage" ng-model="ItemDetails.salediscountpercentage" onkeyenter="CreateItems()">
+                    </div>
+
+                    <div class="col-md-3" style="padding-left:1px;">
+                        <label style="color:brown"><b>Final Price</b></label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="input-sm form-control" style="width: 100%;" ng-readonly="true" value="{{ItemDetails.sellingprice-ItemDetails.salediscount}}" />
+                            <span class="input-group-btn" style="width:10px">
+                                <button type="button" class="btn btn-info btn-sm btn-flat glyphicon glyphicon-plus-sign" ng-click="CreateItems(false)"></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-padbot-15">
+                <table fixed-header="250px">
+                    <thead>
+                        <tr>
+                            <th class="no-padding" width="150px">Name</th>
+                            <th class="no-padding" width="100px">Qty</th>
+                            <th class="no-padding" width="100px">MRP</th>
+                            <th class="no-padding" width="100px">Discount</th>
+                            <th class="no-padding" width="100px">Final</th>
+                            <th class="no-padding" width="70PX">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in PopupList track by $index">
+                            <td>{{item.name}}</td>
+                            <td>{{item.sellableqty}}</td>
+                            <td>{{item.mrp}}</td>
+                            <td>{{item.salediscountpercentage}}</td>
+                            <td>{{item.sellingprice-item.salediscount}}</td>
+                            <td><button type="button" class="btn btn-xs btn-primary" ng-click="Delete(item)">Delete</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-6">
+            <label for="inputEmail3" class="col-md-4 control-label">{{Created}}/{{Total}}</label>
+            <div class="col-md-4" style="padding-left:1px;padding-right:1px">
+                <label style="color:brown"><b>Is Bit</b></label>
+                <input type="checkbox" ng-model="isbit" style="padding-left:25px">
+            </div>
+            <div class="col-md-4" style="padding-left:1px;padding-right:1px">
+                <label style="color:brown"><b>Partial</b></label>
+                <input type="checkbox" ng-model="ispartial" style="padding-left:25px">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-hide="isView || !CanClear" ng-click="Clear()">Clear</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-hide="isView" ng-click="Selected()">OK</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="ChooseSize">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <table fixed-header="300px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">SL</th>
+                            <th style="width:150px">Product</th>
+                            <th style="width:100px">Barcode</th>
+                            <th style="width:150px">Size</th>
+                            <th style="width:50px">Qty</th>
+                            <th style="width:100px">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Select
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in BarcodeList|filter:searchbarcode">
+                            <td>{{item.sno}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.code}}</td>
+                            <td><select class="form-control" select2="" style="width: 100%;" ng-change="item.selected=true;" options="size.id as size.name for size in SizeList track by size.id" ng-model="item.sizeid"></select></td>
+                            <td style="text-align:center"><input type="text" ng-change="item.selected=true;" ng-model="item.qty" /></td>
+                            <td style="text-align:center"><input type="checkbox" ng-model="item.selected" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <input ng-model="selectall" type="checkbox" ng-change="SelectAllChanged(BarcodeList)" />
+            <input type="text" ng-model="searchbarcode" style="width:150px" placeholder="Barcode" />
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Change Size</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="UpdateSelectedQty()">Update Qty</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="ChooseBit">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <table fixed-header="300px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">SL</th>
+                            <th style="width:150px">Product</th>
+                            <th style="width:100px">Barcode</th>
+                            <th style="width:100px">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Select
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in BarcodeList|filter:searchbarcode">
+                            <td>{{item.sno}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.code}}</td>
+                            <td style="text-align:center"><input type="checkbox" ng-model="item.selected" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <input ng-model="selectall" type="checkbox" ng-change="SelectAllChanged(BarcodeList)" />
+            <input type="text" ng-model="searchbarcode" style="width:150px" placeholder="Barcode" />
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Change</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>
+
+
+
+<script type="text/ng-template" id="UploadImage">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <table fixed-header="300px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">SL</th>
+                            <th style="width:120px">Barcode</th>
+                            <th style="width:120px">Image</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in BarcodeList|filter:searchbarcode">
+                            <td>{{item.sno}}</td>
+                            <td>{{item.code}}</td>
+                            <td>
+                                <div ng-show="item.imageid != null && item.imageid != ''" style="height:36px;width:36px;display:inline">
+                                    <a target="_blank" href="File/Show/{{UserInfo.OrganizationID}}/{{item.imageid}}">
+                                        <img style="height:32px" ng-src="File/Thumbnail/{{UserInfo.OrganizationID}}/{{item.imageid}}" />
+                                    </a>
+                                </div>
+                                <div ng-show="item.imageid != null && item.imageid != ''"
+                                     style="height:24px;width:24px;display:inline">
+                                    <button class="warning" ng-click="ImageDeleted(item)">
+                                        <i class="fa fa-trash" style="font-size:large;color:orangered"></i>
+                                    </button>
+                                </div>
+                                <div ng-hide="item.imageid != null && item.imageid != ''" style="display:inline">
+                                    <div class="col-md-6 no-padding">
+                                        <file-upload class="btn btn-xs btn-success btn-rad btn-trans file-upload"
+                                                     resize="true" max-width="1280"
+                                                     max-height="1280" preview="false" ng-model="item.imageid"
+                                                     filemodel="item.imageid" onuploadcomplete="ImageUploaded"
+                                                     filetype="IMAGE"
+                                                     multiple="false">
+                                            <i class="fa fa-upload"></i>
+                                        </file-upload>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <input type="text" ng-model="searchbarcode" style="width:125px" placeholder="Barcode" />
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="UploadBarcode">
+    <div class="ngdialog-message">
+        <div class="md-col-12" style="margin-bottom:10px">
+            <div class="table-responsive mailbox-messages">
+                <table fixed-header="300px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">SL</th>
+                            <th style="width:120px" ng-repeat="scode in BarcodeListColumns">
+                                <div class="th-inner">
+                                    <input style="display:inline" type="checkbox" ng-model="scode.selected" />
+                                    <span style="display:inline">{{scode.name}}</span>
+                                </div>
+                            </th>
+                            <th style="width:120px">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in BarcodeList track by $index">
+                            <td>
+                                <div style="display:inline">
+                                    &nbsp;&nbsp;<input type="checkbox" ng-model="item.selected" ng-change="ItemSelected(item,BarcodeList)" />
+                                </div>
+                                <div style="display:inline">{{item.sno}}</div>
+                            </td>
+                            <td ng-repeat="scode in item.codes track by $index">{{scode}}</td>
+                            <td>
+                                <button class="warning" ng-click="DeleteBarcode(item)">
+                                    <i class="fa fa-trash" style="font-size:large;color:orangered"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="Save()">Save</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>
+
+
+
+<script type="text/ng-template" id="ChooseLocation">
+    <div class="ngdialog-message">
+
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <table fixed-header="300px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">SL</th>
+                            <th style="width:200px">Product</th>
+                            <th style="width:100px">Size</th>
+                            <th style="width:100px">Cost</th>
+                            <th style="width:100px">Retail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in BarcodeList">
+                            <td>{{item.sno}}</td>
+                            <td>{{Parent.SearchRef(item.productid,Parent.ProductList)}}</td>
+                            <td>{{Parent.SearchRefDirect(item.Details.sizeid,Parent.SizeList)}}</td>
+                            <td>{{item.basebuyingprice}}/{{item.buyingprice}}</td>
+                            <td width="250px">
+                                <select class="form-control input-sm" select2="" ng-model="item.tstocklocationid"
+                                        style="width:100%"
+                                        options="item.id as item.name for item in Locations track by item.id"></select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <div class="md-col-12" style="padding-top:10px">
+                <div style="width:280px;display:inline-block" class="pull-right">
+                    <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="Selected()">Change</button>
+                    <button type="button" class="ngdialog-button ngdialog-button-secondary  pull-right" ng-click="closeThisDialog()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="DNCNOverrideDialog">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Reason</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <select class="form-control" select2='Purchase Entry Location'
+                            style="width:100%;"
+                            ng-model="request.item.overridemode"
+                            options="item.id as item.name for item in Reasons track by item.id"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="DNCNDialog">
+    <div class="ngdialog-message">
+
+        <div class="md-col-12">
+            <div class="table-responsive mailbox-messages">
+                <table fixed-header="300px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">SL</th>
+                            <th style="width:200px">Product</th>
+                            <th style="width:100px">Size</th>
+                            <th style="width:100px">Cost</th>
+                            <th style="width:50px">Qty</th>
+                            <th style="width:100px">Actual Price</th>
+                            <th style="width:100px">Actual Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in BarcodeList">
+                            <td>{{item.sno}}</td>
+                            <td style="overflow:hidden">{{Parent.SearchRef(item.productid,Parent.ProductList)}}</td>
+                            <td>{{Parent.SearchRefDirect(item.Details.sizeid,Parent.SizeList)}}/{{item.designid}}</td>
+                            <td>{{item.basebuyingprice}}/{{item.buyingprice}}</td>
+                            <td>{{item.buyingqty}}</td>
+                            <td>
+                                <input type="text" class="form-control input-sm no-padding" tablecell style="width: 90%"
+                                       ng-change="pricechanged(item)" ng-model="item.nbuyingprice">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control input-sm no-padding" tablecell style="width: 90%"
+                                       ng-change="qtychanged(item)" ng-model="item.nactualqty">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <div class="md-col-12" style="padding-top:10px">
+                <div class="col-md-2 no-padding">
+                    <div class="col-md-12 no-padding">Add Qty</div>
+                    <div style="color:orangered" class="col-md-12 no-padding">{{qtyadded}}</div>
+                </div>
+                <div class="col-md-2 no-padding">
+                    <div class="col-md-12 no-padding">Rem Qty</div>
+                    <div style="color:orangered" class="col-md-12 no-padding">{{qtyremoved}}</div>
+                </div>
+                <div class="col-md-2 no-padding">
+                    <div class="col-md-12 no-padding">Add Value</div>
+                    <div style="color:orangered" class="col-md-12 no-padding">{{valinc}}</div>
+                </div>
+                <div class="col-md-2 no-padding">
+                    <div class="col-md-12 no-padding">Rem Value</div>
+                    <div style="color:orangered" class="col-md-12 no-padding">{{valdec}}</div>
+                </div>
+                <div class="col-md-2 no-padding">
+                    <div class="col-md-12 no-padding">Add Tax</div>
+                    <div style="color:orangered" class="col-md-12 no-padding">{{taxinc}}</div>
+                </div>
+                <div class="col-md-2 no-padding">
+                    <div class="col-md-12 no-padding">Rem Tax</div>
+                    <div style="color:orangered" class="col-md-12 no-padding">{{taxdec}}</div>
+                </div>
+            </div>
+            <div class="md-col-12" style="padding-top:10px">
+                <div class="pull-left" ng-show="crnotevalue>0" style="color:darkgreen;font-size:medium">
+                    Generate Credit Note : <span style="color: forestgreen; font-size: large"> {{crnotevalue}}</span>
+                </div>
+                <div class="pull-left" ng-show="drnotevalue>0" style="color: orangered; font-size: medium">
+                    Generate Debit Note :<span style="color: red; font-size: large "> {{drnotevalue}}</span>
+                </div>
+                <div style="display:inline-block" class="pull-right">
+                    <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="Selected()">Generate</button>
+                    <button type="button" class="ngdialog-button ngdialog-button-secondary  pull-right" ng-click="closeThisDialog()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="UpdateImage">
+    <div class="ngdialog-message">
+        <div class="col-md-12 no-padding" ng-hide="ShowSnap">
+            <video id="video" width="640" height="480" autoplay></video>
+        </div>
+
+        <div class="col-md-12 no-padding" ng-show="ShowSnap">
+            <canvas id="canvas" width="640" height="480"></canvas>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary pull-left" focusid="capture" onkeyenter="Capture(true)" ng-click="Capture(true)">Capture</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+
+
+<script type="text/ng-template" id="ChangeStockMarker">
+    <div class="ngdialog-message">
+        <div class="table-responsive mailbox-messages" style="height:200px">
+            <div class="col-md-12">
+                <label><b>All the Selected Items will be Either Added/Removed from the Below Selected Marking</b></label>
+            </div>
+            <div class="col-md-12">
+                <label>Retail Location</label>
+            </div>
+            <div class="col-md-12">
+                <select class="form-control" select2="Location" style="width: 100%;" options="item.id  as item.name for item in Locations track by item.id" ng-model="locationid"></select>
+            </div>
+            <div class="col-md-12">
+                <label>Stock Marker</label>
+            </div>
+            <div class="col-md-12">
+                <select class="form-control" select2="Stock Marker" style="width: 100%;" options="item.id  as item.name for item in MarkerType track by item.id" ng-model="markerid"></select>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" style="background-color:#00A65A" ng-click="AddFromList('Add')">Add To List</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" style="background-color:#DD4B39" ng-click="RemoveFromList('Delete')">Remove From List</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" style="background-color:#DD4B39" ng-click="DeleteAll('DeleteAll')">Remove All</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary pull-left" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

@@ -1,0 +1,375 @@
+﻿<div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+
+            <h1>
+                <a href back-button> <i class="fa fa-arrow-left" style="font-size:large"> </i>   </a> HR /
+                Employee Advance
+            </h1>
+            <ol class="breadcrumb">
+                <li style="cursor:pointer" ng-hide="searchmode==3" ng-click="Search()"><a><i class="fa fa-search"></i>Search</a></li>
+                <li style="cursor:pointer" ng-show="searchmode!=3 && (Total>0 || CurrentTotal>0)  && EntryList.length>0" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+                <li style="cursor:pointer" ng-show="searchmode==3" ng-click="SaveIndivitual()"><a><i class="fa fa-save"></i>Save</a></li>
+                <li style="cursor:pointer" ng-show="SelectedCount>0" ng-click="Delete()"><a><i class="fa fa-trash"></i>Delete ({{SelectedCount}})</a></li>
+                <li style="cursor:pointer" ng-click="printDiv('printdiv', 'Advance List')"><a><i class="fa fa-print"></i>Print</a></li>
+                <li style="cursor:pointer" ng-show="mode==1 || mode==3" ng-click="printSlip('advanceslipall')"><a><i class="fa fa-print"></i>Print Slip</a></li>
+                <li style="cursor:pointer" ng-click="exporttoExcel('payroll','Advance List',0)"><a><i class="glyphicon glyphicon-download-alt"></i>Export</a></li>
+                <li ng-show="searchmode==2 && EntryList && EntryList.length>0" style="cursor:pointer">
+                    <file-upload class="btn-xs file-upload" style="display:inline-block"
+                                 resize="true" max-width="1280" uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                                 max-height="1280" preview="false" ng-model="uploadfile"
+                                 filetype="DATA"
+                                 filemodel="uploadfile" onuploadcomplete="fileuploadedcomplete"
+                                 multiple="false">
+                        <i class="fa fa-upload">Upload</i>
+                    </file-upload>
+                </li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <!-- first row starts  -->
+            <div class="box box-primary">
+                <div class="box-body">
+
+                    <div class="col-md-3">
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Mode</label>
+                            </div>
+
+                            <div class="col-md-6 no-padding">
+                                <select class="form-control select2" style="width: 100%;"
+                                        select2=""
+                                        options="item.id as item.name for item in SearchModes track by item.id"
+                                        ng-model="searchmode"></select>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-hide="searchmode==3">
+
+                            <div class="col-md-12 no-padding">
+                                <label for="inputEmail3" class="control-label">Month/Year</label>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6 no-padding">
+                                <select class="input-sm form-control input-sm" select2="" ng-model="Advance.monthid" options="item.id as item.name for item in MonthList track by item.id"></select>
+                            </div>
+                            <div class="col-md-6 col-sm-6 no-padding">
+                                <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="Advance.year">
+                            </div>
+
+                        </div>
+
+                        <div class="row row-padbot-15" ng-hide="searchmode==3">
+                            <label for="inputEmail3" class="control-label">Company</label>
+                            <select class="form-control" style="width: 100%;" select2="" options="company.id as company.name for company in Company track by company.id" ng-model="companyid"></select>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-hide="searchmode==3">
+                            <label for="inputEmail3" class="control-label">Department</label>
+                            <select class="form-control" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="departmentid"></select>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-hide="searchmode==3">
+                            <div class="col-md-12 no-padding">
+                                <label for="inputEmail3" class="control-label">Section/Floor</label>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <select class="form-control" style="width: 100%;" select2="" options="location.id as location.name for location in Divisions track by location.id" ng-model="sectionid"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <select class="form-control" style="width: 100%;" select2="" options="floor.id as floor.code for floor in Floors track by floor.id" ng-model="floorid"></select>
+                            </div>
+                        </div>
+
+
+                        <div class="row row-padbot-15" ng-hide="searchmode==3">
+                            <div class="col-md-12 no-padding">
+                                <label for="inputEmail3" class="control-label">Wages</label>
+                            </div>
+
+                            <div class="col-md-6 no-padding">
+                                <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in SalaryModes track by item.id" ng-model="salarymode"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in WorkingModes track by item.id" ng-model="workingmode"></select>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row row-padbot-15" ng-hide="searchmode==2">
+
+                            <label for="inputEmail3" class="control-label">Employee</label>
+
+                            <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                        </div>
+
+
+                        <div class="row row-padbot-15" ng-hide="searchmode==1">
+                            <label for="inputEmail3" class="control-label">Remarks</label>
+                            <textarea class="form-control input-sm" rows="2" ng-model="remarks"></textarea>
+                        </div>
+
+
+
+                        <!--<div class="row row-padbot-15">
+        <label for="inputEmail3" class="col-sm-6 col-md-6 control-label no-padding">Left</label>
+        <div class="col-md-6 col-sm-6 no-padding">
+            <input type="checkbox" class="icheckbox_minimal-blue" ng-model="showhasleft">
+        </div>
+    </div>-->
+
+
+
+                        <div class="row row-padbot-15" ng-hide="searchmode==1">
+                            <label for="inputEmail3" class="control-label col-md-6  no-padding">Issue Date</label>
+                            <div class="col-md-6 no-padding">
+                                <input type="text" class="form-control input-sm datepicker" datemodule="salarymonth" ng-model="salarymonth">
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-hide="searchmode==1">
+                            <label for="inputEmail3" class="col-sm-6 col-md-6 control-label no-padding">Pay Latter</label>
+                            <div class="col-md-6 col-sm-6 no-padding">
+                                <input type="checkbox" class="icheckbox_minimal-blue" ng-model="payateom">
+                            </div>
+                        </div>
+
+
+                        <div class="row row-padbot-15" ng-show="searchmode==3">
+                            <label for="inputEmail3" class="col-sm-6 col-md-6 control-label no-padding">Advance</label>
+                            <div class="col-md-6 col-sm-6 no-padding">
+                                <input type="text" class="input-sm form-control" style="width:50%" ng-model="Advance.advanceamount">
+                            </div>
+                        </div>
+
+
+
+                        <!--<div class="col-md-4 no-padding ">
+        <button type="button" class="btn btn-primary btn-sm " ng-click="Save(true)">Delete</button>
+        <button type="button" class="btn btn-primary btn-sm " ng-click="ManageSearchItem('Edit')">Edit</button>
+
+    </div>-->
+
+                    </div>
+
+
+
+                    <div class="col-md-9">
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+
+                                <div class="col-md-2 no-padding">
+
+                                    <select class="input-sm form-control" select2="" style="width: 100%;" 
+                                            ng-change="PaycategoryChanged()"
+                                            options="item.id as item.name for item in refpaytypelist track by item.id" ng-model="Advance.salaryheaderid"></select>
+
+                                </div>
+
+                                <div class="col-md-2 no-padding" ng-show="searchmode==1">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;"
+                                            options="item.id as item.name for item in Modes track by item.id"
+                                            ng-model="mode"></select>
+                                </div>
+
+                                <div class="col-md-4 no-padding" ng-show="searchmode==2">
+                                    <div class="input-group">
+                                        <input type="text" class="input-sm form-control" style="width:100%" ng-model="Advance.amount">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="Apply()">Fill to all employees</button>
+                                        </span>
+                                    </div>
+                                </div>
+
+
+
+                                <!--<button type="button" class="btn btn-danger btn-sm pull-right " ng-click="ManageSearchItem('RemoveZero')">Remove Zero</button>-->
+
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15" ng-show="(searchmode==1 || searchmode==3) && !showall">
+                            <div class="col-md-12">
+                                <table fixed-header="400px" id="searchresult" additionalheight="30">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:40px"><input type="checkbox" ng-model="selecteall" ng-change="SelecteAll(SearchResult,selecteall)" /></th>
+                                            <th style="width:80px">S.No</th>
+                                            <th style="width:80px">Date</th>
+                                            <th style="width:80px">Code</th>
+                                            <th style="width:200px">Employee Name</th>
+                                            <th style="width:200px">Designation</th>
+                                            <th style="width:100px">Paid</th>
+                                            <th style="width:100px">Recevable</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in SearchResult">
+                                            <td><input type="checkbox" ng-model="item.selected" ng-change="CalculateSelected(SearchResult)" /></td>
+                                            <td>{{$index+1}}</td>
+                                            <td style="width:150px">{{item.schedulemonth| date:'dd-MM-yyyy'}}</td>
+                                            <td style="width:150px">{{item.employeecode}}</td>
+                                            <td style="width:100px">{{item.name}}</td>
+                                            <td style="width:100px">{{item.designation}}</td>
+                                            <td style="width:100px">
+                                                {{item.isreceivable ? item.amount : 0}}
+                                            </td>
+                                            <td style="width:100px">
+                                                {{item.isreceivable ? 0 : item.amount}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-hide="searchmode==1 || searchmode==3 || showall">
+                            <div class="col-md-12">
+                                <table fixed-header="400px" id="entryresult" additionalheight="30">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:80px">S.No</th>
+                                            <th style="width:80px">Code</th>
+                                            <th style="width:200px">Employee Name</th>
+                                            <th style="width:200px">Designation</th>
+                                            <th style="width:100px">Current</th>
+                                            <th style="width:100px">New {{Paycategory}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in EntryList">
+                                            <td>{{$index+1}}</td>
+                                            <td style="width:150px">{{item.employeecode}}</td>
+                                            <td style="width:100px">{{item.name}}</td>
+                                            <td style="width:100px">{{item.designation}}</td>
+                                            <td style="width:100px">
+                                                {{item.currentamount}}
+                                            </td>
+                                            <td style="width:100px">
+                                                <input type="text" class="input-sm" tablecell ng-model="item.amount" size="10" style="text-align:right"
+                                                       ng-change="advanceChanged(item,item.amount,'{{item.amount}}')">
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                        </div>
+
+
+                        <div class="table-responsive form-horizontal"
+                             style="border-color:brown;font:10px verdana;overflow:hidden" ng-show="showall" id="advanceslipall">
+                            <div ng-repeat="PrintItem in SearchResultAll">
+
+                                <div class="avoidbreak">
+
+
+
+                                    <div class="col-md-12">
+
+                                        <table style="width:100%;">
+                                            <tbody>
+                                                <tr style="height:22px">
+                                                    <td colspan="4" style="text-align:center;border-top:1px solid black;border-right:1px solid black;border-left:1px solid black">
+                                                        <span style="font-size:large;font-weight:bold" ng-show="mode==3">Advance Receipt</span>
+                                                        <span style="font-size:large;font-weight:bold" ng-show="mode==1">Loan Receipt</span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr style="height:22px">
+                                                    <td colspan="4" style="text-align:center;border-bottom:1px solid black;border-right:1px solid black;border-left:1px solid black">
+                                                        <span style="font-size:large">{{PrintItem.companyname}}</span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr style="height:22px">
+                                                    <td width="20%" style="border:1px solid black;padding-left:5px">
+                                                        Code
+                                                    </td>
+                                                    <td width="30%" style="border:1px solid black;padding-left:5px">
+                                                        {{PrintItem.employeecode}}
+                                                    </td>
+
+                                                    <td width="20%" style="border:1px solid black;padding-left:5px">
+                                                        Date:
+                                                    </td>
+                                                    <td width="30%" style="border:1px solid black;padding-left:5px">
+                                                        {{PrintItem.schedulemonth|date :'dd-MM-yyyy'}}
+                                                    </td>
+                                                </tr>
+
+                                                <tr style="height:22px">
+                                                    <td style="border:1px solid black;padding-left:5px">
+                                                        Name
+                                                    </td>
+                                                    <td style="border:1px solid black;padding-left:5px">
+                                                        {{PrintItem.name}}
+                                                    </td>
+
+                                                    <td style="border:1px solid black;padding-left:5px">
+                                                        Designation:
+                                                    </td>
+                                                    <td style="border:1px solid black;padding-left:5px">
+                                                        {{PrintItem.designation}}
+                                                    </td>
+                                                </tr>
+
+                                                <tr style="height:22px">
+                                                    <td style="border:1px solid black;padding-left:5px">
+                                                        Amount
+                                                    </td>
+                                                    <td colspan="3" style="border:1px solid black;padding-left:5px">
+                                                        {{PrintItem.amount}}
+                                                </tr>
+
+                                                <tr style="height:22px">
+                                                    <td style="border:1px solid black;padding-left:5px">
+                                                        Rupees In Words
+                                                    </td>
+                                                    <td colspan="3" style="border:1px solid black;padding-left:5px">
+                                                        {{PrintItem.inwords}}
+                                                </tr>
+
+                                                <tr style="height:70px">
+                                                    <td colspan="2" style="vertical-align:bottom;border:1px solid black;text-align:center">
+                                                        Authorised Signatory
+                                                    </td>
+                                                    <td colspan="2" style="vertical-align:bottom;border:1px solid black;text-align:center">
+                                                        Employee Signature
+                                                    </td>
+                                                </tr>
+
+                                                <tr style="height:22px">
+                                                    <td colspan="4">&nbsp;</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-hide="showall">
+                            <div class="col-md-12">
+                                <label class="pull-left control-label text-green no-padding" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+                                <div class="pull-right no-padding">Total&nbsp;:&nbsp;{{Total|number:2}}</div>
+                                <div class="pull-left no-padding" ng-show="EntryList.length>0">Current&nbsp;:&nbsp;{{CurrentTotal|number:2}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section><!-- /.content -->
+    </div>
+</div>
+

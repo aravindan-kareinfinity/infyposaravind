@@ -1,0 +1,1084 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Finance / Manage Ledger Entry
+        </h1>
+        <ol class="breadcrumb">
+
+            <li style="cursor:pointer" ng-hide="ShowNew" ng-click="AddNew()"><a><i class="fa fas fa-file"></i>Create Ledger</a></li>
+            <li style="cursor:pointer" ng-hide="ShowNew" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li style="cursor:pointer" ng-show="IsfromVoucher" ng-click="closeThisDialog()"><a><i class="fa fas fa-save"></i>Close</a></li>
+            <li style="cursor:pointer" ng-show="ShowNew" ng-click="Save()"><a><i class="fa fas fa-save"></i>Save</a></li>
+            <li style="cursor:pointer" ng-hide="ShowNew" ng-click="exporttoExcel(egrid,'Ledgers', 'ledger')"><a><i class="fa fas fa-save"></i>Export</a></li>
+            <li style="cursor:pointer" ng-show="ShowNew && !IsfromVoucher" ng-click="ShowNew=false"><a><i class="fa fas fa-search"></i>Back</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row" ng-hide="ShowNew">
+            <!-- Your Page Content Here -->
+            <div class="col-md-12">
+                <div class="box-body no-padding">
+                    <div class="box box-info">
+                        <div class="box-header with-border">
+                            <div class="col-md-10 no-padding">
+                                <div class="col-md-2 no-padding">
+                                    <label for="txtname" class="control-label">Type</label>
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in ItemTypes track by item.id" ng-model="SearchCondition.typeid"></select>
+                                </div>
+                                <!--<div class="col-md-2 no-padding">
+                                    <label for="txtname" class="control-label">Mode</label>
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in Modes track by item.id" ng-model="SearchCondition.modeid"></select>
+                                </div>-->
+                                <div class="col-md-3 no-padding">
+                                    <label for="txtname" class="control-label">Filter</label>
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in FilterTypes track by item.id" ng-model="SearchCondition.filterid"></select>
+                                </div>
+
+                                <div class="col-md-3 no-padding">
+                                    <label for="txtname" class="control-label">Name</label>
+                                    <input type="text" class="form-control input-sm"
+                                           placeholder="Enter ledger name"
+                                           ng-model="SearchCondition.displayname"
+                                           style="width:100%" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <div class="col-md-12 no-padding" id="gridResultContainer">
+
+                        </div>
+                        <!--<form class="form-horizontal">
+                            <table fixed-header="150px"
+                                   additionalheight="30"
+                                   class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>Type</th>
+                                        <th>Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SearchResult">
+                                        <td></td>
+                                        <td>{{SearchRef(item.typeid, ItemTypes)}}</td>
+                                        <td>{{item.displayname}}</td>
+                                        <td>
+                                            <button type="button" class="btn-danger btn btn-xs" ng-click="ManageSearchItem('Delete',item)"
+                                                    data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn-primary btn btn-xs" ng-click="ManageSearchItem('Edit',item)" data-widget="edit" data-toggle="tooltip" title="Edit">
+                                                <i class="fa fa-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-show="ShowNew">
+            <!-- Your Page Content Here -->
+            <div class="col-md-12">
+                <form class="form-horizontal" selfvalidator="Save">
+
+                    <div class="box box-info">
+                        <div class="box-header with-border">
+                            <h3 class="box-title col-md-5">Create Ledger</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <div class="box-body">
+                            <div ng-class="PageStyle">
+                                <div class="row-padbot-15 row">
+                                    <label for="txtname" class="col-md-4 control-label">Type</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in ItemTypes track by item.id"
+                                                required ng-change="LoadConfiguration()"
+                                                focusid="typeid" focusonenter="displayname"
+                                                ng-model="Ledger.typeid"></select>
+                                    </div>
+                                </div>
+                                <div class="row-padbot-15 row" ng-show="Ledger.parentinfo != null">
+                                    <label for="txtname" class="col-md-4 control-label">Group</label>
+                                    <div class="col-md-8">
+                                        {{Ledger.parentinfo.detail}}
+                                    </div>
+                                </div>
+                                <div class="row-padbot-15 row">
+                                    <label for="txtname" class="col-md-4 control-label">Name</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="txtname"
+                                               focusid="displayname" focusonenter="contactperson"
+                                               ng-readonly="(Ledger.typeid == 12 && Ledger.attributes.issupplier) || (Ledger.attributes.iscustomer && Ledger.typeid == 11)"
+                                               required ng-model="Ledger.displayname">
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row">
+                                    <label for="txtname" class="col-md-4 control-label">Contact Person</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="txtname"
+                                               focusid="contactperson" focusonenter="contactnumber"
+                                               ng-model="Ledger.contactperson">
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row">
+                                    <label for="txtname" class="col-md-4 control-label">Phone No</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="txtname"
+                                               focusid="contactnumber" focusonenter="emailid"
+                                               ng-model="Ledger.contactnumber">
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row">
+                                    <label for="txtname" class="col-md-4 control-label">Email Id</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="txtname"
+                                               focusid="emailid"
+                                               ng-model="Ledger.emailid">
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid == 14 || Ledger.typeid == 15 || Ledger.typeid == 8 ||Ledger.typeid == 2 ||Ledger.typeid == 4 || Ledger.typeid == 5 || Ledger.typeid == 9 || Ledger.typeid == 10">
+                                    <label for="txtname" class="col-md-4 control-label">HSN Code</label>
+                                    <div class="col-md-8" ng-hide="Ledger.typeid == 8">
+                                        <input type="text" class="form-control" id="txtname" ng-model="Ledger.hsncode">
+                                    </div>
+                                    <div class="col-md-8" ng-show="Ledger.typeid == 8">
+                                        <div class="col-md-4 no-padding">
+                                            <input type="text" class="form-control" id="txtname" ng-model="Ledger.hsncode">
+                                        </div>
+                                        <div class="col-md-4 no-padding">
+                                            <label for="txtname" class="control-label">Unit</label>
+                                        </div>
+                                        <div class="col-md-4 no-padding">
+                                            <input type="text" class="form-control" id="txtname" ng-model="Ledger.attributes.unit">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid == 2">
+                                    <div class="col-md-12 no-padding">
+                                        <label for="txtname" class="col-md-4 control-label">Asset Type</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control select2" style="width: 100%;" select2=""
+                                                    options="item.id as item.name for item in AssetTypes track by item.id"
+                                                    ng-model="Ledger.attributes.assettypeid"
+                                                    ng-change="AssetTypeChanged()"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 no-padding" ng-show="Ledger.typeid == 2" style="margin-top:5px">
+                                        <label for="txtname" class="col-md-4 control-label">Asset Location</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control select2" style="width: 100%;" select2=""
+                                                    options="item.id as item.name for item in LocationList track by item.id"
+                                                    ng-model="Ledger.attributes.asset.locationid"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 no-padding" ng-show="Ledger.typeid == 2" style="margin-top:5px">
+                                        <label for="txtname" class="col-md-4 control-label">Asset Supplier</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control select2" style="width: 100%;" select2=""
+                                                    options="item.id as item.name for item in SundryCreditorLedgers track by item.id"
+                                                    ng-model="Ledger.attributes.asset.supplierid"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 no-padding" style="margin-top:5px" ng-show="Ledger.attributes.asset.config.registration">
+                                        <label for="txtname" class="col-md-4 control-label">Reg.No/Date/Expiry</label>
+                                        <div class="col-md-8">
+                                            <div class="col-md-12 no-padding">
+                                                <div class="col-md-4 no-padding">
+                                                    <input type="text" style="width:100%"
+                                                           ng-model="Ledger.attributes.asset.registrationno"
+                                                           class="form-control input-sm" />
+                                                </div>
+                                                <div class="col-md-4 no-padding">
+                                                    <input type="text" style="width:100%"
+                                                           datemodule="Ledger.attributes.asset.registrationon"
+                                                           ng-model="Ledger.attributes.asset.registrationon"
+                                                           class="form-control input-sm" />
+                                                </div>
+                                                <div class="col-md-4 no-padding">
+                                                    <input type="text" style="width:100%"
+                                                           ng-model="Ledger.attributes.asset.registrationexpiry"
+                                                           datemodule="Ledger.attributes.asset.registrationexpiry"
+                                                           class="form-control input-sm" />
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 no-padding" style="margin-top:5px" ng-show="Ledger.attributes.asset.config.insurance">
+                                        <label for="txtname" class="col-md-4 control-label">Insurance.No/Date/Expiry</label>
+                                        <div class="col-md-8">
+                                            <div class="col-md-12 no-padding">
+                                                <div class="col-md-4 no-padding">
+                                                    <input type="text" style="width:100%"
+                                                           ng-model="Ledger.attributes.asset.insuranceno"
+                                                           class="form-control input-sm" />
+                                                </div>
+                                                <div class="col-md-4 no-padding">
+                                                    <input type="text" style="width:100%"
+                                                           ng-model="Ledger.attributes.asset.insuranceon"
+                                                           datemodule="Ledger.attributes.asset.insuranceon"
+                                                           class="form-control input-sm" />
+                                                </div>
+                                                <div class="col-md-4 no-padding">
+                                                    <input type="text" style="width:100%"
+                                                           ng-model="Ledger.attributes.asset.insuranceexpiry"
+                                                           datemodule="Ledger.attributes.asset.insuranceexpiry"
+                                                           class="form-control input-sm" />
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 no-padding" style="margin-top:5px" ng-show="Ledger.attributes.asset.config.insurance">
+                                        <label for="txtname" class="col-md-4 control-label">Insurance Provider</label>
+                                        <div class="col-md-8">
+                                            <div class="col-md-12 no-padding">
+                                                <select class="form-control select2" style="width: 100%;" select2=""
+                                                        options="item.id as item.name for item in SundryCreditorLedgers track by item.id"
+                                                        ng-model="Ledger.attributes.asset.insuranceid"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 no-padding" style="margin-top:5px" ng-show="Ledger.attributes.asset.config.amc">
+                                        <label for="txtname" class="col-md-4 control-label">AMC.No/Date/Expiry</label>
+                                        <div class="col-md-8">
+                                            <div class="col-md-12 no-padding">
+                                                <div class="col-md-4 no-padding">
+                                                    <input type="text" style="width:100%"
+                                                           ng-model="Ledger.attributes.asset.amcno"
+                                                           class="form-control input-sm" />
+                                                </div>
+                                                <div class="col-md-4 no-padding">
+                                                    <input type="text" style="width:100%"
+                                                           ng-model="Ledger.attributes.asset.amcon"
+                                                           datemodule="Ledger.attributes.asset.amcon"
+                                                           class="form-control input-sm" />
+                                                </div>
+                                                <div class="col-md-4 no-padding">
+                                                    <input type="text" style="width:100%"
+                                                           ng-model="Ledger.attributes.asset.amcexpiry"
+                                                           datemodule="Ledger.attributes.asset.amcexpiry"
+                                                           class="form-control input-sm" />
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 no-padding" style="margin-top:5px" ng-show="Ledger.attributes.asset.config.amc">
+                                        <label for="txtname" class="col-md-4 control-label">AMC Provider</label>
+                                        <div class="col-md-8">
+                                            <div class="col-md-12 no-padding">
+                                                <select class="form-control select2" style="width: 100%;" select2=""
+                                                        options="item.id as item.name for item in SundryCreditorLedgers track by item.id"
+                                                        ng-model="Ledger.attributes.asset.amcid"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 no-padding" style="margin-top:5px" ng-show="Ledger.attributes.asset.config.barcode">
+                                        <label for="txtname" class="col-md-4 control-label">Barcode</label>
+                                        <div class="col-md-8">
+                                            <div class="col-md-12 no-padding">
+                                                <input type="text" style="width:100%"
+                                                       ng-model="Ledger.attributes.asset.barcode"
+                                                       class="form-control input-sm" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 no-padding" style="margin-top:5px" ng-show="Ledger.attributes.asset.config.expiry ||Ledger.attributes.asset.config.multiqty">
+                                        <label for="txtname" class="col-md-4 control-label">Expiry/Total/Available</label>
+                                        <div class="col-md-8">
+                                            <div class="col-md-4 no-padding">
+                                                <input type="text" style="width:100%"
+                                                       datemodule="Ledger.attributes.asset.expiryon"
+                                                       ng-model="Ledger.attributes.asset.expiryon"
+                                                       class="form-control input-sm" />
+                                            </div>
+                                            <div class="col-md-4 no-padding">
+                                                <input type="text" style="width:100%"
+                                                       ng-model="Ledger.attributes.asset.total"
+                                                       class="form-control input-sm" />
+                                            </div>
+                                            <div class="col-md-4 no-padding">
+                                                <input type="text" style="width:100%"
+                                                       ng-model="Ledger.attributes.asset.available"
+                                                       class="form-control input-sm" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid == 11">
+                                    <label for="txtname" class="col-md-4 control-label">Customer</label>
+                                    <div class="col-md-8">
+
+                                        <div class="col-md-12" ng-show="Ledger.attributes.iscustomer" style="padding-left: 25px;padding-right:0px">
+                                            <select class="form-control select2" style="width: 100%;" select2=""
+                                                    options="item.id as item.name for item in Customers track by item.id"
+                                                    ng-model="Ledger.customerid"
+                                                    ng-change="CustomerSelected()"></select>
+                                        </div>
+                                        <input type="checkbox"
+                                               class="icheckbox_minimal-blue"
+                                               ng-change="CustomerSelected()"
+                                               ng-model="Ledger.attributes.iscustomer"
+                                               style="position:absolute;left:15px" />
+                                    </div>
+                                </div>
+
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid == 12">
+                                    <label for="txtname" class="col-md-4 control-label">MSME</label>
+                                    <div class="col-md-8">
+
+                                        <input type="checkbox"
+                                               class="icheckbox_minimal-blue"
+                                               ng-model="Ledger.attributes.ismsme"
+                                               style="position:absolute;left:15px" />
+
+                                        <div class="col-md-12" ng-show="Ledger.attributes.ismsme" style="padding-left: 0px; padding-right: 35px; margin-left: 35px;">
+                                            <input type="text" style="width:100%"
+                                                   ng-model="Ledger.attributes.msmeno"
+                                                   class="form-control input-sm" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid == 12">
+                                    <label for="txtname" class="col-md-4 control-label">Supplier</label>
+                                    <div class="col-md-8">
+
+                                        <input type="checkbox"
+                                               class="icheckbox_minimal-blue"
+                                               ng-model="Ledger.attributes.issupplier"
+                                               ng-change="SupplierSelected()"
+                                               style="position:absolute;left:15px" />
+
+                                        <div class="col-md-12" ng-show="Ledger.attributes.issupplier" style="padding-left: 0px; padding-right: 35px; margin-left: 35px;">
+                                            <select class="form-control select2" style="width: 100%;" select2=""
+                                                    options="item.id as item.name for item in Suppliers track by item.id"
+                                                    ng-model="Ledger.supplierid"
+                                                    ng-change="SupplierSelected()"></select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid == 12">
+                                    <label for="txtname" class="col-md-4 control-label">Transport</label>
+                                    <div class="col-md-8">
+                                        <input type="checkbox"
+                                               class="icheckbox_minimal-blue"
+                                               ng-model="Ledger.attributes.istransport"
+                                               ng-change="TransportSelected()"
+                                               style="position:absolute;left:15px" />
+                                        <div class="col-md-12" ng-show="Ledger.attributes.istransport" style="padding-left: 0px; padding-right: 35px; margin-left: 35px;">
+                                            <select class="form-control select2" style="width: 100%;" select2=""
+                                                    options="item.id as item.name for item in Transports track by item.id"
+                                                    ng-model="Ledger.transportid"
+                                                    ng-change="TransportSelected()"></select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid == 12 || Ledger.typeid == 7">
+                                    <label for="txtname" class="col-md-4 control-label">Bank Information</label>
+                                    <div class="col-md-8">
+
+                                        <input type="checkbox"
+                                               class="icheckbox_minimal-blue"
+                                               ng-model="Ledger.attributes.hasbank" style="position:absolute;left:15px" />
+
+                                        <div class="col-md-12" ng-show="Ledger.attributes.hasbank" style="padding-left: 0px; padding-right: 65px; margin-left: 50px;">
+
+                                            <div class="row-padbot-15 row">
+                                                <div class="col-md-6 no-padding">
+                                                    <input type="text" placeholder="Account Name" ng-model="Ledger.attributes.bank.accountname" class="form-control input-sm" />
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <input type="text" placeholder="Account No" ng-model="Ledger.attributes.bank.accountno" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+
+                                            <div class="row-padbot-15 row">
+                                                <div class="col-md-6 no-padding">
+                                                    <input type="text" placeholder="Branch" ng-model="Ledger.attributes.bank.branch" class="form-control input-sm" />
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <input type="text" placeholder="IFSC" ng-model="Ledger.attributes.bank.ifsc" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid == 3 || Ledger.typeid == 11 ||
+                                     Ledger.typeid == 12 || Ledger.typeid == 7">
+                                    <label for="txtname" class="col-md-4 control-label">GST No</label>
+                                    <div class="col-md-8">
+                                        <div class="col-md-7 no-padding">
+                                            <input type="text" style="width:100%" class="form-control input-sm" id="txtname" ng-model="Ledger.gstno">
+                                        </div>
+                                        <div class="col-md-5 no-padding">
+
+                                            <label for="txtname" style="position:absolute;left:10px" class="control-label">Interstate</label>
+                                            <input type="checkbox"
+                                                   class="icheckbox_minimal-blue"
+                                                   style="position:absolute;right:0px" id="txtname" ng-model="Ledger.isinterstate">
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="row-padbot-15 row" ng-show="IsfromVoucher == false && (Ledger.typeid == 3 || Ledger.typeid == 11 || Ledger.typeid == 12)">
+                                    <label for="txtname" class="col-md-4 control-label">Address</label>
+                                    <div class="col-md-8">
+                                        <textarea name="address" class="form-control input-sm" rows="4" ng-model="Ledger.contactaddress"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="IsfromVoucher == false && (Ledger.typeid == 3 || Ledger.typeid == 11 || Ledger.typeid == 12)">
+                                    <label for="txtname" class="col-md-4 control-label">Pincode</label>
+                                    <div class="col-md-8">
+                                        <input name="pincode" class="form-control input-sm" type="text" ng-model="Ledger.pincode" />
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="IsfromVoucher == false && (Ledger.typeid == 3 || Ledger.typeid == 11 || Ledger.typeid == 12)">
+                                    <label for="txtname" class="col-md-4 control-label">City/State</label>
+                                    <div class="col-md-8">
+                                        <div class="col-md-6 no-padding">
+                                            <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in CityList track by item.id" ng-model="Ledger.cityid"></select>
+                                        </div>
+                                        <div class="col-md-6 no-padding">
+                                            <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in StateList track by item.id" ng-model="Ledger.stateid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid==7">
+                                    <label for="txtname" class="col-md-4 control-label">Inventory Bank</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in BankList track by item.id" ng-model="Ledger.bankid"></select>
+                                    </div>
+                                </div>
+
+                                <!--ng-show="Ledger.typeid==11 || Ledger.typeid==12"-->
+                                <div class="row-padbot-15 row">
+                                    <label for="txtname" class="col-md-4 control-label">Billwise</label>
+
+                                    <div class="col-md-8" style="padding-right:0px">
+                                        <div class="col-md-2 no-padding">
+                                            <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Ledger.billwise" />
+                                        </div>
+                                        <div class="col-md-10 no-padding">
+                                            <label for="txtname" class="control-label col-md-4">Opening</label>
+                                            <div class="col-md-8">
+
+                                                <div class="input-group input-group-sm" style="width:100%">
+                                                    <input type="text" class="form-control input-sm" id="txtname"
+                                                           style="width:100%;text-align:right;padding-left:70px"
+                                                           ng-model="Ledger.obvalue">
+                                                    <span class="input-group-btn" style="width:10px">
+                                                        <button ng-show="Ledger.billwise && Ledger.typeid != 8 && (Ledger.typeid == 11 || Ledger.typeid==12)"
+                                                                type="button" class="btn btn-info btn-sm btn-flat" ng-click="ShowOpening()">
+                                                            <i class="glyphicon glyphicon-plus-sign"></i>
+                                                        </button>
+
+                                                        <button ng-hide=" Ledger.typeid == 8 || (Ledger.billwise && (Ledger.typeid == 11 || Ledger.typeid==12))"
+                                                                type="button" class="btn btn-info btn-sm btn-flat" ng-click="ShowOpening()">
+                                                            <i class="glyphicon glyphicon-plus-sign"></i>
+                                                        </button>
+
+                                                        <button ng-show="Ledger.typeid == 8"
+                                                                type="button" class="btn btn-success btn-sm btn-flat" ng-click="ShowStockOpening()">
+                                                            <i class="glyphicon glyphicon-plus-sign"></i>
+                                                        </button>
+
+                                                    </span>
+
+                                                    <div style="position:absolute;width:70px;top:0px;left:0px;z-index: 500;">
+                                                        <select class="form-control select2" style="width: 100%;" select2=""
+                                                                options="item.id as item.name for item in OBModes track by item.id"
+                                                                ng-model="Ledger.obmode"></select>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="(Ledger.typeid == 6 || Ledger.typeid == 14  || Ledger.typeid == 15) && !Ledger.attributes.hasgst">
+                                    <label for="txtname" class="col-md-4 control-label">EOD Settlement</label>
+                                    <div class="col-md-8">
+                                        <input type="checkbox"
+                                               class="icheckbox_minimal-blue"
+                                               id="txtname" ng-model="Ledger.eodcashledger">
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.eodcashledger && (Ledger.typeid == 6 || Ledger.typeid == 14  || Ledger.typeid == 15)
+                                     && !Ledger.attributes.hasgst">
+
+
+                                    <label for="txtname" class="col-md-4 control-label">Retail Locations</label>
+                                    <div class="col-md-8">
+                                        <table fixed-header="200px"
+                                               class="fixed_table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 30px">#</th>
+                                                    <th>Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in LocationList">
+                                                    <td>
+                                                        <input type="checkbox" ng-model="item.selected" />
+                                                    </td>
+                                                    <td>{{item.name}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid == 16">
+                                    <label for="txtname" class="col-md-4 control-label">Tax Info</label>
+                                    <div class="col-md-8">
+                                        <div class="col-md-6 no-padding">
+                                            <select class="form-control select2" style="width: 100%;" select2=""
+                                                    ng-options="item.id as item.name for item in TaxModes track by item.id" ng-model="Ledger.taxmode"></select>
+                                        </div>
+                                        <div class="col-md-6 no-padding">
+                                            <div class="col-md-4 no-padding">
+                                                <label for="txtname" class="control-label">%</label>
+                                            </div>
+                                            <div class="col-md-8 no-padding">
+                                                <input type="text" class="form-control input-sm" id="txtname"
+                                                       style="width:100%"
+                                                       ng-model="Ledger.taxpercentage">
+                                            </div>
+                                        </div>
+                                        <!--<div class="col-md-4 no-padding">
+                                            <select class="form-control select2" style="width: 100%;" select2=""
+                                                    ng-options="item.id as item.name for item in TDSGroups track by item.id"
+                                                    ng-model="Ledger.attributes.tdsgroupid"></select>
+                                        </div>-->
+                                    </div>
+
+                                    <div class="col-md-12" style="padding-left:0px;padding-right:0px;padding-top:10px;" ng-show="Ledger.taxmode == 6">
+                                        <label for="txtname" class="col-md-4 control-label">Rule</label>
+                                        <div class="col-md-8">
+                                            <div class="col-md-12 no-padding">
+                                                <div class="col-md-4 no-padding">
+                                                    <label for="txtname" class="control-label">Mode</label>
+                                                    <select class="form-control select2" style="width: 100%;" select2=""
+                                                            ng-options="item.id as item.name for item in TDSModes track by item.id" ng-model="Ledger.attributes.tds.mode"></select>
+                                                </div>
+                                                <div class="col-md-4 no-padding">
+                                                    <label for="txtname" class="control-label">Eligible</label>
+                                                    <select class="form-control select2" style="width: 100%;" select2=""
+                                                            ng-options="item.id as item.name for item in TDSEligibleModes track by item.id" ng-model="Ledger.attributes.tds.eligible"></select>
+                                                </div>
+                                                <div class="col-md-4 no-padding">
+                                                    <label for="txtname" class="control-label">Amount</label>
+
+
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control input-sm" id="txtname"
+                                                               style="width:100%"
+                                                               ng-model="Ledger.attributes.tds.value">
+
+                                                        <span class="input-group-btn" style="width:10px">
+                                                            <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddTDSItem()">
+                                                                <i class="glyphicon glyphicon-plus-sign"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <table fixed-header="150px"
+                                                   class="fixed_table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mode</th>
+                                                        <th>Eligible</th>
+                                                        <th>Amount</th>
+                                                        <th style="width:20px"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in Ledger.attributes.tdsrules">
+                                                        <td>
+                                                            {{SearchRef(item.mode, TDSModes)}}
+                                                        </td>
+                                                        <td>
+                                                            {{SearchRef(item.eligible, TDSEligibleModes)}}
+                                                        </td>
+                                                        <td>
+                                                            {{item.value}}
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger btn-sm btn-flat" ng-click="RemoveTDSItem(item)">
+                                                                <i class="glyphicon glyphicon-minus-sign"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-12" style="padding-left:0px;padding-right:0px;padding-top:10px;"
+                                         ng-show="Ledger.taxmode == 3 || Ledger.taxmode == 4 || Ledger.taxmode == 5">
+                                        <label for="txtname" class="col-md-4 control-label">Inventory Taxes</label>
+                                        <div class="col-md-8">
+                                            <div class="col-md-6 no-padding">
+                                                <table fixed-header="150px"
+                                                       class="fixed_table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 30px">#</th>
+                                                            <th>Purchase</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in PurchaseTaxList">
+                                                            <td>
+                                                                <input type="checkbox" ng-model="item.selected" />
+                                                            </td>
+                                                            <td>{{item.name}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-6 no-padding">
+                                                <table fixed-header="150px"
+                                                       class="fixed_table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 30px">#</th>
+                                                            <th>Sales</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in SalesTaxList">
+                                                            <td>
+                                                                <input type="checkbox" ng-model="item.selected" />
+                                                            </td>
+                                                            <td>{{item.name}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12" style="padding-left:0px;padding-right:0px;padding-top:10px;"
+                                         ng-show="Ledger.taxmode == 7">
+                                        <label for="txtname" class="col-md-4 control-label">Inventory Taxes</label>
+                                        <div class="col-md-8">
+                                            <div class="col-md-12 no-padding">
+                                                <table fixed-header="150px"
+                                                       class="fixed_table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 30px">#</th>
+                                                            <th>TCS List</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in InventoryTCS">
+                                                            <td>
+                                                                <input type="checkbox" ng-model="item.selected" />
+                                                            </td>
+                                                            <td>{{item.name}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-hide="Ledger.typeid == 16 || Ledger.typeid == 6">
+
+                                    <div class="col-md-12 no-padding">
+                                        <label for="txtname" class="col-md-4 control-label">GST Applicable</label>
+                                        <div class="col-md-8" style="padding-right:0px">
+                                            <div class="col-md-2 no-padding">
+                                                <input type="checkbox"
+                                                       class="icheckbox_minimal-blue"
+                                                       id="txtname" ng-model="Ledger.attributes.hasgst">
+                                            </div>
+                                            <div class="col-md-10 no-padding"
+                                                 ng-hide="Ledger.eodcashledger && (Ledger.typeid == 6 || Ledger.typeid == 14  || Ledger.typeid == 15)
+                                                   && !Ledger.attributes.hasgst">
+                                                <label for="txtname" class="control-label col-md-4">Tag</label>
+                                                <div class="col-md-8">
+                                                    <div class="col-md-8 no-padding">
+                                                        <select class="form-control select2" style="width: 100%;" select2="Tag Mode"
+                                                                options="item.id as item.name for item in TagList track by item.id"
+                                                                ng-model="Ledger.tagid"></select>
+                                                    </div>
+                                                    <div class="col-md-4 no-padding">
+                                                        <input type="text" class="form-control input-sm"
+                                                               placeholder="Value"
+                                                               ng-disabled="(Ledger.tagid>20 && Ledger.tagid<=28)"
+                                                               ng-readonly="(Ledger.tagid>20 && Ledger.tagid<=28)"
+                                                               id="txtname" ng-model="Ledger.attributes.tagvalue">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 no-padding"
+                                         style="margin-top:10px"
+                                         ng-show="Ledger.tagid && Ledger.tagid>20 && Ledger.tagid<=28 ">
+
+                                        <label for="txtname" class="col-md-4 control-label">Cost Allocation</label>
+                                        <div class="col-md-8">
+                                            <table fixed-header="200px"
+                                                   class="fixed_table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th width="100px">Value</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in Ledger.attributes.tagvalues">
+                                                        <td>{{SearchRef(item.id, LocationList)}}</td>
+                                                        <td width="100px">
+                                                            <input class="form-control input-sm" type="text"
+                                                                   ng-change="CostAllocationChanged()"
+                                                                   ng-model="item.value" />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid != 16 && Ledger.attributes.hasgst">
+                                    <label for="txtname" class="col-md-4 control-label">IGST</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control select2" style="width: 100%;" select2=""
+                                                options="item.id as item.displayname for item in IGSTTaxLedgers track by item.id"
+                                                ng-model="Ledger.attributes.ledgerigstid"></select>
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid != 16 && Ledger.attributes.hasgst">
+                                    <label for="txtname" class="col-md-4 control-label">CGST</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control select2" style="width: 100%;" select2=""
+                                                options="item.id as item.displayname for item in CGSTTaxLedgers track by item.id"
+                                                ng-model="Ledger.attributes.ledgercgstid"></select>
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid != 16 && Ledger.attributes.hasgst">
+                                    <label for="txtname" class="col-md-4 control-label">SGST</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control select2" style="width: 100%;" select2=""
+                                                options="item.id as item.displayname for item in SGSTTaxLedgers track by item.id"
+                                                ng-model="Ledger.attributes.ledgersgstid"></select>
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid==12 || Ledger.typeid==11 ||Ledger.typeid<4">
+                                    <label for="txtname" class="col-md-4 control-label">TDS Applicable</label>
+                                    <div class="col-md-8">
+                                        <input type="checkbox"
+                                               class="icheckbox_minimal-blue"
+                                               style="position:absolute;left:15px;z-index:1000"
+                                               id="txtname" ng-model="Ledger.attributes.hastds">
+                                        <div class="col-md-12"
+                                             ng-show="Ledger.attributes.hastds"
+                                             style="padding-left:50px;padding-right:0px">
+
+                                            <div class="col-md-5 no-padding">
+                                                <input type="text" class="form-control input-sm" id="txtname"
+                                                       style="width:100%"
+                                                       placeholder="PAN"
+                                                       ng-model="Ledger.attributes.panno">
+                                            </div>
+                                            <div class="col-md-7 no-padding">
+                                                <select class="form-control select2" style="width: 100%;" select2=""
+                                                        options="item.id as item.displayname for item in TDSTaxLedgers track by item.id"
+                                                        ng-model="Ledger.attributes.ledgertdsid"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row-padbot-15 row" ng-show="Ledger.typeid == 8">
+                                    <label for="txtname" class="col-md-4 control-label">Opening Balance</label>
+                                    <div class="col-md-8">
+                                        <div class="col-md-4 no-padding">
+                                            <input type="number" class="form-control" id="txtname" ng-model="Ledger.opening">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="txtname" class="control-label">Closing</label>
+                                        </div>
+                                        <div class="col-md-4 no-padding">
+                                            <input type="number" class="form-control" id="txtname" ng-model="Ledger.closing">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="col-md-6" ng-hide="IsfromVoucher">
+
+                                <div class="col-md-12" style="padding-top:10px;padding-left:0px">
+                                    <div class="col-md-12" style="overflow-y:scroll;padding-left:0px;" ng-style="panelheight">
+                                        <div data-angular-treeview="true"
+                                             data-tree-id="bintree"
+                                             data-tree-model="bintreedata"
+                                             data-node-id="id"
+                                             data-node-label="name"
+                                             data-node-children="children">
+                                        </div>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.content -->
+        </div>
+
+    </section>
+</div>
+
+
+<script type="text/ng-template" id="StockConfig">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+
+            <div class="col-md-3" style="padding-right:0px">
+                <label for="txtname" class="control-label">Company</label>
+                <select class="form-control select2" style="width: 100%;" select2=""
+                        options="item.id as item.name for item in Company track by item.id" ng-model="companyid"></select>
+            </div>
+            <div class="col-md-2 no-padding">
+                <label for="txtname" class="control-label">Date</label>
+                <input type="text"
+                       datemodule="ondate"
+                       focusid="refdate" focusonenter="amount"
+                       class="form-control input-sm" id="txtname" ng-model="ondate">
+            </div>
+            <div class="col-md-4 no-padding">
+                <label for="txtname" class="control-label">Remarks</label>
+                <input type="text"
+                       focusid="refno" focusonenter="refdate"
+                       class="form-control input-sm" id="txtname" ng-model="reason">
+            </div>
+            <div class="col-md-3" style="padding-left:0px">
+                <label for="txtname" class="control-label">Amount</label>
+                <div class="input-group input-group-sm" style="width:100%">
+                    <input type="number" class="form-control" id="value"
+                           focusid="amount"
+                           ng-model="value">
+                    <span class="input-group-btn" style="width:10px">
+                        <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddItem()">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="padding-bottom:10px">
+            <table fixed-header="200px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th style="width:150px">Company</th>
+                        <th style="width:100px">Date</th>
+                        <th style="width:100px">Remark</th>
+                        <th style="width:60px">Amount</th>
+                        <th style="width:60px">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in OpeningList">
+                        <td>{{SearchRef(item.companyid, Company)}}</td>
+                        <td>{{item.ondate | date:'dd-MM-yyyy'}}</td>
+                        <td>{{item.reason}}</td>
+                        <td>{{item.value}}</td>
+                        <td><button type="button" class="btn-danger btn btn-xs" ng-click="DeleteItem(item)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="ngdialog-buttons" style="padding-right:15px">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="OpeningConfig">
+    <div class="ngdialog-message">
+
+        <div class="col-md-12">
+            <label for="txtname" class="control-label">Company</label>
+            <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in Company track by item.id"
+                    ng-model="companyid"></select>
+        </div>
+
+        <div class="md-col-12">
+            <div class="col-md-2" style="padding-right:0px">
+                <label for="txtname" class="control-label">Mode</label>
+                <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in Modes track by item.id"
+                        ng-model="mode"
+                        focusid="mode" focusonenter="refno"></select>
+            </div>
+            <div class="col-md-3 no-padding">
+                <label for="txtname" class="control-label">Ref No</label>
+                <input type="text"
+                       focusid="refno" focusonenter="refdate"
+                       class="form-control input-sm" id="txtname" ng-model="refno">
+            </div>
+            <div class="col-md-3 no-padding">
+                <label for="txtname" class="control-label">Ref Date</label>
+                <input type="text"
+                       datemodule="refdate"
+                       focusid="refdate" focusonenter="amount"
+                       class="form-control input-sm" id="txtname" ng-model="refdate">
+            </div>
+            <div class="col-md-4" style="padding-left:0px">
+                <label for="txtname" class="control-label">Amount</label>
+                <div class="input-group input-group-sm" style="width:100%">
+                    <input type="number" class="form-control" id="txtname"
+                           focusid="amount"
+                           ng-model="amount">
+                    <span class="input-group-btn" style="width:10px">
+                        <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddItem()">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </button>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-12" style="padding-bottom:10px">
+            <table fixed-header="200px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th style="width:80px">Ref No</th>
+                        <th style="width:100px">Ref Date</th>
+                        <th style="width:60px">Amount</th>
+                        <th style="width:60px">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in OpeningList">
+                        <td>{{item.referenceinvoiceno}}</td>
+                        <td>{{item.referenceinvoicedate | date:'dd-MM-yyyy'}}</td>
+                        <td>{{item.payable>0?item.payable:item.receivable}}&nbsp;{{item.payable>0?'Cr':'Dr'}}</td>
+                        <td>
+                            <button type="button" class="btn-danger btn btn-xs" ng-click="DeleteItem(item)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            <button type="button" class="btn-danger btn btn-xs" ng-click="EditItem(item)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="ngdialog-buttons" style="padding-right:15px">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="GroupConfig">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="form-group">
+                <div style="font-size:large;color:firebrick">{{menu}}</div>
+            </div>
+        </div>
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Name</label>
+                <div class="input-group input-group-sm col-sm-9 no-padding">
+                    <input type="text" ng-model="node.name" class="input-sm" style="width:250px" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="ParentConfig">
+    <div class="ngdialog-message">
+
+        <div class="col-md-12" style="overflow-y:scroll;padding-left:0px;height:300px">
+            <div data-angular-treeview="true"
+                 data-tree-id="bintree"
+                 data-tree-model="bintreedata"
+                 data-node-id="id"
+                 data-node-label="name"
+                 data-node-children="children">
+            </div>
+        </div>
+
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{fld_title}}</title>
+    <style>
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Lato", sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p {
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+            margin: 0px;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .vw-100 {
+            width: 100vw;
+        }
+
+        .flex-column {
+            flex-direction: column;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .w-100 {
+            width: 100%;
+        }
+
+        .p-3 {
+            padding: calc(0.25rem * 3);
+        }
+
+        .pt-1 {
+            padding-top: calc(0.25rem * 1);
+        }
+
+        .mb-1 {
+            margin-bottom: calc(0.25rem * 1);
+        }
+
+        .mb-2 {
+            margin-bottom: calc(0.25rem * 2);
+        }
+
+        .border {
+            border: 1px solid #dee2e6;
+        }
+
+        .rounded {
+            border-radius: 0.25rem;
+        }
+
+        .bg-white {
+            background-color: #fff;
+        }
+
+        .bg-primary {
+            background-color: #8a1818;
+        }
+
+        .bg-light {
+            background-color: #f4f9ff;
+        }
+
+        .border-light {
+            border-color: #f4f9ff;
+        }
+
+        @media (min-width: 576px) {
+            .col-sm-12 {
+                width: calc((100% / 12) * 12);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .col-md-6 {
+                width: calc((100% / 12) * 6);
+            }
+        }
+
+        .small {
+            font-size: 0.875rem;
+            color: #888;
+        }
+
+        .form-control-sm {
+            height: calc(1.8125rem + 2px);
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            border-radius: 0.2rem;
+        }
+
+            .form-control-sm.select {
+                height: calc(1.8125rem + 2px);
+            }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+            .form-control.select {
+                height: calc(2.25rem + 2px);
+            }
+
+
+            .form-control:focus {
+                color: #495057;
+                background-color: #fff;
+                border-color: #80bdff;
+                outline: 0;
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
+
+
+            .form-control:disabled {
+                background-color: #e9ecef;
+                opacity: 1;
+            }
+
+            .form-control.is-invalid {
+                border-color: #dc3545;
+            }
+
+            .form-control.is-valid {
+                border-color: #28a745;
+            }
+
+            .form-control::placeholder {
+                color: #6c757d;
+                opacity: 1;
+            }
+
+            .form-control:read-only {
+                background-color: #e9ecef;
+            }
+
+
+        textarea.form-control {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+            cursor: pointer;
+        }
+
+
+            .btn-primary:hover {
+                color: #fff;
+                background-color: #0069d9;
+                border-color: #0062cc;
+            }
+
+            .btn-primary:focus {
+                color: #fff;
+                background-color: #0069d9;
+                border-color: #0062cc;
+                box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+            }
+
+
+            .btn-primary:active {
+                color: #fff;
+                background-color: #0062cc;
+                border-color: #005cbf;
+            }
+
+            .btn-primary:disabled {
+                color: #fff;
+                background-color: #007bff;
+                border-color: #007bff;
+                opacity: 0.65;
+            }
+
+        .topbanner {
+            height: {{desktopbannerheight}}px;
+            background-image: url(../../File/Show/0/{{desktopbanner}});
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: auto;
+            margin-top: 12px;
+            border-radius: 8px;
+            border: 1px solid #dadce0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="d-flex flex-column align-items-center w-100 p-3 bg-light">
+        <div>
+            <h3 class="mb-2">{{fld_title}}</h3>
+        </div>
+        <form class="col-md-6 col-sm-12 p-3 border rounded bg-white" id="form" action="Save" method="post">
+            <div class="topbanner col-md-12 no-padding" style="width:100%; margin-bottom:10px;display:{{enb_deskbanner}}">
+
+            </div>
+            <div class="mb-2" style="display:{{enb_mobileno}}">
+                <div class="small mb-1">{{fld_mobileno}}</div>
+                <input name="fld_mobileno"
+                       type="text"
+                       class="w-100 form-control form-control-sm" />
+            </div>
+
+            <div class="mb-2" style="display:{{enb_firstname}}">
+                <div class="small mb-1">{{fld_firstname}}</div>
+                <input name="fld_firstname"
+                       type="text"
+                       class="w-100 form-control form-control-sm" />
+            </div>
+
+
+            <div class="mb-2" style="display:{{enb_lastname}}">
+                <div class="small mb-1">{{fld_lastname}}</div>
+                <input name="fld_lastname"
+                       type="text"
+                       class="w-100 form-control form-control-sm" />
+            </div>
+
+            <div class="mb-2" style="display:{{enb_gender}}">
+                <div class="small mb-1">{{fld_gender}}</div>
+
+                <select name="fld_gender" class="w-100 form-control form-control-sm">
+                    <option value="0">-</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                    <option value="3">Transgender</option>
+                </select>
+
+            </div>
+
+            <div class="mb-2" style="display:{{enb_marital}}">
+                <div class="small mb-1">{{fld_marital}}</div>
+                <select name="fld_marital" class="w-100 form-control form-control-sm">
+                    <option value="0">-</option>
+                    <option value="1">Single</option>
+                    <option value="2">Married</option>
+                </select>
+            </div>
+
+            <div class="mb-2" style="display:{{enb_mailid}}">
+                <div class="small mb-1">{{fld_mailid}}</div>
+                <input name="fld_mailid"
+                       type="text"
+                       class="w-100 form-control form-control-sm" />
+            </div>
+
+
+            <div class="mb-2" style="display:{{enb_addressline1}}">
+                <div class="small mb-1">{{fld_addressline1}}</div>
+                <input name="fld_addressline1"
+                       style="display:{{enb_addressline1}}"
+                       placeholder="Street Address"
+                       class="w-100 form-control form-control-sm mb-2"></input>
+                <input name="fld_addressline2"
+                       style="display:{{enb_addressline2}}"
+                       placeholder="{{fld_addressline2}}"
+                       class="w-100 form-control form-control-sm mb-2"></input>
+
+                <div class="mb-2" style="display:{{enb_area}}">
+                    <div class="small mb-1">{{fld_area}}</div>
+                    <select name="fld_area"
+                            class="w-100 form-control form-control-sm pt-1">
+                        <option value="-">-</option>
+                        {{fld_area_list}}
+                    </select>
+                </div>
+
+                <div class="mb-2" style="display:{{enb_city}}">
+                    <div class="small mb-1">{{fld_city}}</div>
+                    <select name="fld_city"
+                            class="w-100 form-control form-control-sm pt-1">
+                        <option value="-">-</option>
+                        {{fld_city_list}}
+                    </select>
+                </div>
+
+                <div class="mb-2" style="display:{{enb_state}}">
+                    <div class="small mb-1">{{fld_state}}</div>
+                    <select name="fld_state"
+                            class="w-100 form-control form-control-sm pt-1">
+                        <option value="-">-</option>
+                        {{fld_state_list}}
+                    </select>
+                </div>
+
+                <div class="mb-2" style="display:{{enb_postcode}}">
+                    <div class="small mb-1">{{fld_postcode}}</div>
+                    <input name="fld_postcode"
+                           style="display:{{enb_postcode}}"
+                           placeholder="Pin code"
+                           class="w-100 form-control form-control-sm mb-2"></input>
+                </div>
+
+            </div>
+            <div class="mb-2" style="display:{{enb_dob}}">
+                <div class="small mb-1">{{fld_dob}}</div>
+                <input type="date"
+                       class="w-100 form-control form-control-sm"
+                       name="fld_dob" />
+            </div>
+            <div class="mb-2" style="display:{{enb_religion}}">
+                <div class="small mb-1">{{fld_religion}}</div>
+                <select name="fld_religion"
+                        class="w-100 form-control form-control-sm pt-1">
+                    <option value="-">-</option>
+                    {{fld_religion_list}}
+                </select>
+            </div>
+            <div class="mb-2" style="display:{{enb_dom}}">
+                <div class="small mb-1">{{fld_dom}}</div>
+                <input type="date"
+                       class="w-100 form-control form-control-sm"
+                       name="fld_dom" />
+            </div>
+            <div class="mb-2" style="display:{{enb_sp_firstname}}">
+                <div class="small mb-1">{{fld_sp_firstname}}</div>
+                <input name="fld_sp_firstname"
+                       type="text"
+                       class="w-100 form-control form-control-sm" />
+            </div>
+            <div class="mb-2" style="display:{{enb_sp_lastname}}">
+                <div class="small mb-1">{{fld_sp_lastname}}</div>
+                <input name="fld_sp_lastname"
+                       type="text"
+                       class="w-100 form-control form-control-sm" />
+            </div>
+            <div class="mb-2 w-100" style="display:{{enb_sp_dob}}">
+                <div class="small mb-2">{{fld_sp_dob}}</div>
+                <input type="date"
+                       class="w-100 form-control form-control-sm"
+                       name="fld_sp_dob" />
+            </div>
+            <div class="mb-2" style="display:{{enb_source}}">
+                <div class="small mb-1">{{fld_source}}</div>
+                <select name="fld_source" class="w-100 form-control form-control-sm">
+                    <option value="-">-</option>
+                    {{fld_source_list}}
+                </select>
+            </div>
+            <div class="mb-2" style="display:{{enb_often}}">
+                <div class="small mb-1">{{fld_often}}</div>
+                <select name="fld_often" class="w-100 form-control form-control-sm">
+                    <option value="-">-</option>
+                    {{fld_visit_list}}
+                </select>
+            </div>
+            <div class="mb-3" style="display:{{enb_termsandcondition}}">
+                <span class="text-contain">
+                    <span> <input type="checkbox" id="isagreed" value="false" /> Terms and Conditions </span>
+                    <pre style="text-wrap: wrap">{{fld_termsandcondition}}</pre>
+                </span>
+            </div>
+            <div class="mb-3 d-flex" style="justify-content: right">
+                <button type="button"
+                        class="btn-primary"
+                        id="btncancel"
+                        style="margin-right: 0.5rem">
+                    Clear
+                </button>
+                <button type="submit" id="btnsubmit" class="btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+
+<script>
+
+    var button = document.getElementById("btncancel");
+    button.addEventListener('click', function () {
+        document.getElementById('fld_mobileno').value = '';
+        document.getElementById('fld_firstname').value = '';
+        document.getElementById('fld_lastname').value = '';
+    });
+
+    var button = document.getElementById("btnsubmit");
+    button.addEventListener('click', async () => {
+        
+        if (document.getElementById('isagreed').checked == undefined ||
+            document.getElementById('isagreed').checked == false) {
+            alert('Please accept Term and Condition.');
+            event.preventDefault();
+            return false;
+        }
+
+        if (!register()) {
+            event.preventDefault();
+            return false;
+        }
+
+        return true;
+    });
+
+    function register(event) {
+        const form = document.getElementById("form");
+        const formData = new FormData(form);
+        const data = { 'Item': Object.fromEntries(formData.entries()) }; // Convert form data to an object
+
+        if (data.Item.fld_mobileno == '') {
+            document.getElementsByName('fld_mobileno')[0].focus();
+            alert('Please enter the mobile no');
+            return false;
+        }
+
+        if (data.Item.fld_firstname == '') {
+            document.getElementsByName('fld_firstname')[0].focus();
+            alert('Please enter the first name');
+            return false;
+        }
+
+        if (data.Item.fld_lastname == '') {
+            document.getElementsByName('fld_lastname')[0].focus();
+            alert('Please enter the last name');
+            return false;
+        }
+
+        if (data.Item.fld_gender == '' || data.Item.fld_gender == '0') {
+            document.getElementsByName('fld_gender')[0].focus();
+            alert('Please select the gender');
+            return false;
+        }
+
+        if (data.Item.fld_addressline1 == '') {
+            document.getElementsByName('fld_addressline1')[0].focus();
+            alert('Please enter the address');
+            return false;
+        }
+
+        if (data.Item.fld_area == '' || data.Item.fld_area == '-') {
+            document.getElementsByName('fld_area')[0].focus();
+            alert('Please enter the area');
+            return false;
+        }
+		
+        if (data.Item.fld_city == '' || data.Item.fld_city == '-') {
+            document.getElementsByName('fld_city')[0].focus();
+            alert('Please enter the city');
+            return false;
+        }
+
+        if (data.Item.fld_state == '-') {
+            document.getElementsByName('fld_state')[0].focus();
+            alert('Please select the state');
+            return false;
+        }
+
+        if (data.Item.fld_dob == '') {
+            document.getElementsByName('fld_dob')[0].focus();
+            alert('Please enter the date of birth');
+            return false;
+        }
+        if (data.Item.fld_marital == '' || data.Item.fld_marital == '0') {
+            document.getElementsByName('fld_marital')[0].focus();
+            alert('Please enter the marital status');
+            return false;
+        }
+
+        if (data.Item.fld_marital == '2') {
+            if (data.Item.fld_dom == '') {
+                document.getElementsByName('fld_dom')[0].focus();
+                alert('Please enter the date of marriage');
+                return false;
+            }
+    
+            if (data.Item.fld_sp_firstname == '') {
+                document.getElementsByName('fld_sp_firstname')[0].focus();
+                alert('Please enter the spouse first name');
+                return false;
+            }
+            if (data.Item.fld_sp_lastname == '') {
+                document.getElementsByName('fld_sp_lastname')[0].focus();
+                alert('Please enter the spouse last name');
+                return false;
+            }
+
+            if (data.Item.fld_sp_dob == '') {
+                document.getElementsByName('fld_sp_dob')[0].focus();
+                alert('Please enter the spouse date of birth');
+                return false;
+            }
+
+        }
+
+        if (data.Item.fld_source == '' || data.Item.fld_source == '-') {
+            document.getElementsByName('fld_source')[0].focus();
+            alert('Please enter the where did you hear us?');
+            return false;
+        }
+
+
+        if (data.Item.fld_often == '' || data.Item.fld_often == '') {
+            document.getElementsByName('fld_often')[0].focus();
+            alert('Please enter the how often visit?');
+            return false;
+        }
+
+        return true;
+
+        //try {
+        //    const rese = await fetch(
+        //        "RegisterCustomer",
+        //        {
+        //            method: "POST",
+        //            headers: {
+        //                "Content-Type": "application/json",
+        //            },
+        //            body: JSON.stringify(data.Item),
+        //        }
+        //    );
+
+        //    if (!response.ok) {
+        //        throw new Error(`Error: ${response.statusText}`);
+        //    }
+
+        //    const result = await response.json();
+        //    console.log("Success:", result);
+
+        //} catch (error) {
+        //    console.error("Error:", error);
+        //}
+    };
+
+</script>
+</html>

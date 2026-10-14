@@ -1,0 +1,391 @@
+
+/* 
+    Created on : May 28, 2016, 11:44:49 PM
+    Author     : prakasamm
+*/
+
+a {
+    color: #E03B30;
+}
+
+header .navbar .navbar-collapse .navbar-nav li a.active {
+    color: #E03B30;
+}
+header .navbar .navbar-collapse .navbar-nav li:hover a{
+    background: #E03B30;
+    color: #FFFFFF;
+}
+
+header .navbar .navbar-collapse .navbar-nav li ul.drop-down li a:hover {
+    color: #FFFFFF;
+    background: #E03B30;
+}
+
+.tp-caption.medium_text .bullet-cap {
+    color: #E03B30;
+}
+
+.contact-item a:hover {
+    color: #E03B30;
+}
+
+.service-item i {
+    color: #E03B30;
+}
+
+.service-item:hover i {
+    color: #fff;
+    background: #E03B30;
+}
+.feat-text i {
+    color: #E03B30;
+}
+.learn-more {
+    background-color: #E03B30;
+    margin-left: 90px;
+}
+.top-post a {
+    background: #E03B30;
+    color: #fff;
+
+}
+
+.more-work {
+    color: #E03B30;
+
+}
+
+.more-work:hover {
+    border: solid 1px #E03B30;
+    color: #fff;
+    background-color: #E03B30;
+}
+
+
+.parallax1 h1 span {
+    color: #E03B30;
+}
+
+.purchase {
+    background-color: #E03B30;
+}
+
+.l-more:hover {
+    border: 2px solid #E03B30;
+    background: #E03B30;
+    color: #fff;
+}
+
+.main-border {
+    border-bottom: 2px solid #E03B30;
+}
+
+
+.left-about span {
+    background: #E03B30;
+    color: #fff;
+
+}
+
+.site-features li i {
+    color: #E03B30;
+}
+
+
+.buyit a {
+    background-color: #E03B30;
+}
+
+.prevpost:hover {
+    color: #E03B30;
+}
+
+.nextpost:hover {
+    color: #E03B30;
+}
+
+.middle:hover {
+    color: #E03B30;
+}
+
+.proj-link {
+    background-color: #E03B30;
+}
+
+.skills-progress p span {
+    color: #E03B30;
+}
+
+
+.meter > span {
+    background-color: #E03B30;
+    background-image: -webkit-linear-gradient(right, #eb7230, rgba(235,114,48,0));
+    background-image: -moz-linear-gradient(right, #eb7230, rgba(235,114,48,0));
+    background-image: -o-linear-gradient(right, #eb7230, rgba(235,114,48,0));
+    background-image: linear-gradient(to left, #eb7230, rgba(235,114,48,0));
+}
+
+.statistic-post i{
+    color: #E03B30;
+}
+
+.filter a:hover, .filter a.active {
+    background-color: #E03B30;
+
+}
+
+.portfolio .i-icons i{
+    background: #E03B30;
+}
+
+.pagenation li.active {
+    background: #E03B30;
+    border: 1px solid transparent;
+}
+.pagenation li:hover {
+    background: #E03B30;
+    border: 1px solid transparent;
+}
+
+.post-like:hover a,.post-like:hover i,.post-comments:hover a,.post-comments:hover i {
+    color: #E03B30;
+}
+
+
+blockquote {
+    border-left: 5px solid #E03B30;
+}
+
+blockquote span {
+    color: #E03B30 !important;
+}
+
+.tags a:hover {
+    color: #fff;
+    background-color: #E03B30;
+    border-bottom: 1px solid transparent;
+}
+
+.tweet a {
+    color: #E03B30;
+}
+
+.user a > span {
+    color: #E03B30;
+}
+
+.blog-share i:hover {
+    color: #E03B30;
+}
+
+.user-spec a {
+    color: #E03B30;
+}
+
+.leave-comment input[type="submit"] {
+    background-color: #E03B30;
+    border:0;
+}
+
+.adv-item i {
+    color: #E03B30;
+}
+
+.pricing .btn-md {
+    background-color: #E03B30;
+}
+
+.price-box:hover .price-name {
+    background: #E03B30;
+    color: #fff;
+}
+
+.price-box:hover .p-price {
+    color: #E03B30;
+}
+
+.advantage2 .adv-item i {
+    color: #E03B30;
+}
+
+.active-header { 
+    color: #E03B30;
+    margin-bottom: 0;
+}
+
+.process .process-item i {
+    color: #E03B30;
+}
+
+
+#contact-form input[type="submit"] {
+    background-color: #E03B30;
+}
+.error-big {
+    text-align: center;
+    color: #E03B30;
+}
+.error-p a {
+    color: #E03B30 !important;
+}
+
+.newsletter input[type="submit"] {
+    background-color: #E03B30;
+}
+
+.html-style span {
+    background: #E03B30;
+}
+
+.html-style a {
+    color: #E03B30;
+}
+
+.bullets i {
+    color: #E03B30;
+}
+
+.bullets .li-circle {
+    color: #E03B30;
+}
+.bullets .li-ol {
+    color: #E03B30;
+}
+
+.dropcaps .naked-drop span{
+    color: #E03B30;
+}
+
+.dropcaps .full-drop span{
+    background: #E03B30;
+    color: #fff;
+}
+
+.tabs-widget .tab-links li.active {
+    border-top: 2px solid #E03B30;
+
+}
+
+.tabs-widget .tab-links li.active a{
+    color: #E03B30;
+}
+
+.progress-bars .skills-progress p span {
+    color: #E03B30;
+}
+
+.progress-bars .meter > span {
+    background-color: #E03B30;
+    background-image: -webkit-linear-gradient(right, #eb7230, rgba(235,114,48,0));
+    background-image: -moz-linear-gradient(right, #eb7230, rgba(235,114,48,0));
+    background-image: -o-linear-gradient(right, #eb7230, rgba(235,114,48,0));
+    background-image: linear-gradient(to left, #eb7230, rgba(235,114,48,0))
+}
+
+.typing:focus {
+    border:1px solid  #E03B30 !important;
+}
+
+.flex-control-paging li a:hover {
+    background:#E03B30;
+}
+.flex-control-paging li a.flex-active {
+    background:#E03B30;
+}
+
+.tp-caption a.lmore {
+    background-color: #E03B30;
+}
+
+.tp-bullets.simplebullets .bullet:hover,.tp-bullets.simplebullets .bullet.selected			 {
+    background:#E03B30;
+}
+
+
+.bx-wrapper .bx-pager.bx-default-pager a:hover,
+.bx-wrapper .bx-pager.bx-default-pager a.active {
+    background: #E03B30;
+    border: 2px solid transparent;
+}
+
+.tp-caption a.lmore:hover {
+    background: #d43d44;
+}
+
+.learn-more:hover {
+    background: #d43d44;
+}
+
+.purchase:hover {
+    background: #d43d44;
+}
+
+.buyit a:hover {
+    background: #d43d44;
+}
+
+.proj-link:hover {
+    background: #d43d44;
+}
+
+.aside-categories li a:hover {
+    color: #d43d44;
+}
+
+.leave-comment input[type="submit"]:hover {
+    background: #d43d44;
+}
+
+.pricing .btn-md:hover {
+    background: #d43d44;
+
+}
+
+#contact-form input[type="submit"]:hover {
+    background: #d43d44;
+}
+
+.welcome .main-title span {
+    color: #d43d44;
+}
+
+.advantage2 .adv-title h1 {
+    background: #d43d44;
+}
+
+.advantage2 .adv-title h1:after {
+    border-top: 15px solid #d43d44;
+}
+
+.testimonials .bxslider span {
+    color: #d43d44;
+}
+
+.contact-item i {
+    background: #d43d44;
+}
+
+
+
+
+
+
+
+.modal  {
+    padding-right: 0px;
+    background-color: rgba(4, 4, 4, 0.8); 
+}
+
+.modal-dialog {
+    top: 20%;
+    width: 100%;
+    position: absolute;
+}
+.modal-content {
+    border-radius: 0px;
+    border: none;
+    top: 40%;
+}
+.modal-body {
+    line-height: 2;
+}

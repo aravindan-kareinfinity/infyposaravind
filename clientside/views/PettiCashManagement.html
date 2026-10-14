@@ -1,0 +1,417 @@
+﻿
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1 ng-hide="finance_pettycashvoucher">
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Finance / Petty Cash Management
+        </h1>
+        <h1 ng-show="finance_pettycashvoucher">
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Finance / Cash Ledger Management
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer"
+                ng-hide="ShowSearch"
+                ng-click="ShowLedgerCreation()"><a><i class="fa fa-file"></i>New Ledger</a></li>
+            <li ng-show="AllowEnter && !ShowSearch" ng-click="SavePettyCash()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-hide="ShowSearch" ng-click="ShowSearch=!ShowSearch"><a><i class="fa fa-book fa-fw"></i>Report</a></li>
+            <li ng-show="ShowSearch" ng-click="ShowSearch=!ShowSearch;CanDownload=false"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="ShowSearch" ng-click="Report('detail')"><a><i class="fa fa-list"></i>Detail</a></li>
+            <li ng-show="ShowSearch" ng-click="Report('summary')"><a><i class="fa fa-th-list"></i>Summary</a></li>
+            <li ng-show="ShowSearch && CanDownload" ng-click="Report('pdf')"><a><i class="fa fa-download"></i>PDF</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid)"><a><i class="fa fa-download">Excel</i></a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary">
+            <div class="box-body no-border">
+
+                <div class="col-md-12 no-padding" ng-show="ShowSearch">
+
+                    <div class="col-md-3">
+                        <div class="row">
+                            <label for="inputEmail3" class="form-group required control-label">Cash Ledger</label>
+                            <select class="form-control select2" style="width: 100%;" select2=""
+                                    focusid="first" focusonenter="bookorderno"
+                                    options="item.id as item.displayname for item in CashLedgers track by item.id" ng-model="SearchCondition.ledgerid"></select>
+                        </div>
+
+                        <div class="row">
+                            <label for="inputEmail3" class="form-group required control-label">Company</label>
+                            <select class="form-control select2" style="width: 100%;" select2=""
+                                    focusid="first" focusonenter="bookorderno"
+                                    options="item.id as item.name for item in Company track by item.id" ng-model="SearchCondition.companyid"></select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="form-group required control-label">Location</label>
+                                <select class="form-control select2" style="width: 100%;"
+                                        focusid="first" focusonenter="bookorderno"
+                                        select2="" options="item.id as item.name for item in Locations track by item.id" ng-model="SearchCondition.locationid"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="form-group control-label">Counter</label>
+                                <select class="form-control select2" style="width: 100%;" select2=""
+                                        focusid="first" focusonenter="bookorderno"
+                                        options="item.id as item.name for item in Counter track by item.id" ng-model="SearchCondition.counterid"></select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label for="inputEmail3" class="form-group required control-label">Date</label>
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control input-sm datepicker"
+                                       daterange="SearchCondition.fromdate,SearchCondition.todate"
+                                       focusid="first" focusonenter="bookorderno">
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:10px">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Opening</label>
+                            </div>
+                            <div class="col-md-6" style="padding-right:40px;padding-left:0px">
+                                <input type="text"
+                                       style="text-align:right"
+                                       ng-readonly="true"
+                                       class="form-control input-sm" ng-model="Report.yesterdayopening" />
+                                <div style="position:absolute;right:3px;top:3px">
+                                    <label for="inputEmail3">{{Report.yesterdayopeningcrdr}}</label>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row" style="padding-top:10px">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Cash Transfer Out(-)</label>
+                            </div>
+                         
+                            <div class="col-md-6" style="padding-right:40px;padding-left:0px">
+                                <input type="text"
+                                       style="text-align:right"
+                                       ng-readonly="true"
+                                       class="form-control input-sm" ng-model="Report.cashdeposit" />
+                                <div style="position:absolute;right:3px;top:3px">
+                                    <label for="inputEmail3">Cr</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:10px">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Cash Income (+)</label>
+                            </div>
+                            
+                            <div class="col-md-6" style="padding-right:40px;padding-left:0px">
+                                <input type="text"
+                                       style="text-align:right"
+                                       ng-readonly="true"
+                                       class="form-control input-sm" ng-model="Report.cashincome" />
+                                <div style="position:absolute;right:3px;top:3px">
+                                    <label for="inputEmail3">Cr</label>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row" style="padding-top:10px">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Cash Transfer In(+)</label>
+                            </div>
+                         
+
+                            <div class="col-md-6" style="padding-right:40px;padding-left:0px">
+                                <input type="text"
+                                       style="text-align:right"
+                                       ng-readonly="true"
+                                       class="form-control input-sm" ng-model="Report.cashwithdraw" />
+                                <div style="position:absolute;right:3px;top:3px">
+                                    <label for="inputEmail3">Dr</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="padding-top:10px">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Cash Expense (-)</label>
+                            </div>
+                           
+
+
+                            <div class="col-md-6" style="padding-right:40px;padding-left:0px">
+                                <input type="text"
+                                       style="text-align:right"
+                                       ng-readonly="true"
+                                       class="form-control input-sm" ng-model="Report.cashexpense" />
+                                <div style="position:absolute;right:3px;top:3px">
+                                    <label for="inputEmail3">Dr</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="padding-top:20px">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Closing</label>
+                            </div>
+                         
+                            <div class="col-md-6" style="padding-right:40px;padding-left:0px">
+                                <input type="text"
+                                       style="text-align:right"
+                                       ng-readonly="true"
+                                       class="form-control input-sm" ng-model="Report.closing" />
+                                <div style="position:absolute;right:3px;top:3px">
+                                    <label for="inputEmail3">{{Report.closingcrdr}}</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-9 no-padding">
+
+                        
+                        <div class="col-md-12" id="report">
+                            
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-12 no-padding" ng-hide="ShowSearch">
+
+                    <div class="col-md-3">
+                        <div class="row">
+                            <label for="inputEmail3" class="form-group required control-label">Cash Ledger</label>
+                            <div ng-show="finance_pettycashvoucher" style="position:absolute;top:0px;right:0px">
+                                Credit
+                            </div>
+                            <select class="form-control select2" style="width: 100%;" select2=""
+                                    focusid="first" focusonenter="companyid"
+                                    options="item.id as item.displayname for item in CashLedgers track by item.id" ng-model="SearchCondition.ledgerid"></select>
+                        </div>
+
+                        <div class="row">
+                            <label for="inputEmail3" class="form-group required control-label">Company</label>
+                            <select class="form-control select2" style="width: 100%;" select2=""
+                                    focusid="companyid" focusonenter="locationid"
+                                    options="item.id as item.name for item in Company track by item.id" ng-model="SearchCondition.companyid"></select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="form-group required control-label">Location</label>
+                                <select class="form-control select2" style="width: 100%;"
+                                        focusid="locationid" focusonenter="counterid"
+                                        select2="" options="item.id as item.name for item in Locations track by item.id" ng-model="SearchCondition.locationid"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="form-group control-label">Counter</label>
+                                <select class="form-control select2" style="width: 100%;" select2=""
+                                        focusid="counterid" focusonenter="employeeid"
+                                        options="item.id as item.name for item in Counter track by item.id" ng-model="SearchCondition.counterid"></select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <label>Employee</label>
+                            <div>
+                                <select class="form-control select2" style="width: 100%;"
+                                        select2="" options="item.id as item.name for item in Employee track by item.id"
+                                        required ng-model="SearchCondition.employeeid"
+                                        focusid="employeeid"
+                                        focusonenter="bookorderno"></select>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <label for="inputEmail3" class="form-group required control-label">Date</label>
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control input-sm datepicker"
+                                       datemodule="SearchCondition.voucherdate"
+                                       focusid="first" focusonenter="bookorderno"
+                                       ng-model="SearchCondition.voucherdate">
+
+                                <span class="input-group-btn" ng-click="SearchPettyCash()">
+                                    <button class="btn btn-sm btn-info btn-box"><i class="fa fas fa-plus"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:10px" ng-show="AllowEnter">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Opening</label>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="number" placeholder="Opening"
+                                       ng-readonly="true"
+                                       class="form-control input-sm" ng-model="SearchCondition.yesterdayopening" />
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:10px" ng-show="AllowEnter">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Cash Withdrawal(+)</label>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="number" style="width:100%" ng-readonly="true"
+                                       class="form-control input-sm" ng-model="SearchCondition.cashwithdraw" />
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:10px" ng-show="AllowEnter">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Voucher Income (+)</label>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="number" style="width:100%" ng-readonly="true"
+                                       class="form-control input-sm" ng-model="SearchCondition.cashincome" />
+                            </div>
+                        </div>
+
+
+                        <div class="row" style="padding-top:10px" ng-show="AllowEnter">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" ng-hide="finance_pettycashvoucher">Petty Cash Income(+)</label>
+                                <label for="inputEmail3" ng-show="finance_pettycashvoucher">Cash Income(+)</label>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="number" style="width:100%" ng-readonly="true"
+                                       class="form-control input-sm" ng-model="SearchCondition.income" />
+                            </div>
+                        </div>
+
+
+                        <div class="row" style="padding-top:10px" ng-show="AllowEnter">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Cash Deposit(-)</label>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="number" style="width:100%" ng-readonly="true"
+                                       class="form-control input-sm" ng-model="SearchCondition.cashdeposit" />
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:10px" ng-show="AllowEnter">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Voucher Expense (-)</label>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="number" style="width:100%" ng-readonly="true"
+                                       class="form-control input-sm" ng-model="SearchCondition.cashexpense" />
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:10px" ng-show="AllowEnter">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" ng-hide="finance_pettycashvoucher">Petty Cash Expenses(+)</label>
+                                <label for="inputEmail3" ng-show="finance_pettycashvoucher">Cash Expenses(+)</label>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="number" style="width:100%" ng-readonly="true"
+                                       class="form-control input-sm" ng-model="SearchCondition.expense" />
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:20px" ng-show="AllowEnter">
+
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3">Closing</label>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="number" style="width:100%" placeholder="Closing" ng-readonly="true" class="form-control input-sm"
+                                       ng-model="SearchCondition.closing" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9 no-padding">
+
+                        <div class="col-md-12" ng-show="finance_pettycashvoucher">
+                            <div class="col-md-3 no-padding">
+                                <label for="inputEmail3" class="form-group required control-label">Ledger</label>
+                                <select class="form-control select2" style="width: 100%;" select2=""
+                                        focusid="ledgerid" focusonenter="narration"
+                                        ng-change="ledgerchanged()"
+                                        options="item.id as item.displayname for item in AllLedgers track by item.id" 
+                                        ng-model="vouchertransaction.ledgerid"></select>
+                            </div>
+                            <div class="col-md-4 no-padding">
+                                <label for="inputEmail3" class="form-group required control-label">Naration</label>
+                                <input type="text" style="width:100%"
+                                       focusid="narration" onkeyenter="Focuscrdr('all')"
+                                       class="form-control input-sm" ng-model="vouchertransaction.narration" />
+                            </div>
+                            <div class="col-md-5 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="form-group required control-label" ng-hide="IsBankTransaction">Debit (Expense)</label>
+                                    <label for="inputEmail3" class="form-group required control-label" ng-show="IsBankTransaction">Debit (Deposit)</label>
+                                    <input type="number" style="width:100%"
+                                           focusid="debit" onkeyenter="Focuscrdr('debit')"
+                                           class="form-control input-sm" ng-model="vouchertransaction.debit" />
+                                </div>
+
+                                <div class="col-md-6 no-padding">
+                                    <label for="inputEmail3" class="form-group required control-label" ng-hide="IsBankTransaction">Credit (Income)</label>
+                                    <label for="inputEmail3" class="form-group required control-label" ng-show="IsBankTransaction">Credit (Withdrawal)</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" style="width:100%"
+                                               focusid="credit" onkeyenter="Focuscrdr('credit')"
+                                               class="form-control input-sm" ng-model="vouchertransaction.credit" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-xs btn-success"
+                                                    focusid="addbutton"
+                                                    ng-click="AddVoucherTransaction()">
+                                                <i class="fa fa-plus-circle"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-12  no-padding" id="gridContainer">
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+</div>
+

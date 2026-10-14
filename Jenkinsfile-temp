@@ -1,0 +1,62 @@
+pipeline {
+    agent any
+
+    environment {
+        // Customize these variables based on your project and build requirements
+        MSBUILD_PATH = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe"
+        SOLUTION_FILE = "InfyPOS.sln"
+        CONFIGURATION = "Release"
+        SOURCE_FOLDER = ".\\clientside"
+        ZIP_FILE_NAME = "clientside.zip"
+        OUTPUT_PATH = "D:\\Workspace\\Builds\\InfyPOS\\InfyPOS-4.5-Build"
+        REFERENCE_PATH = ".\\bin\\"
+        CUSTOM_WORKSPACE = "D:\\Data\\Jenkins_Home\\workspace\\InfyPOS-4.5\\InfyPOS-4.5"
+    }
+
+    stages {
+        stage('Change Workspace') {
+            steps {
+                script {
+                    // Change the workspace path for all stages
+                    ws(CUSTOM_WORKSPACE) {
+                        // The rest of your pipeline goes here
+                        // checkout([$class: 'Git', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'git@github.com:QuantoERP/InfyPOS-4.8.git']]])
+                        checkout([$class: 'Git', branches: [[name: '*/main']], userRemoteConfigs: [[url: 'git@github.com:QuantoERP/InfyPOS-4.8.git']]])
+                        script {
+                            // Stage 1: Copy Release
+                            bat 'D:\\Data\\Scripts\\InfyPOS-4.5-git.ps1'
+
+                            // Stage 2: NuGet Restore
+                            bat "nuget restore \"${SOLUTION_FILE}\" -o ..\\packages\\"
+
+                            // Stage 3: Build
+                            try {
+                                // Run MSBuild command
+                                bat "\"${MSBUILD_PATH}\" /t:Build /p:Configuration=${CONFIGURATION} /p:OutputPath=${OUTPUT_PATH} /p:ReferencePath=${REFERENCE_PATH} ${SOLUTION_FILE}"
+                            } catch (Exception e) {
+                                echo "Ignoring failure in 'PowerShell Command' stage."
+                            }
+
+                            // Stage 4: Compress
+                            try {
+                                // Run a batch file that does both operations
+                                bat 'cd compress && call run.bat'
+                            } catch (Exception e) {
+                                echo "Ignoring failure in 'PowerShell Command' stage."
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build successful! Add additional post-build steps here if needed.'
+        }
+        failure {
+            echo 'Build failed! Handle failures here if needed.'
+        }
+    }
+}

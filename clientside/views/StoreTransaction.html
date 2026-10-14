@@ -1,0 +1,523 @@
+﻿       <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            <span style="font-size:medium">Store / Store Transaction</span>
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="SaveStoreTransaction()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="exportExcel(sgrid, 'status', 'status')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.print" style="cursor:pointer" ng-click=""><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="SearchStoreTransaction()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="exportExcel(igrid, 'status', 'Summary')"><a><i class="fa fa-download"></i></a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+
+                <div class="col-md-4">
+                    <div class="row">
+
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 form-group required control-label">Mode</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" select2='' ng-model="StoreEntry.type"
+                                            options="item.id as item.name for item in Modes track by item.id"
+                                            style="width:100%"
+                                            focusid="first"
+                                            ng-change="modechanged()"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+
+                        <div ng-show="Navigation.searchentity">
+                            <!--<div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Company</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" select2='' ng-model="StoreEntry.companyid" 
+                                                style="width:100%"
+                                                ng-change="modechanged()"
+                                                options="item.id as item.name for item in Company track by item.id"  focusid="company" focusonenter="location" ></select>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Location</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" select2=''
+                                                style="width:100%"
+                                                ng-model="StoreEntry.locationid" 
+                                                options="item.id as item.name for item in Location track by item.id"
+                                                focusid="location"
+                                                ng-change="modechanged()"
+                                                focusonenter="fromdate"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">From Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="input-sm form-control"
+                                                   datemodule="StoreEntry.fromdate"
+                                                   ng-model="StoreEntry.fromdate" focusid="fromdate" focusonenter="todate" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">To Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="input-sm form-control"
+                                                   datemodule="StoreEntry.todate"
+                                                   ng-model="StoreEntry.todate" focusid="todate" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-show="StoreEntry.type == 'StoreTime' && Navigation.save">
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Company</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" select2=''
+                                                style="width:100%"
+                                                ng-model="StoreEntry.companyid"
+                                                options="item.id as item.name for item in Company track by item.id" focusid="company1" focusonenter="location1"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Location</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" select2=''
+                                                style="width:100%"
+                                                ng-model="StoreEntry.locationid" options="item.id as item.name for item in Location track by item.id" focusid="location1" focusonenter="date1"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="input-sm form-control"
+                                                   datemodule="StoreEntry.actiondate"
+                                                   ng-model="StoreEntry.actiondate" focusid="date1" focusonenter="openingtime1" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Opening Time</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="StoreEntry.StoreOpeningAttribute.opening" focusid="openingtime1" focusonenter="closingtime1" >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Closing Time</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="StoreEntry.StoreOpeningAttribute.closing" focusid="closingtime1" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-show="StoreEntry.type == 'EBReading' && Navigation.save">
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Company</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" 
+                                                style="width:100%"
+                                                select2='' ng-model="StoreEntry.companyid" options="item.id as item.name for item in Company track by item.id" focusid="first" focusonenter="location2"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Location</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" 
+                                                style="width:100%"
+                                                select2='' ng-model="StoreEntry.locationid" options="item.id as item.name for item in Location track by item.id" focusid="location2" focusonenter="date2"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="input-sm form-control"
+                                                   datemodule="StoreEntry.actiondate" focusid="date2" focusonenter="no"
+                                                   ng-model="StoreEntry.actiondate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">No</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="StoreEntry.EBReadingAttribute.no" focusid="no" focusonenter="Reading"  >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Reading</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="StoreEntry.EBReadingAttribute.reading" focusid="Reading" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-show="StoreEntry.type == 'WalkIn' && Navigation.save">
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Location</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" select2='' ng-model="StoreEntry.locationid"
+                                                ng-change="LoadWalkin('WalkIn')" style="width:100%"
+                                                options="item.id as item.name for item in Location track by item.id" focusid="first" focusonenter="status"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="input-sm form-control"
+                                                   datemodule="StoreEntry.actiondate"
+                                                   ng-change="LoadWalkin('WalkIn')"
+                                                   ng-model="StoreEntry.actiondate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Start No</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               ng-readonly="true"
+                                               class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="StoreEntry.WalkinTokenAttribute.startno">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">End No</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control input-sm"
+                                               ng-readonly="true"
+                                               id="inputEmail3" placeholder="" ng-model="StoreEntry.WalkinTokenAttribute.endno">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Print Count</label>
+                                    <div class="col-sm-8">
+
+                                        <div class="input-group input-group-sm" style="width:100%">
+                                            <input type="text" class="input-sm form-control" style="width: 100%;"
+                                                   ng-model="StoreEntry.tokennumbers"
+                                                   focusid="tokennumbers"
+                                                   onkeyenter="PrintToken()" />
+
+                                            <span class="input-group-btn" style="width:10px">
+                                                <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="PrintToken()">
+                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-show="StoreEntry.id>0">
+                                <div class="col-md-12">
+
+                                    <table fixed-header="180px" additionalheight="270" class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:50px">Time</th>
+                                                <th style="width:40px">Key</th>
+                                                <th style="width:40px">From</th>
+                                                <th style="width:40px">To</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in StoreEntry.WalkinTokenAttribute.issuehistory">
+                                                <td>
+                                                    {{item.at|date:'hh:mm a'}}
+                                                </td>
+                                                <td>
+                                                    {{item.key}}
+                                                </td>
+                                                <td>
+                                                    {{item.from}}
+                                                </td>
+                                                <td>
+                                                    {{item.to}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="row row-padbot-15" ng-show="StoreEntry.id>0">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Walk In Count</label>
+                                    <div class="col-sm-4">
+
+                                        <div class="input-group input-group-sm" style="width:100%">
+                                            <input type="text" class="input-sm form-control" style="width: 100%;"
+                                                   ng-model="walkincount"
+                                                   onkeyenter="WalkInCount()" />
+
+                                            <span class="input-group-btn" style="width:10px">
+                                                <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="WalkInCount()">
+                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="pull-right">
+                                            <button type="button" class="btn bg-blue-gradient btn-sm" ng-click="ShowWalkinSummary()">
+                                                <i class="glyphicon glyphicon-search">&nbsp;Summary</i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div ng-show="StoreEntry.type == 'Referral' && Navigation.save">
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Location</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" select2='' ng-model="StoreEntry.locationid"
+                                                ng-change="LoadWalkin('Referral')"
+                                                style="width:100%"
+                                                options="item.id as item.name for item in Location track by item.id" focusid="first" focusonenter="status"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="input-sm form-control"
+                                                   datemodule="StoreEntry.actiondate"
+                                                   ng-change="LoadWalkin('Referral')"
+                                                   ng-model="StoreEntry.actiondate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Start No</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               ng-readonly="true"
+                                               class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="StoreEntry.ReferralTokenAttribute.startno">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">End No</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control input-sm"
+                                               ng-readonly="true"
+                                               id="inputEmail3" placeholder="" ng-model="StoreEntry.ReferralTokenAttribute.endno">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Employee</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" select2='' ng-model="StoreEntry.employeeid"
+                                                options="item.id as item.name for item in Employees track by item.id"
+                                                style="width:100%"
+                                                ng-change="StoreEntry.agentid = null;StoreEntry.discountpercentage=null;StoreEntry.discount=null;"
+                                                focusid="first" focusonenter="status"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Agent</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" select2='' ng-model="StoreEntry.agentid"
+                                                style="width:100%"
+                                                ng-change="StoreEntry.employeeid = null;StoreEntry.discountpercentage=null;StoreEntry.discount=null;"
+                                                options="item.id as item.name for item in Agents track by item.id" focusid="first" focusonenter="status"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15" ng-hide="StoreEntry.agentid>0 || StoreEntry.employeeid>0">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Discount</label>
+                                    <div class="col-sm-8">
+                                        <div class="col-md-4 no-padding">
+                                            <input type="text" class="input-sm form-control" style="width: 100%;"
+                                                   ng-model="StoreEntry.discountpercentage" />
+                                        </div>
+                                        <div class="col-md-4 no-padding">
+                                            &nbsp; %
+                                            <div class="pull-right">
+                                                &nbsp; Value&nbsp;
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 no-padding">
+                                            <input type="text" class="input-sm form-control" style="width: 100%;"
+                                                   ng-model="StoreEntry.discount" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Print Count</label>
+                                    <div class="col-sm-8">
+
+                                        <div class="input-group input-group-sm" style="width:100%">
+                                            <input type="text" class="input-sm form-control" style="width: 100%;"
+                                                   ng-model="StoreEntry.tokennumbers"
+                                                   focusid="tokennumbers"
+                                                   onkeyenter="PrintReferralToken()" />
+
+                                            <span class="input-group-btn" style="width:10px">
+                                                <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="PrintToken()">
+                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-8" ng-show="Navigation.searchentity">
+                    <div class="col-md-12">
+                        <div class="no-padding" id="gridContainer">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8" ng-hide="Navigation.searchentity">
+                    <div class="col-md-6">
+                        <div class="no-padding" id="gridSummaryContainer">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="no-padding" id="gridWalikinContainer">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+</div>

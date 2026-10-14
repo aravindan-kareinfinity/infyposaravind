@@ -1,0 +1,138 @@
+﻿<div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+                Finance  /   Opening Balance
+            </h1>
+            <ol class="breadcrumb">
+                <li ng-show="ShowSearch && OpeningBalance.id>0" style="cursor:pointer" ng-click="Completed('2')"><a><i class="fa fa-end"></i>Complete</a></li>
+                <li ng-show="ShowSearch && OpeningBalance.id>0" style="cursor:pointer" ng-click="Completed('3')"><a><i class="fa fa-end"></i>Cancelled</a></li>
+                <li ng-show="ShowSearch && OpeningBalance.id>0" style="cursor:pointer" ng-click="Completed('1')"><a><i class="fa fa-end"></i>Inprogress</a></li>
+                <li style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New Order</a></li>
+                <li ng-show="ShowSearch" style="cursor:pointer" ng-click="SaveOpeningBalance()"><a><i class="fa fa-save"></i>Save</a></li>
+
+                <li ng-show="ShowSearch && OpeningBalance.id>0" style="cursor:pointer" ng-click="PrintOrder(OpeningBalance.id)"><a><i class="fa fa-print"></i>Print PDF</a></li>
+                <li ng-show="ShowSearch && OpeningBalance.id>0" style="cursor:pointer" ng-click="Print(OpeningBalance.id)"><a><i class="fa fa-print"></i>Print</a></li>
+                <li style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i  ></i>Search</a></li> 
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <!-- Your Page Content Here -->
+            <div class="box box-primary">
+                <div class="box-body" ng-hide="ShowSearch">
+                    <div class="row row-padbot-15">
+                        <div class="col-md-4 col-sm-4">
+                            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label no-padding">Ledger Type</label>
+                            <div class="col-sm-8 col-md-8">
+                                <!--<select class="form-control input-sm" select2="Type" ng-change="typechanged()" options="item.id as item.name for item in ItemTypes track by item.id" ng-model="SearchRequest.referencetype"></select>-->
+                                <select class="form-control input-sm" select2="Status" options="item.id as item.name for item in LedgerTypeList track by item.id" ng-model="SearchRequest.status"></select>
+                            </div>
+
+
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label no-padding">Supplier</label>
+                            <div class="col-sm-8 col-md-8">
+                                <select class="form-control input-sm" select2="Suppliers" options="item.id as item.name for item in Suppliers track by item.id" ng-model="SearchRequest.status"></select>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                          
+                            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label no-padding">Year</label>
+                            <div class="col-sm-8 col-md-8">
+                                <input type="text" class="form-control input-sm" ng-model="OpeningBalance.contactno" onkeyenter="SearchCustomer()">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12" id="gridContainer">
+
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="box-body" ng-show="ShowSearch">
+                    <div class="col-md-4">
+                        <!--<label  ;font-size:large;padding-top:0px;">Customer Details</label>-->
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inpu`tEmail3" class="col-sm-4 col-md-4 control-label">Ledger Type</label>
+                                <div class="col-md-8 col-sm-8">
+                                    <select class="form-control input-sm" select2="Status" options="item.id as item.name for item in LedgerTypeList track by item.id" ng-model="OpeningBalance.ledgertype"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15" ng-show="OpeningBalance.ledgertype==0">
+                            <div class="form-group">
+                                <label for="inpu`tEmail3" class="col-sm-4 col-md-4 control-label">Supplier</label>
+                                <div class="col-md-8 col-sm-8">
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in Suppliers track by item.id" ng-model="OpeningBalance.ledgerid"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15" ng-show="OpeningBalance.ledgertype==1">
+                            <div class="form-group">
+                                <label for="inpu`tEmail3" class="col-sm-4 col-md-4 control-label">Transport</label>
+                                <div class="col-md-8 col-sm-8">
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in Transports track by item.id" ng-model="OpeningBalance.ledgerid"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15" ng-show="OpeningBalance.ledgertype==2">
+                            <div class="form-group">
+                                <label for="inpu`tEmail3" class="col-sm-4 col-md-4 control-label">Customer</label>
+                                <div class="col-md-8 col-sm-8">
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in Customers track by item.id" ng-model="OpeningBalance.ledgerid"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15 no-padding">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group control-label">Year</label>
+                                <div class="col-md-8">
+                                    <input type="number" class="form-control input-sm" style="width: 100%;" ng-model="OpeningBalance.financeyear" focusid="first">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15 no-padding">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group control-label">Opening Balance</label>
+                                <div class="col-md-8">
+                                    <input type="number" class="form-control input-sm" style="width: 100%;" ng-model="OpeningBalance.opening" focusid="first">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15 no-padding">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group control-label">Closing Balance</label>
+                                <div class="col-md-8">
+                                    <input type="number" class="form-control input-sm" style="width: 100%;" ng-model="OpeningBalance.closing" focusid="first">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /.col -->
+                    </div>
+
+                  
+
+                    <!-- /.row -->
+                </div>
+                <!-- /.Box Ends -->
+            </div>
+
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+

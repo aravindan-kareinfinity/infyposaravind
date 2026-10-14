@@ -1,0 +1,32 @@
+﻿<div class="box box-primary">
+    <div class="row row-padbot-15">
+        <div class="col-md-12">
+            <div class="table-responsive mailbox-messages">
+                <table fixed-header="150px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">&nbsp;</th>
+                            <th style="width:100px">Name</th>
+                            <th style="width:150px">Product/Brand</th>
+                            <th style="width:100px">Pattern/Style</th>
+                            <th style="width:200px">Colour/Size</th>
+                            <th style="width:100px">Material</th>
+                            <th style="width:150px">Status</th>
+                            <th style="width:150px">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="item in PopupList">
+                        <tr>
+                            <td style="text-align:center"><input class="checkbox-inline" type="checkbox" ng-click="" /></td>
+                            <td>{{item.printingname}}</td>
+                            <td>{{item.productname}} / {{item.brandname}}</td>
+                            <td>{{item.patternname}} / {{item.stylename}}</td>
+                            <td>{{item.colourname}} / {{item.sizename}}</td>
+                            <td>{{item.materialname}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

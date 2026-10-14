@@ -1,0 +1,35 @@
+<Config>
+  <PageSetting>
+    <Setting topmargin='40' leftmargin='20' bottommargin='30' rightmargin='10' width='900' height='700' style='Verdana,8,regular'></Setting>
+  </PageSetting>
+  <Header>
+    <Line height='20'>
+      <Content type='Word' length='900' align='center' style='verdana,10,bold'>STOCK REORDER STATUS</Content>
+    </Line>
+    <Line height='20'>
+      <Content type='Word' length='150' align='left' style='verdana,12,bold'>Company     : </Content>
+      <Content type='Field' length='500' align='left' style='verdana,12,bold' name='company'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='150' align='left' style='verdana,12,bold'>Location      : </Content>
+      <Content type='Field' length='500' align='left' style='bold' name='location'></Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='150' align='left' style='verdana,12,bold'>Executed On : </Content>
+      <Content type='Field' length='100'  align='left'  name='currenttime'  format='dd-MM-yyyy hh:mm'></Content>
+    </Line>
+    <Line/>
+    <Line/>
+  </Header>
+  <Body Type='Table' length='5' HeaderHeight='40' LineHeight='25' style='Verdana,8,regular'>
+    <Line type='Table'>
+      <Content type='Field' name='title' text="Item Details" Length='560' align='left'/>
+      <Content type='Field' name='expect' text="Stock Range" Length='80' align='left'/>
+      <Content type='Field' name='pricerange' text="Price Range" Length='80' align='left'/>
+      <Content type='Field' name='retailstock' text="Stock" Length='60' align='left'/>
+      <Content type='Field' name='stockstatus' text="Status" Length='60' align='left'/>
+    </Line>
+  </Body>
+  <Footer>
+  </Footer>
+</Config>

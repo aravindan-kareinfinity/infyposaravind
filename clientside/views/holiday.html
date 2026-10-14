@@ -1,0 +1,176 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a> HR /
+            Holiday Master
+            <!--<small></small>-->
+        </h1>
+        <ol class="breadcrumb">
+            <!--<li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+    <li><a href back-button>Back</a></li>
+    <li class="active">Manage Holiday</li-->
+            <li style="cursor:pointer" ng-hide="ShowNew" ng-click="AddNew()"><a><i class="fa fa-file"></i>New</a></li>
+            <li style="cursor:pointer" ng-hide="ShowNew" ng-click="Search()"><a><i class="fa fa-search"></i>Search</a></li>
+            <li style="cursor:pointer" ng-show="ShowNew" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li style="cursor:pointer" ng-show="!ShowNew && SearchResult && SearchResult.length>0" ng-click="CloneLeaves()"><a><i class="fa fa-save"></i>Copy</a></li>
+            <li style="cursor:pointer" ng-show="ShowNew" ng-click="SwitchPanel()"><a><i class="fa fa-backward"></i>Back</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row" ng-hide="ShowNew">
+            <div class="col-md-12">
+                <div class="box-body no-padding">
+                    <div class="box box-info">
+                        <div class="box-header">
+                            <div class="row row-padbot-15 col-md-6">
+                                <div class="form-group col-md-4">
+                                    <label for="inputEmail3" class="control-label">Holiday Type</label>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <div class="input-group" style="width:100%">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control input-sm datepicker"
+                                                   daterange="SearchCondition.fromdate,SearchCondition.todate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15 col-md-6">
+                                <div class="form-group col-md-4">
+                                    <label for="inputEmail3" class="control-label">Holiday Type</label>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <div class="input-group">
+                                        <select class="form-control select2 input-sm" style="width: 100%;"
+                                                select2="Select"
+                                                options="item.id as item.name for item in hoildaytypelist track by item.id"
+                                                ng-model="SearchCondition.holidaytype"></select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-info btn-sm pull-left" ng-click="Search()" data-widget="go" data-toggle="tooltip" title="Go"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <form class="form-horizontal">
+                            <div class="box-body no-padding">
+                                <table class="table">
+                                    <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Holiday On</th>
+                                        <th>Holiday Type</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    <tr ng-repeat="item in SearchResult">
+                                        <td><input type="checkbox" ng-model="item.selected" /></td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.description}}</td>
+                                        <td>{{item.holidayon  | date : "dd-MM-yyyy"}}</td>
+                                        <td>{{item.holidaytype}}</td>
+                                        <td>
+                                            <button type="button" class="btn-danger btn btn-xs" ng-click="ManageSearchItem('Delete',item)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                            <button type="button" class="btn-primary btn btn-xs" ng-click="ManageSearchItem('Edit',item)"
+                                                    data-widget="edit" data-toggle="tooltip" title="Edit">
+                                                <i class="fa fa-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row" ng-show="ShowNew">
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <form class="form-horizontal">
+                        <div class="box-header">
+                            <h3 class="box-title col-md-5">Create Holiday</h3>
+                            <div class="col-md-6">
+
+                            </div>
+                            <!--<div class="col-md-1">
+                                <button type="button" class="btn btn-primary btn-sm pull-right" ng-click="SwitchPanel()">Back</button>
+                            </div>-->
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label class="col-md-2">Name</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control input-sm " id="txtname" ng-model="Holiday.name" required focusid="first">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2">Description</label>
+                                <div class="col-md-4">
+                                    <textarea name="address" class="form-control" rows="3" ng-model="Holiday.description" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2">Holiday On</label>
+                                <div class="col-md-4">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" datemodule="Holiday.holidayon" ng-model="Holiday.holidayon  |date:dd-MM-yyyy">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2">Holiday Type</label>
+                                <div class="col-md-4">
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in hoildaytypelist track by item.id" ng-model="Holiday.holidaytype"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2">Wages Payable</label>
+                                <div class="col-md-3">
+                                    <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Holiday.payable">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2">Leave Encashment</label>
+                                <div class="col-md-8">
+
+                                    <input type="text" class="form-control input-sm " id="txtname"
+                                           style="width:100px"
+                                           ng-model="Holiday.leaveencashment" />
+                                    No of additional days
+                                </div>
+
+                            </div>
+                            <div class="col-md-11"></div>
+                            <!--<div class="col-md-1">
+                                <button type="submit" class="btn btn-primary btn-block btn-sm pull-right" ng-click="Save()">Save</button>
+                            </div>-->
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <!-- /.content -->
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<!-- Page script -->

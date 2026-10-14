@@ -1,0 +1,87 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a> HR /
+            Human Resource Reports
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <!--<li><a href="#"><i class="fa fa-dashboard"></i> Reports</a></li-->
+            <li style="cursor:pointer" ng-click="SearchHRReports()"><a><i class="fa fa-search"></i>Search</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid)"><a><i class="fa fa-download"></i>Download</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="control-label">Report Type</label>
+                            <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondition.reporttype" ng-change="ChangeReport()"
+                                    ng-options="item.code as item.name for item in ReportType track by item.code"></select>
+                        </div>
+
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="control-label">Company</label>
+                            <select class="form-control" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="SearchCondition.companyid"></select>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Section</label>
+                                <select class="form-control" style="width: 100%;" select2="" options="location.id as location.name for location in Divisions track by location.id"
+                                        ng-model="SearchCondition.sectionid"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label for="inputEmail3" class="control-label">Floor</label>
+                                <select class="form-control" style="width: 100%;"
+                                        select2="" options="floor.id as floor.name for floor in Floors track by floor.id" ng-model="SearchCondition.floorid"></select>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="control-label">Deptartment</label>
+                            <select class="form-control input-sm" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" ng-model="SearchCondition.departmentid"></select>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="control-label">Location</label>
+                            <select class="form-control input-sm" style="width: 100%;" select2="" options="location.id as location.name for location in Locations track by location.id" ng-model="SearchCondition.locationid"></select>
+                        </div>
+
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="control-label">Date Range</label>
+                            <input type="text" daterange="SearchCondition.fromdate,SearchCondition.todate" class="form-control input-sm" startDate="SearchCondition.fromdate"
+                                   endDate="SearchCondition.todate">
+                        </div>
+
+                        <div class="row row-padbot-15" ng-hide="SearchCondition.reporttype == 'RELIEVING'">
+                            <label for="inputEmail3" class="control-label">Employees Mode</label>
+                            <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondition.employeemode"
+                                    ng-options="item.code as item.name for item in EmployeeModes track by item.code"></select>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-hide="SearchCondition.reporttype='GENERAL' || SearchCondition.reporttype='SERVICECOMPLETION'">
+                            <label for="inputEmail3" class="control-label">All Years</label>
+                            <input type="checkbox" ng-model="SearchCondition.allyears">
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div id="gridContainer">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</div>
+

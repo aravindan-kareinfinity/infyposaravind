@@ -1,0 +1,265 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Image Gallery
+        </h1>
+        <ol class="breadcrumb">
+
+            <li style="cursor:pointer" ng-click="Search()"><a><i class="fa fa-search"></i>Search</a></li>
+            <li style="cursor:pointer" ng-show="downloading"
+                ng-click="CancelDownloadPDF()"><a><i class="fa fa-download"></i>Cancel Downloading...</a></li>
+            <li style="cursor:pointer"
+                ng-show="!downloading && Report != null && DetailPosition == '1'"
+                ng-click="DownloadPDF()"><a><i class="fa fa-download"></i>Download</a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-2 no-padding">
+
+
+                        <div class="col-md-12" style="overflow-y:scroll;overflow-x:hidden" ng-style="panelheight">
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Mode</label>
+                                <select class="input-sm" style="width:100%" ng-model="DetailPosition">
+                                    <option value="0">View</option>
+                                    <option value="1">Download</option>
+                                    <option value="2">Order</option>
+                                </select>
+                            </div>
+
+
+                            <div class="col-md-3 no-padding" ng-show="DetailPosition == 1">
+                                <label class="col-md-12 no-padding">Rows</label>
+                                <div class="col-md-12 no-padding">
+
+                                    <select class="input-sm" style="width:100%" ng-model="RowCount">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-9 no-padding" ng-show="DetailPosition == 1">
+                                
+                                <div class="col-md-4 no-padding">
+                                    <label class="col-md-12 no-padding">Width</label>
+                                    <input type="text" style="width:100%"
+                                           class="input-sm" ng-model="ImageWidth" />
+
+                                </div>
+                                <div class="col-md-4 no-padding">
+                                    <label class="col-md-12 no-padding">Qulaity</label>
+                                    <input type="text" style="width:100%"
+                                           class="input-sm" ng-model="ImageQuality" />
+                                </div>
+                                <div class="col-md-4 no-padding">
+                                    <label class="col-md-12 no-padding">Design</label>
+                                    <input type="text" style="width:100%"
+                                           class="input-sm" ng-model="DesignWidth" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Stock Location</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in Locations track by item.id"
+                                        ng-model="SearchCondition.locationid" focusid="locationid"
+                                        focusonenter="designid"></select>
+                            </div>
+
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Value Source</label>
+                                <select class="input-sm" style="width:100%" ng-model="SearchCondition.valuesource">
+                                    <option value="1">Stock</option>
+                                    <option value="2">SO</option>
+                                    <option value="3">Possible</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+
+                                <div class="col-md-4 no-padding">
+                                    <div class="col-md-12 no-padding">Image</div>
+                                    <input type="checkbox" ng-model="SearchCondition.onlyimage" />
+                                </div>
+                                <div class="col-md-4 no-padding">
+                                    <div class="col-md-12 no-padding">Stock</div>
+                                    <input type="checkbox" ng-model="SearchCondition.onlystock" />
+                                </div>
+                                <div class="col-md-4 no-padding">
+                                    <div class="col-md-12 no-padding">Assorted</div>
+                                    <div class="col-md-6 no-padding">
+                                        1.<input type="checkbox" ng-model="SearchCondition.onlyassorted" />
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        2.<input type="checkbox" ng-model="SearchCondition.assortedzero" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-12 no-padding">
+                                    Design
+
+                                </div>
+                                <input type="text" class="form-control input-sm" style="width:100%" ng-model="SearchCondition.designid" focusid="designid"
+                                       focusonenter="sizegroupid" />
+                            </div>
+
+
+
+                            <div class="col-md-12 no-padding" ng-show="SearchCondition.assortedzero || SearchCondition.onlyassorted">
+                                <label class="col-md-12 no-padding">Assorted Sizes</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in SizeGroups track by item.id"
+                                        ng-model="SearchCondition.assortedsizegroupid" focusid="sizegroupid"
+                                        focusonenter="productid"></select>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Size Group</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in SizeGroups track by item.id"
+                                        ng-model="SearchCondition.sizegroupid" focusid="sizegroupid"
+                                        focusonenter="productid"></select>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Products</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in Products track by item.id"
+                                        ng-model="SearchCondition.productid" focusid="productid"
+                                        focusonenter="brandid"></select>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Brand</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in Brands track by item.id"
+                                        ng-model="SearchCondition.brandid" focusid="brandid"
+                                        focusonenter="styleid"></select>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Style</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in Styles track by item.id"
+                                        ng-model="SearchCondition.styleid" focusid="styleid"
+                                        focusonenter="patternid"></select>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Pattern</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in Patterns track by item.id"
+                                        ng-model="SearchCondition.patternid" focusid="patternid"
+                                        focusonenter="materialid"></select>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Material</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in Materials track by item.id"
+                                        ng-model="SearchCondition.materialid" focusid="materialid"
+                                        focusonenter="colourid"></select>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Colour</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in Colors track by item.id"
+                                        ng-model="SearchCondition.colourid" focusid="colourid"
+                                        focusonenter="typeid"></select>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Type</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in TypeList track by item.id"
+                                        ng-model="SearchCondition.typeid" focusid="typeid"
+                                        focusonenter="fitid"></select>
+                            </div>
+
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Size</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in SizeList track by item.id"
+                                        ng-model="SearchCondition.sizeid" focusid="typeid"
+                                        focusonenter="fitid"></select>
+                            </div>
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Fit</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in FitList track by item.id"
+                                        ng-model="SearchCondition.fitid" focusid="fitid"
+                                        focusonenter="seasonid"></select>
+                            </div>
+
+
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Season</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in SeasonList track by item.id"
+                                        ng-model="SearchCondition.seasonid" focusid="seasonid"
+                                        focusonenter="brandid"></select>
+                            </div>
+
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Classification</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in Classification track by item.id"
+                                        ng-model="SearchCondition.classid" focusid="classid"
+                                        focusonenter="brandid"></select>
+                            </div>
+
+
+                            <div class="col-md-12 no-padding">
+                                <label class="col-md-12 no-padding">Salesmen</label>
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in Employees track by item.id"
+                                        ng-model="SearchCondition.salesmanid" focusid="salesmanid"
+                                        focusonenter="brandid"></select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-10 no-padding">
+                        <div id="gridResultContainer">
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+

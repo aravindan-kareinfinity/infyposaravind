@@ -1,0 +1,33 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Purchase Insight
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="Approve()"><a><i class="fa fas fa-angle-double-up"></i>Approve</a></li>
+            <li style="cursor:pointer" ng-click="Reject()"><a><i class="fa fas fa-angle-double-down"></i>Reject</a></li>
+            <li style="cursor:pointer" ng-click="PurchaseReturn()"><a><i class="fa far fa-list-alt"></i>Return</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'whdashboard', 'dashboard')"><a><i class="fa fa-download"></i></a></li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+                
+                <div class="row row-padbot-15">
+                    <div class="col-md-12" id="gridContainer">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+

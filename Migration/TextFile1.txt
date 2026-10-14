@@ -1,0 +1,910 @@
+﻿select o.name,ddps.row_count
+from sys.indexes as i
+inner join sys.objects as o on i.object_id=o.object_id
+inner join sys.dm_db_partition_stats as ddps on i.object_id = ddps.object_id
+and i.index_id = ddps.index_id
+where i.index_id<2 and o.is_ms_shipped = 0
+order by ddps.row_count desc
+
+select SupplierMas.Code
+,SupplierMas.Name
+,Address
+,CityCode
+,Pincode
+,Phoneno
+,Mobile
+,Fax
+,Email
+,Website
+,CstNo
+,CstDate
+,TinNo
+,TinDate,AccountHeadMas.Name AccountName,HeadType.HeadType,GroupHeadMas.Name AccountGroup from SupplierMas
+inner join AccountHeadMas on AccountHeadMas.Code = SupplierMas.AccountHeadCode
+inner join HeadType on HeadType.HeadValue = AccountHeadMas.HeadType
+inner join GroupHeadMas on GroupHeadMas.Code = AccountHeadMas.Groupheadcode
+
+select distinct itemcategorycode,itemcategoryname from ProductCategoryMas
+
+select ProductMas.Code,ProductMas.Name,st.TaxPercentage stax,pt.TaxPercentage ptax from ProductMas
+inner join (select * from ProductTaxMas where EntryType='SALES TAX') st on st.ProductCode = ProductMas.Code
+inner join (select * from ProductTaxMas where EntryType='PURCHASE TAX') pt on pt.ProductCode = ProductMas.Code
+
+
+delete from stock where createdby>0 ;
+delete from lrentry where createdby>0;
+delete from lrinvoice where createdby>0;
+delete from lrinvoicetax where createdby>0;
+delete from lrinvoiceitems where createdby>0;
+
+
+
+with gstock as
+(
+select schemelist->>'barcode' as barcode,cast(schemelist->>'stock' as money) as stock,salablegoods.id
+from fullstocksync
+LEFT JOIN LATERAL
+json_array_elements (fullstocksync.stockdetail :: json) schemelist ON true
+inner join salablegoods on salablegoods.barcode = schemelist->>'barcode'
+where fullstocksync.fileid = 19
+)
+
+update salablegoods set iqty=iqty-stock from gstock
+where salablegoods.id = gstock.id
+
+
+
+
+
+with gstock as
+(
+select schemelist->>'barcode' as barcode,cast(schemelist->>'stock' as money) as stockqty,stock.id
+from fullstocksync
+LEFT JOIN LATERAL
+json_array_elements (fullstocksync.stockdetail :: json) schemelist ON true
+inner join stock on stock.barcode = schemelist->>'barcode'
+where fullstocksync.fileid = 19
+)
+
+
+
+update stock set transfered=transfered-stockqty from gstock
+where stock.id = gstock.id
+
+
+
+
+
+
+
+
+with gstock as
+(
+select schemelist->>'barcode' as barcode,cast(schemelist->>'stock' as money) as stock,salablegoods.id
+from fullstocksync
+LEFT JOIN LATERAL
+json_array_elements (fullstocksync.stockdetail :: json) schemelist ON true
+inner join salablegoods on salablegoods.barcode = schemelist->>'barcode'
+where fullstocksync.fileid = 10
+)
+
+update salablegoods set iqty=iqty+stock from gstock
+where salablegoods.id = gstock.id
+
+
+
+update products set name = upper(name);
+
+with duplicaterecords as (
+			                                    SELECT id,  name , row_number() OVER (PARTITION BY name ORDER BY id) as ranknumber  
+			                                    FROM products),
+												finalrecords
+												as
+												(
+												select firstrows.id firstid, source.id,source.name from duplicaterecords source
+												inner join duplicaterecords firstrows on firstrows.name = source.name and firstrows.ranknumber = 1
+												where source.ranknumber>1
+												)
+
+update products set isactive = false from finalrecords 
+where products.id = finalrecords.id;
+
+
+update lrinvoiceitems set productid = firstid from finalrecords 
+where lrinvoiceitems.productid = finalrecords.id;
+
+update stock set productid = firstid from finalrecords 
+where stock.productid = finalrecords.id;
+
+with cancelledbills as
+(
+
+select id from bill where 
+billdate::date = '2020-05-17'
+and (
+billno like 'M2R20%' or
+	billno like 'M2S20%' or
+	billno like 'M4R20%' or
+	billno like 'M4S20%' 
+)
+)
+
+
+update billsettlementmaster set isactive = false, modifiedby=-1 from cancelledbills
+inner join billsettlement on billsettlement.billid = cancelledbills.id
+where billsettlement.billsettlementmasterid = billsettlementmaster.id
+
+--update billsettlement set isactive = false, modifiedby=-1 from cancelledbills
+--where billsettlement.billid = cancelledbills.id
+
+--update bill set billtype = 9,modifiedby=-1 from cancelledbills
+--where bill.id = cancelledbills.id
+
+--update salablegoods set oqty=oqty-qty from billitems
+--inner join cancelledbills on cancelledbills.id = billitems.billid
+--where billitems.salablegoodsid = salablegoods.id
+
+
+
+with mstock as
+(
+select stock.* from stock
+left outer join salablegoods on salablegoods.stockid = stock.id
+where salablegoods.id is null
+)
+
+INSERT INTO public.salablegoods(isactive, createdby, modifiedby, version, createdon, modifiedon, iqty, oqty, dqty, stockid, 
+            barcode, locationid, bundleid, itemid,companyid,received,supplierid,refillboxid,inwardon,price,
+								discount,additionaldiscount,ispurchaselocation,
+								pqty,tiqty,toqty,rqty,salereturnqty,costprice,icostprice) 
+select stock.isactive,stock.createdby,stock.modifiedby,stock.version,stock.createdon,stock.modifiedon,0,0,0,stock.id,
+stock.barcode,stock.locationid,0,stock.itemid,stock.companyid,true,stock.supplierid,0,current_date,stock.price,
+0,0,false,
+0,0,0,0,0,stock.buyingprice,stock.ibuyingprice
+from mstock stock
+
+
+
+with cancelledbills as
+(
+select id from bill where 
+billdate::date = '2020-05-17' and billtype = 9
+and billno in ('M1R20/116',
+'M4R/147842',
+'M4R20/1',
+'M4R20/2',
+'M4R20/3',
+'M1R20/117',
+'M4R20/4',
+'M1R20/118',
+'M4R20/5',
+'M4R20/6',
+'M4R20/7',
+'M4R20/8',
+'M1R20/119',
+'M4R20/9',
+'M4R20/10',
+'M1R20/120',
+'M1R20/121',
+'M1R20/122',
+'M1R20/123',
+'M1R20/124',
+'M4R20/11',
+'M1R20/125',
+'M4R20/12',
+'M4R20/13',
+'M4R20/14',
+'M1R20/126',
+'M1R20/127',
+'M1R20/128',
+'M4R20/15',
+'M4R20/16',
+'M4R20/17',
+'M4R20/18',
+'M4R20/19',
+'M1R20/129',
+'M4R20/20',
+'M4R20/21',
+'M4R20/22',
+'M1R20/130',
+'M4R20/23',
+'M1R20/131',
+'M4R20/24',
+'M1R20/132',
+'M4R20/25',
+'M1R20/133',
+'M4R20/26',
+'M4R20/27',
+'M4R20/28',
+'M4R20/29',
+'M4R20/30',
+'M4R20/31',
+'M4R20/32',
+'M4R20/33',
+'M4R20/34',
+'M4R20/35',
+'M4R20/36',
+'M4R20/37',
+'M4R20/38',
+'M4R20/39',
+'M1R20/134',
+'M1R20/135',
+'M4R20/40',
+'M4R20/41',
+'M4R20/42',
+'M1R20/136',
+'M4R20/43',
+'M1R20/137',
+'M1R20/138',
+'M1R20/139',
+'M1R20/140',
+'M1R20/141',
+'M1R20/142',
+'M4R20/44',
+'M1R20/143',
+'M4R20/45',
+'M4R20/46',
+'M4R20/47',
+'M1R20/144',
+'M4R20/48',
+'M1R20/145',
+'M1R20/146',
+'M4R20/49',
+'M1R20/147',
+'M4R20/50',
+'M4R20/51',
+'M1R20/148',
+'M4R20/52',
+'M4R20/53',
+'M1R20/149',
+'M4R20/54',
+'M4R20/55',
+'M4R20/56',
+'M4R20/57',
+'M4R20/58',
+'M4R20/59',
+'M1R20/150',
+'M4R20/60',
+'M4R20/61',
+'M1R20/151',
+'M4R20/62',
+'M4R20/63',
+'M4R20/64',
+'M1R20/152',
+'M4R20/65',
+'M4R20/66',
+'M4R20/67',
+'M1R20/153',
+'M4R20/68',
+'M4R20/69',
+'M4R20/70',
+'M4R20/71',
+'M4R20/72',
+'M4R20/73',
+'M1R20/154',
+'M4R20/74',
+'M1R20/155',
+'M1R20/156',
+'M4R20/75',
+'M4R20/76',
+'M4R20/77',
+'M1R20/157',
+'M4R20/78',
+'M1R20/158',
+'M1R20/159',
+'M4R20/79',
+'M1R20/160',
+'M1R20/161',
+'M1R20/162',
+'M4R20/80',
+'M1R20/163',
+'M1R20/164',
+'M1R20/165',
+'M1R20/166',
+'M4R20/81',
+'M1R20/167',
+'M1R20/168',
+'M1R20/169',
+'M4R20/82',
+'M1R20/170',
+'M1R20/171',
+'M1R20/172',
+'M1R20/173',
+'M1R20/174',
+'M1R20/175',
+'M4R20/83',
+'M4R20/84',
+'M4R20/85',
+'M4R20/86',
+'M4R20/87',
+'M1R20/176',
+'M1R20/177',
+'M1R20/178',
+'M1R20/179',
+'M1R20/180',
+'M4R20/88',
+'M1R20/181',
+'M4R20/89',
+'M1R20/182',
+'M4R20/90',
+'M1R20/183',
+'M1S20/1',
+'M1S20/2',
+'M1S20/3',
+'M1S20/4',
+'M1S20/5',
+'M1S20/6',
+'M1S20/7',
+'M1S20/8',
+'M1S20/9',
+'M1S20/10',
+'M1S20/11',
+'M1S20/12',
+'M1S20/13',
+'M1S20/14',
+'M1S20/15',
+'M1S20/16',
+'M1S20/18',
+'M1S20/19',
+'M1S20/20',
+'M1S20/21',
+'M1S20/22',
+'M1S20/23',
+'M1S20/24',
+'M1S20/25',
+'M1S20/26',
+'M1S20/27',
+'M1S20/28',
+'M1S20/29',
+'M1S20/31',
+'M1S20/32',
+'M1S20/33',
+'M1S20/34',
+'M1S20/35',
+'M1S20/36',
+'M1S20/37',
+'M1S20/38',
+'M1S20/39',
+'M1S20/40',
+'M1S20/41',
+'M1S20/42',
+'M1S20/43',
+'M1S20/44',
+'M1S20/45',
+'M1S20/46',
+'M1S20/47',
+'M1S20/48',
+'M1S20/49',
+'M1S20/50',
+'M1S20/51',
+'M1S20/52',
+'M1S20/53',
+'M1S20/54',
+'M1S20/55',
+'M1S20/56',
+'M1S20/57',
+'M1S20/58',
+'M1S20/59',
+'M1S20/60',
+'M1S20/61',
+'M1S20/62',
+'M1S20/63',
+'M1S20/64',
+'M1S20/65',
+'M1S20/66',
+'M1S20/67',
+'M1S20/68',
+'M1S20/69',
+'M1S20/70',
+'M1S20/71',
+'M1S20/72',
+'M1S20/73',
+'M1S20/74',
+'M1S20/75',
+'M1S20/76',
+'M1S20/77',
+'M1S20/78',
+'M1S20/79',
+'M1S20/80',
+'M1S20/81',
+'M1S20/82',
+'M1S20/83',
+'M1S20/84',
+'M1S20/85',
+'M1S20/86',
+'M1S20/87',
+'M1S20/88',
+'M1S20/89',
+'M1S20/90',
+'M1S20/91',
+'M1S20/92',
+'M1S20/93',
+'M1S20/94',
+'M1S20/95',
+'M1S20/96',
+'M1S20/97',
+'M1S20/98',
+'M1S20/99',
+'M1S20/100',
+'M1S20/101',
+'M1S20/102',
+'M1S20/103',
+'M1S20/104',
+'M1S20/105',
+'M1S20/106',
+'M1S20/107',
+'M1S20/108',
+'M1S20/109',
+'M1S20/110',
+'M1S20/111',
+'M1S20/112',
+'M1S20/113',
+'M1S20/114',
+'M1S20/115'
+)
+	)
+
+
+update bill set billtype = 0,modifiedby=createdby from cancelledbills
+where bill.id = cancelledbills.id
+
+
+--update billsettlementmaster set isactive = true, modifiedby=billsettlement.createdby from cancelledbills
+--inner join billsettlement on billsettlement.billid = cancelledbills.id
+--where billsettlement.billsettlementmasterid = billsettlementmaster.id
+
+
+--update billsettlement set isactive = true, modifiedby=createdby from cancelledbills
+--where billsettlement.billid = cancelledbills.id
+
+--update salablegoods set oqty=oqty+qty from billitems
+--inner join cancelledbills on cancelledbills.id = billitems.billid
+--where billitems.salablegoodsid = salablegoods.id
+
+
+
+
+with cancelledbills as
+(
+select id,billno,isactive,receivable,billtype from bill where 
+billdate::date = '2020-05-17' and billtype !=9
+and billno not in ('M1R20/116',
+'M4R/147842',
+'M4R20/1',
+'M4R20/2',
+'M4R20/3',
+'M1R20/117',
+'M4R20/4',
+'M1R20/118',
+'M4R20/5',
+'M4R20/6',
+'M4R20/7',
+'M4R20/8',
+'M1R20/119',
+'M4R20/9',
+'M4R20/10',
+'M1R20/120',
+'M1R20/121',
+'M1R20/122',
+'M1R20/123',
+'M1R20/124',
+'M4R20/11',
+'M1R20/125',
+'M4R20/12',
+'M4R20/13',
+'M4R20/14',
+'M1R20/126',
+'M1R20/127',
+'M1R20/128',
+'M4R20/15',
+'M4R20/16',
+'M4R20/17',
+'M4R20/18',
+'M4R20/19',
+'M1R20/129',
+'M4R20/20',
+'M4R20/21',
+'M4R20/22',
+'M1R20/130',
+'M4R20/23',
+'M1R20/131',
+'M4R20/24',
+'M1R20/132',
+'M4R20/25',
+'M1R20/133',
+'M4R20/26',
+'M4R20/27',
+'M4R20/28',
+'M4R20/29',
+'M4R20/30',
+'M4R20/31',
+'M4R20/32',
+'M4R20/33',
+'M4R20/34',
+'M4R20/35',
+'M4R20/36',
+'M4R20/37',
+'M4R20/38',
+'M4R20/39',
+'M1R20/134',
+'M1R20/135',
+'M4R20/40',
+'M4R20/41',
+'M4R20/42',
+'M1R20/136',
+'M4R20/43',
+'M1R20/137',
+'M1R20/138',
+'M1R20/139',
+'M1R20/140',
+'M1R20/141',
+'M1R20/142',
+'M4R20/44',
+'M1R20/143',
+'M4R20/45',
+'M4R20/46',
+'M4R20/47',
+'M1R20/144',
+'M4R20/48',
+'M1R20/145',
+'M1R20/146',
+'M4R20/49',
+'M1R20/147',
+'M4R20/50',
+'M4R20/51',
+'M1R20/148',
+'M4R20/52',
+'M4R20/53',
+'M1R20/149',
+'M4R20/54',
+'M4R20/55',
+'M4R20/56',
+'M4R20/57',
+'M4R20/58',
+'M4R20/59',
+'M1R20/150',
+'M4R20/60',
+'M4R20/61',
+'M1R20/151',
+'M4R20/62',
+'M4R20/63',
+'M4R20/64',
+'M1R20/152',
+'M4R20/65',
+'M4R20/66',
+'M4R20/67',
+'M1R20/153',
+'M4R20/68',
+'M4R20/69',
+'M4R20/70',
+'M4R20/71',
+'M4R20/72',
+'M4R20/73',
+'M1R20/154',
+'M4R20/74',
+'M1R20/155',
+'M1R20/156',
+'M4R20/75',
+'M4R20/76',
+'M4R20/77',
+'M1R20/157',
+'M4R20/78',
+'M1R20/158',
+'M1R20/159',
+'M4R20/79',
+'M1R20/160',
+'M1R20/161',
+'M1R20/162',
+'M4R20/80',
+'M1R20/163',
+'M1R20/164',
+'M1R20/165',
+'M1R20/166',
+'M4R20/81',
+'M1R20/167',
+'M1R20/168',
+'M1R20/169',
+'M4R20/82',
+'M1R20/170',
+'M1R20/171',
+'M1R20/172',
+'M1R20/173',
+'M1R20/174',
+'M1R20/175',
+'M4R20/83',
+'M4R20/84',
+'M4R20/85',
+'M4R20/86',
+'M4R20/87',
+'M1R20/176',
+'M1R20/177',
+'M1R20/178',
+'M1R20/179',
+'M1R20/180',
+'M4R20/88',
+'M1R20/181',
+'M4R20/89',
+'M1R20/182',
+'M4R20/90',
+'M1R20/183',
+'M1S20/116',
+'M1S20/117',
+'M1S20/118',
+'M1S20/119',
+'M1S20/120',
+'M1S20/121',
+'M1S20/122',
+'M1S20/123',
+'M1S20/124',
+'M1S20/125',
+'M1S20/126',
+'M1S20/127',
+'M1S20/128',
+'M1S20/129',
+'M1S20/130',
+'M1S20/131',
+'M1S20/132',
+'M1S20/133',
+'M1S20/134',
+'M1S20/135',
+'M1S20/136',
+'M1S20/137',
+'M1S20/138',
+'M1S20/139',
+'M1S20/140',
+'M1S20/141',
+'M1S20/142',
+'M1S20/143',
+'M1S20/144',
+'M1S20/145',
+'M1S20/146',
+'M1S20/147',
+'M1S20/148',
+'M1S20/149',
+'M1S20/150',
+'M1S20/151',
+'M1S20/152',
+'M1S20/153',
+'M1S20/154',
+'M1S20/155',
+'M1S20/156',
+'M1S20/157',
+'M1S20/158',
+'M1S20/159',
+'M1S20/160',
+'M1S20/161',
+'M1S20/162',
+'M1S20/163',
+'M1S20/164',
+'M1S20/165',
+'M1S20/166',
+'M1S20/167',
+'M1S20/168',
+'M1S20/169',
+'M1S20/170',
+'M1S20/171',
+'M1S20/172',
+'M1S20/173',
+'M1S20/174',
+'M1S20/175',
+'M1S20/176',
+'M1S20/177',
+'M1S20/178',
+'M1S20/179',
+'M1S20/180',
+'M1S20/181',
+'M1S20/182',
+'M1S20/183',
+'M1S20/184',
+'M1S20/185',
+'M1S20/186',
+'M1S20/187',
+'M1S20/188',
+'M1S20/189',
+'M1S20/190',
+'M1S20/191',
+'M1S20/192',
+'M1S20/193',
+'M1S20/194',
+'M1S20/195',
+'M1S20/196',
+'M1S20/197',
+'M1S20/198',
+'M1S20/199',
+'M1S20/200',
+'M1S20/201',
+'M1S20/202',
+'M1S20/203'
+)
+)
+
+
+--update billsettlementmaster set isactive = false, modifiedby=-1 from cancelledbills
+--inner join billsettlement on billsettlement.billid = cancelledbills.id
+--where billsettlement.billsettlementmasterid = billsettlementmaster.id
+
+--update billsettlement set isactive = false, modifiedby=-1 from cancelledbills
+--where billsettlement.billid = cancelledbills.id
+
+--update bill set billtype = 9,modifiedby=-1 from cancelledbills
+--where bill.id = cancelledbills.id
+
+--update salablegoods set oqty=oqty-qty from billitems
+--inner join cancelledbills on cancelledbills.id = billitems.billid
+--where billitems.salablegoodsid = salablegoods.id
+
+
+
+
+update bill set billdate='2020-05-15',modifiedby=-9 where 
+(billno like 'R4R20/%' OR billno like 'R4S20/%')
+and BILLTYPE != 9 and isactive = true
+
+update billsettlement set receiptdate='2020-05-15',modifiedby=-9 from bill
+where bill.id = billsettlement.billid and
+(bill.billno like 'R4R20/%' OR bill.billno like 'R4S20/%')
+and BILLTYPE != 9 and bill.isactive = true
+
+update billsettlementmaster set settlementon ='2020-05-15',modifiedby=-9 from billsettlement
+inner join bill on bill.id = billsettlement.billid
+where billsettlementmaster.id = billsettlement.billsettlementmasterid and
+(bill.billno like 'R4R20/%' OR bill.billno like 'R4S20/%')
+and BILLTYPE != 9 and bill.isactive = true
+
+
+
+
+
+
+
+
+--update salablegoods set oqty=oqty-(billitems.qty) from billitems
+--where billitems.salablegoodsid = salablegoods.id
+
+
+--update salablegoods set dqty=iqty-oqty 
+--where salablegoods.locationid=148 and salablegoods.companyid=3 and salablegoods.createdon<'2020-05-20';
+
+
+/*update salablegoods set dqty=dqty-cast(schemelist->>'stock' as money)
+from fullstocksync
+LEFT JOIN LATERAL
+json_array_elements (fullstocksync.stockdetail :: json) schemelist ON true
+where fullstocksync.fileid=13 and salablegoods.barcode = schemelist->>'barcode' and salablegoods.locationid=148 and salablegoods.companyid=3 and salablegoods.createdon<'2020-05-20';
+*/
+
+/*update salablegoods set oqty=oqty+(billitems.qty) from billitems
+where billitems.salablegoodsid = salablegoods.id*/
+
+
+
+select billno,barcode,stockid,billitems.id,bill.locationid from billitems
+inner join bill on bill.id = billitems.billid
+where barcode = '351595115958286'
+
+
+select id,stockid from salablegoods where barcode = '351595113326486' and locationid = 588
+select id,stockid,iqty,oqty from salablegoods where barcode = '351595115958286' and locationid = 588
+
+update salablegoods set oqty = 0 where id=129794;
+update salablegoods set oqty = oqty+1::money where id=129795;
+update billitems set barcode = '351595113326486',stockid=75888,salablegoodsid=129795 where id=70725;
+
+update stock set stockdate = cast(stockdatechanges.stockdate as timestamp)
+from stockdatechanges
+where stockdatechanges.barcode = stock.barcode
+
+
+
+
+update lrinvoice set entrydate=stockdate from lrinvoiceitems
+inner join stock on stock.invoiceitemid=lrinvoiceitems.id
+where lrinvoiceitems.lrinvoiceid = lrinvoice.id
+
+
+update lrentry set lrentrydate=stockdate from  lrinvoice
+inner join lrinvoiceitems on lrinvoiceitems.lrinvoiceid = lrinvoice.id
+inner join stock on stock.invoiceitemid=lrinvoiceitems.id
+where lrinvoice.lrid = lrentry.id
+
+
+
+select * from ststock
+
+select referencelist.name,brand.name,supplier.name,stock.designid from salablegoods
+inner join stock on stock.id = stock.id
+inner join referencelist on referencelist.id = salablegoods.locationid
+inner join supplier on supplier.id =stock.supplierid
+inner join items on items.id = stock.itemid
+inner join brand on brand.id = brandid
+limit 10
+
+
+select distinct salablegoods.barcode from salablegoods
+inner join stock on stock.id = stockid
+left outer join lrinvoiceitems on lrinvoiceitems.id = stock.invoiceitemid and lrinvoiceitems.isactive = true
+left outer join lrinvoice on lrinvoice.id = lrinvoiceitems.lrinvoiceid and lrinvoice.isactive = true
+inner join items on items.id = stock.itemid
+inner join products on products.id = stock.productid
+left outer join brand on brand.id = items.brandid
+left outer join referencelist on referencelist.id = salescounterid
+where salablegoods.price>=450::money
+and (referencelist.id is null or (referencelist.name not in ('BASICS',
+'INDIAN TERRAIN',
+'Jockey',
+'LOUIS PHILIPPE',
+'PETER ENGLAND',
+'Ramraj',
+'Sero',
+'VAN HEUSEN',
+'ZERO'
+))) and products.name not in ('BRA',
+'RUN.MATERIAL',
+'DUPPATA',
+'PANTIES',
+'JUST BORN',
+'DHOTIES',
+'SLIPS',
+'BED SHEET',
+'LINING(2 X 1)',
+'BRIEF',
+'INSKIRT',
+'BANIAN',
+'BEAUTY ITEMS',
+'LUNGI',
+'RAIN WEAR',
+'SWEATER',
+'TRUNK',
+'BAG',
+'BLOUSE BIT',
+'DHOTHI SET',
+'IMITATION',
+'CURTAIN',
+'SWIMMING SUIT',
+'PILLOW COVER',
+'TOYS',
+'WATER BOTTLE',
+'WALLET',
+'MAT',
+'SHAWL',
+'DRAWER',
+'MENS BELT',
+'PERFUME',
+'SWIMMING SHORTS',
+'SOCKS',
+'DEODORANT',
+'HAND GLOVES',
+'Jerkins',
+'LUNCH BOX',
+'GOGGLES',
+'GIFT ITEMS',
+'BED COVER',
+'LADIES BELT',
+'TIE',
+'SHAPER',
+'PILLOW',
+'Cotton Towel',
+'SWIMMING CAP',
+'PENCIL POUCH',
+'SAMY PAVADA',
+'COTTON BAG',
+'FLASK',
+'STOCKINGS',
+'MENS SHOE',
+'SOFA COVER',
+'COIN POUCH',
+'KERCHIEF',
+'HAND BAG',
+'Baby Jebbla',
+'BED',
+'RAIN COAT',
+'RAIN PANT',
+'Mens Sweater',
+'L LEGGINGS',
+'GIRLS LEGGINGS',
+'MASK',
+'SANITIZER')
+and (current_date-lrinvoice.entrydate::date>450 or (
+current_date-lrinvoice.entrydate::date is null and current_date-stock.createdon::date>450)) and 
+salablegoods.discount<(salablegoods.price+salablegoods.discount)*20/100
+

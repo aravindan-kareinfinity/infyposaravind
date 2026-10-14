@@ -1,0 +1,94 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Sales Order
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'outward','inwardreport')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-click="printInfyGrid(igrid)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-click="SearchCustomStock()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box primary">
+            <div class="box-body">
+                <div class="col-md-2 no-padding">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>COMPANY</label>
+                            <select class="form-control" select2='Company' width="100%" ng-options="item.id as item.name for item in Company track by item.id" ng-model="SearchCondition.companyid"></select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>LOCATION</label>
+                            <div class="input-group-sm">
+                                <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Location track by item.id" ng-model="SearchCondition.locationid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>DIVISION</label>
+                            <div class="input-group-sm">
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in ProductDivision track by item.id"
+                                        ng-model="SearchCondition.prddivisionid" focusid="fitid" focusonenter="seasonid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>PRODUCT</label>
+                            <div class="input-group-sm">
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in Product track by item.id"
+                                        ng-model="SearchCondition.productid" focusid="productid"
+                                        focusonenter="fabricid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>CLASSIFICATION</label>
+                            <div class="input-group-sm">
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-options="item.id as item.name for item in Classification track by item.id"
+                                        ng-model="SearchCondition.classificationid" focusid="fitid" focusonenter="seasonid"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-repeat="item in CustomFields">
+                        <div class="col-md-12">
+                            <label>{{item.display}}</label>
+                            <div class="pull-right">
+                                <input type="checkbox" ng-model="item.selected" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-9 no-padding">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

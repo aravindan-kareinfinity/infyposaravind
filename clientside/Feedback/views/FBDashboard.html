@@ -1,0 +1,95 @@
+﻿        <!-- Left side column. contains the logo and sidebar -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-info">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-9 col-sm-8">
+                        
+                    </div>
+                    <div class="col-md-3 col-sm-4">
+                        <div class="form-group" style="padding-top:10px">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control input-sm" style="width:100%" daterange="SearchCondition.fromdate,SearchCondition.todate">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary btn-sm" ng-click="Search(true)" data-widget="go" data-toggle="tooltip" title="Go"><i class="fa fa-search"></i></button>
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-lg-4 col-sm-12 col-xs-12">
+                        <canvas id="polar-area" class="chart chart-doughnut"
+                                chart-data="wdata" chart-labels="wlabels" style="height:200px"
+                                chart-options="woptions"></canvas>
+                    </div>
+
+                    <div class="col-lg-4 col-sm-12 col-xs-12">
+                        <canvas id="polar-area" class="chart chart-doughnut"
+                                chart-data="mdata" chart-labels="mlabels" style="height:200px"
+                                chart-options="moptions"></canvas>
+                    </div>
+
+                    <div class="col-lg-4 col-sm-12 col-xs-12">
+                        <canvas id="polar-area" class="chart chart-doughnut"
+                                chart-data="ydata" chart-labels="ylabels" style="height:200px"
+                                chart-options="yoptions"></canvas>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:20px">
+                <div class="col-md-12">
+
+                    
+                        <canvas id="leftchart" style="height:300px"></canvas>
+                   
+                </div>
+            </div>
+
+        </div>
+
+        <script language="javascript">
+
+            function hexToRgb(hex) {
+                if (hex.startsWith('rgba(')) {
+                    var result = hex.substring(5, hex.indexOf(')', 6)).split(',');
+                    return {
+                        r: parseInt(result[0], 16),
+                        g: parseInt(result[1], 16),
+                        b: parseInt(result[2], 16)
+                    };
+                }
+                rgba(151, 187, 205, 1)
+                // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+                var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+                hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+                    return r + r + g + g + b + b;
+                });
+
+                var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                return result ? {
+                    r: parseInt(result[1], 16),
+                    g: parseInt(result[2], 16),
+                    b: parseInt(result[3], 16)
+                } : null;
+            }
+        </script>
+
+    </section>
+
+    <!-- /.content -->
+</div>

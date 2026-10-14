@@ -1,0 +1,92 @@
+pipeline {
+    agent any
+
+    environment {
+        // Customize these variables based on your project and build requirements
+        MSBUILD_PATH = "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe"
+        SOLUTION_FILE = "InfyPOS.sln"
+        CONFIGURATION = "Release"
+        OUTPUT_PATH = "F:\\WorkSpace\\Build\\InfyPOS\\InfyPOS-4.8-Build\\bin"
+        REFERENCE_PATH = ".\\bin\\"
+        PACKAGESPATH = "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\packages"
+        sub = "Quanto-4.8 Latest Build"
+        content = "URL - https://qk-local.quantosaas.com/release/"
+    }
+
+    stages {
+        stage('NuGet Delete Packages') {
+            steps {
+                script {
+                    pwsh "Remove-Item -Path ${PACKAGESPATH}\\* -Recurse -Force"
+                }  
+            }
+        }        
+        stage('Clean') {
+            steps {
+                script {
+                    // Clean the solution
+                    bat "\"${MSBUILD_PATH}\" /t:Clean /p:Configuration=${CONFIGURATION} /p:OutputPath=${OUTPUT_PATH} /p:ReferencePath=${REFERENCE_PATH} ${SOLUTION_FILE}"
+                }
+            }
+        }        
+        stage('NuGet Restore') {
+            steps {
+                script {
+                    bat "nuget restore \"${SOLUTION_FILE}\" -o ..\\packages\\"
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    // Run MSBuild command
+                    bat "\"${MSBUILD_PATH}\" /t:Build /p:Configuration=${CONFIGURATION} /p:OutputPath=${OUTPUT_PATH} /p:ReferencePath=${REFERENCE_PATH} ${SOLUTION_FILE}"
+                }
+            }
+        }
+        stage('Compress') {
+            steps {
+                script {
+                    try {
+                        // Run a batch file that does both operations
+                        bat 'cd compress && call run.bat'
+                    } catch (Exception e) {
+                        echo "Ignoring failure in 'PowerShell Command' stage."
+                    }
+                }
+            }
+        }
+        stage('Copy Release') {
+            steps {
+                script {
+                // Run a PowerShell command
+                // bat 'xcopy /y "index.html" "F:\\WorkSpace\\Build\\InfyPOS\\InfyPOS-4.8-Build"'
+                // bat 'xcopy /y "index_full.html" "F:\\WorkSpace\\Build\\InfyPOS\\InfyPOS-4.8-Build"'
+                // bat 'cd bin && xcopy /y "InfyPOS.dll" "F:\\WorkSpace\\Build\\InfyPOS\\InfyPOS-4.8-Build"'
+                // bat 'cd bin && xcopy /y "InfyPOS.pdb" "F:\\WorkSpace\\Build\\InfyPOS\\InfyPOS-4.8-Build"'
+                    pwsh "F:\\WorkSpace\\Scripts\\InfyPOS-4.8-Release.ps1"
+                }
+            }
+        }        
+    }
+    // post {
+    //     success {
+    //         echo 'Build successful! Add additional post-build steps here if needed.'
+    //     }
+    //     failure {
+    //         echo 'Build failed! Handle failures here if needed.'
+    //     }
+    // }
+    post {
+    success {
+        mail to: "${quanto_recipientEmails}",
+            subject: "${sub}",
+                body: "${content}"
+    }
+    failure {
+        mail to: "${devopsAdmin}",
+            subject: 'Failed Quanto-4.8 Pipeline',
+                body: 'The pipeline has failed. Please check the console output for more details.'
+    }
+    }
+}

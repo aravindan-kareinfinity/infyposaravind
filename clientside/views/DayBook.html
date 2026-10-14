@@ -1,0 +1,80 @@
+﻿
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header" style="height:33px">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Finance / Daybook
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li style="width:800px">
+
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-7 no-padding">
+                        <div class="col-md-4 no-padding">
+                            <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.displayname for item in Ledgers track by item.id" ng-model="SearchCondition.ledgerid"></select>
+                        </div>
+                        <div class="col-md-4 no-padding">
+                            <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in Locations track by item.id" ng-model="SearchCondition.locationid"></select>
+                        </div>
+                        <div class="col-md-4 no-padding">
+                            <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.name for item in Company track by item.id" ng-model="SearchCondition.companyid"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 no-padding">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control input-sm datepicker"
+                                   daterange="SearchCondition.fromdate,SearchCondition.todate">
+
+                            <span class="input-group-btn" ng-click="SearchDaybook()">
+                                <button class="btn btn-sm btn-info btn-box"><i class="fa fa-search"></i></button>
+                            </span>
+                            <span class="input-group-btn" ng-click="exporttoExcel(igrid,'Courier entry', 'courier')">
+                                <button class="btn btn-sm btn-success btn-box"><i class="fa fa-download"></i></button>
+                            </span>
+                            <span class="input-group-btn" ng-show="ShowLedgerPrint" ng-click="PrintLedger()">
+                                <button class="btn btn-sm btn-primary btn-box"><i class="fa fa-print"></i></button>
+                            </span>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary">
+            <div class="box-body no-border">
+                <div class="col-md-12 no-padding">
+
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+                </div>
+                <div class="col-md-12 no-padding" ng-show="ShowClosingBalance">
+                    <div style="width:790px;float:left">Closing Balance</div>
+                    <div style="width:100px;float:left">
+                        <div style="float:right">
+                            {{ClosingBalance.debit}}
+                        </div>
+                    </div>
+                    <div style="width:100px;float:left">
+                        <div style="float:right">
+                            {{ClosingBalance.credit}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+</div>
+

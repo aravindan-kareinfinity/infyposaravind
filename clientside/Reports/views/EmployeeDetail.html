@@ -1,0 +1,87 @@
+﻿   <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+          Sales /  Employee Detail Report
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'employeedetail', 'employeedetail')"><a><i class="fa fa-download"></i>Export</a></li>
+            <li style="cursor:pointer" ng-click="SearchEmployeeDetail()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box primary">
+            <div class="box-body">
+
+                <div class="col-md-3">
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label for="inputEmail3">Employee Code</label>
+                            <div>
+                                <input type="text" class="form-control input-sm" ng-model="SearchCondition.employeecode" onkeyenter="SearchEmployeeDetail()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label for="inputEmail3">Employee Name</label>
+                            <div>
+                                <input type="text" class="form-control input-sm" ng-model="SearchCondition.name" onkeyenter="SearchEmployeeDetail()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label for="inputEmail3">Contact No</label>
+                            <div>
+                                <input type="text" class="form-control input-sm" ng-model="SearchCondition.contactno" onkeyenter="SearchEmployeeDetail()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label for="inputEmail3">Employment Mode</label>
+                            <div>
+                                <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="item.id as item.name for item in WorkingModes track by item.id" ng-model="SearchCondition.workingmode" onkeyenter="SearchEmployeeDetail()"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label for="inputEmail3">Company</label>
+                            <div>
+                                <select class="form-control input-sm" style="width: 100%;" select2="" ng-options="company.id as company.name for company in Companies track by company.id" ng-model="SearchCondition.companyid" focusid="company" focusonenter="todate"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>Show Address</label>&nbsp; <input type="checkbox" class="icheckbox_flat-green pull-right" ng-model="SearchCondition.showcontact" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9 no-padding">
+
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+</div>

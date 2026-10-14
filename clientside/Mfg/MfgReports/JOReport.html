@@ -1,0 +1,159 @@
+﻿   <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Job Order
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'Workorder Summary','WorkorderSummary')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-click="SearchJOSummary()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary">
+            <div class="box-body ">
+
+
+
+                <div class="col-md-2 no-padding">
+
+                    <div class="col-md-12 no-padding">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Order Issued</label>
+
+                            <div class="col-md-12">
+                                <select class="form-control input-sm" select2="" style="width: 100%;" ng-model="SearchCondition.Mode"
+                                        ng-options="item.id as item.name for item in DeliveryModes track by item.id"></select>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12 no-padding">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Company</label>
+                            <div class="col-md-12">
+                                <select class="form-control input-sm" select2="" style="width: 100%;" ng-model="SearchCondition.companyid"
+                                        ng-options="item.id as item.name for item in Company track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12  no-padding">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Location</label>
+                            <div class="col-md-12">
+                                <select class="form-control input-sm" select2="" style="width: 100%;" ng-model="SearchCondition.locationid"
+                                        ng-options="item.id as item.name for item in AllLocation track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Supplier</label>
+                            <div class="col-md-12">
+                                <select class="form-control input-sm" select2="" style="width: 100%;" ng-model="SearchCondition.supplierid"
+                                        ng-options="item.id as item.name for item in Supplier track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Product</label>
+                            <div class="col-md-12">
+                                <select class="form-control input-sm" select2="" style="width: 100%;" ng-model="SearchCondition.productid"
+                                        ng-options="item.id as item.name for item in Product track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Designs</label>
+                            <div class="col-md-12">
+                                <input class="form-control input-sm" type="text" style="width:100%" ng-model="SearchCondition.design" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Core Stage</label>
+                            <div class="col-md-12">
+                                <select class="form-control input-sm" select2="" style="width: 100%;" ng-model="SearchCondition.corestageid"
+                                        ng-options="item.id as item.name for item in CoreStages track by item.id"></select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Order Date</label>
+                            <div class="col-md-12">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" daterange="SearchCondition.fromdate,SearchCondition.todate" class="input-sm form-control pull-right">
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-12 no-padding">
+                        <div class="form-group">
+
+                            <label for="inputEmail3" class="col-md-12">Due Date</label>
+                            <div class="col-md-12">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" daterange="SearchCondition.duefromdate,SearchCondition.duetodate" class="input-sm form-control pull-right">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">Show Only Pending</label>
+                            <div class="col-md-12">
+                                <input type="checkbox" ng-model="IsPending" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-12">BOM Processing</label>
+                            <div class="col-md-12">
+                                <input type="checkbox" ng-model="SearchCondition.onlybom" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </section>
+</div>
+

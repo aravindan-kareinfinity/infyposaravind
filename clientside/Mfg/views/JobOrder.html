@@ -1,0 +1,1192 @@
+﻿   <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            JOB Order
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="LastSaved()"><a><i class="fa fa-trash"></i>Last Saved</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="(!JobOrder.inwardjob && JobOrder.corestageid == 1)" style="cursor:pointer" ng-click="ImportBOM()"><a><i class="fa fa-download"></i>Import Fabric</a></li>
+            <li ng-show="JobOrder && JobOrder.id && JobOrder.id>0" style="cursor:pointer" ng-click="Print(JobOrder.id)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="JobOrder && JobOrder.id && JobOrder.id>0" style="cursor:pointer" ng-click="PrintBarcode(JobOrder.id)"><a><i class="fa fa-barcode"></i>Barcode</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary">
+            <div class="box-body ">
+                <div class="col-md-12 no-padding" ng-hide="ShowSearch">
+
+                    <div class="col-md-4 no-padding">
+
+
+                        <div class="col-md-12 no-padding"
+                             style="border-bottom: 1px solid #ccc;margin-bottom:10px">
+                            <div class="col-md-4 no-padding">
+                                <label class="smalllabel" style="color:brown"><b>Mode</b></label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="pull-left">
+                                    <input type="radio" ng-disabled="JobOrder.inwardjob && EnableReadonly" ng-model="JobOrder.mode"
+                                           value="Internal" />
+                                </div>
+
+                                <div class="pull-left" ng-disabled="JobOrder.inwardjob && EnableReadonly" style="padding-left:5px">Internal</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="pull-left">
+                                    <input type="radio" ng-disabled="JobOrder.inwardjob && EnableReadonly" ng-model="JobOrder.mode"
+                                           value="External" />
+                                </div>
+                                <div class="pull-left" style="padding-left:5px">External</div>
+                            </div>
+                            <div class="col-md-2" ng-hide="(!JobOrder.inwardjob && JobOrder.corestageid == 1)">
+                                <button type="button" class="pull-right btn btn-xs btn-primary" ng-click="ChangeQty('Clear')" style="position: absolute;right: 0px;"><i class="fa fa-times"></i></button>
+                                <button type="button" class="pull-right btn btn-xs btn-danger" ng-click="ChangeQty('All')" style="position: absolute;right: 30px;"><i class="fa fa-check"></i></button>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-md-6 no-padding">
+                            <label class="smalllabel" style="color:brown"><b>Work Order No</b></label>
+                            <input method="text" class="form-control input-sm" ng-disabled="JobOrder.inwardjob  && EnableReadonly"
+                                   style="width: 100%;" focusid="workorderno" focusonenter="joborderno"
+                                   ng-model="JobOrder.workorderno" ng-readonly="true">
+                        </div>
+
+
+                        <div class="col-md-6 no-padding">
+                            <label class="smalllabel" style="color:brown"><b>Stage</b></label>
+                            <input ng-readonly="true" class="form-control input-sm" ng-model="JobOrder.stagename" />
+                        </div>
+
+                        <div class="col-md-6 no-padding">
+                            <label class="smalllabel" style="color:brown"><b>JOB NO</b></label>
+                            <input method="text" class="form-control input-sm" ng-disabled="JobOrder.inwardjob  && EnableReadonly"
+                                   style="width: 100%;" focusid="joborderno" focusonenter="joborderdate"
+                                   ng-model="JobOrder.joborderno" ng-readonly="true">
+                        </div>
+
+                        <div class="col-md-6 no-padding">
+                            <label class="smalllabel" style="color:brown"><b>JOB CARD NO</b></label>
+                            <input method="text" class="form-control input-sm"
+                                   style="width: 100%;" focusid="jobcardno" focusonenter="joborderdate"
+                                   ng-model="JobOrder.jobcardno">
+                        </div>
+
+                        <div class="col-md-6 no-padding">
+                            <label class="smalllabel" style="color:brown"><b>JOB Date</b></label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control input-sm pull-right"
+                                       focusid="joborderdate" focusonenter="expectedate"
+                                       datemodule="JobOrder.joborderdate"
+                                       ng-disabled="JobOrder.inwardjob  && EnableReadonly"
+                                       ng-model="JobOrder.joborderdate" id="datepicker">
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 no-padding">
+                            <label class="smalllabel" style="color:brown"><b>Exp Date</b></label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control input-sm pull-right"
+                                       focusid="expectedate" focusonenter="issuedby"
+                                       ng-disabled="JobOrder.inwardjob  && EnableReadonly"
+                                       datemodule="JobOrder.expectedate"
+                                       ng-model="JobOrder.expectedate" id="datepicker">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding" style="padding-left:1px;padding-right:1px">
+                            <div class="col-md-6 no-padding">
+                                <label class="smalllabel" style="color:brown"><b>Issued By</b></label>
+                                <select class="form-control" select2='Employee' style="width:100%;"
+                                        ng-options="item.id as item.name for item in Employee track by item.id"
+                                        ng-model="JobOrder.issuedby" focusid="issuedby"
+                                        ng-disabled="JobOrder.inwardjob  && EnableReadonly"
+                                        focusonenter="receivedby"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label class="smalllabel" style="color:brown"><b>Received By</b></label>
+                                <select class="form-control" select2='Employee' style="width:100%;"
+                                        ng-options="item.id as item.name for item in Employee track by item.id"
+                                        ng-model="JobOrder.receivedby" focusid="receivedby"
+                                        ng-disabled="JobOrder.inwardjob  && EnableReadonly"
+                                        focusonenter="locationid"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding" style="padding-left:1px;padding-right:1px">
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+
+                                    <label class="smalllabel" style="color:brown"><b>Location</b></label>
+                                    <select class="form-control" select2='Location' style="width:100%;"
+                                            ng-options="item.id as item.name for item in WarehouseLocations track by item.id"
+                                            ng-model="JobOrder.fromlocationid" focusid="locationid"
+                                            ng-disabled="JobOrder.inwardjob  && EnableReadonly"
+                                            focusonenter="statusid"></select>
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label class="smalllabel" style="color:brown"><b>Job Status</b></label>
+                                    <select class="form-control" select2='Status' style="width:100%;"
+                                            ng-options="item.id as item.name for item in StatusList track by item.id"
+                                            ng-model="JobOrder.status" focusid="statusid"
+                                            onkeyenter="ConditionalExecute(JobOrder.mode == 'External',setFocussuppliercompanyid,setFocussno)"></select>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 no-padding"
+                             ng-show="JobOrder.mode == 'External'"
+                             style="padding-left:1px;padding-right:1px">
+
+                            <label class="smalllabel" style="color:brown"><b>Supplier</b></label>
+                            <select class="form-control" select2='Supplier' style="width:100%;"
+                                    ng-options="item.id as item.name for item in SupplierCompany track by item.id"
+                                    ng-model="JobOrder.supplierid"
+                                    focusid="suppliercompanyid"
+                                    ng-disabled="JobOrder.inwardjob  && EnableReadonly"
+                                    onkeyenter="ConditionalExecute(JobOrder.supportexpqty,setFocussourcematerial,setFocussno)"></select>
+                        </div>
+
+
+                        <div class="col-md-12 no-padding" ng-show="JobOrder.inwardjob && JobOrder.mode == 'External'"
+                             style="padding-left:1px;padding-right:1px">
+
+                            <div class="col-md-6 no-padding">
+                                <label class="smalllabel" style="color:brown"><b>Invoice Date</b></label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control input-sm pull-right"
+                                           focusid="invoicedate"
+                                           datemodule="JobOrder.invoicedate"
+                                           ng-model="JobOrder.invoicedate"
+                                           focusonenter="invoiceno">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6 no-padding">
+                                <label class="smalllabel" style="color:brown"><b>Invoice No</b></label>
+                                <input method="text" class="form-control input-sm"
+                                       style="width: 100%;" focusid="invoiceno" focusonenter="inwardeddate"
+                                       ng-model="JobOrder.invoiceno">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding" ng-show="JobOrder.inwardjob"
+                             style="padding-left:1px;padding-right:1px">
+
+                            <div class="col-md-6 no-padding">
+                                <label class="smalllabel" style="color:brown"><b>Inward Date</b></label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control input-sm pull-right"
+                                           focusid="inwardeddate"
+                                           datemodule="JobOrder.inwardeddate"
+                                           ng-model="JobOrder.inwardeddate"
+                                           focusonenter="inwardedby">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6 no-padding">
+                                <label class="smalllabel" style="color:brown"><b>Inwarded By</b></label>
+                                <select class="form-control" select2='Employee' style="width:100%;"
+                                        ng-options="item.id as item.name for item in Employee track by item.id"
+                                        ng-model="JobOrder.inwardedby" focusid="inwardedby"
+                                        onkeyenter="ConditionalExecute(JobOrder.mode == 'External',setFocussuppliercompanyid,setFocussno)"></select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 no-padding" ng-hide="JobOrder.inwardjob || JobOrder.supportexpqty"
+                             style="padding-left:1px;padding-right:1px">
+
+                            <div class="col-md-6 no-padding">
+                                <label class="smalllabel" style="color:brown"><b>Material Source</b></label>
+                                <select class="form-control" select2='Location' style="width:100%;"
+                                        ng-options="item.id as item.name for item in MaterialType track by item.id"
+                                        ng-model="JobOrder.sourcematerial" focusid="sourcematerial"
+                                        focusonenter="outcomematerial"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+
+                                <label class="smalllabel" style="color:brown"><b>Job Outcome</b></label>
+                                <select class="form-control" select2='Location' style="width:100%;"
+                                        ng-options="item.id as item.name for item in MaterialType track by item.id"
+                                        ng-model="JobOrder.outcomematerial" focusid="outcomematerial"
+                                        focusonenter="sno"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 no-padding" ng-show="ItemDetails.bominvoiceitemimage && ItemDetails.bominvoiceitemimage != null && ItemDetails.bominvoiceitemimage != ''">
+                            <a target="_blank" href="File/Show/{{UserInfo.OrganizationID}}/{{ItemDetails.bominvoiceitemimage}}">
+                                <img style="height:64px;width:100%" ng-src="File/Thumbnail/{{UserInfo.OrganizationID}}/{{ItemDetails.bominvoiceitemimage}}" />
+                            </a>
+                        </div>
+
+                        <div class="col-md-12 no-padding" ng-show="JobOrder.supportexpqty"
+                             style="padding-left:1px;padding-right:1px">
+                            <div class="table-responsive mailbox-messages" style="padding-top:5px">
+                                <table fixed-header="250px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th style="width:30px"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-hide="JobOrder.inwardjob">
+                                            <td>
+                                                <select class="form-control select2" style="width: 100%;" select2=""
+                                                        ng-options="item.id as item.name for item in Products track by item.id"
+                                                        ng-model="productid"></select>
+                                            </td>
+                                            <td style="width:100px">
+
+
+                                                <div class="input-group input-group-sm">
+                                                    <input type="text" class="input-sm form-control" style="width: 100%;"
+                                                           ng-model="productqty"
+                                                           focusid="finalprice"
+                                                           onkeyenter="AddItem()" />
+
+                                                    <span class="input-group-btn" ng-hide="JobOrder.inwardjob" style="width:10px">
+                                                        <button type="button" class="btn btn-info btn-sm btn-flat"
+                                                                ng-click="AddItem()">
+                                                            <i class="glyphicon glyphicon-plus-sign"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                        <tr ng-repeat="item in JobOrder.productlist">
+                                            <td>{{SearchRef(item.id,Products)}}</td>
+                                            <td style="width:100px">
+                                                <div class="pull-left">{{item.qty}}</div>
+                                                <button type="button" ng-hide="JobOrder.inwardjob" class="btn btn-xs btn-danger pull-right"
+                                                        ng-click="ManageColour('DELETE',item)">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12 no-padding" ng-show="(JobOrder.inwardjob && JobOrder.corestageid == 1) || (!JobOrder.inwardjob && JobOrder.corestageid == 2)">
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-3 no-padding">
+                                    <label class="smalllabel" style="color:brown"><b>Code</b></label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;"
+                                           placeholder="ID"
+                                           focusid="dbominwardcode"
+                                           onkeyenter="searchbominwardcode('left')"
+                                           ng-model="ItemDetails.bominwardcode" selectAllOnFocus="true">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label class="smalllabel" style="color:brown"><b>Material</b></label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;"
+                                           placeholder="Material"
+                                           ng-readonly="true"
+                                           focusid="dmaterialname"
+                                           ng-model="ItemDetails.materialname" selectAllOnFocus="true">
+                                </div>
+
+                                <div class="col-md-3 no-padding" style="padding-left:1px;padding-right:1px">
+                                    <label class="smalllabel" style="color:brown"><b>Qty</b></label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="input-sm form-control" style="width: 100%;"
+                                               placeholder="Qty"
+                                               focusid="doqty" onkeyenter="AddItem('left')"
+                                               ng-model="ItemDetails.oqty" selectAllOnFocus="true">
+
+                                        <span class="input-group-btn" style="width:10px">
+                                            <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddItem('left')">
+                                                <i class=" glyphicon glyphicon-plus-sign"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <table fixed-header="400px" class="fixed_table" additionalheight="390">
+                                <thead>
+                                    <tr>
+                                        <th class="no-padding" width="100px">Code</th>
+                                        <th class="no-padding" width="250px">Product</th>
+                                        <th class="no-padding" width="100px">Rcvd</th>
+                                        <th class="no-padding" width="80px">Used</th>
+                                        <th class="no-padding" width="80px">Retn</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in JobOrder.Mfgjoborderitems| filter: { isbom: true}">
+                                        <td class="right">{{item.bominwardcode}}</td>
+                                        <td>
+                                            {{item.itemdisplay}}
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control input-sm col-md-12" ng-model="item.oqty" />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control input-sm col-md-12" ng-model="item.rqty" />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control input-sm col-md-12" ng-model="item.cqty" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div class="col-md-12 no-padding" ng-show="(!JobOrder.inwardjob && JobOrder.corestageid == 1)">
+                            <div class="col-md-12 no-padding">
+                                <label class="smalllabel" style="color:brown"><b>Work Order Item Details</b></label>
+                            </div>
+                            <table fixed-header="400px" class="fixed_table" additionalheight="400">
+                                <thead>
+                                    <tr>
+                                        <th class="no-padding" width="120px">Design</th>
+                                        <th class="no-padding" width="230px">Colour</th>
+                                        <th class="no-padding" width="80px">Size</th>
+                                        <th class="no-padding" width="80px">Mtr</th>
+                                        <th class="no-padding" width="80px">Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in JobOrder.mfgworkorder.Mfgworkorderitems">
+                                        <td>{{item.designname}}</td>
+                                        <td>{{SearchRef(item.colourid,ColorList)}}</td>
+                                        <td>
+                                            {{item.size}}
+                                        </td>
+                                        <td>
+                                            {{item.inqty}}
+                                        </td>
+                                        <td>
+                                            {{item.outqty}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-12 no-padding" ng-show="JobOrder.onlybom">
+                            <div class="col-md-12 no-padding">
+                                <label class="smalllabel" style="color:brown"><b>Work Order Item Details</b></label>
+                            </div>
+                            <table fixed-header="400px" class="fixed_table" additionalheight="400">
+                                <thead>
+                                    <tr>
+                                        <th class="no-padding" width="120px">Fabric</th>
+                                        <th class="no-padding" width="230px">Colour</th>
+                                        <th class="no-padding" width="80px">Receiving</th>
+                                        <th class="no-padding" width="80px">Issue</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in JobOrder.mfgworkorder.Mfgbomitems">
+                                        <td>{{SearchRef(item.bomid,BOMList)}}</td>
+                                        <td>{{SearchRef(item.colourid,ColorList)}}</td>
+                                        <td>
+                                            {{item.inqty}}
+                                        </td>
+                                        <td>
+                                            {{item.outqty}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-8 no-padding">
+
+
+                        <div class="col-md-12" ng-hide="IsSampleBased">
+
+                            <div class="col-md-8 no-padding" style="padding-left:1px;padding-right:1px">
+
+                                <div class="col-md-1 no-padding">
+                                    <label class="smalllabel" style="color:brown"><b>S. No</b></label>
+                                    <input type="text" class="input-sm form-control" placeholder="S. No" ng-model="ItemDetails.sno"
+                                           focusid="sno"
+                                           onkeyenter="focusconditiononenter(JobOrder.inwardjob && JobOrder.corestageid == -1,'bomcategoryid','bominwardcode')">
+                                </div>
+
+                                <div class="col-md-4 no-padding" style="padding-left:1px;padding-right:1px">
+                                    <label class="smalllabel" style="color:brown"><b>BOM Category</b></label>
+
+                                    <div class="col-md-12 no-padding">
+                                        <div class="col-md-4 no-padding" ng-hide="(JobOrder.inwardjob && JobOrder.corestageid == -1)">
+                                            <input type="text" class="input-sm form-control" style="width: 100%;"
+                                                   placeholder="ID"
+                                                   focusid="bominwardcode"
+                                                   onkeyenter="searchbominwardcode('right')"
+                                                   ng-model="ItemDetails.bominwardcode" selectAllOnFocus="true">
+                                        </div>
+                                        <div class="no-padding" ng-class="(JobOrder.inwardjob && JobOrder.corestageid == -1)?'col-md-12':'col-md-8'">
+                                            <select class="input-sm form-control" select2="Select BOM"
+                                                    ng-model="ItemDetails.bomcategoryid"
+                                                    ng-change="categoryChange()"
+                                                    ng-options="item.id as item.name for item in BOMCategories track by item.id" style="width:100%"
+                                                    focusid="bomcategoryid" focusonenter="bomid"></select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 no-padding" style="padding-left:1px;padding-right:1px">
+                                    <label class="smalllabel" style="color:brown"><b>BOM</b></label>
+                                    <select class="input-sm form-control" select2="BOM"
+                                            ng-model="ItemDetails.bomid"
+                                            ng-options="item.id as item.title for item in BOMList track by item.id"
+                                            style="width:100%"
+                                            ng-change="bomChanged()"
+                                            focusid="bomid"
+                                            focusonenter="colourid"></select>
+
+                                </div>
+
+                                <div class="col-md-3 no-padding" style="padding-left:1px;padding-right:1px">
+                                    <label class="smalllabel" style="color:brown"><b>Colour</b></label>
+
+                                    <select class="input-sm form-control" select2="Colour"
+                                            ng-model="ItemDetails.colourid"
+                                            ng-options="item.id as item.name for item in ColourList track by item.id"
+                                            style="width:100%"
+                                            ng-change="colourChanged()"
+                                            focusid="colourid" focusonenter="width"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1" style="padding-left:1px;padding-right:1px">
+
+                                <div class="col-md-12 no-padding">
+                                    <label class="smalllabel" style="color:brown"><b>Width</b></label>
+                                    <input type="text" class="input-sm form-control"
+                                           style="width: 100%;"
+                                           placeholder="Width"
+                                           focusid="width"
+                                           ng-model="ItemDetails.width"
+                                           onkeyenter="focusconditiononenter(JobOrder.inwardjob && JobOrder.corestageid == -1,'rqty','oqty')"
+                                           selectAllOnFocus="true">
+                                </div>
+                            </div>
+
+                            <div class="col-md-1" style="padding-left:1px;padding-right:1px">
+                                <div class="col-md-12 no-padding"  ng-show="(JobOrder.inwardjob && JobOrder.corestageid == -1)">
+                                    <label class="smalllabel" style="color:brown"><b>Received</b></label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;"
+                                           placeholder="Qty"
+                                           ng-change="marginChanged()"
+                                           focusid="rqty" focusonenter="sellingprice"
+                                           ng-model="ItemDetails.rqty" selectAllOnFocus="true">
+                                </div>
+                                <div class="col-md-12 no-padding" ng-hide="(JobOrder.inwardjob && JobOrder.corestageid == -1)">
+                                    <label class="smalllabel" style="color:brown"><b>Qty</b></label>
+                                    <input type="text" class="input-sm form-control" style="width: 100%;"
+                                           placeholder="Qty"
+                                           ng-change="marginChanged()"
+                                           focusid="oqty" focusonenter="sellingprice"
+                                           ng-model="ItemDetails.oqty" selectAllOnFocus="true">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 no-padding" style="padding-left:1px;padding-right:1px">
+                                <label class="smalllabel" style="color:brown"><b>Value</b></label>
+                                <div class="input-group input-group-sm">
+
+                                    <input type="text" class="input-sm form-control" style="width: 100%;"
+                                           ng-readonly="AutoCalculation" placeholder="Selling Price"
+                                           ng-model="ItemDetails.sellingprice"
+                                           focusid="sellingprice"
+                                           selectAllOnFocus="true"
+                                           onkeyenter="AddItem()">
+
+                                    <span class="input-group-btn" style="width:10px">
+                                        <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddItem()">
+                                            <i class=" glyphicon glyphicon-plus-sign"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12" ng-show="(!JobOrder.inwardjob && JobOrder.corestageid == 3)">
+                            <table fixed-header="400px" class="fixed_table" additionalheight="50">
+                                <thead>
+                                    <tr>
+                                        <th class="no-padding" width="50px">Sl.</th>
+                                        <th class="no-padding" width="250px">Product</th>
+                                        <th class="no-padding" width="100px">Design</th>
+                                        <th class="no-padding" width="80px">Colour</th>
+                                        <th class="no-padding" width="80px">Size</th>
+                                        <th class="no-padding" width="80px">Planned</th>
+                                        <th class="no-padding" width="80px">Available</th>
+                                        <th class="no-padding" width="100px">Received</th>
+                                        <th class="no-padding" width="150px">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in JobOrder.Mfgjoborderitems| filter: { isbom: false}">
+                                        <td class="right">{{item.sno}}</td>
+                                        <td>{{SearchRef(item.productid,Products)}}</td>
+                                        <td>
+                                            {{item.itemdisplay}}
+                                        </td>
+                                        <td>{{SearchRef(item.colourid,ColorList)}}</td>
+                                        <td>{{SearchRef(item.sizeid,SizeList)}}</td>
+                                        <td>
+                                            {{item.woqty}}
+                                        </td>
+                                        <td>
+                                            {{item.aqty}}
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control input-sm col-md-12"
+                                                   ng-model="item.oqty" ng-change="CalculateTotal()" />
+                                        </td>
+
+                                        <td class="center">
+                                            <button type="button" class="pull-right btn btn-xs btn-primary" ng-click="ManageSearchItem('Edit',item)"><i class="fa fa-pencil"></i></button>
+                                            <button type="button" class="pull-right btn btn-xs btn-danger" ng-click="ManageSearchItem('Delete',item)"><i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-12" ng-show="(JobOrder.inwardjob && JobOrder.corestageid == 3)">
+                            <table fixed-header="400px" class="fixed_table" additionalheight="50">
+                                <thead>
+                                    <tr>
+                                        <th class="no-padding" width="50px">Sl.</th>
+                                        <th class="no-padding" width="250px">Product</th>
+                                        <th class="no-padding" width="100px">Design</th>
+                                        <th class="no-padding" width="80px">Colour</th>
+                                        <th class="no-padding" width="80px">Size</th>
+                                        <th class="no-padding" width="100px">Issued</th>
+                                        <th class="no-padding" width="100px">Received</th>
+                                        <th class="no-padding" width="100px">Seconds</th>
+                                        <th class="no-padding" width="150px">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in JobOrder.Mfgjoborderitems| filter: { isbom: false}">
+                                        <td class="right">{{item.sno}}</td>
+                                        <td>{{SearchRef(item.productid,Products)}}</td>
+                                        <td>
+                                            {{item.itemdisplay}}
+                                        </td>
+                                        <td>{{SearchRef(item.colourid,ColorList)}}</td>
+                                        <td>{{SearchRef(item.sizeid,SizeList)}}</td>
+                                        <td>
+                                            {{item.oqty}} <span ng-show="item.aqty>0">&nbsp;-&nbsp;({{item.aqty}})</span>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control input-sm col-md-12" ng-model="item.rqty" ng-change="CalculateTotal()" />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control input-sm col-md-12" ng-model="item.sqty" ng-change="CalculateTotal()" />
+                                        </td>
+                                        <td class="center">
+                                            <button type="button" class="pull-right btn btn-xs btn-primary" ng-click="ManageSearchItem('Edit',item)"><i class="fa fa-pencil"></i></button>
+                                            <button type="button" class="pull-right btn btn-xs btn-danger" ng-click="ManageSearchItem('Delete',item)"><i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-12" ng-hide="(JobOrder.inwardjob && JobOrder.corestageid == 1) || (JobOrder.inwardjob && JobOrder.corestageid == -1) || (JobOrder.corestageid == 2)  || (JobOrder.corestageid == 3)">
+                            <table fixed-header="400px" class="fixed_table" additionalheight="70">
+                                <thead>
+                                    <tr>
+                                        <th class="no-padding" width="50px">Sl.</th>
+                                        <th class="no-padding" width="200px">Type</th>
+                                        <th class="no-padding" width="250px">Material</th>
+                                        <th class="no-padding" width="80px">Code</th>
+                                        <th class="no-padding" width="100px">&nbsp;</th>
+                                        <th class="no-padding" width="100px">Width</th>
+                                        <th class="no-padding" width="100px">Cost</th>
+                                        <th class="no-padding" width="100px">Qty</th>
+                                        <th class="no-padding" width="150px">Value <span class="pull-right">Action</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in JobOrder.Mfgjoborderitems track by $index">
+                                        <td class="right">{{item.sno}}</td>
+                                        <td>{{item.typedisplay}}</td>
+                                        <td>
+                                            {{item.itemdisplay}}
+                                        </td>
+                                        <td>
+                                            {{item.bominwardcode}}
+                                        </td>
+                                        <td>
+                                            <div ng-show="item.bominvoiceitemimage != null && item.bominvoiceitemimage != ''">
+                                                <div>
+                                                    <a target="_blank" href="File/Show/{{UserInfo.OrganizationID}}/{{item.bominvoiceitemimage}}">
+                                                        <img style="height:32px" ng-src="File/Thumbnail/{{UserInfo.OrganizationID}}/{{item.bominvoiceitemimage}}" />
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {{item.width}}
+                                        </td>
+                                        <td class="right">
+                                            {{item.sellingprice}}
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control input-sm col-md-12" ng-model="item.oqty"
+                                                   ng-change="RowChanged(item,'oqty')" />
+                                        </td>
+                                        <td class="center">
+                                            {{item.gross|number:2}}
+                                            <button type="button" class="pull-right btn btn-xs btn-primary" ng-click="ManageSearchItem('Edit',item)"><i class="fa fa-pencil"></i></button>
+                                            <button type="button" class="pull-right btn btn-xs btn-danger" ng-click="ManageSearchItem('Delete',item)"><i class="fa fa-trash-o"></i></button>
+                                            <button type="button" class="pull-right btn btn-xs btn-primary" ng-click="ManageSearchItem('View',item)" ng-show="item.IsParent">&nbsp;+&nbsp;</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-12" ng-show="JobOrder.inwardjob && JobOrder.corestageid == -1">
+                            <table fixed-header="400px" class="fixed_table" additionalheight="70">
+                                <thead>
+                                    <tr>
+                                        <th class="no-padding" width="30px"><input type="checkbox" ng-model="JobOrder.selectall" ng-click="SelectAll(JobOrder.Mfgjoborderitems,JobOrder.selectall)" /></th>
+                                        <th class="no-padding" width="50px">Sl.</th>
+                                        <!--<th class="no-padding" width="100px">Type</th>-->
+                                        <th class="no-padding" width="200px">Material</th>
+                                        <th class="no-padding" width="80px">Barcode</th>
+                                        <th class="no-padding" width="100px">Job</th>
+                                        <th class="no-padding" width="100px">Width</th>
+                                        <th class="no-padding" width="100px">Cost</th>
+                                        <th class="no-padding" width="100px">Issued</th>
+                                        <th class="no-padding" width="100px">Received</th>
+                                        <th class="no-padding" width="100px">Wastage</th>
+                                        <th class="no-padding" width="150px">Value <span class="pull-right">Action</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in JobOrder.Mfgjoborderitems track by $index">
+                                        <td><input type="checkbox" ng-model="item.selected" /></td>
+                                        <td class="right">{{item.sno}}</td>
+                                        <!--<td>{{item.typedisplay}}</td>-->
+                                        <td>
+                                            {{item.itemdisplay}}
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="item.bominwardcode" class="input-sm form-control" style="width:100%" />
+                                        </td>
+                                        <td>
+
+                                            <select ng-disabled="item.oqty && item.oqty>0" class="form-control" select2='Job' style="width:100%;"
+                                                    ng-options="jitem.id as jitem.name for jitem in JobCharges track by jitem.id"
+                                                    ng-model="item.jobchargeid" ng-change="JobChanged(item)"></select>
+
+                                            <!--<div ng-show="item.bominvoiceitemimage != null && item.bominvoiceitemimage != ''">
+            <div>
+                <a target="_blank" href="File/Show/{{UserInfo.OrganizationID}}/{{item.bominvoiceitemimage}}">
+                    <img style="height:32px" ng-src="File/Thumbnail/{{UserInfo.OrganizationID}}/{{item.bominvoiceitemimage}}" />
+                </a>
+            </div>
+        </div>-->
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="item.width" class="input-sm form-control" style="width:100%" />
+                                        </td>
+                                        <td class="right">
+                                            {{item.sellingprice}}
+                                        </td>
+                                        <td>
+                                            {{item.oqty}}
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control input-sm col-md-12"
+                                                   ng-hide="item.oqty && item.oqty != 0"
+                                                   ng-model="item.rqty"
+                                                   ng-change="RowReturnChanged(item,'rqty')" />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control input-sm col-md-12"
+                                                   ng-hide="item.oqty && item.oqty != 0"
+                                                   ng-model="item.cqty"
+                                                   ng-change="RowReturnChanged(item,'cqty')" />
+                                        </td>
+                                        <td class="center">
+                                            {{item.amount|number:2}}
+                                            <button type="button" class="pull-right btn btn-xs btn-primary" ng-click="ManageSearchItem('Edit',item)"><i class="fa fa-pencil"></i></button>
+                                            <button type="button" class="pull-right btn btn-xs btn-danger" ng-click="ManageSearchItem('Delete',item)"><i class="fa fa-trash-o"></i></button>
+                                            <button type="button" class="pull-right btn btn-xs btn-primary" ng-click="ManageSearchItem('View',item)" ng-show="item.IsParent">&nbsp;+&nbsp;</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-12" ng-show="(!JobOrder.inwardjob && JobOrder.corestageid == 2)">
+                            <table fixed-header="400px" class="fixed_table" additionalheight="50">
+                                <thead>
+                                    <tr>
+                                        <th class="no-padding" width="50px">Sl.</th>
+                                        <th class="no-padding" width="250px">Product</th>
+                                        <th class="no-padding" width="100px">Design</th>
+                                        <th class="no-padding" width="80px">Colour</th>
+                                        <th class="no-padding" width="80px">Size</th>
+                                        <th class="no-padding" width="80px">Plan</th>
+                                        <th class="no-padding" width="100px">Available</th>
+                                        <th class="no-padding" width="100px">Issue</th>
+                                        <th class="no-padding" width="150px">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in JobOrder.Mfgjoborderitems| filter: { isbom: false}">
+                                        <td class="right">{{item.sno}}</td>
+                                        <td>{{SearchRef(item.productid,Products)}}</td>
+                                        <td>
+                                            {{item.itemdisplay}}
+                                        </td>
+                                        <td>{{SearchRef(item.colourid,ColorList)}}</td>
+                                        <td>{{SearchRef(item.sizeid,SizeList)}}</td>
+                                        <td>
+                                            {{item.woqty}}
+                                        </td>
+                                        <td>
+                                            {{item.aqty}}
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control input-sm col-md-12" ng-model="item.oqty" ng-change="CalculateTotal()" />
+                                        </td>
+
+                                        <td class="center">
+                                            <button type="button" class="pull-right btn btn-xs btn-primary" ng-click="ManageSearchItem('Edit',item)"><i class="fa fa-pencil"></i></button>
+                                            <button type="button" class="pull-right btn btn-xs btn-danger" ng-click="ManageSearchItem('Delete',item)"><i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-12" ng-show="(JobOrder.inwardjob && JobOrder.corestageid == 2)">
+                            <table fixed-header="400px" class="fixed_table" additionalheight="50">
+                                <thead>
+                                    <tr>
+                                        <th class="no-padding" width="50px">Sl.</th>
+                                        <th class="no-padding" width="250px">Product</th>
+                                        <th class="no-padding" width="100px">Design</th>
+                                        <th class="no-padding" width="80px">Colour</th>
+                                        <th class="no-padding" width="80px">Size</th>
+                                        <th class="no-padding" width="100px">Issued</th>
+                                        <th class="no-padding" width="100px">O.Received</th>
+                                        <th class="no-padding" width="100px">N.Received</th>
+                                        <th class="no-padding" width="100px">Wastage</th>
+                                        <th class="no-padding" width="150px">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in JobOrder.Mfgjoborderitems| filter: { isbom: false}">
+                                        <td class="right">{{item.sno}}</td>
+                                        <td>{{SearchRef(item.productid,Products)}}</td>
+                                        <td>
+                                            {{item.itemdisplay}}
+                                        </td>
+                                        <td>{{SearchRef(item.colourid,ColorList)}}</td>
+                                        <td>{{SearchRef(item.sizeid,SizeList)}}</td>
+                                        <td>
+                                            {{item.oqty}}
+                                        </td>
+                                        <td>
+                                            {{item.aqty}}
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control input-sm col-md-12" ng-model="item.rqty" ng-change="CalculateTotal()" />
+                                        </td>
+
+                                        <td>
+                                            <input type="text" class="form-control input-sm col-md-12" ng-model="item.cqty" ng-change="CalculateTotal()" />
+                                        </td>
+                                        <td class="center">
+                                            <button type="button" class="pull-right btn btn-xs btn-primary" ng-click="ManageSearchItem('Edit',item)"><i class="fa fa-pencil"></i></button>
+                                            <button type="button" class="pull-right btn btn-xs btn-danger" ng-click="ManageSearchItem('Delete',item)"><i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-12" ng-show="(JobOrder.inwardjob && JobOrder.corestageid == 1)">
+                            <table fixed-header="400px" class="fixed_table" additionalheight="50">
+                                <thead>
+                                    <tr>
+                                        <th class="no-padding" width="50px">Sl.</th>
+                                        <th class="no-padding" width="250px">Product</th>
+                                        <th class="no-padding" width="100px">Design</th>
+                                        <th class="no-padding" width="80px">Colour</th>
+                                        <th class="no-padding" width="100px">Size</th>
+                                        <th class="no-padding" width="100px">Expected</th>
+                                        <th class="no-padding" width="100px">Actual</th>
+                                        <th class="no-padding" width="100px">Return</th>
+                                        <th class="no-padding" width="100px">Wastage</th>
+                                        <th class="no-padding" width="130px">Reason</th>
+                                        <th class="no-padding" width="100px">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in JobOrder.Mfgjoborderitems | filter: { isbom: false}  track by $index">
+                                        <td class="right">{{item.sno}}</td>
+                                        <td>{{SearchRef(item.productid,Products)}}</td>
+                                        <td>
+                                            {{item.itemdisplay}}
+                                        </td>
+                                        <td>{{SearchRef(item.colourid,ColorList)}}</td>
+                                        <td>{{SearchRef(item.sizeid,SizeList)}}</td>
+                                        <td>
+                                            {{item.oqty}} <span ng-show="item.aqty>0">&nbsp;-&nbsp;({{item.aqty}})</span>
+                                        </td>
+                                        <td class="right">
+                                            <input type="text" class="form-control input-sm col-md-12" ng-model="item.rqty" ng-change="CalculateTotal()" />
+                                        </td>
+                                        <td class="right">
+                                            <input type="text" class="form-control input-sm col-md-12" ng-model="item.brqty" ng-change="CalculateTotal()" />
+                                        </td>
+                                        <td class="right">
+                                            <input type="text" class="form-control input-sm col-md-12" ng-model="item.cqty" ng-change="CalculateTotal()" />
+                                        </td>
+                                        <td>
+                                            <select class="form-control" select2='Reason' style="width:100%;"
+                                                    ng-options="item.id as item.name for item in JobReasons track by item.id"
+                                                    ng-model="item.jobreasonid"></select>
+                                        </td>
+                                        <td class="center">
+                                            <button type="button" class="pull-right btn btn-xs btn-primary" ng-click="ManageSearchItem('Copy',item)"><i class="fa fa-mail-reply-all"></i></button>
+                                            <button type="button" class="pull-right btn btn-xs btn-success" ng-click="ManageSearchItem('Edit',item)"><i class="fa fa-pencil"></i></button>
+                                            <button type="button" class="pull-right btn btn-xs btn-danger" ng-click="ManageSearchItem('Delete',item)"><i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-12" style="margin-top:10px">
+                            <div class="col-sm-2">
+                                <div class="col-sm-12" style="padding-left:0px"><b>TOTAL</b></div>
+                            </div>
+
+                            <div class="col-md-10 no-padding" ng-show="(JobOrder.inwardjob && JobOrder.corestageid == 1)">
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Fabric&nbsp;&nbsp;<b>{{Total.fabricqty|number:2}}</b></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Expected&nbsp;&nbsp;<b>{{Total.expectedqty|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:orangered">Actual&nbsp;&nbsp;<b>{{Total.actualqty|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Waste&nbsp;&nbsp;<b>{{Total.wasteqty|number:0}}</b></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-10 no-padding" ng-show="(!JobOrder.inwardjob && JobOrder.corestageid == 2)">
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Planned&nbsp;&nbsp;<b>{{Total.planqty|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Available&nbsp;&nbsp;<b>{{Total.expectedqty|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:orangered">Issue&nbsp;&nbsp;<b>{{Total.actualqty|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    &nbsp;
+                                </div>
+                            </div>
+
+                            <div class="col-md-10 no-padding" ng-show="(JobOrder.inwardjob && JobOrder.corestageid == 2)">
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Issued&nbsp;&nbsp;<b>{{Total.issuedqty|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Old Recieved&nbsp;&nbsp;<b>{{Total.receivedqty|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Received&nbsp;&nbsp;<b>{{Total.actualqty|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Waste&nbsp;&nbsp;<b>{{Total.wasteqty|number:0}}</b></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-10 no-padding" ng-show="(JobOrder.inwardjob && JobOrder.corestageid == 3)">
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Issued&nbsp;&nbsp;<b>{{Total.expectedqty|number:0}}</b></div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Received&nbsp;&nbsp;<b>{{Total.actualqty|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Seconds&nbsp;&nbsp;<b>{{Total.wasteqty|number:0}}</b></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-10 no-padding" ng-show="(!JobOrder.inwardjob && JobOrder.corestageid == 3)">
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Available&nbsp;&nbsp;<b>{{Total.expectedqty|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Received&nbsp;&nbsp;<b>{{Total.actualqty|number:0}}</b></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-10 no-padding" ng-hide="(JobOrder.inwardjob && JobOrder.corestageid == 1) ||
+                                 (!JobOrder.inwardjob && JobOrder.corestageid == 2) || (JobOrder.inwardjob && JobOrder.corestageid == 2)
+                                  || (JobOrder.corestageid == 3) || (JobOrder.inwardjob && JobOrder.corestageid == -1)">
+                                <div class="col-sm-2">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Qty&nbsp;&nbsp;<b>{{Total.buyingqty|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:orangered">Gross&nbsp;&nbsp;<b>{{Total.amount-Total.tax+Total.purchasediscount|number:0}}</b></div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Discount&nbsp;&nbsp;<b>{{Total.purchasediscount|number:2}}</b></div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Tax&nbsp;&nbsp;<b>{{Total.tax|number:2}}</b></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:green">Net&nbsp;&nbsp;<b>{{Total.amount+ GetNumber(JobOrder.otheramount)|number:0}}</b></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-10 no-padding" ng-show="(JobOrder.inwardjob && JobOrder.corestageid == -1)">
+                                <div class="col-sm-2">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Issued&nbsp;&nbsp;<b>{{Total.issuedqty|number:2}}</b></div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Received&nbsp;&nbsp;<b>{{Total.receivedqty|number:2}}</b></div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:orangered">Gross&nbsp;&nbsp;<b>{{Total.amount-Total.tax+Total.purchasediscount|number:2}}</b></div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Discount&nbsp;&nbsp;<b>{{Total.purchasediscount|number:2}}</b></div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:brown">Tax&nbsp;&nbsp;<b>{{Total.tax|number:2}}</b></div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="col-md-12 text-right" style="vertical-align:top;color:green">Net&nbsp;&nbsp;<b>{{Total.amount+ GetNumber(JobOrder.otheramount)|number:2}}</b></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!--End Product details-->
+                <div class="col-md-12  no-padding" ng-show="ShowSearch">
+                    <div class="col-md-3" style="padding-right:0px">
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12">Order Issued</label>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="pull-left">
+                                                <input type="radio" ng-model="SearchCondition.Mode"
+                                                       value="All" />
+                                            </div>
+
+                                            <div class="pull-left" style="padding-left:5px">All</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="pull-left">
+                                                <input type="radio" ng-model="SearchCondition.Mode"
+                                                       value="Internal" />
+                                            </div>
+
+                                            <div class="pull-left" style="padding-left:5px">Internal</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="pull-left">
+                                                <input type="radio" ng-model="SearchCondition.Mode"
+                                                       value="External" />
+                                            </div>
+                                            <div class="pull-left" style="padding-left:5px">External</div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12">Order Type</label>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="pull-left">
+                                                <input type="radio" ng-model="SearchCondition.Type"
+                                                       value="All" />
+                                            </div>
+
+                                            <div class="pull-left" style="padding-left:5px">All</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="pull-left">
+                                                <input type="radio" ng-model="SearchCondition.Type"
+                                                       value="Inward" />
+                                            </div>
+
+                                            <div class="pull-left" style="padding-left:5px">Inward</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="pull-left">
+                                                <input type="radio" ng-model="SearchCondition.Type"
+                                                       value="Outward" />
+                                            </div>
+                                            <div class="pull-left" style="padding-left:5px">Outward</div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12">Job Order No</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control input-sm"
+                                               onkeyenter="Search()" ng-model="SearchCondition.joborderno" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12">Work Order No</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control input-sm"
+                                               onkeyenter="Search()" ng-model="SearchCondition.workorderno"  />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12">Company</label>
+                                    <div class="col-md-12">
+                                        <select class="form-control input-sm" select2="" style="width: 100%;" ng-model="SearchCondition.companyid"
+                                                ng-options="item.id as item.name for item in BuyingCompany track by item.id"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12">Supplier</label>
+                                    <div class="col-md-12">
+                                        <select class="form-control input-sm" select2="" style="width: 100%;" ng-model="SearchCondition.supplierid"
+                                                ng-options="item.id as item.name for item in SupplierCompany track by item.id"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-12">Order Date</label>
+                                    <div class="col-md-12">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" daterange="SearchCondition.fromdate,SearchCondition.todate"
+                                                   class="input-sm form-control pull-right">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+
+                                    <label for="inputEmail3" class="col-md-12">Delivery Date</label>
+                                    <div class="col-md-12">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" daterange="SearchCondition.entryfromdate,SearchCondition.entrytodate" class="input-sm form-control pull-right">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </div>
+                    <div class="col-md-9" style="padding-right:0px">
+                        <div class="col-md-12 no-padding" id="searchgridContainer">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>

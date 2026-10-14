@@ -1,0 +1,562 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Settings / Report Configuration
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create && !ShowDesigner" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save && !ShowDesigner" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+
+            <li style="cursor:pointer" ng-show="Navigation.save && !ShowDesigner" ng-click="Export()"><a><i class="fa fa-save"></i>Export</a></li>
+            <li style="cursor:pointer" ng-show="Navigation.save && !ShowDesigner">
+                <file-load class="btn-xs file-upload" style="display:inline-block"
+                           resize="true" max-width="1280" onuploadcomplete="Import"
+                           multiple="false" ng-model="testLoad">
+                    <i class="fa fa-upload">Import</i>
+                </file-load>
+            </li>
+
+            <li ng-show="Navigation.delete && !ShowDesigner" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search && !ShowDesigner" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit && !ShowDesigner" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.print && !ShowDesigner" style="cursor:pointer" ng-click=""><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity && !ShowDesigner" style="cursor:pointer" ng-click="Search()"><a><i class="fa fa-file"></i>Search</a></li>
+            <li ng-show="(Configuration.key == 'BARCODE' || Configuration.key == 'CHEQUEPRINT') && !ShowDesigner" style="cursor:pointer" ng-click="ShowLabelDesigner()"><a><i class="fa fa-file"></i>Designer</a></li>
+            <li ng-show="(Configuration.key == 'BARCODE' || Configuration.key == 'CHEQUEPRINT') && ShowDesigner" style="cursor:pointer" ng-click="CloseLabelDesigner()"><a><i class="fa fa-remove"></i>Close</a></li>
+            <li ng-show="(Configuration.key == 'BARCODE' || Configuration.key == 'CHEQUEPRINT') && ShowDesigner" style="cursor:pointer" ng-click="SaveDesigner()"><a><i class="fa fa-save"></i>Save Design</a></li>
+
+            <li ng-show="!ShowDesigner" style="cursor:pointer">
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280"
+                             filetype="DATA"
+                             uri='File/UploadPRN/{{UserInfo.OrganizationID}}/'
+                             max-height="1280" preview="false" ng-model="uploadfile"
+                             filemodel="uploadfile" onuploadcomplete="ptuploadedcomplete"
+                             multiple="false">
+                    <i class="fa fa-upload">Import PRN</i>
+                </file-upload>
+            </li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <!-- Your Page Content Here -->
+            <div class="col-md-12">
+                <!-- Horizontal Form -->
+                <div class="box box-primary" id="searchBox" ng-hide="ShowSearch">
+
+                    <div class="box-body">
+                        <div class="col-md-3 no-padding">
+                            <div class="col-md-12" ng-hide="ShowDesigner">
+
+                                <div class="col-md-12 no-padding">
+                                    <label class="col-md-8 no-padding">Report Title</label>
+                                    <div class="col-md-4">
+
+                                        <div style="right: 1px;position: absolute;padding-bottom: 5px;">
+                                            <button class="btn btn-xs btn-info" ng-click="ShowHistory=true" ng-hide="ShowHistory"><i class="fa fa-file"></i>&nbsp;History</button>
+                                            <button class="btn btn-xs btn-info" ng-click="ShowHistory=false" ng-show="ShowHistory"><i class="fa fa-file"></i>&nbsp;Hide History</button>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-12" style="padding-left:0px;padding-right:0px">
+                                        <select class="form-control" style="width: 100%;" select2="" options="item.code as item.value for item in refreportlist track by item.code"
+                                                ng-change="ReportChanged()" ng-model="Configuration.key" ng-required="true"></select>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-hide="ShowHistory">
+                                    <div class="col-md-12 no-padding">
+                                        <label>Company</label>
+                                        <select class="form-control" style="width: 100%;" select2="" options="item.id as item.name for item in CompanyList track by item.id"
+                                                ng-model="Configuration.organizationid" ng-required="true"></select>
+                                    </div>
+                                    <div class="col-md-12 no-padding">
+                                        <label>Location</label>
+                                        <select class="form-control" style="width: 100%;" select2="" options="item.id as item.name for item in Location track by item.id"
+                                                ng-model="Configuration.locationid" ng-required="true"></select>
+                                    </div>
+
+
+                                    <div class="col-md-12 no-padding">
+                                        <label>Name</label>
+                                        <input type="text" name="address" class="form-control input-sm" ng-model="Configuration.name" />
+                                    </div>
+
+                                    <div class="col-md-12 no-padding" ng-show="ShowPaperSize && SupportPaperSize">
+                                        <label>Paper Size</label>
+                                        <select class="form-control" style="width: 100%;" select2="" options="item.id as item.name for item in NOOFLINES track by item.id"
+                                                ng-model="Configuration.nooflines"></select>
+                                    </div>
+
+
+                                    <div class="col-md-12 no-padding" ng-show="!ShowTotalLines">
+                                        <div class="col-md-5 no-padding">
+
+                                            <label class="control-label ">No of Copy</label>
+                                            <div class="col-md-12 no-padding">
+                                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="copy" ng-model="Configuration.noofcopy">
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-md-7 no-padding">
+                                            <label for="inputEmail3" class="control-label col-md-4 no-padding">Default</label>
+                                            <label for="inputEmail3" class="control-label col-md-8 no-padding ">Instance</label>
+                                            <div class="col-md-4 no-padding">
+                                                <input type="checkbox" style="margin-left:10px" ng-model="Configuration.isdefault">
+                                            </div>
+                                            <div class="col-md-8 no-padding">
+                                                <select class="input-sm" style="width:100%" ng-model="Configuration.instancename">
+                                                    <option value="PRODUCTION">PRODUCTION</option>
+                                                    <option value="PREPROD">PREPROD</option>
+                                                    <option value="QA">QA</option>
+                                                    <option value="">DEFAULT</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-12 no-padding" ng-show="ShowTotalLines || (SupportEstamteSticker && Configuration.key=='ESTIMATEBILL')">
+
+                                        <div class="col-md-6 no-padding">
+                                            <label>Mode</label>
+                                            <select class="input-sm" style="width:100%" ng-model="Configuration.reportformat.mode">
+                                                <option value="oddeven">Continues</option>
+                                                <option value="block">Block</option>
+                                                <option value="pdf">PDF</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6 no-padding">
+                                            <label ng-show="Configuration.reportformat.mode!='pdf' && !ShowDesigner">Lines</label>
+                                            <label ng-show="Configuration.reportformat.mode=='pdf' || ShowDesigner">Labels</label>
+                                            <input type="text" name="address" class="form-control input-sm" ng-model="Configuration.nooflines" />
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                    <div class="col-md-12 no-padding" ng-show="ShowTotalLines">
+                                        <label>Print Value - Copy</label>
+                                        <div class="input-group input-group-sm col-md-12 no-padding">
+                                            <input type="text" class="form-control input-sm" style="width:40%" id="inputEmail3" placeholder="displayvalue" ng-model="Configuration.displayvalue">
+                                            <input type="text" class="form-control input-sm" style="width:40%" id="inputEmail3" placeholder="barcodevalue" ng-model="Configuration.barcodevalue">
+                                            <input type="text" class="form-control input-sm" style="width:20%" id="inputEmail3" placeholder="copy" ng-model="Configuration.noofcopy">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-flat" ng-click="PrintBarcode()">Print</button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+
+                                <div class="col-md-12 no-padding" ng-show="ShowHistory">
+                                    <div class="form-group">
+                                        Change History
+                                    </div>
+                                    <table fixed-header="200px" additionalheight="65">
+                                        <thead>
+                                            <tr>
+                                                <th width="200px">Changed On</th>
+                                                <th width="50px">View</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in HistoryList">
+                                                <td>{{item.modifiedon |date:'medium'}}</td>
+                                                <td>
+                                                    <button type="button" class="btn-info btn btn-xs" ng-click="LoadHistory(item)"
+                                                            data-widget="edit" data-toggle="tooltip" title="View History">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" ng-show="ShowDesigner">
+
+                                <div class="col-md-12 no-padding">
+
+                                    <div class="col-md-12 no-padding">
+                                        <div>Label Size (millimeter)</div>
+                                        <div class="col-md-12" style="padding-right:100px;padding-left: 0px;">
+                                            <div class="col-md-5 no-padding">
+                                                <input type="text" style="width:100%" placeholder="Height"
+                                                       ng-model="Configuration.reportformat.heightinmm"
+                                                       onkeyenter="CheckMM(Configuration.reportformat.heightinmm,'height')"
+                                                       class="input-sm" />
+                                            </div>
+                                            <div class="col-md-7 input-group input-group-sm no-padding">
+                                                <input type="text" style="width:100%" placeholder="Width"
+                                                       ng-model="Configuration.reportformat.widthinmm"
+                                                       onkeyenter="CheckMM(Configuration.reportformat.widthinmm,'width')"
+                                                       class="input-sm" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-info btn-flat btn-sm"
+                                                            ng-click="SetCanvasSize(Configuration.reportformat.heightinmm,
+                                                            Configuration.reportformat.widthinmm)">
+                                                        Apply
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div style="position: absolute;right: 0px;bottom: 2px;">
+                                            <img src="clientside/dist/img/deleteobject.png" ng-click="RemoveActiveControl()" />
+                                            <img src="clientside/dist/img/sendbackward.png" ng-click="sendToBack()" />
+                                            <img src="clientside/dist/img/bringforward.png" ng-click="bringToFront()" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 no-padding"
+                                     style="overflow:hidden;border: 1px solid #ccc;margin-top:10px"
+                                     ng-style="panelheight">
+                                    <div style="height:150px;cursor:pointer" class="col-md-12 no-padding">
+                                        <div class="row col-md-12" style="margin-bottom:5px" ng-click="AddControl('Barcode')">Barcode</div>
+                                        <div class="row col-md-12" style="margin-bottom:5px" ng-click="AddControl('QR')">Qr Barcode</div>
+                                        <div class="row col-md-12" style="margin-bottom:5px" ng-click="AddControl('Text')">Text</div>
+                                        <div class="row col-md-12" style="margin-bottom:5px" ng-click="AddControl('Field')">Field</div>
+                                        <div class="row col-md-12" style="margin-bottom:5px" ng-click="AddControl('Rectangle')">Rectangle</div>
+                                        <div class="row col-md-12" style="margin-bottom:5px" ng-click="AddControl('VLine')">Vertical Line</div>
+                                        <div class="row col-md-12" style="margin-bottom:5px" ng-click="AddControl('HLine')">Horizontal Line</div>
+                                        <div class="row col-md-12" style="margin-bottom:5px" ng-click="AddControl('Circle')">Circle</div>
+                                        <div class="row col-md-12" style="margin-bottom:5px" ng-click="AddControl('Image')">Image</div>
+                                    </div>
+                                    <div style="height:150px;margin-top:200px">
+
+
+
+                                        <div class="col-md-12 no-padding" ng-show="Designer.showfield">
+                                            <div>Fields</div>
+                                            <div ng-show="Configuration.key == 'BARCODE'">
+                                                <select class="form-control" style="width: 100%;"
+                                                        ng-change="FieldChanged()"
+                                                        ng-model="Designer.FieldID">
+                                                    <option value="APRICE">APRICE</option>
+                                                    <option value="BARCODE">BARCODE</option>
+                                                    <option value="BRAND">BRAND</option>
+                                                    <option value="BRANDCODE">BRANDCODE</option>
+                                                    <option value="COLOUR">COLOUR</option>
+                                                    <option value="COLOURCODE">COLOURCODE</option>
+                                                    <option value="COMPANYCODE">COMPANYCODE</option>
+                                                    <option value="COMPANYNAME">COMPANYNAME</option>
+                                                    <option value="COST">COST</option>
+                                                    <option value="DAY">DAY</option>
+                                                    <option value="DESIGN">DESIGN</option>
+                                                    <option value="DISCOUNT">DISCOUNT</option>
+                                                    <option value="DISCOUNTPER">DISCOUNTPER</option>
+                                                    <option value="EDAY">EDAY</option>
+                                                    <option value="EENTRYDAY">EENTRYDAY</option>
+                                                    <option value="EENTRYMONTH">EENTRYMONTH</option>
+                                                    <option value="EENTRYYEAR">EENTRYYEAR</option>
+                                                    <option value="EMONTH">EMONTH</option>
+                                                    <option value="ENTRYDAY">ENTRYDAY</option>
+                                                    <option value="ENTRYMONTH">ENTRYMONTH</option>
+                                                    <option value="ENTRYYEAR">ENTRYYEAR</option>
+                                                    <option value="EYEAR">EYEAR</option>
+                                                    <option value="FULLLRNO.SNO">FULLLRNO.SNO</option>
+                                                    <option value="GLN">GLN</option>
+                                                    <option value="INDEX">INDEX</option>
+                                                    <option value="INVOICENO">INVOICENO</option>
+                                                    <option value="LRNO">LRNO</option>
+                                                    <option value="LRNO.SNO">LRNO.SNO</option>
+                                                    <option value="MATERIAL">MATERIAL</option>
+                                                    <option value="MATERIALCODE">MATERIALCODE</option>
+                                                    <option value="MONTH">MONTH</option>
+                                                    <option value="MRP">MRP</option>
+                                                    <option value="NAME">NAME</option>
+                                                    <option value="NDAY">NDAY</option>
+                                                    <option value="NMONTH">NMONTH</option>
+                                                    <option value="NPRICE">NPRICE</option>
+                                                    <option value="NYEAR">NYEAR</option>
+                                                    <option value="OPRICE">OPRICE</option>
+                                                    <option value="PATTERN">PATTERN</option>
+                                                    <option value="PATTERNCODE">PATTERNCODE</option>
+                                                    <option value="PRODUCTCODE">PRODUCTCODE</option>
+                                                    <option value="QTY">QTY</option>
+                                                    <option value="RLOCATIONCODE">RLOCATIONCODE</option>
+                                                    <option value="RLOCATIONNAME">RLOCATIONNAME</option>
+                                                    <option value="SIZE">SIZE</option>
+                                                    <option value="SIZECODE">SIZECODE</option>
+                                                    <option value="SNO">SNO</option>
+                                                    <option value="SPRICE">SPRICE</option>
+                                                    <option value="SSUPPLIER">SSUPPLIER</option>
+                                                    <option value="STYLE">STYLE</option>
+                                                    <option value="STYLECODE">STYLECODE</option>
+                                                    <option value="SUPPLIER">SUPPLIER</option>
+                                                    <option value="TYPE">TYPE</option>
+                                                    <option value="TYPECODE">TYPECODE</option>
+                                                    <option value="YEAR">YEAR</option>
+                                                </select>
+                                            </div>
+
+                                            <div ng-show="Configuration.key == 'CHEQUEPRINT'">
+                                                <select class="form-control" style="width: 100%;"
+                                                        ng-change="FieldChanged()"
+                                                        ng-model="Designer.FieldID">
+                                                    <option value="Account">Account</option>
+                                                    <option value="Amount">Amount</option>
+                                                    <option value="Date">Date DD-MM-YYYY</option>
+                                                    <option value="Date-Day01">Date-Day01</option>
+                                                    <option value="Date-Day02">Date-Day02</option>
+                                                    <option value="Date-Month01">Date-Month01</option>
+                                                    <option value="Date-Month02">Date-Month02</option>
+                                                    <option value="Date-Year01">Date-Year01</option>
+                                                    <option value="Date-Year02">Date-Year02</option>
+                                                    <option value="Date-Year03">Date-Year03</option>
+                                                    <option value="Date-Year04">Date-Year04</option>
+                                                    <option value="InWords-01">InWords-01</option>
+                                                    <option value="InWords-02">InWords-02</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 no-padding" ng-show="Designer.showfont">
+                                            <div>Fonts</div>
+                                            <select class="form-control" style="width: 100%;" ng-model="Designer.FontID" ng-change="FontChanged()">
+                                                <option value="arial">Arial</option>
+                                                <option value="Arial Black">Arial Black</option>
+                                                <option value="Impact">Impact</option>
+                                                <option value="helvetica">Helvetica</option>
+                                                <option value="myriad pro">Myriad Pro</option>
+                                                <option value="delicious">Delicious</option>
+                                                <option value="verdana">Verdana</option>
+                                                <option value="georgia">Georgia</option>
+                                                <option value="courier">Courier</option>
+                                                <option value="comic sans ms">Comic Sans MS</option>
+                                                <option value="impact">Impact</option>
+                                                <option value="monaco">Monaco</option>
+                                                <option value="optima">Optima</option>
+                                                <option value="hoefler text">Hoefler Text</option>
+                                                <option value="plaster">Plaster</option>
+                                                <option value="engagement">Engagement</option>
+                                                <option value="Times New Roman">Times New Roman</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-12 no-padding" ng-show="Designer.showfont">
+
+                                            <div class="no-padding input-group input-group-sm">
+                                                <div class="col-md-6 no-padding">
+                                                    <div>Font size</div>
+                                                    <input type="text" style="width:100%" class="input-sm" ng-model="Designer.FontSize" />
+                                                </div>
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="col-md-6">
+                                                        <div>bold</div>
+                                                        <input type="checkbox" style="width:100%" class="input-sm" ng-model="Designer.Bold" />
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div>Italic</div>
+                                                        <input type="checkbox" style="width:100%" class="input-sm" ng-model="Designer.Italic" />
+                                                    </div>
+                                                </div>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-info btn-flat btn-sm" ng-click="ChangeFontSize()">Apply</button>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 no-padding" style="position:absolute;bottom:10px">
+
+                                            <div class="no-padding input-group input-group-sm">
+                                                <div class="col-md-3 no-padding">
+                                                    <div>Left</div>
+                                                    <input type="text" style="width:100%" class="input-sm"
+                                                           ng-change="SetPosition('left',Designer.activeleft)"
+                                                           ng-model="Designer.activeleft" />
+                                                </div>
+                                                <div class="col-md-3 no-padding">
+                                                    <div>Top</div>
+                                                    <input type="text" style="width:100%" class="input-sm"
+                                                           ng-change="SetPosition('top',Designer.activetop)"
+                                                           ng-model="Designer.activetop" />
+                                                </div>
+                                                <div class="col-md-3 no-padding">
+                                                    <div>Width</div>
+                                                    <input type="text" style="width:100%" class="input-sm"
+                                                           ng-change="SetPosition('width',Designer.activewidth)"
+                                                           ng-model="Designer.activewidth" />
+                                                </div>
+                                                <div class="col-md-3 no-padding">
+                                                    <div>Height</div>
+                                                    <input type="text" style="width:100%" class="input-sm"
+                                                           ng-change="SetPosition('height',Designer.activeheight)"
+                                                           ng-model="Designer.activeheight" />
+                                                </div>
+                                            </div>
+                                            <div class="no-padding input-group input-group-sm">
+                                                <div class="col-md-3 no-padding">
+                                                    <div>Left Margin</div>
+                                                    <input type="text" style="width:100%" class="input-sm" ng-model="Configuration.reportformat.leftmargin" />
+                                                </div>
+                                                <div class="col-md-3 no-padding">
+                                                    <div>Top Margin</div>
+                                                    <input type="text" style="width:100%" class="input-sm" ng-model="Configuration.reportformat.topmargin" />
+                                                </div>
+                                                <div class="col-md-3 no-padding">
+                                                    <div>Label Gap</div>
+                                                    <input type="text" style="width:100%" class="input-sm" ng-model="Configuration.reportformat.labelgap" />
+                                                </div>
+                                                <div class="col-md-3 no-padding">
+                                                    <div>Zoom</div>
+                                                    <select class="form-control input-sm" style="width: 100%;"
+                                                            ng-model="Designer.ZoomValue" ng-change="ZoomChanged()">
+                                                        <option value="0">0</option>
+                                                        <option value="125">125</option>
+                                                        <option value="150">150</option>
+                                                        <option value="200">200</option>
+                                                        <option value="500">500</option>
+                                                        <option value="1000">1000</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 no-padding" ng-show="Designer.showfill">
+                                            <div class="col-md-12 no-padding">
+                                                <img src="clientside/dist/img/rectangle_filled.png" ng-click="setActiveStyle('fill','black')" />
+                                            </div>
+                                            <div class="col-md-12 no-padding">
+                                                <img src="clientside/dist/img/rectangle_unfilled.png" ng-click="setActiveStyle('fill','')" />
+                                            </div>
+                                            <div class="col-md-12 no-padding">
+                                                <img src="clientside/dist/img/line-1.png" ng-click="setActiveStyle('strokeWidth',1)" />
+                                            </div>
+                                            <div class="col-md-12 no-padding">
+                                                <img src="clientside/dist/img/line-2.png" ng-click="setActiveStyle('strokeWidth',3)" />
+                                            </div>
+                                            <div class="col-md-12 no-padding">
+                                                <img src="clientside/dist/img/line-3.png" ng-click="setActiveStyle('strokeWidth',6)" />
+                                            </div>
+                                            <div class="col-md-12 no-padding">
+                                                <img src="clientside/dist/img/line-4.png" ng-click="setActiveStyle('strokeWidth',8)" />
+                                            </div>
+                                            <div class="col-md-12 no-padding">
+                                                <img src="clientside/dist/img/line-5.png" ng-click="setActiveStyle('strokeWidth',10)" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 no-padding" ng-show="Designer.showupload">
+                                            <div class="col-md-6 no-padding">
+                                                <file-upload class="btn btn-sm btn-success btn-rad btn-trans file-upload" resize="true" max-width="1280"
+                                                             max-height="1280" preview="false" ng-model="Designer.imageid"
+                                                             filemodel="Designer.imageid" onuploadcomplete="ImageChanged"
+                                                             filetype="LOGO"
+                                                             multiple="false">
+                                                    <i class="fa fa-upload"></i>
+                                                    <span>Change Image</span>
+                                                </file-upload>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9 no-padding">
+
+                            <div class="col-md-12" ng-hide="ShowDesigner">
+                                <label>Format (XML)</label>
+                                <textarea name="address"
+                                          ng-style="panelheight"
+                                          class="form-control input-sm"
+                                          rows="16" ng-model="Configuration.reportformat.format"></textarea>
+                            </div>
+                            <div class="col-md-12" ng-show="ShowDesigner">
+
+                                <div class="col-md-12 no-padding" style="overflow:scroll"
+                                     ng-style="canvasheight"
+                                     id="canvas-wrapper">
+                                    <canvas id="barcodedesigner" width="650"
+                                            height="310" style="border:1px solid #ccc;margin-top: 10px;"></canvas>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+                <div class="box-body">
+                    <div class="col-md-2">
+                        <div class="col-md-12 no-padding">
+
+                            
+                                <label for="inputEmail3" class="control-label">Report Title</label>
+                                <select class="form-control" style="width: 100%;" select2="" options="item.code as item.value for item in refreportlist track by item.code"
+                                        ng-model="SearchCondition.key"></select>
+                            
+                        </div>
+                        <div class="col-md-12 no-padding">
+
+                            
+                                <label for="inputEmail3" class="control-label">Name</label>
+                                <div class="col-sm-12 no-padding">
+                                    <input type="text" class="form-control input-sm" ng-model="SearchCondition.name">
+                                </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-md-10">
+
+                        <div class="col-md-12">
+                            <div class="table-responsive mailbox-messages">
+                                <table fixed-header="500px" class="fixed_table" additionalheight="25">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:100px">&nbsp;</th>
+                                            <th style="width:150px">Company</th>
+                                            <th style="width:100px">Location</th>
+                                            <th style="width:100px">Name</th>
+                                            <th style="width:50px">IsDefault</th>
+                                            <th style="width:50px;text-align:center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in SearchResult">
+                                            <td>{{item.typedisplay}}</td>
+                                            <td>{{SearchRef(item.organizationid,CompanyList)}}</td>
+                                            <td>{{SearchRef(item.locationid,Location)}}</td>
+                                            <td>{{item.name}}</td>
+                                            <td>{{item.isdefault?'Yes':'No'}}</td>
+                                            <td>
+                                                <button type="button" class="btn-danger btn btn-xs" ng-show="UserInfo.p_RPTCONFIGURATION.delete"
+                                                        ng-click="ManageSearchItem('Delete',item)" data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                                <button type="button" class="btn-primary btn btn-xs" ng-show="UserInfo.p_RPTCONFIGURATION.modify" ng-click="ManageSearchItem('Edit',item)"
+                                                        data-widget="edit" data-toggle="tooltip" title="Edit">
+                                                    <i class="fa fa-pencil"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.content -->
+            </div>
+        </div>
+</div>
+
+    </section>
+</div>

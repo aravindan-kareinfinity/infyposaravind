@@ -1,0 +1,1903 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            {{Title}}
+
+            <span ng-show="system_supportdeliveryrack && system_deliveryrackcard"
+                  style="font-size:large;color:orangered">
+                {{DeliveryRackInformation}}
+            </span>
+
+            <span ng-show="IsBulkSale && CurrentBill.isbulkreturngoods && CurrentBill.isbulkreturn"
+                  style="font-size:large;color:orangered">keep the return barcodes and remove the remaining</span>
+
+            <span ng-show="!IsBulkSale && CurrentBill.isbulkreturngoods && CurrentBill.isbulkreturn"
+                  style="font-size:large;color:orangered">Collect unbilled products, before save</span>
+
+            <span ng-show="!IsBulkSale && !CurrentBill.isbulkreturngoods && CurrentBill.isbulkreturn"
+                  style="font-size:large;color:lightseagreen">Don't Collect unbilled products here,Partial return use sales on approval</span>
+        </h1>
+        <ol class="breadcrumb" ng-hide="DisablePOS">
+            <li ng-hide="UserInfo.p_SALES.print == false || (CurrentBill.id == 0 || CurrentBill.discountstatus == 1 || CurrentBill.discountstatus == 2)" ng-click="Print(CurrentBill)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-hide="(IsBulkSale && CurrentBill.isbulkreturngoods) || (DiscountQueue && !AllowAdditionalDiscount && CurrentBill.additionaldiscount>0)" ng-click="Save(false,true)"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="AdditionalDiscountEnabled && UserInfo.p_CANAPPROVEDISCOUNT.view" ng-click="ShowAdditionalDiscount()"><a><i class="fa fa-edit"></i>Discount</a></li>
+            <li style="cursor:pointer" ng-click="LastSaved()"><a><i class="fa fa-cloud-download"></i>Restore</a></li>
+            <li style="cursor:pointer">
+
+                <file-upload class="btn-xs file-upload" style="display:inline-block"
+                             resize="true" max-width="1280" uri='File/UploadXLSX/{{UserInfo.OrganizationID}}/'
+                             max-height="1280" preview="false" ng-model="uploadfile"
+                             filetype="DATA"
+                             filemodel="uploadfile" onuploadcomplete="fileuploadedcomplete"
+                             multiple="false">
+                    <i class="fa fa-upload">Upload</i>
+                </file-upload>
+
+            </li>
+
+            <li ng-show="EMIEnabled" ng-click="ShowEMIDialog()"><a><i class="fa fa-edit"></i>E.M.I</a></li>
+
+            <li ng-click="TouchButton('loyelty','l')"><a><i class="fa fa-percent"></i>Loyelty</a></li>
+            <li ng-click="TouchButton('customer','c')"><a><i class="fa fa-user"></i>Customer</a></li>
+            <li ng-show="IsSaleReturn" ng-click="TouchButton('return','r')"><a><i class="fa fa-cart-arrow-down"></i>Return</a></li>
+            <li ng-show="IsSaleReturn" ng-click="TouchButton('remove','r')"><a><i class="fa fa-trash"></i>Remove</a></li>
+            <li ng-show="IsBulkSale && CurrentBill.isbulkreturngoods" ng-click="Save(false,true)"><a><i class="fa fa-cart-arrow-down"></i>Return</a></li>
+
+            <li ng-show="ExchangeEnabled" ng-click="ShowExchangeDialog()"><a><i class="fa fa-edit"></i>Exchange</a></li>
+
+            <li ng-show="UserInfo.p_SALES.print" ng-repeat="item in lastBills" ng-click="PrintPDF(item)"><a><i class="fa fa-print"></i>{{item.billno}} PDF</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info" ng-hide="ShowSearch" shortcut="{'alt+p':PrintDirect}">
+                    <div class="box-body no-padding">
+                        <div class="col-md-3" ng-style="{'background-color':leftPanStyle}" style="padding-top:0px;padding-left:0px;margin-top:0px;margin-left:0px">
+                            <div class="col-md-12" style="padding-top:3px">
+                                <div class="col-md-12 no-padding">
+                                    <label class="col-md-4 no-padding"><b>DATE/TIME</b></label>
+                                    <div class="input-group-sm" ng-style="{'background-color':dateStyle}">
+                                        {{CurrentBill.billdate |date : 'dd-MM-yyyy hh:mm a'}}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 no-padding">
+                                    <label class="col-md-4 control-label" style="padding-top:2px;padding-left:0px;margin-top:0px;margin-left:0px"><b>LOCATION</b></label>
+                                    <div class="input-group-sm">
+                                        {{LocationName}}
+                                    </div>
+                                </div>
+                                <div class="col-md-12 no-padding">
+                                    <label class="col-md-4 control-label" style="padding-top:2px;padding-left:0px;margin-top:0px;margin-left:0px"><b>COUNTER</b></label>
+                                    <div class="input-group-sm">
+                                        {{CounterName}}/{{floorname}}
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12 no-padding">
+                                    <div class="col-md-9 no-padding">
+                                        <label>Mobile No</label> <label ng-show="CurrentBill.rewardunit>0"><b>(Reward : {{CurrentBill.rewardunit | number:0}})</b></label>
+                                        <div class="input-group-sm">
+                                            <input type="text" class="form-control input-sm" placeholder="Enter customer mobile no" ng-model="CurrentBill.phoneno" focusid="Barcode" onkeyenter="SearchCustomer()" ng-disabled="CurrentBill.customerid>0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 pull-right" ng-show="UserInfo.p_SUPPORTCREDITBILL.view">
+                                        <label>CREDIT</label>
+                                        <br />
+                                        <input type="checkbox" class="icheckbox_flat-green"
+                                               ng-disabled="CurrentBill.customerid == null || CurrentBill.customerid<=0 || system_disableposcredit"
+                                               focusid="creditbill" ng-model="CurrentBill.iscreditbill" onkeyenter="CheckCreditFocus()" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12 no-padding">
+                                    <div class="col-md-9 no-padding">
+                                        <label>Customer Name</label>
+                                        <div class="input-group-sm">
+                                            <input type="text" class="form-control input-sm" ng-model="CurrentBill.customername"
+                                                   focusid="customername" placeholder="Customer Name"
+                                                   onkeyenter="focusconditiononenter(CurrentBill.isinterstatesale,'remarks_igst','remarks_cgst')">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 pull-right">
+                                        <label>IGST</label>
+                                        <br />
+                                        <input type="checkbox" class="icheckbox_flat-green"
+                                               ng-disabled="CurrentBill.customerid == null || CurrentBill.customerid<=0"
+                                               ng-model="CurrentBill.isinterstatesale" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-hide="CurrentBill.isinterstatesale">
+                                    <div class="col-md-12 no-padding">
+                                        <div class="col-md-9 no-padding">
+                                            <label>Remarks</label>
+                                            <div class="input-group-sm">
+                                                <input type="text" class="form-control input-sm" placeholder="Enter bill remarks"
+                                                       ng-model="CurrentBill.billattributes.remarks" focusid="remarks_cgst"
+                                                       focusonenter="autocoding">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 pull-right">
+                                            <label>ADDNL</label>
+                                            <br />
+                                            <input type="checkbox" class="icheckbox_flat-green"
+                                                   ng-change="ShowAdditionalCharges()"
+                                                   ng-model="ShowAdditional" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 no-padding" ng-show="system_salecollectrefemp">
+                                        <label>Sales Reference</label>
+                                        <select class="form-control" select2='Employee' style="width: 100%;"
+                                                ng-model="CurrentBill.billattributes.salesrefid"
+                                                options="item.id as item.code for item in EmployeeList track by item.id"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 no-padding" ng-show="CurrentBill.isinterstatesale">
+                                    <div class="col-md-6 no-padding">
+                                        <label>Place Of Supply</label>
+                                        <div class="input-group-sm">
+                                            <select class="form-control" select2='State' style="width: 100%;"
+                                                    ng-model="CurrentBill.customerstateid"
+                                                    options="item.id as item.name for item in StateList track by item.id"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>Remarks</label>
+                                        <div class="input-group-sm">
+                                            <input type="text" class="form-control input-sm" placeholder="Enter bill remarks"
+                                                   ng-model="CurrentBill.billattributes.remarks" focusid="remarks_igst"
+                                                   focusonenter="autocoding">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="col-md-12 no-padding">
+                                <label>Return Item</label>
+                                <div class="input-group input-group-sm">
+                                    <input method="text" class="input-sm form-control" style="width: 100%;" ng-model="ReturnItemSearch.barcode" onkeyenter="SearchReturnItem(ReturnItemSearch.barcode)" placeholder="Barcode">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-flat" ng-click="SearchReturnItem(ReturnItemSearch.barcode)">Go!</button>
+                                    </span>
+                                </div>
+                            </div>-->
+
+
+                            <div class="col-md-12" style="margin-top:10px">
+
+                                <div class="col-md-12 no-padding" id="lastBillTable">
+
+                                </div>
+
+                                <!--<table fixed-header="180px" ng-hide="true" additionalheight="360" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:60px">Bill No</th>
+                                            <th style="width:80px">Amount</th>
+                                            <th style="width:100px">
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in lastBills">
+                                            <td>
+
+
+
+                                                {{item.billno}}
+                                            </td>
+                                            <td align="right">
+                                                {{item.total}}
+                                                &nbsp;
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning btn-xs" ng-click="Print(item)" ng-hide="UserInfo.p_SALES.print == false || (DiscountQueue && (item.discountstatus==0 || item.hasaccepted==true || item.discountstatus==3) && item.billstatus != 9)">Print</button>
+                                                <button type="button" class="btn btn-danger btn-xs" ng-show="UserInfo.p_SALES.modify && item.billtype!=9" ng-click="Cancel(item)">
+                                                    Cancel
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>-->
+                            </div>
+
+
+
+                            <div class="col-md-12 no-padding"
+                                 ng-show="OnlineCounter || ShowAdditional"
+                                 style="padding-left:1px;padding-right:1px;margin-top:2px;border-top:3px solid gray">
+
+                                <div class="col-md-4 no-padding" style="padding-left:1px;padding-right:1px;margin-top:5px;">
+                                    <label style="color:brown">Type</label>
+                                    <select class="form-control" select2='' style="width: 100%;"
+                                            options="item.id as item.name for item in AdditionalChargeList track by item.id"
+                                            ng-model="AdditionalChargeItem.ChargeID"
+                                            ng-change="AdditionalChargeItem_Changed(true)"
+                                            focusid="taxid" focusonenter="addtaxvalue"></select>
+                                </div>
+                                <div class="col-md-3 no-padding" style="padding-left:1px;padding-right:1px;margin-top:5px;">
+                                    <label style="color:brown">Cost</label>
+                                    <input type="text" class="input-sm form-control no-padding"
+                                           placeholder=""
+                                           onkeyenter="AdditionalChargeItem_Add($event)"
+                                           ng-model="AdditionalChargeItem.Charge"
+                                           ng-change="AdditionalChargeItem_Changed(false)"
+                                           focusid="addtaxvalue">
+                                </div>
+                                <div class="col-md-5 no-padding" style="padding-left:1px;padding-right:1px;margin-top:5px;">
+
+                                    <div class="col-md-6 no-padding">
+                                        <label style="color:brown">Tax</label>
+                                        <input type="text" class="input-sm form-control no-padding"
+                                               placeholder="" ng-readonly="true"
+                                               ng-model="AdditionalChargeItem.Tax">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label style="color:brown">Amount</label>
+                                        <input type="text" class="input-sm form-control no-padding" ng-readonly="true"
+                                               ng-model="AdditionalChargeItem.Amount">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 no-padding"
+                                 style="padding-left:1px;padding-right:1px;border-top:1px solid gray">
+
+                                <div class="col-md-12 no-padding" id="additionalchargelist">
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" ng-hide="true">
+                                <div class="row no-padding">
+                                    <table fixed-header="180px" additionalheight="350" class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:10px">&nbsp;</th>
+                                                <th style="width:70px">Particulars</th>
+                                                <th style="width:50px">On Amount</th>
+                                                <th style="width:50px">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in CurrentBill.billTax">
+                                                <td></td>
+                                                <td>{{item.taxName}}</td>
+                                                <td>{{item.amount | number:2}}</td>
+                                                <td>{{item.tax | number:2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="height:40px;padding-right:0px">
+                                <div class="col-md-12" style="height:40px;padding-left:0px">
+                                    <div style="margin-top:10px;font-size:large;font-weight:bold;color:orangered">Amount</div>
+                                    <div style="font-size:xx-large;font-weight:bolder;color:orangered;position:absolute;right:10px;top:0px">{{CurrentBill.total+CurrentBill.additionalcharges|number:system_salesroundingdigit}}</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="height:28px;padding-right:0px">
+                                <div class="col-md-6" style="padding-left:0px"><b>Total Qty/Pcs</b></div>
+                                <div class="col-md-6 text-right" style="vertical-align:top;font-size:large;color:brown"><b>{{CurrentBill.totalqty|number:2}}/{{CurrentBill.totalpiece}}</b></div>
+                            </div>
+                            <div class="col-md-12" style="height:28px;padding-right:0px">
+                                <div class="col-md-6" style="padding-left:0px"><b>Gross Value</b></div>
+                                <div class="col-md-6 text-right" style="vertical-align:top;font-size:large;color:brown"><b>{{CurrentBill.total+CurrentBill.additionalcharges+CurrentBill.discount+CurrentBill.additionaldiscount+CurrentBill.schemediscount+(CurrentBill.rounding*-1)|number:2}}</b></div>
+                            </div>
+                            <div class="col-md-12" style="height:28px;padding-right:0px">
+                                <div class="col-md-6" style="padding-left:0px"><b>Addl Discount</b></div>
+                                <div class="col-md-6 text-right" style="vertical-align:top;font-size:large;color:brown"><b>{{CurrentBill.additionaldiscount+CurrentBill.schemediscount|number:2}}</b></div>
+                            </div>
+                            <div class="col-md-12" style="height:28px;padding-right:0px">
+                                <div class="col-md-6" style="padding-left:0px" title="{{CurrentBill.discount+CurrentBill.additionaldiscount+CurrentBill.schemediscount|number:2}}"><b>Total Discount</b></div>
+                                <div class="col-md-6 text-right" style="vertical-align:top;font-size:large;color:brown"><b>{{CurrentBill.discount+CurrentBill.additionaldiscount+CurrentBill.schemediscount|number:2}}</b></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-9 no-padding">
+                            <div class="col-md-12" style="padding-top:3px">
+                                <div class="row no-padding">
+                                    <div class="col-md-3 no-padding" style="padding-right:5px">
+                                        <div mass-autocomplete>
+                                            <input method="text" class="input-sm form-control"
+                                                   placeholder="barcode" focusid="autocoding"
+                                                   ng-disabled="DisablePOS"
+                                                   name="barcodeautocoding"
+                                                   mass-autocomplete-item="autocomplete_options" ng-change="autoCoding.code=OnKeyPress(autoCoding.code)"
+                                                   ng-model="autoCoding.code" onkeyenter="SearchAutoCoding($event)">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1" ng-hide="system_supportmanualbill" style="padding-left:5px;padding-right:5px">
+                                        <input method="text" class="input-sm form-control"
+                                               ng-disabled="DisablePOS"
+                                               placeholder="BIT - LB" focusonenter="autocodinglastbit"
+                                               focusid="autocodingqty" onkeyenter="LastBiteEnter()" ng-model="autoCoding.qty">
+                                    </div>
+
+                                    <div class="col-md-1" ng-show="SalesDetail.sellingmode==3"
+                                         style="color:orangered;font-weight:bold; padding-left: 1px; padding-right: 1px;padding-top: 5px;text-align: right;">
+                                        {{SalesDetail.price |number :2}} ({{SalesDetail.barcodeDetail.retailqty}})
+                                    </div>
+
+                                    <div ng-show="system_multipleinvoiceqty" class="col-md-1" style="padding-left:5px;padding-right:5px">
+                                        <input method="text" class="input-sm form-control" placeholder="Qty" focusid="multipleinvoiceqty"
+                                               ng-model="autoCoding.multipleqty" onkeyenter="MultipleQtyEnter()">
+                                    </div>
+
+                                    <div ng-show="system_supportmanualprice" class="col-md-1" style="padding-left:5px;padding-right:5px">
+                                        <input method="text" class="input-sm form-control" placeholder="Price" focusid="editprice"
+                                               ng-model="autoCoding.price" onkeyenter="EditPriceEnter()">
+                                    </div>
+
+                                    <div class="col-md-4" ng-show="system_supportmanualbill" style="padding-left:5px;padding-right:5px">
+
+                                        <div class="col-md-3 no-padding">
+                                            <input method="text" class="input-sm form-control"
+                                                   placeholder="Qty" focusid="qty"
+                                                   focusonenter="price"
+                                                   ng-change="ChangeManualBillItem('qty')"
+                                                   ng-model="autoCoding.qty">
+                                        </div>
+
+                                        <div class="col-md-3 no-padding">
+                                            <input method="text" class="input-sm form-control" placeholder="Price"
+                                                   onkeyenter="CheckManualDiscount('discountpercentage')"
+                                                   focusid="price"
+                                                   ng-change="ChangeManualBillItem('price')"
+                                                   ng-model="autoCoding.price">
+                                        </div>
+
+                                        <div class="col-md-3 no-padding" ng-show="AD>0">
+                                            <input method="text" class="input-sm form-control"
+                                                   placeholder="DSCNT %" focusid="discountpercentage"
+                                                   ng-model="autoCoding.discountpercentage"
+                                                   onkeyenter="AddManualBillItem()"
+                                                   ng-change="ChangeManualBillItem('discount%')">
+                                        </div>
+                                        <div class="col-md-3 no-padding" ng-show="AD>0">
+                                            <input method="text" class="input-sm form-control"
+                                                   placeholder="DSCNT" focusid="discount"
+                                                   ng-model="autoCoding.discount"
+                                                   ng-change="ChangeManualBillItem('discount')"
+                                                   onkeyenter="AddManualBillItem()">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+
+                                        <div class="col-md-6 no-padding" ng-show="IsSaleReturn">
+                                            <input method="text" class="input-sm form-control"
+                                                   ng-model="CurrentBill.returnbillno" placeholder="Return Bill No"
+                                                   focusid="returnbillno" focusonenter="returnreasonid">
+                                        </div>
+
+                                        <div class="col-sm-6 no-padding" ng-show="IsSaleReturn">
+                                            <select class="form-control" select2='Return Reason'
+                                                    options="item.id as item.name for item in ReturnReason track by item.id"
+                                                    focusid="returnreasonid" ng-model="CurrentBill.returnreasonid" onkeyenter="ValidateReturnAndSave()"></select>
+                                        </div>
+
+                                        <div class="col-sm-6 no-padding" ng-show="IsBulkSale">
+                                            <select ng-show="IsBulkSale" class="form-control" select2='Approved By'
+                                                    focusid="bulkapprovedby" focusonenter="bulkreason"
+                                                    options="item.id as item.name for item in Employees track by item.id"
+                                                    ng-model="CurrentBill.billattributes.approvedby"></select>
+                                        </div>
+
+                                        <div class="col-sm-6 no-padding" ng-show="IsBulkSale">
+                                            <select ng-show="IsBulkSale" class="form-control" select2='Reason'
+                                                    focusid="bulkreason" focusonenter="autocoding"
+                                                    options="item.id as item.name for item in BulkSaleReason track by item.id"
+                                                    ng-model="CurrentBill.returnreasonid"></select>
+                                        </div>
+
+                                        <!--<div class="col-md-10 no-padding"
+                                             ng-show="system_supportmanualbill && IsSaleReturn==false && IsBulkSale==false">
+                                            <span style="font-size:large;color:orangered" ng-show="autoCoding.amount && autoCoding.amount>0">
+                                                {{autoCoding.rate}} X  {{autoCoding.qty}} = {{autoCoding.amount}}
+                                            </span>
+                                        </div>-->
+
+                                        <div class="col-sm-10"
+                                             style="padding-top:10px"
+                                             ng-show="CurrentBill.returnbillid>0 && IsSaleReturn==false && IsBulkSale==false">
+
+                                            <label type="text" class="pull-left">Return bill :</label>
+                                            <label type="text" class="pull-right" style="margin-right:50px" ng-bind="CurrentBill.returnbillno" />
+
+                                            <button type="button" class="btn btn-info btn-xs"
+                                                    style="position:absolute;top:10px;right:5px"
+                                                    ng-show="system_expiredpromoexchange"
+                                                    ng-click="ExchangeSelection()">
+                                                <i class="fa fa-rotate-right"></i>
+                                            </button>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1 pull-right" ng-hide="IsBulkSale">
+                                        <div class="col-sm-12 pull-right no-padding" ng-show="PromotionEnabled && UserInfo.p_SALEPROMOTION.create">
+                                            <label class="switch pull-right" style="margin-right:15px">
+                                                <input type="checkbox" ng-model="IsDiscount" ng-change="ChangeTitle()">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2" ng-show="IsBulkSale">
+                                        <div class="col-sm-12 pull-right no-padding">
+                                            <input type="text" class="form-control input-sm datepicker"
+                                                   placeholder="Due Date"
+                                                   datemodule="CurrentBill.billattributes.duedate" ng-model="CurrentBill.billattributes.duedate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 no-padding">
+
+                                <div id="gridContainer" style="padding-top:5px">
+
+                                </div>
+
+                                <!--<table fixed-header="450px" additionalheight="0" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th width="25px">SL</th>
+                                            <th width="120px">BARCODE</th>
+                                            <th width="170px">PRODUCT</th>
+                                            <th width="60px">PRICE</th>
+                                            <th width="50px">TAX</th>
+                                            <th width="70px">QTY</th>
+                                            <th width="70px">DISCOUNT</th>
+                                            <th width="80px"></th>
+                                            <th width="60px">A.DIS</th>
+                                            <th width="70px">AMOUNT</th>
+                                            <th colspan="2">SALESMAN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td><input metdod="text" class="form-control input-sm" style="width: 100%; padding:2px" placeholder="Barcode" focusid="Barcode" ng-model="SalesDetail.barcode" onkeyenter="SearchBarcode()"></td>
+                                            <td style="font-size:medium">{{SalesDetail.printingname}}</td>
+                                            <td>
+                                                <input metdod="text" class="form-control input-sm" style="width: 100%; padding:2px;" ng-model="SalesDetail.actualprice"
+                                                       ng-readonly="!SalesDetail.priceeditable" placeholder="Price" focusid="Price" focusonenter="Qty">
+                                            </td>
+                                            <td style="font-size:medium" align="right">{{SalesDetail.taxpercentage}}%</td>
+                                            <td><input metdod="text" class="form-control input-sm" style="width: 100%; padding:2px" ng-model="SalesDetail.qty" ng-readonly="!SalesDetail.qtyeditable" placeholder="Qty" focusonenter="Salesman" focusid="Qty"></td>
+
+                                            <td style="font-size:medium">{{SalesDetail.discount}}</td>
+                                            <td align="right" style="color:brown;font-size:medium">{{SalesDetail.discountpercentage}}%</td>
+                                            <td><input metdod="text" class="form-control" style="width: 100%; padding:2px" ng-model="SalesDetail.additioanldiscount" ng-readonly="true" focusonenter="Salesman" placeholder="discount" focusid="additionaldiscount"></td>
+                                            <td align="right" style="font-size:medium">{{SalesDetail.receivable}}</td>
+                                            <td colspan="2" style="padding-left:5px;font-size:medium"><input metdod="text" class="form-control" style="width: 100%;padding:2px" ng-model="SalesDetail.salesmanname" placeholder="Salesman" focusid="Salesman" onkeyenter="SearchSalesmen()"></td>
+                                        </tr>
+                                        <tr ng-repeat="item in CurrentBill.Billitems" ng-style="item.style">
+                                            <td title="{{item.scheme}}">{{$index+1}}</td>
+                                            <td style="font-size:medium">{{item.displaycode}}</td>
+                                            <td style="font-size:medium">{{item.printingname}}</td>
+                                            <td align="right" style="font-size:large;color:orangered">{{item.salerate}}</td>
+                                            <td align="right" style="font-size:medium">{{item.taxpercentage}}%</td>
+
+                                            <td align="right" style="font-size:medium" ng-show="ShowLastBitQty && item.journalqty>0">{{item.qty}}({{item.journalqty}})</td>
+                                            <td align="right" style="font-size:medium" ng-show="ShowLastBitQty && item.journalqty==0">{{item.qty}}</td>
+                                            <td align="right" style="font-size:medium" ng-hide="ShowLastBitQty">{{item.qty}}</td>
+
+                                            <td align="right" style="font-size:medium">{{item.discount}}</td>
+                                            <td align="right" style="color:brown;font-size:medium">{{item.discountpercentage+item.schemediscountpercentage+item.additionaldiscountpercentage |number :2}}%</td>
+                                            <td align="right" style="font-size:medium">{{(item.qty*item.additionaldiscount)+item.schemediscount |number :2}}</td>
+                                            <td align="right" style="font-size:medium">{{item.receivable |number :2}}</td>
+                                            <td align="left" style="padding-left:5px">{{item.salesmanname}}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-xs pull-right" ng-hide="CurrentBill.HasPromotionApplied"
+                                                        ng-click="ManageBillItem('Delete',item)">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-info btn-xs pull-right"
+                                                        ng-click="ManageBillItem('Edit',item)">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-info btn-xs pull-right"
+                                                        ng-click="ManageBillItem('SMChange',item)">
+                                                    <i class="fa fa-user"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>-->
+                                <div style="height: 135px; width: 135px; position: relative; bottom: 170px;z-index:1000"
+                                     ng-show="ShowImage" class="">
+                                    <div style="height:16px;width:16px;position:relative;left:125px;top:-5px;">
+                                        <i ng-click="ShowImage=false" style="font-size:larger;color:orangered"
+                                           class="fa fa-close"></i>
+                                    </div>
+                                    <div style="height:85px;width:85px;display:inline">
+                                        <a target="_blank" href="File/Show/{{UserInfo.OrganizationID}}/{{currentimageid}}">
+                                            <img style="height:135px;width:135px;" ng-src="File/Show/{{UserInfo.OrganizationID}}/{{currentimageid}}">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="font-size:9px;font-family:Verdana;color:saddlebrown;margin-bottom:5px">{{CurrentBill.displaykey}}</div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <!-- Your Page Content Here -->
+                <div class="box box-info" id="searchBox" ng-show="ShowSearch">
+                    <div class="box-body">
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Comapany</label>
+                                <div class="col-sm-5">
+                                    <select class="form-control" select2='Buying Company' options="item.id as item.name for item in BuyingCompany track by item.id" ng-model="SearchCondition.companyid"></select>
+                                </div>
+                                <div class="col-sm-5">
+                                    <button type="button" class="pull-right btnMarginer btn btn-warning btn-sm" ng-click="SwitchPanel()">Back</button>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Product</label>
+                                <div class="col-sm-5">
+                                    <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Products track by item.id" ng-model="SearchCondition.productid"></select>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <label for="inputEmail3" class="col-sm-2 control-label">SalesMan ID</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control input-sm" placeholder="" ng-model="SearchCondition.billno">
+                                </div>
+                                <div class="col-sm-5">
+                                    <button type="button" class="pull-right btnMarginer btn btn-primary btn-sm" ng-click="Search()">Search</button>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <!-- Search Table -->
+
+                            <div class="col-md-12">
+                                <div class="table-responsive mailbox-messages">
+
+                                    <table fixed-header="500px" class="fixed_table">
+                                        <thead>
+                                            <tr>
+                                                <th width="10px">&nbsp;</th>
+                                                <th width="100px">Bill No</th>
+                                                <th width="100px">Qty</th>
+                                                <th width="100px">Discount</th>
+                                                <th width="100px">Tax</th>
+                                                <th width="100px">Bill Amount</th>
+                                                <th width="100px">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in SearchResult">
+                                                <td>&nbsp;</td>
+                                                <td>{{item.billno}}</td>
+                                                <td>{{item.qty}}</td>
+                                                <td>{{item.discount}}</td>
+                                                <td>{{item.tax}}</td>
+                                                <td>{{item.total}}</td>
+                                                <td><button type="button" class="btnMarginer btn btn-xs btn-primary" ng-click="ManageSearchItem('Edit',item)">Edit</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.content -->
+                </div>
+            </div>
+        </div>
+        <!-- /.box -->
+    </section>
+
+
+    <script type="text/ng-template" id="ApplyReward">
+        <div class="ngdialog-message">
+            <div>
+                <div class="col-md-12">
+                    <div class="row row-padbot-15" ng-hide="showmanual">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label>Total Reward Points</label>
+
+                                <input type="text" class="form-control input-sm" ng-readonly="true"
+                                       ng-model="reward_point">
+
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="inputEmail3" class="control-label">Amount</label>
+
+                                <input type="text" class="form-control input-sm" ng-readonly="true"
+                                       focusid="customer_contact" focusonenter="customer_area" ng-model="reward_convertable">
+
+                            </div>
+
+
+                            <div class="col-md-4">
+                                <label for="inputEmail3" class="control-label">Apply</label>
+
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control input-sm" ng-readonly="reward_convertable==0"
+                                           onkeyenter="$event.stopPropagation();ApplyReward()" focusid="applyreward" ng-model="reward_amount">
+                                    <span class="input-group-btn" style="width:10px">
+                                        <button type="button" class="btn btn-info btn-sm fa fa-edit" ng-click="ApplyReward()"></button>
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-4">
+                            <label for="inputEmail3" class="control-label">Gift Coupon</label>
+
+                            <input type="text" class="form-control input-sm" style="width: 100%;"
+                                   onkeyenter="FindCoupon()" focusid="couponcode" ng-model="couponcode">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputEmail3" class="control-label">Value</label>
+                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-readonly="true"
+                                   ng-model="coupon_value">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="inputEmail3" class="control-label">Apply</label>
+
+
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control input-sm" ng-readonly="coupon_convertable==0"
+                                       ng-model="coupon_amount" focusid="applycoupon" onkeyenter="ApplyCoupon()">
+                                <span class="input-group-btn" style="width:10px">
+                                    <button type="button" class="btn btn-info btn-sm fa fa-edit" ng-click="ApplyCoupon()"></button>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15" ng-show="showmanual">
+                        <div class="col-md-4">
+                            <label for="inputEmail3" class="control-label">Reward Point</label>
+                            <input type="text" class="form-control input-sm" style="width: 100%;"
+                                   ng-model="manual_point" focusid="manual_point" ng-readonly="true">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputEmail3" class="control-label">Adjusted Reward</label>
+                            <input type="text" class="form-control input-sm" style="width: 100%;"
+                                   ng-model="manual_value">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="inputEmail3" class="control-label">Amount</label>
+
+
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control input-sm"
+                                       ng-model="manual_amount" onkeyenter="ApplyManual()">
+                                <span class="input-group-btn" style="width:10px">
+                                    <button type="button" class="btn btn-info btn-sm fa fa-edit" ng-click="ApplyManual()"></button>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <label for="inputEmail3" class="control-label" style="color:orangered;font-size:large">{{reason}}</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding" ng-show="system_duplicatecoupon">
+                        <div class="col-md-12 no-padding" ng-show="coupons && coupons.length>0">
+                            Coupons
+                        </div>
+                        <div class="col-md-6 no-padding" ng-repeat="item in coupons">
+                            <span>{{item.code}}</span>
+                            <div style="position:absolute;right:0px;top:0px">
+                                <button type="button" class="btn-danger btn btn-xs"
+                                        ng-click="DeleteCoupon(item,coupons)"
+                                        title="Delete">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row row-padbot-15" ng-hide="system_duplicatecoupon">
+                    <div class="form-group">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+
+
+            <div class="col-md-12 no-padding">
+                <div ng-show="oldcouponsamount>0" class="col-md-12" style="color:brown;font-size:medium;vertical-align:top;">Existing Coupon : {{oldcouponsamount}}</div>
+                <div class="col-md-12">
+                    <label class="col-md-6 no-padding" style="color:brown;font-size:medium;vertical-align:top;">Existing Reward : {{reward_point-reward_new}}</label>
+                    <label class="col-md-6 no-padding" style="color:brown;font-size:medium;vertical-align:top;">This Bill Reward : {{reward_new}}</label>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="col-md-12">
+                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+                    <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="Clear()">Clear</button>
+                    <!--<button type="button" class="ngdialog-button ngdialog-button-primary pull-left" ng-click="ApplyBoth()">Apply</button>-->
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="EMIDialog">
+        <div class="ngdialog-message">
+            <div>
+                <div class="col-md-12">
+
+                    <div class="col-md-6">
+                        <div class="row row-padbot-15">
+                            <h4>Loan Reference</h4>
+                            <div class="col-md-12">
+                                <input type="text" id="reservation" ng-model="EMIScheme.loanreference"
+                                       class="form-control pull-right input-sm">
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <h4>Loan Approved by</h4>
+                            <div class="col-md-12">
+                                <input type="text" id="reservation" ng-model="EMIScheme.loanapprovedby"
+                                       class="form-control pull-right input-sm">
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <h4>Loan Referred by</h4>
+                            <div class="col-md-12">
+                                <input type="text" id="reservation" ng-model="EMIScheme.loanreferredby"
+                                       class="form-control pull-right input-sm">
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <h4>Reference Contact No</h4>
+                            <div class="col-md-12">
+                                <input type="text" id="reservation" ng-model="EMIScheme.loanreferrercontactno"
+                                       class="form-control pull-right input-sm">
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+
+                            <div class="col-md-6">
+                                <label for="inputEmail3" class="control-label">Advance EMI</label>
+                                <input type="text" id="reservation" ng-disabled="true" ng-model="EMIScheme.advanceemi" class="form-control pull-right input-sm">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputEmail3" class="control-label">EMI</label>
+                                <input type="text" id="reservation" ng-disabled="true" ng-model="EMIScheme.emiamount" class="form-control pull-right input-sm">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12">
+                                <h4 class="pull-left">EMI Scheme</h4>
+                                <h4 class="pull-right">Rs.{{EMIScheme.billvalue}}</h4>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control input-sm" style="width: 100%;" select2=""
+                                        ng-change="SchemeChanged()"
+                                        focusid="scheme"
+                                        options="item.id as item.name for item in EMISchemes track by item.id"
+                                        ng-model="EMIScheme.schemeid"></select>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="col-md-7 form-group control-label">Rate Of Interest</label>
+                            <div class="col-md-5">
+                                <input type="text" id="reservation" ng-model="EMIScheme.rateofinterest"
+                                       ng-disabled="true"
+                                       class="form-control pull-right input-sm">
+                            </div>
+
+                        </div>
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="col-md-7 form-group control-label">Tenure/Advance Months</label>
+                            <div class="col-md-5">
+                                <div class="col-md-6 no-padding">
+                                    <input type="text" id="reservation"
+                                           focusid="tenure"
+                                           ng-model="EMIScheme.tenure"
+                                           ng-change="CalculatePremium(false)"
+                                           class="form-control pull-right input-sm">
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <input type="text" id="reservation"
+                                           ng-model="EMIScheme.advancemonth"
+                                           ng-change="CalculatePremium(false)"
+                                           class="form-control pull-right input-sm">
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="col-md-7 form-group control-label">DBD Charge</label>
+                            <div class="col-md-5">
+                                <input type="text" id="reservation" ng-model="EMIScheme.dbdvalue"
+                                       ng-change="CalculatePremium(false)"
+                                       class="form-control pull-right input-sm">
+                            </div>
+
+
+                        </div>
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-7 form-group control-label">Document Charge</label>
+                            <div class="col-md-5">
+                                <input type="text" id="reservation" ng-model="EMIScheme.documentcharge"
+                                       ng-change="CalculatePremium(false)"
+                                       class="form-control pull-right input-sm">
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-7 form-group control-label">EMI Card Charge</label>
+                            <div class="col-md-5">
+                                <input type="text" id="reservation" ng-model="EMIScheme.emicardcharge"
+                                       ng-change="CalculatePremium(false)"
+                                       class="form-control pull-right input-sm">
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-7 form-group control-label">Additional Charge</label>
+                            <div class="col-md-5">
+                                <input type="text" id="reservation"
+                                       ng-change="CalculatePremium(false)"
+                                       ng-model="EMIScheme.additionalcharge"
+                                       class="form-control pull-right input-sm">
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="col-md-7 form-group control-label">Margin Money</label>
+                            <div class="col-md-5">
+                                <input type="text" id="reservation"
+                                       ng-change="CalculatePremium(false)"
+                                       ng-model="EMIScheme.marginmoney"
+                                       class="form-control pull-right input-sm">
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <label>Provider :{{EMIScheme.loanprovidername}}</label>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Select()">Save</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="SearchCustomer">
+        <div class="ngdialog-message">
+            <div>
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-6 no-padding">
+                        <div class="col-md-12 no-padding">
+                            <label>Mobile No</label>
+                            <div class="input-group-sm">
+                                <input type="text" class="form-control input-sm" placeholder=""
+                                       focusonenter="customer_name" ng-model="contactno" focusid="customer_contact"
+                                       onkeyenter="Search(true)">
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <label>Name</label>
+                            <div class="input-group-sm">
+                                <input type="text" class="form-control input-sm" style="width: 100%;" focusid="customer_name"
+                                       focusonenter="customer_birthdate" ng-model="name" onkeyenter="Search()">
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-6 no-padding">
+                                <label>Date of Birth</label>
+                                <div class="input-group-sm">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control input-sm datepicker" datemodule="dateofbirth" focusid="customer_birthdate"
+                                               focusonenter="customer_billingname" ng-model="dateofbirth">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label>Billing Name</label>
+                                <div class="input-group-sm">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="billingname"
+                                           focusonenter="card_no" focusid="customer_billingname">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-6 no-padding">
+                                <label>Card No</label>
+                                <div class="input-group-sm">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;" focusid="card_no"
+                                           focusonenter="customer_gstno" ng-model="loyeltyno" onkeyenter="Search(true)">
+                                </div>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label>GST No</label>
+                                <div class="input-group-sm">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;"
+                                           focusonenter="customer_address" focusid="customer_gstno" ng-model="gstno">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 no-padding">
+                        <div class="col-md-12">
+                            <label>Address</label>
+                            <div class="input-group-sm">
+                                <input type="text" class="form-control input-sm" style="width: 100%;"
+                                       focusonenter="customer_city" focusid="customer_address" ng-model="address">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-6 no-padding">
+                                <label>City</label>
+                                <div class="input-group-sm">
+                                    <select class="input-sm form-control" style="width: 100%;" select2=""
+                                            focusid="customer_city" focusonenter="customer_state" ng-model="cityid"
+                                            options="item.id as item.name for item in CityList track by item.id"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label>State</label>
+                                <div class="input-group-sm">
+                                    <select class="input-sm form-control" style="width: 100%;" select2=""
+                                            focusid="customer_state" onkeyenter="SetFocusByFlow('customer_categoryid')" ng-model="stateid"
+                                            options="item.id as item.name for item in StateList track by item.id"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-6 no-padding" ng-hide="UserInfo.p_HIDECUSTOMERCAT.view">
+                                <label>Customer Category</label>
+                                <div class="input-group-sm">
+                                    <select class="input-sm form-control" select2="" style="width: 100%;"
+                                            focusonenter="customer_religion" focusid="customer_categoryid"
+                                            options="item.id  as item.name for item in CustomerCategoryList track by item.id"
+                                            ng-model="categoryid"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label>Section/Religion</label>
+                                <div class="input-group-sm">
+                                    <select class="input-sm form-control" style="width: 100%;" select2=""
+                                            ng-model="religionid" focusid="customer_religion" focusonenter="customer_emailid"
+                                            options="item.id as item.name for item in ReligionList track by item.id"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-6 no-padding">
+                                <label>Email Id</label>
+                                <div class="input-group-sm">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;"
+                                           ng-model="emailid" focusid="customer_emailid" focusonenter="customer_area">
+                                </div>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label>Area</label>
+                                <div class="input-group input-group-sm" style="width:100%">
+                                    <select class="input-sm form-control" style="width: 100%;" select2=""
+                                            ng-model="area" focusid="customer_area" focusonenter="customer_save"
+                                            options="item.name as item.name for item in AreaList track by item.name"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--<div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-3 control-label">Contact No</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control input-sm" style="width: 100%;" focusid="customer_contact"
+                                       focusonenter="customer_name" ng-model="contactno" onkeyenter="Search(true)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-3 control-label">Name</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control input-sm" style="width: 100%;" focusid="customer_name"
+                                       focusonenter="card_no" ng-model="name" onkeyenter="Search()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-3 control-label">Card No/City</label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control input-sm" style="width: 100%;" focusid="card_no"
+                                       focusonenter="customer_city" ng-model="loyeltyno" onkeyenter="Search(true)">
+                            </div>
+                            <div class="col-md-3">
+                                <select class="input-sm form-control" style="width: 100%;" select2="City" focusid="customer_city" focusonenter="customer_religion" ng-model="cityid"
+                                        options="item.id as item.name for item in CityList track by item.id"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-3 control-label">Religion/Area</label>
+                            <div class="col-md-3">
+                                <select class="input-sm form-control" style="width: 100%;" select2="Religion" ng-model="religionid" focusid="customer_religion" focusonenter="customer_area"
+                                        options="item.id as item.name for item in ReligionList track by item.id"></select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control input-sm" style="width: 100%;" focusid="customer_area" onkeyenter="Create()"
+                                       ng-model="area">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-3 control-label">GST No</label>
+                            <div class="col-md-1">
+                                <input type="checkbox" placeholder="" ng-model="hasgst">
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control input-sm" style="width: 100%;" ng-disabled="!hasgst"
+                                       focusid="customer_gstno" ng-model="gstno">
+                            </div>
+                            <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="Search()">Search</button>
+                        </div>
+                    </div>-->
+                </div>
+
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-6" style="padding-left:0px"><b>Search Results</b></div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <table fixed-header="180px">
+                            <thead>
+                                <tr>
+                                    <th style="width:25px">&nbsp;</th>
+                                    <th style="width:200px">Name</th>
+                                    <th style="width:150px">GSTNO</th>
+                                    <th style="width:150px">Area</th>
+                                    <th style="width:120px">Mobile</th>
+                                    <th style="width:50px">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in PopupList">
+                                    <td><input type="checkbox" ng-model="item.selected" ng-change="Customer=item" /></td>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.gstno}}</td>
+                                    <td>{{item.area}}</td>
+                                    <td>{{item.mobileno}}</td>
+                                    <td>
+                                        <button type="button" class="btn-primary btn btn-xs" ng-show="UserInfo.p_CUSTOMERMASTER.modify" ng-click="ManageSearchItem('Edit',item)"
+                                                data-widget="edit" data-toggle="tooltip" title="Edit">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <div class="col-md-2 no-padding" style="margin-top:10px">
+                <button type="button" class="ngdialog-button ngdialog-button-primary pull-left"
+                        focusid="customer_save"
+                        style="margin-left:0px" ng-click="Create()">
+                    Save
+                </button>
+            </div>
+            <div class="col-md-10 no-padding" style="margin-top:10px">
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Select()">Select</button>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="NonuanDialog">
+        <div class="ngdialog-message">
+            <div class="table-responsive mailbox-messages">
+                <table fixed-header="300px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:30px;">&nbsp;</th>
+                            <th style="width:150px">Detail</th>
+                            <th style="width:80px">Barcode</th>
+                            <th style="width:60px">Price</th>
+                            <th style="width:60px">MRP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-dblclick="Add(item)"
+                            ng-repeat="item in Items | filter:search as results" ng-style="{'background-color':item.selected?'lightblue':''}">
+                            <td><input type="checkbox" ng-model="item.selected" ng-change="ItemSelected(item)" /></td>
+                            <td>{{item.printingname}}</td>
+                            <td>{{item.gln}}</td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.mrp}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+
+            <div class="col-md-6 no-padding">
+                <div style="position:absolute">
+                    Search
+                </div>
+                <div class="col-md-12" style="padding-left:60px">
+                    <input type="text" style="width:100%" class="input-sm"
+                           ng-keyup="searchchanged()"
+                           focusid="searchuan" focusonenter="uanqty"
+                           ng-model="search.printingname" />
+                </div>
+            </div>
+
+            <div class="col-md-4 no-padding" ng-show="Selected">
+                <div style="position:absolute">
+                    Qty
+                </div>
+
+                <div class="col-md-12" style="padding-left:50px">
+                    <input type="text" style="width:100%" class="input-sm"
+                           focusid="uanqty"
+                           onkeyenter="Add()"
+                           ng-model="qty" />
+                </div>
+            </div>
+
+            <div class="col-md-2 no-padding pull-right">
+
+                <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="Add()">
+                    Add
+                </button>
+
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="AdditionalDiscountDialog">
+        <div class="ngdialog-message">
+            <div class="table-responsive mailbox-messages">
+                <table fixed-header="200px" class="fixed_table">
+                    <thead>
+                        <tr>
+                            <th style="width:35px"><div class="pull-left"><input type="checkbox" style="margin-top:7px" ng-model="selectallitems" ng-click="SelectAllItems()" /></div></th>
+                            <th style="width:80px">Barcode</th>
+                            <th style="width:100px">Detail</th>
+                            <th style="width:60px">Price</th>
+                            <th style="width:60px">Qty</th>
+                            <th style="width:60px">Discount</th>
+                            <th style="width:60px">Addin %</th>
+                            <th style="width:60px">D.Value</th>
+                            <th style="width:75px">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in PopupList">
+                            <td><div class="pull-left"><input type="checkbox" style="margin-top:7px" ng-model="item.selected" /></div><div class="pull-left" style="padding-left:5px">{{$index+1}}</div></td>
+                            <td>{{item.core.barcode}}</td>
+                            <td>{{item.core.printingname}}</td>
+                            <td ng-hide="system_posexclusivetax">{{item.core.price+(item.core.discount/item.core.qty)}}</td>
+                            <td ng-show="system_posexclusivetax">{{item.core.etprice}}</td>
+                            <td>{{item.core.qty}}</td>
+                            <td>{{item.core.discount+item.core.schemediscount}}@{{item.core.discountpercentage+item.core.schemediscountpercentage}}%</td>
+                            <td ng-hide="system_posexclusivetax">
+                                <input type="text" class="input-sm form-control" tablecell ng-model="item.additionaldiscountpercentage"
+                                       ng-change="DiscountChanged('%',item,item.additionaldiscountpercentage, '{{item.additionaldiscountpercentage}}')"
+                                       onkeyenter="MultipleDiscountCheck(item)" />
+                            </td>
+                            <td ng-hide="system_posexclusivetax"><input type="text" class="input-sm form-control" tablecell ng-model="item.additionaldiscount" ng-change="DiscountChanged('V',item,item.additionaldiscount, '{{item.additionaldiscount}}')" /></td>
+                            <td ng-hide="system_posexclusivetax" style="padding-right:5px">{{item.receivable}}</td>
+
+                            <td ng-show="system_posexclusivetax">
+                                <input type="text" class="input-sm form-control" tablecell ng-model="item.etdiscountpercentage"
+                                       ng-change="DiscountChanged('%',item,item.etdiscountpercentage, '{{item.etdiscountpercentage}}')"
+                                       onkeyenter="MultipleDiscountCheck(item)" />
+                            </td>
+                            <td ng-show="system_posexclusivetax"><input type="text" class="input-sm form-control" tablecell ng-model="item.etdiscount" ng-change="DiscountChanged('V',item,item.etdiscount, '{{item.etdiscount}}')" /></td>
+                            <td ng-show="system_posexclusivetax" style="padding-right:5px">{{item.core.qty*(item.core.etprice-item.etdiscount)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+
+            <div class="col-md-5 no-padding">
+
+                <div class="col-md-4 no-padding">
+                    Discount %/₹
+                </div>
+                <div class="col-md-8 no-padding">
+                    <div class="col-md-2 no-padding">
+                        <input type="text" style="width:100%" class="input-sm" ng-model="discountpercentage" placeholder="%"
+                               ng-change="DirectDiscountChanage('%',discountpercentage, '{{discountpercentage}}')"
+                               focusid="discountpercentage" onkeyenter="CompleteDiscount('%')" ng-readonly="PassCodeRequested" />
+                    </div>
+                    <div class="col-md-5 no-padding">
+                        <input type="text" style="width:100%" class="input-sm" ng-model="discountvalue" placeholder="discount"
+                               focusid="discountvalue" onkeyenter="CompleteDiscount('V')"
+                               ng-change="DirectDiscountChanage('V',discountvalue, '{{discountvalue}}')" ng-readonly="PassCodeRequested" />
+                    </div>
+                    <div class="col-md-5 no-padding">
+                        <input type="text" style="width:100%" class="input-sm" ng-model="finalvalue" placeholder="final"
+                               focusid="discountvalue" onkeyenter="CompleteDiscount('F')"
+                               ng-change="DirectDiscountChanage('F',finalvalue, '{{finalvalue}}')" ng-readonly="PassCodeRequested" />
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="col-md-3 no-padding" ng-show="!CanApprove">
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-6 no-padding">
+                        <input type="text" style="width:100%" class="input-sm" ng-model="EmployeeCode" placeholder="E.Code" focusid="employeecode"
+                               focusonenter="passcode" onkeyenter="RequestSMS()" />
+                    </div>
+                    <div class="col-md-6 no-padding">
+                        <input type="text" style="width:100%" class="input-sm" ng-model="PassCode"
+                               ng-show="CanAskPasscode"
+                               placeholder="P.Code" focusid="passcode"
+                               onkeyenter="RequestPermission()" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 no-padding pull-right">
+
+                <label style="font-size:smaller" ng-show="CanApprove">Allowed @ {{AD}}%</label>
+                <!--<button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-show="ShowPasscode && !CanApprove" ng-click="RequestPermission()">Request</button>-->
+
+                <button type="button" class="ngdialog-button ngdialog-button-secondary pull-right" ng-click="closeThisDialog()">Close</button>
+
+                <!--<button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-hide="UserInfo.p_CANAPPROVEDISCOUNT.create || CanApprove || ShowPasscode" ng-click="Approve()">Request</button>-->
+
+                <button type="button" class="ngdialog-button ngdialog-button-primary pull-right"
+                        ng-show="(UserInfo.p_CANAPPROVEDISCOUNT.create || CanApprove) && system_salesroundingdigit==0" ng-click="RequestPermission()">
+                    Approve ({{Receivable|IndianNumber}})
+                </button>
+
+                <button type="button" class="ngdialog-button ngdialog-button-primary pull-right"
+                        ng-show="(UserInfo.p_CANAPPROVEDISCOUNT.create || CanApprove) && system_salesroundingdigit>0" ng-click="RequestPermission()">
+                    Approve ({{Receivable | number:system_salesroundingdigit}})
+                </button>
+            </div>
+        </div>
+    </script>
+
+
+    <script type="text/ng-template" id="SettlementDialog">
+        <div class="ngdialog-message">
+            <div class="col-md-12">
+
+                <div class="row row-padbot-15">
+                    <label for="inputEmail3" class="col-md-4 control-label">BILL(s) AMOUNT</label>
+                    <div class="col-md-3" style="color:dodgerblue;font-size:xx-large;vertical-align:top;">
+                        {{Settlement.billamount | number:system_salesroundingdigit}}
+                    </div>
+
+                    <label for="inputPassword3" class="col-md-3 control-label">DISCOUNT AMOUNT</label>
+                    <div class="col-md-2" style="color:dodgerblue;font-size:xx-large;vertical-align:top;">
+                        {{Settlement.billadditionaldiscount+Settlement.additionaldiscount | number:system_salesroundingdigit}}
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-4">
+                        NET AMOUNT
+                    </div>
+                    <div class="col-md-3" style="color:brown;font-size:xx-large;vertical-align:top;">
+                        {{Settlement.receivable | number:system_salesroundingdigit}}
+                    </div>
+
+                    <div class="col-md-5" ng-show="Settlement.balanceamount>0" style="padding-left:0px">
+                        <label for="inputPassword3" class="col-md-6 control-label">BALANCE</label>
+                        <div class="col-md-6" style="color:orangered;font-size:xx-large;vertical-align:top;">
+                            {{Settlement.balanceamount | number:system_salesroundingdigit}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-4">
+                        RECEIVED
+                    </div>
+                    <div class="col-md-3" style="color:darkgreen;font-size:xx-large;vertical-align:top;">
+                        {{Settlement.paidamount | number:system_salesroundingdigit}}
+                    </div>
+
+                    <div class="col-md-5" ng-show="Settlement.balanceamount<0" style="padding-left:0px">
+                        <label for="inputPassword3" class="col-md-4 control-label" ng-show="Settlement.returnbillvalue>0">REFUND</label>
+                        <label for="inputPassword3" class="col-md-4 control-label" ng-show="Settlement.returnbillvalue==0">RETURN</label>
+
+                        <div class="col-md-6 text-right" ng-hide="Settlement.billamount<0" style="color:orangered;vertical-align:top;font-size:xx-large;">
+                            {{Settlement.balanceamount*-1|number :system_salesroundingdigit}}
+                        </div>
+
+                        <div class="col-md-4 text-right" ng-show="Settlement.billamount<0 && !system_posdisablerefund" style="color:orangered;vertical-align:top;font-size:xx-large;">
+                            <button class="btn-sm btn-success pull-right" ng-click="Refund()">Refund {{Settlement.balanceamount*-1|number :system_salesroundingdigit}}</button>
+                        </div>
+                        <div class="col-md-4 text-right" ng-show="system_supportcustcreditnote && UserInfo.p_SUPPORTCREDITNOTESETTLEMENT.view && Settlement.billamount<0" style="color:orangered;vertical-align:top;font-size:xx-large;">
+                            <button class="btn-sm btn-default pull-right" ng-click="RefundWithCreditNote()">Cr.Note {{Settlement.balanceamount*-1|number :system_salesroundingdigit}}</button>
+                        </div>
+
+                    </div>
+                    <div class="col-md-5" ng-show="Settlement.paymentinfo.adjustment_enable" style="padding-left:0px;">
+                        <label for="inputPassword3" class="col-md-6 control-label">ADJUST</label>
+                        <div class="col-md-6 no-padding">
+                            <input type="text" class="form-control input-sm" placeholder="Denomination"
+                                   ng-change="PaidChanged('ADJ')"
+                                   ng-model="Settlement.paymentinfo.adjustment_paid" focusid="adjustment_paid" onkeyenter="checkbalanceandgo('cashpaid')">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15" ng-show="Settlement.paymentinfo.discount_enable && UserInfo.p_CANAPPROVEDISCOUNT.view">
+                    <label for="inputPassword3" class="col-md-4 control-label">DISCNT</label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control input-sm" ng-model="Settlement.paymentinfo.discount_paid"
+                               focusid="discountpaid" focusonenter="discountapprovedby"
+                               ng-change="PaidChanged('DISCNT')" placeholder="Amount">
+                    </div>
+                    <div class="col-md-5" style="padding-left:0px">
+                        <select class="form-control" select2='Employee' style="width: 100%;" ng-model="Settlement.paymentinfo.discount_approvedBy"
+                                focusonenter="discountremarks"
+                                focusid="discountapprovedby" options="item.id as item.code for item in EmployeeList track by item.id"></select>
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15" ng-show="Settlement.paymentinfo.discount_paid>0 && UserInfo.p_CANAPPROVEDISCOUNT.view">
+                    <label for="inputPassword3" class="col-md-4 control-label">REMARK</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="remark" focusid="discountremarks"
+                               onkeyenter="checkbalanceandgo('cashpaid')"
+                               ng-model="Settlement.paymentinfo.discount_info">
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15">
+                    <label for="inputPassword3" class="col-md-4 control-label">CASH</label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control input-sm" placeholder="Denomination" ng-change="CashChanged(Settlement.paymentinfo.cash_paid)"
+                               ng-model="Settlement.paymentinfo.cash_paid" onkeyenter="checkbalanceandgo('cardpaid')" focusid="cashpaid">
+                    </div>
+                    <div class="col-md-5 text-right" style="font-size:large;color:darkgreen;padding-left:0px">
+                        <input type="text" class="form-control input-sm" placeholder="Denomination" ng-change="CashChanged(Settlement.paymentinfo.cash_dinamination)"
+                               ng-model="Settlement.paymentinfo.cash_dinamination" onkeyenter="checkbalanceandgo('cardpaid')">
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15" ng-hide="true">
+                    <label for="inputPassword3" class="col-md-4 control-label">RETURN DINOMINATION</label>
+                    <div class="col-md-8">
+                        <div class="col-sm-3 no-padding" ng-repeat="item in Settlement.paymentinfo.return_dinamination">
+                            <b>{{item.d}}</b> - {{item.m}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15" ng-show="UserInfo.appsettings.int_payment">
+                    <div class="col-md-12 no-padding" ng-show="UserInfo.appsettings.int_paymode==1">
+                        <label for="inputPassword3" class="col-md-4 control-label">{{PaymentIntegration.Integrater.name}}</label>
+                        <div class="col-md-8">
+                            <div class="input-group input-group-sm">
+                                <select class="form-control" select2='Bank' style="width: 100%;" ng-model="PaymentIntegration.optionid"
+                                        focusid="Innoviti_optionid" focusonenter="Innoviti_pay"
+                                        options="item.id as item.name for item in PaymentIntegration.Integrater.Options track by item.id"></select>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-info btn-flat"
+                                            focusid="Innoviti_pay"
+                                            ng-click="PaymentIntegration.Integrater.Run(PaymentIntegration.optionid,Settlement)">
+                                        Pay
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-12 no-padding" ng-show="UserInfo.appsettings.int_paymode==2">
+                        <label for="inputPassword3" class="col-md-4 control-label">{{PaymentIntegration.Integrater.name}}</label>
+                        <div class="col-md-3">
+                            <select class="form-control" select2='Mode'
+                                    focusid="Razerpay_optionid" focusonenter="Razerpay_mode"
+                                    ng-change="PaymentIntegration.lock=false"
+                                    ng-model="PaymentIntegration.optionid"
+                                    options="item.id as item.name for item in PaymentIntegration.Integrater.Options track by item.id"></select>
+
+                        </div>
+                        <div class="col-md-5" style="padding-left:0px">
+                            <div class="input-group input-group-sm">
+                                <div class="col-md-12 no-padding">
+                                    <select class="form-control" select2='Device'
+                                            style="width:100%"
+                                            ng-disabled="PaymentIntegration.lock"
+                                            ng-model="PaymentIntegration.deviceid"
+                                            ng-change="PaymentIntegration.configChanged(PaymentIntegration.deviceid,SwippingList)"
+                                            focusid="Razerpay_mode" focusonenter="Razer_pay"
+                                            options="item.code as item.name for item in SwippingList track by item.code"></select>
+                                </div>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-info btn-flat"
+                                            focusid="Razer_pay" ng-hide="PaymentIntegrationRunning"
+                                            ng-click="PaymentIntegration.Integrater.Run(PaymentIntegration.deviceid,PaymentIntegration.deviceconfig,PaymentIntegration.optionid,Settlement)">
+                                        Swipe
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-flat"
+                                            ng-show="PaymentIntegrationRunning"
+                                            ng-click="PaymentIntegration.Integrater.Cancel()">
+                                        Cancel
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 no-padding" ng-show="UserInfo.appsettings.int_paymode==4">
+                        <label for="inputPassword3" class="col-md-4 control-label">{{PaymentIntegration.Integrater.name}}</label>
+                        <div class="col-md-3">
+                            <select class="form-control" select2='Mode'
+                                    focusid="paytm_optionid" focusonenter="paytm_mode"
+                                    ng-change="PaymentIntegration.lock=false"
+                                    ng-model="PaymentIntegration.optionid"
+                                    options="item.id as item.name for item in PaymentIntegration.Integrater.Options track by item.id"></select>
+
+                        </div>
+                        <div class="col-md-5" style="padding-left:0px">
+                            <div class="input-group input-group-sm">
+                                <div class="col-md-12 no-padding">
+                                    <select class="form-control" select2='Device'
+                                            style="width:100%"
+                                            ng-disabled="PaymentIntegration.lock"
+                                            ng-model="PaymentIntegration.deviceid"
+                                            ng-change="PaymentIntegration.configChanged(PaymentIntegration.deviceid,SwippingList)"
+                                            focusid="paytm_mode" focusonenter="paytm_pay"
+                                            options="item.code as item.name for item in SwippingList track by item.code"></select>
+                                </div>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-info btn-flat"
+                                            focusid="paytm_pay" ng-hide="PaymentIntegrationRunning"
+                                            ng-click="PaymentIntegration.Integrater.Run(PaymentIntegration.deviceid,PaymentIntegration.deviceconfig,PaymentIntegration.optionid,Settlement)">
+                                        Swipe
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-flat"
+                                            ng-show="PaymentIntegrationRunning"
+                                            ng-click="PaymentIntegration.Integrater.Cancel()">
+                                        Cancel
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 no-padding" ng-show="UserInfo.appsettings.int_paymode==3">
+                        <label for="inputPassword3" class="col-md-4 control-label">{{PaymentIntegration.Integrater.name}}</label>
+                        <div class="col-md-3">
+                            <select class="form-control" select2='Mode'
+                                    focusid="Pinelab_optionid" focusonenter="Pinelab_mode"
+                                    ng-model="PaymentIntegration.optionid"
+                                    ng-change="PaymentIntegration.lock=false"
+                                    options="item.id as item.name for item in PaymentIntegration.Integrater.Options track by item.id"></select>
+
+                        </div>
+                        <div class="col-md-5" style="padding-left:0px">
+                            <div class="input-group input-group-sm">
+                                <div class="col-md-12 no-padding">
+                                    <select class="form-control"
+                                            style="width:100%"
+                                            select2='Device'
+                                            ng-disabled="PaymentIntegration.lock"
+                                            ng-model="PaymentIntegration.deviceid"
+                                            focusid="Pinelab_mode" focusonenter="Pinelab_pay"
+                                            ng-change="PaymentIntegration.configChanged(PaymentIntegration.deviceid,SwippingList)"
+                                            options="item.code as item.name for item in SwippingList track by item.code"></select>
+                                </div>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-info btn-flat"
+                                            focusid="Pinelab_pay" ng-hide="PaymentIntegrationRunning"
+                                            ng-click="PaymentIntegration.Integrater.Run(PaymentIntegration.deviceid,PaymentIntegration.deviceconfig,PaymentIntegration.optionid,Settlement)">
+                                        Swipe
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-flat"
+                                            ng-show="PaymentIntegrationRunning"
+                                            ng-click="PaymentIntegration.Integrater.Cancel()">
+                                        Cancel
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12"
+                             style="padding-left:0px;padding-right:0px;padding-top:5px"
+                             ng-show="PaymentIntegration.Integrater.ManualSettlement">
+                            <label for="inputPassword3" class="col-md-4 control-label">Manual Settlement</label>
+                            <div class="col-md-8">
+                                <div class="input-group input-group-sm">
+                                    <select class="form-control" select2='Bank' style="width: 100%;"
+                                            ng-model="PaymentIntegration.ManualID"
+                                            focusid="Pinelab_history" focusonenter="Pinelab_manual"
+                                            options="item.id as item.name for item in PaymentIntegration.Integrater.Options track by item.id"></select>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-flat"
+                                                focusid="Pinelab_manual"
+                                                ng-click="PaymentIntegration.Integrater.SettleManualy(PaymentIntegration.ManualID,Settlement)">
+                                            Settlement
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15">
+                    <label for="inputPassword3" class="col-md-4 control-label">CARD</label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="Paid" focusid="cardpaid" ng-change="PaidChanged('CARD')"
+                               onkeyenter="checkmachineandbank()" ng-model="Settlement.paymentinfo.card_paid">
+                    </div>
+                    <div class="col-md-5" style="padding-left:0px" ng-hide="system_swippingmachine">
+                        <select class="form-control" select2='Bank' style="width: 100%;" ng-model="Settlement.paymentinfo.card_bankid" focusid="bankid"
+                                onkeyenter="checkbalanceandgo('cardno')" options="item.id as item.name for item in BankList track by item.id"></select>
+                    </div>
+                    <div class="col-md-5" style="padding-left:0px" ng-show="system_swippingmachine">
+                        <select class="form-control" select2='Machine' style="width: 100%;" ng-model="Settlement.paymentinfo.card_machineid" focusid="cardmachineid"
+                                onkeyenter="checkbalanceandgo('cardno')" options="item.id as item.name for item in SwippingList track by item.id"></select>
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15" ng-show="system_salecollectcarddata && Settlement.paymentinfo.card_paid>0">
+                    <label for="inputPassword3" class="col-md-4 control-label">INFO</label>
+                    <div class="col-md-3">
+                        <select class="form-control" select2='type' style="width: 100%;" ng-model="Settlement.paymentinfo.card_typeid"
+                                focusid="cardno" focusonenter="cardtypeid"
+                                options="item.id as item.name for item in CardTypeList track by item.id"></select>
+                    </div>
+                    <div class="col-md-5" style="padding-left:0px">
+                        <input type="text" class="form-control input-sm" style="width: 100%;" placeholder="Card No"
+                               focusid="cardtypeid" onkeyenter="checkbalanceandgo('upipaid')" ng-model="Settlement.paymentinfo.card_no">
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15">
+                    <label for="inputPassword3" class="col-md-4 control-label">UPI</label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control input-sm"
+                               ng-model="Settlement.paymentinfo.upi_paid"
+                               focusid="upipaid"
+                               onkeyenter="checkbalanceandgo('upiprovider')"
+                               ng-change="PaidChanged('UPI')" placeholder="Amount">
+                    </div>
+                    <div class="col-md-5" style="padding-left:0px">
+                        <select class="form-control" select2='UPI Proivder' style="width: 100%;"
+                                ng-model="Settlement.paymentinfo.upiproviderid"
+                                focusid="upiprovider"
+                                onkeyenter="checkbalanceandgo('creditpaid')"
+                                options="item.id as item.code for item in UPIProviderList track by item.id"></select>
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15" ng-show="Settlement.paymentinfo.has_credit">
+                    <div for="inputPassword3" class="col-md-4 control-label"><div class="pull-left col-md-6 no-padding">CREDIT</div><div class="pull-right"><input ng-model="Settlement.paymentinfo.credit_partly" type="checkbox" />&nbsp;&nbsp;Partly</div></div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control input-sm" ng-model="Settlement.paymentinfo.credit_paid"
+                               focusid="creditpaid" focusonenter="approvedby" ng-readonly="!Settlement.paymentinfo.credit_partly"
+                               ng-change="PaidChanged('CREDIT')" placeholder="Amount">
+                    </div>
+                    <div class="col-md-5" style="padding-left:0px">
+                        <select class="form-control" select2='Employee' style="width: 100%;" ng-model="Settlement.paymentinfo.credit_approved"
+                                onkeyenter="checkloansettlement()"
+                                focusid="approvedby" options="item.id as item.code for item in EmployeeList track by item.id"></select>
+                    </div>
+                </div>
+
+
+
+                <div class="row row-padbot-15" ng-show="system_loansettlement">
+                    <label for="inputPassword3" class="col-md-4 control-label">LOAN</label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control input-sm" ng-model="Settlement.paymentinfo.loan_paid"
+                               focusid="loanpaid" focusonenter="loanprovider"
+                               ng-change="PaidChanged('LOAN')" placeholder="Amount">
+                    </div>
+                    <div class="col-md-5" style="padding-left:0px">
+                        <select class="form-control" select2='Loan Proivder' style="width: 100%;" ng-model="Settlement.paymentinfo.loanproviderid"
+                                focusid="loanprovider"
+                                focusonenter="loanreference"
+                                options="item.id as item.code for item in LoanProviderList track by item.id"></select>
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15" ng-show="system_loansettlement">
+                    <label for="inputPassword3" class="col-md-4 control-label">LOAN NO</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control input-sm" ng-model="Settlement.paymentinfo.loan_reference"
+                               focusid="loanreference" onkeyenter="checkbalanceandgo('autocoding')">
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15">
+
+                    <label for="inputPassword3" class="col-md-4 control-label">VOUCHER</label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control input-sm" ng-readonly="true"
+                               ng-model="Settlement.paymentinfo.voucher_paid">
+                    </div>
+                    <div class="col-md-5" style="padding-left:0px">
+                        <input type="text" class="form-control input-sm"
+                               focusid="voucher_id"
+                               ng-model="Settlement.paymentinfo.voucher_last" onkeyenter="NewVoucher()">
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15" ng-show="Settlement.paymentinfo.voucher_paid>0">
+                    <label for="inputPassword3" class="col-md-4 control-label">REMARK</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control input-sm" style="width: 100%;"
+                               placeholder="remark"
+                               focusid="voucher_reference"
+                               ng-model="Settlement.paymentinfo.voucher_reference">
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15" ng-show="voucherlist.length>0">
+                    <div class="col-md-12">
+                        <div class="table-responsive mailbox-messages">
+                            <table fixed-header="120px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:150px">Code</th>
+                                        <th style="width:100px">Amount</th>
+                                        <th style="width:70px;text-align:center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in voucherlist">
+                                        <td style="font-size:smaller;color:brown">{{item.code}}</td>
+                                        <td>{{item.amount}}&nbsp;&nbsp;/&nbsp;&nbsp;{{item.available}}</td>
+                                        <td>
+                                            <button type="button" class="btn-danger btn btn-xs" ng-click="ManageSearchItem('Delete',item)" data-widget="delete" data-toggle="tooltip" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-padbot-15">
+                    <label for="inputPassword3" class="col-md-4 control-label">REMARK</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control input-sm" style="width: 100%;"
+                               placeholder="remark"
+                               focusid="settlementremark"
+                               focusonenter="cashpaid"
+                               ng-model="Settlement.paymentinfo.remarks">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+
+        </div>
+    </script>
+
+    <!-- /.content -->
+</div>
+
+
+
+<script type="text/ng-template" id="PromotionExchange">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <table fixed-header="180px" class="fixed_table">
+                <thead>
+                    <tr>
+                        <th style="width:60px">Barcode</th>
+                        <th style="width:80px">Product</th>
+                        <th style="width:50px">Price</th>
+                        <th style="width:100px">Exchange</th>
+                        <th style="width:50px">Ex.Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in PromotionItems">
+                        <td>
+                            {{item.barcode}}
+                        </td>
+                        <td>
+                            {{item.printingname}}
+                        </td>
+                        <td>
+                            {{item.salerate}}/{{item.schemediscount}}
+                        </td>
+                        <td>
+                            <select class="form-control" select2='Select Tax' style="width:100%;"
+                                    ng-model="item.exchangeid"
+                                    ng-change="ExchangeSelected(item)"
+                                    options="exitem.exchangeid as exitem.display for exitem in ExchangeItems track by exitem.exchangeid"></select>
+                        </td>
+                        <td>
+                            {{item.exchangesalerate}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-7">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">OK</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>
+
+
+
+<script type="text/ng-template" id="ChooseTax">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="row row-padbot-15">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-3 control-label">Tax</label>
+                    <div class="input-group input-group-sm col-sm-6 no-padding">
+                        <select class="form-control" select2='Select Tax' style="width:100%;"
+                                ng-model="taxid"
+                                options="item.id as item.name for item in SalesTax track by item.id"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-7">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">OK</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="ChooseSalesMan">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="row row-padbot-15">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-3 control-label">Supervisor</label>
+                    <div class="input-group input-group-sm col-sm-6 no-padding">
+                        <select class="form-control" select2='Supervisor' style="width:100%;"
+                                ng-model="supervisorid"
+                                options="item.id as item.code for item in EmployeeList track by item.id"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="row row-padbot-15">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-md-3 control-label">Salesmen</label>
+                    <div class="input-group input-group-sm col-sm-6 no-padding">
+                        <select class="form-control" select2='Salesmen' style="width:100%;"
+                                ng-model="salesmenid"
+                                options="item.id as item.code for item in EmployeeList track by item.id"></select>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-info btn-flat" ng-click="AddSalesmen()">Add!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-padbot-15">
+                <div class="col-md-12">
+
+                    <table fixed-header="180px" additionalheight="350" class="fixed_table" style="margin-left:15px;margin-right:15px">
+                        <thead>
+                            <tr>
+                                <th style="width:10px">&nbsp;</th>
+                                <th style="width:60px">Salesmen</th>
+                                <th style="width:20px">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in salesmanlist">
+                                <td>{{$index+1}}</td>
+                                <td>{{ShowEmployee(item,EmployeeList)}}</td>
+                                <td>
+                                    <button type="button" class="btn-danger btn btn-xs"
+                                            ng-click="DeleteSM(item,salesmanlist)"
+                                            title="Delete">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-5 no-padding">
+            <input type="text" class="form-control input-sm col-md-6"
+                   focusid="multisalesmencode" 
+                   ng-model="salesmencode" onkeyenter="AddSalesmen(salesmencode)"/>
+        </div>
+        <div class="col-md-7">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">OK</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>

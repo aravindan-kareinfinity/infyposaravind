@@ -1,0 +1,470 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Store / Recharge (Default Location : {{CurrentLocation}})
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-hide="ShowSearch" ng-click="CanSave = true;Recharge.items = [];CalculateTotal()"><a><i class="fa fa-file"></i>New</a></li>
+            <li style="cursor:pointer" ng-hide="ShowSearch || !CanSave" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+
+            <li style="cursor:pointer" ng-show="ShowSearch" ng-click="ShowSearch=false"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li style="cursor:pointer" ng-show="ShowSearch" ng-click="Search('Search')"><a><i class="fa fa-backward"></i>Search</a></li>
+
+            <li style="cursor:pointer" ng-hide="ShowSearch" ng-click="Search('Main')"><a><i class="fa fas fa-list-alt"></i>Search Main</a></li>
+            <li style="cursor:pointer" ng-hide="ShowSearch" ng-click="Search('Transfer')"><a><i class="fa fas fa-list-alt"></i>Search Transfers</a></li>
+            <li style="cursor:pointer" ng-hide="ShowSearch" ng-click="Search('Recharge')"><a><i class="fa fas fa-list-alt"></i>Search Recharge</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-success">
+            <div class="box-body" ng-hide="ShowSearch">
+                <div class="col-md-12">
+                    <div class="col-md-3 no-padding">
+
+                        <div class="row row-padbot-15">
+
+                            <div class="col-md-12">
+
+                                <div class="btn-group btn-group-justified">
+                                    <div class="btn-group">
+                                        <button type="button" ng-click="Selected='1'" ng-class="Selected=='1'?'btn-success':'btn-primary'" class="btn">Main</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" ng-click="Selected='2'" ng-class="Selected=='2'?'btn-success':'btn-primary'" class="btn">Transfer</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" ng-click="Selected='3'" ng-class="Selected=='3'?'btn-success':'btn-primary'" class="btn">Customer</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!--<div class="row row-padbot-15" ng-show="Selected=='3'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Recharge#</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="name" class="form-control input-sm" ng-readonly="true" id="inputEmail3" placeholder="" ng-model="Recharge.Rechargeno">
+                                </div>
+                            </div>
+                        </div>-->
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in Company track by item.id" ng-model="Recharge.companyid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Selected=='1'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in WarehouseLocations track by item.id"
+                                            ng-model="Recharge.locationid" ng-change="RefereshCurrentBalance(Recharge.locationid,Recharge.schemeid)"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Selected=='3'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Location</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in Locations track by item.id"
+                                            ng-model="Recharge.locationid" ng-change="RefereshCurrentBalance(Recharge.locationid,Recharge.schemeid)"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Employee</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in Employees track by item.id" ng-model="Recharge.receivedemployeeid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Date</label>
+                                <div class="col-md-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" id="reservation" class="form-control pull-right input-sm" 
+                                               datemodule="Recharge.Rechargedate" ng-model="Recharge.Rechargedate" focuid="first">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Selected=='1'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Supplier</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in Suppliers track by item.id" ng-model="Recharge.supplierid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Operator</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in Schemes track by item.id"
+                                            ng-change="SchemeChanged()"
+                                            ng-model="Recharge.schemeid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Selected=='1'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Invoice No</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="reservation" class="form-control pull-right input-sm"
+                                           ng-model="Recharge.invoiceno">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row row-padbot-15" ng-show="Selected=='3'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Item</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.description for item in SchemeItems track by item.id"
+                                            ng-change="SchemeRateChanged()"
+                                            ng-model="Recharge.schemeitemid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row row-padbot-15" ng-show="Selected=='3'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Rate/Discount</label>
+
+                                <div class="col-md-8">
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" id="reservation" class="form-control pull-right input-sm"
+                                               ng-readonly="Recharge.ratereadonly"
+                                               ng-change="rechargeratechanged()"
+                                               ng-model="Recharge.rate">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" id="reservation" class="form-control pull-right input-sm"
+                                               ng-readonly="Recharge.discountreadonly"
+                                               ng-change="rechargeratechanged()"
+                                               ng-model="Recharge.discount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Selected=='2'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">From Location</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in Locations track by item.id"
+                                            ng-model="Recharge.fromlocationid"
+                                            ng-change="RefereshCurrentBalance(Recharge.fromlocationid)"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Selected=='2'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">To Location</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" style="width: 100%;"
+                                            ng-options="item.id as item.name for item in Locations track by item.id"
+                                            ng-model="Recharge.tolocationid"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Selected=='1'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Tax</label>
+                                <div class="col-md-8">
+                                    <div class="col-md-8 no-padding">
+                                        <select class="form-control" select2="" style="width: 100%;"
+                                                ng-options="item.id as item.name for item in TaxList track by item.id"
+                                                ng-model="Recharge.taxid"></select>
+                                    </div>
+                                    <div class="col-md-4" style="padding-right:0px">
+                                        IGST <input class="pull-right" type="checkbox" ng-model="Recharge.isinterstatesale" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Selected!='3'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Amount</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="reservation" class="form-control pull-right input-sm"
+                                           ng-model="Recharge.amount">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Selected=='1'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Payable</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="reservation" class="form-control pull-right input-sm"
+                                           ng-model="Recharge.billvalue">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Selected=='3'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Cash/Card</label>
+                                <div class="col-md-8">
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" id="reservation" class="form-control pull-right input-sm"
+                                               ng-model="Recharge.paid_cash">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" id="reservation" class="form-control pull-right input-sm"
+                                               ng-model="Recharge.paid_card">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Selected=='3'">
+                            <div class="form-group">
+                                <label for="inpu`tEmail3" class="col-sm-4 col-md-4 control-label">TID</label>
+                                <div class="col-md-8 col-sm-8">
+                                    <select class="form-control" select2='Machine' style="width: 100%;" ng-model="Recharge.swipmachineid"
+                                            ng-options="item.id as item.name for item in SwippingList track by item.id"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Selected=='3'">
+                            <div class="form-group">
+                                <label for="inpu`tEmail3" class="col-sm-4 col-md-4 control-label">Mobile No</label>
+                                <div class="col-md-8 col-sm-8">
+
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control input-sm" ng-model="Recharge.customerphoneno"
+                                               onkeyenter="SearchCustomer()">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-box" ng-click="SearchCustomer()"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row row-padbot-15 no-padding" ng-show="Selected=='3'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group control-label">Name</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Recharge.customername" focusid="first">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Selected=='3'">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group control-label">Address</label>
+                                <div class="col-md-8">
+                                    <textarea class="form-control input-sm" rows="3" ng-model="Recharge.customeraddress"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="control-label text-green" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+                        </div>
+
+                    </div>
+                    <div class="col-md-9" style="padding-left:5px;padding-right:0px">
+
+                        <div class="row row-padbot-15" ng-show="Selected!='3'">
+                            <div class="col-md-12 col-sm-12">
+                                <table fixed-header="500px" additionalheight="10" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:150px">Location</th>
+                                            <th style="width:200px">Operator</th>
+                                            <th style="width:100px">Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in CurrentBalanceList">
+                                            <td>{{item.location}}</td>
+                                            <td>{{item.scheme}}</td>
+                                            <td>{{item.balance}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+
+                        <div class="row row-padbot-15" ng-show="Selected=='3'">
+                            <div class="col-md-12 col-sm-12">
+                                <table fixed-header="500px" additionalheight="10" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:100px">Recharged by</th>
+                                            <th style="width:100px">Operator</th>
+                                            <th style="width:200px">Customer</th>
+                                            <th style="width:100px">Contact No</th>
+                                            <th style="width:100px">Rate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in TodayRecharge">
+                                            <td>{{SearchRef(item.receivedemployeeid,Employees)}}</td>
+                                            <td>{{item.operatorname}}</td>
+                                            <td>{{item.customername}}</td>
+                                            <td>{{item.customerphoneno}}</td>
+                                            <td>{{item.rate}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="box box-primary" ng-show="ShowSearch">
+                <div class="box-body">
+                    <div class="row row-padbot-15">
+                        <div class="col-md-4 col-sm-4">
+                            <label for="inputEmail3" class="col-sm-3 col-md-3 control-label no-padding">Location</label>
+                            <div class="col-sm-9 col-md-9">
+                                <select class="form-control input-sm" select2='Locations' ng-model="SearchRequest.locationid"
+                                        ng-options="item.id as item.name for item in Locations track by item.id"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-sm-8">
+                            <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Operator</label>
+                            <div class="col-sm-4 col-md-4">
+                                <select class="form-control input-sm" select2='Supplier' ng-model="SearchRequest.schemeid"
+                                        ng-options="item.id as item.name for item in Schemes track by item.id"></select>
+                            </div>
+                            <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Date</label>
+                            <div class="col-sm-4 col-md-4">
+                                <input type="text" daterange="SearchRequest.fromdate,SearchRequest.todate" class="form-control pull-right input-sm">
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12" id="gridContainer">
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+
+<script type="text/ng-template" id="SearchCustomer">
+    <div class="ngdialog-message">
+        <div>
+            <div class="col-md-12">
+                <div class="row row-padbot-15">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">Name</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control input-sm" style="width: 100%;" focusid="customer_name" focusonenter="customer_contact" ng-model="name">
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">Contact No</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control input-sm" style="width: 100%;" focusid="customer_contact" focusonenter="customer_area" ng-model="contactno">
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">Area</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control input-sm" style="width: 100%;" focusid="customer_area" onkeyenter="Search()" ng-model="area">
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">GST No</label>
+                        <div class="col-md-1">
+                            <input type="checkbox" placeholder="" ng-model="hasgst">
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-disabled="!hasgst" focusid="customer_gstno" ng-model="gstno">
+                        </div>
+                        <button type="button" class="ngdialog-button ngdialog-button-primary pull-right" ng-click="Search(name,area)">Search</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <table fixed-header="200px">
+                    <thead>
+                        <tr>
+                            <th style="width:25px">&nbsp;</th>
+                            <th style="width:250px">Name</th>
+                            <th style="width:150px">Area</th>
+                            <th style="width:100px">Mobile</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in PopupList">
+                            <td><input type="checkbox" ng-model="item.selected" ng-change="Customer=item" /></td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.area}}</td>
+                            <td>{{item.mobileno}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Create()">Create</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Select()">Select</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

@@ -1,0 +1,65 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Intray
+            <small>{{IntrayList.length}} Entries</small>
+        </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body" ng-init="Search()">
+                <div class="row" style="padding-left:0px;padding-right:0px;padding-bottom:10px">
+                    <div class="col-md-6 col-sm-6 no-padding">
+                        <div class="col-sm-6 col-md-6">
+                            <label for="inputEmail3" class="col-sm-1 col-md-2 control-label no-padding">Type</label>
+                            <select class="form-control input-sm" select2="Type" ng-change="typechanged()" ng-options="item.id as item.name for item in ReferenceTypeList track by item.id" 
+                                    ng-model="SearchRequest.referencetype"></select>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <label for="inputEmail3" class="col-sm-1 col-md-2 control-label no-padding">Company</label>
+                            <select class="form-control input-sm" select2="Type" ng-change="typechanged()" options="item.id as item.name for item in Company track by item.id" ng-model="SearchRequest.companyid"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        
+                        <div class="col-sm-6 col-md-6">
+                            <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Status</label>
+                            <select class="form-control input-sm" select2="Status" ng-change="typechanged()" options="item.id as item.name for item in StatusList track by item.id" ng-model="SearchRequest.actiontype"></select>
+                        </div>
+                        
+                        <div class="col-sm-6 col-md-6">
+                            <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Date</label>
+                            <div class="col-md-12 no-padding">
+                                <div class="input-group input-group-sm">
+
+                                    <input type="text" daterange="SearchRequest.fromdate,SearchRequest.todate" class="form-control pull-right input-sm">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-sm btn-box pull-right" ng-click="Search()">Search</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12" id="gridContainer">
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+

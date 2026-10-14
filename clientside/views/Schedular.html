@@ -1,0 +1,487 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Settings / Scheduler
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-show="SelectedTask != null" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li style="cursor:pointer" ng-show="SelectedTask != null && Entity != null" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li style="cursor:pointer" ng-show="SelectedTask != null && Entity != null" ng-click="Export()"><a><i class="fa fa-save"></i>Export</a></li>
+            <li style="cursor:pointer" ng-show="SelectedTask != null && Entity != null">
+                <file-load class="btn-xs file-upload" style="display:inline-block"
+                           resize="true" max-width="1280" onuploadcomplete="Import"
+                           multiple="false" ng-model="testLoad">
+                    <i class="fa fa-upload">Import</i>
+                </file-load>
+            </li>
+
+            <li style="cursor:pointer" ng-show="SelectedTask != null && Entity != null && Entity.id>0 && SelectedTask.isschedulable" ng-click="Save()">
+                <a href="File/TriggerSchedule/{{UserInfo.OrganizationID}}/{{Entity.id}}" target="_blank">
+                    <i class="fa fa-download"></i>
+                    <span>Run</span>
+                </a>
+            </li>
+
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box">
+            <div class="box-body">
+                <div class="col-md-12">
+
+                    <div class="col-md-4">
+
+                        <div class="row">
+                            <select class="form-control" select2='' style="width:100%;" ng-model="selectedtask" focusid="first" ng-change="TaskSelected()"
+                                    options="item.name as item.displayname for item in TaskList track by item.name"></select>
+                        </div>
+
+                        <div class="row">
+                            <table fixed-header="200px" class="fixed_table" additionalheight="300">
+                                <thead>
+                                    <tr>
+                                        <th style="color:brown">Configured List</th>
+                                        <th style="width:50px">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="item in ConfiguredList">
+                                    <td>{{item.description}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-xs btn-primary" ng-click="ManageSearchItem('Edit',item)"><i class="fa fa-pencil"></i></button>
+                                        <button type="button" class="btn btn-xs btn-danger" ng-click="ManageSearchItem('Delete',item)"><i class="fa fa-trash-o"></i></button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="row">
+                            <label>Name</label>
+                            <input type="text" name="address" class="form-control input-sm" ng-model="Entity.description" />
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 no-padding">
+                                <label>Mode</label>
+                                <select class="form-control" select2='Type' style="width:100%" ng-model="Entity.config.output"
+                                        options="item.id as item.name for item in Outputlist track by item.id"></select>
+                            </div>
+
+                            <div class="col-md-6 no-padding" ng-hide="Entity.config.output == 'WebAPI'">
+                                <div class="col-md-12 no-padding" ng-show="SelectedTask.isschedulable || Entity.config.source == 'Custom'">
+                                    <label>Mobile/Email</label>
+                                    <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.sendto" />
+                                    <div style="width:25px;float:right;position:absolute;right:0px;top:25px">
+                                        <button type="button" class="btn btn-xs btn-primary" ng-click="Entity.config.source=''"><i class="fa fa-arrow-left"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 no-padding" ng-hide="SelectedTask.isschedulable || Entity.config.source == 'Custom'">
+                                    <label>Mail/Mobile</label>
+                                    <select class="form-control" select2='To' style="width:100%" ng-model="Entity.config.source"
+                                            options="item.id as item.name for item in Sourcelist track by item.id"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 no-padding" ng-show="Entity.config.output == 'WebAPI'">
+                                <div class="col-md-12 no-padding">
+                                    <label>Mode</label>
+                                    <select class="form-control" select2='To' style="width:100%" ng-model="Entity.config.sendmode"
+                                            options="item.id as item.name for item in SendModes track by item.id"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-show="Entity.config.output == 'Growaasan'">
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label>URL</label>
+                                    <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.url" />
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <div class="col-md-6 no-padding">
+                                        <label>Business ID</label>
+                                        <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.growaasan.businessid" />
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>Auth Key</label>
+                                        <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.growaasan.authkey" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <div class="col-md-8 no-padding">
+                                        <label>Template</label>
+                                        <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.growaasan.waTemplateName" />
+                                    </div>
+                                    <div class="col-md-4 no-padding">
+                                        <label>File</label>
+                                        <input type="checkbox" class="icheckbox_minimal-blue"
+                                               style="position: absolute; top: 25px; left: 30px;"
+                                               ng-model="Entity.config.growaasan.hasattachment" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <div class="col-md-6 no-padding">
+                                        <label>Http Mode</label>
+                                        <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.growaasan.httpmode" />
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <label>Variable Count</label>
+                                        <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.growaasan.varCount" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row" ng-show="Entity.config.output == 'SMS' || Entity.config.output == 'WebAPI'">
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label>URL</label>
+                                    <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.url" />
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label>Authenication</label>
+                                    <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.authentication" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-show="Entity.config.output == 'Email' || Entity.config.output == 'EmailContent' || Entity.config.output == 'PDFMail' || Entity.config.output == 'ExcelMail'">
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label>Username</label>
+                                    <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.emailusername" />
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label>Password</label>
+                                    <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.emailpassword" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-show="Entity.config.output == 'Email' || Entity.config.output == 'EmailContent' || Entity.config.output == 'PDFMail' || Entity.config.output == 'ExcelMail'">
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label>Host</label>
+                                    <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.emailhost" />
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <label>Port</label>
+                                    <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.emailport" />
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <div class="col-md-12 no-padding"><label class="pull-right">SSL</label></div>
+                                    <input type="checkbox" name="address" class="pull-right" ng-model="Entity.config.emailssl" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row" ng-show="Entity.config.output == 'Email' || Entity.config.output == 'EmailContent' || Entity.config.output == 'PDFMail' || Entity.config.output == 'ExcelMail'">
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-6 no-padding">
+                                    <label>From</label>
+                                    <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.emailfrom" />
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <label>Subject</label>
+                                    <input type="text" name="address" class="form-control input-sm" ng-model="Entity.config.emailsubject" />
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-6 no-padding">
+                                <label>Company</label>
+                                <select class="form-control" select2='select company' style="width:100%;" ng-model="Entity.config.companyid"
+                                        options="item.id as item.name for item in Company track by item.id"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label>Location</label>
+                                <select class="form-control" select2='select location' style="width:100%;" ng-model="Entity.config.locationid"
+                                        options="item.id as item.name for item in Location track by item.id"></select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label>Parameters</label>
+                            <select class="form-control" select2='select parameter' style="width:100%;" ng-model="Entity.config.parameter"
+                                    options="item.id as item.name for item in SelectedTask.ParametersList track by item.id"></select>
+                        </div>
+
+                        <div class="row" ng-show="selectedtask == 'Reordersummary'">
+                            <label>Section</label>
+                            <select class="form-control" select2='select parameter' style="width:100%;" ng-model="Entity.config.sectionid"
+                                    options="item.id as item.name for item in Section track by item.id"></select>
+                        </div>
+
+                        <div class="row" ng-show="selectedtask == 'SaleReport'">
+                            <label>Mode</label>
+                            <select class="form-control" select2='select parameter' style="width:100%;" ng-model="Entity.config.mode"
+                                    options="item.id as item.name for item in SaleReportModes track by item.id"></select>
+                        </div>
+
+                        <div class="row" ng-show="selectedtask == 'SupplierSales' || selectedtask == 'SupplierStock' || selectedtask == 'SupplierPurchase'">
+                            <div class="col-md-8 no-padding">
+                                <label>Supplier</label>
+                                <select class="form-control" select2='select parameter' style="width:100%;" ng-model="Entity.config.supplierid"
+                                        options="item.id as item.name for item in SupplierList track by item.id"></select>
+                            </div>
+                            <div class="col-md-4 no-padding">
+                                <label>Brand</label>
+                                <input type="text" name="brand" class="form-control input-sm" ng-model="Entity.config.brand" />
+                            </div>
+                        </div>
+
+                        <div class="row"
+                             style="margin-top:8px;margin-bottom:8px"
+                             ng-show="selectedtask == 'SalesStockSummary'">
+
+                            <div class="col-md-3 no-padding">
+                                <div>
+                                    Supplier
+                                    <div class="col-md-1 pull-right" style="margin-right:10px">
+                                        <input type="checkbox" ng-model="Entity.config.stocksummaryconfig.showsupplier" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div>
+                                    Product
+                                    <div class="col-md-1 pull-right" style="margin-right:10px">
+                                        <input type="checkbox" ng-model="Entity.config.stocksummaryconfig.showproduct" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div>
+                                    Brand
+                                    <div class="col-md-1 pull-right" style="margin-right:10px">
+                                        <input type="checkbox" ng-model="Entity.config.stocksummaryconfig.showbrand" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 no-padding">
+                                <div>
+                                    Design
+                                    <div class="col-md-1 pull-right" style="margin-right:10px">
+                                        <input type="checkbox" ng-model="Entity.config.stocksummaryconfig.showdesign" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-show="selectedtask == 'SalesStockSummary'">
+
+                            <div class="col-md-6 no-padding">
+                                <label>Supplier</label>
+                                <select class="form-control" select2='select parameter' style="width:100%;" ng-model="Entity.config.stocksummaryconfig.supplierid"
+                                        options="item.id as item.name for item in SupplierList track by item.id"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <label>Product</label>
+                                <select class="form-control" select2='select parameter' style="width:100%;" ng-model="Entity.config.stocksummaryconfig.productid"
+                                        options="item.id as item.name for item in ProductList track by item.id"></select>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-show="selectedtask == 'CustomerPaymentReminder' || selectedtask == 'SupplierPaymentReminder'">
+                            <div class="col-md-6 no-padding">
+                                <div>
+                                    <label>Remind after (days) </label>
+                                    <input class="form-control" style="width:100%;" ng-model="Entity.config.customerconfig.beforedays" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="selectedtask == 'BillDiscount'">
+                            <div class="col-md-6 no-padding">
+                                <div>
+                                    <label>In Value  (OR)</label>
+                                    <input class="form-control" style="width:100%;" ng-model="Entity.config.addlndiscountconfig.invalue" />
+                                </div>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <div>
+                                    <label>In %</label>
+                                    <input class="form-control" style="width:100%;" ng-model="Entity.config.addlndiscountconfig.inpercentage" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="selectedtask == 'CustomerDOB' || selectedtask == 'Customer Anniversary' || selectedtask == 'CustomerKidsDOB'">
+                            <div class="col-md-2 no-padding">
+                                <div>
+                                    <label>After</label>
+                                    <input class="form-control" style="width:100%;" ng-model="Entity.config.customerconfig.beforedays" />
+                                </div>
+                            </div>
+                            <div class="col-md-2 no-padding">
+                                <div>
+                                    <label>Coupon %</label>
+                                    <input class="form-control" style="width:100%;" ng-model="Entity.config.customerconfig.discountpercent" />
+                                </div>
+                            </div>
+                            <div class="col-md-2 no-padding">
+                                <div>
+                                    <label>Value</label>
+                                    <input class="form-control" style="width:100%;" ng-model="Entity.config.customerconfig.disocuntvalue" />
+                                </div>
+                            </div>
+                            <div class="col-md-2 no-padding">
+                                <div>
+                                    <label>Validity</label>
+                                    <input class="form-control" style="width:100%;" ng-model="Entity.config.customerconfig.validity" />
+                                </div>
+                            </div>
+                            <div class="col-md-2 no-padding">
+                                <div>
+                                    <label>Min $</label>
+                                    <input class="form-control" style="width:100%;" ng-model="Entity.config.customerconfig.min" />
+                                </div>
+                            </div>
+                            <div class="col-md-2 no-padding">
+                                <div>
+                                    <label>Max %</label>
+                                    <input class="form-control" style="width:100%;" ng-model="Entity.config.customerconfig.max" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+
+                        <div class="col-md-12" style="padding-bottom:10px;top:0px;left:0px;right:0px" ng-show="SelectedTask.isschedulable && Entity != null">
+                            <div class="col-md-2 no-padding">
+                                <label>Monthly</label>
+
+                                <select class="form-control" select2='select type' style="width:100%;" ng-model="Entity.config.monthly"
+                                        options="item.id as item.name for item in Monthlylist track by item.id"></select>
+                            </div>
+
+                            <div class="col-md-3 ">
+                                <label>Weekly</label>
+                                <div class="col-md-12 no-padding">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th width="30px">
+                                                    S
+                                                </th>
+                                                <th width="30px">
+                                                    M
+                                                </th>
+                                                <th width="30px">
+                                                    T
+                                                </th>
+                                                <th width="30px">
+                                                    W
+                                                </th>
+                                                <th width="30px">
+                                                    T
+                                                </th>
+                                                <th width="30px">
+                                                    F
+                                                </th>
+                                                <th width="30px">
+                                                    S
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>
+                                                    <input type="checkbox" ng-model="Entity.config.wk_0" />
+                                                </th>
+                                                <th>
+                                                    <input type="checkbox" ng-model="Entity.config.wk_1" />
+                                                </th>
+                                                <th>
+                                                    <input type="checkbox" ng-model="Entity.config.wk_2" />
+                                                </th>
+                                                <th>
+                                                    <input type="checkbox" ng-model="Entity.config.wk_3" />
+                                                </th>
+                                                <th>
+                                                    <input type="checkbox" ng-model="Entity.config.wk_4" />
+                                                </th>
+                                                <th>
+                                                    <input type="checkbox" ng-model="Entity.config.wk_5" />
+                                                </th>
+                                                <th>
+                                                    <input type="checkbox" ng-model="Entity.config.wk_6" />
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-7 no-padding">
+
+                                <div class="col-md-12 no-padding">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th width="50px">
+                                                    &nbsp;
+                                                </th>
+                                                <th ng-repeat="item in Entity.config.daily" width="30px">
+                                                    {{item.hour}}
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>
+                                                    AM
+                                                </th>
+                                                <th ng-repeat="item in Entity.config.daily">
+                                                    <input type="checkbox" ng-model="item.morning" />
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    PM
+                                                </th>
+                                                <th ng-repeat="item in Entity.config.daily">
+                                                    <input type="checkbox" ng-model="item.evening" />
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <textarea name="address" class="form-control input-sm" rows="20"
+                                      ng-style="panelheight"
+                                      ng-model="Entity.config.format"></textarea>
+                        </div>
+                        <div class="col-md-12 no-padding" ng-show="SelectedTask.PropertyList != null">
+                            <span>Available Fields - </span>
+                            <span ng-bind="SelectedTask.PropertyList"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+</div>
+
+

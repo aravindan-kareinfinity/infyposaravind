@@ -1,0 +1,193 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Work Order - Inbox
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="CreateJobStage(false)"><a><i class="fa fa-arrow-circle-o-up"></i>Create Job Order</a></li>
+            <li style="cursor:pointer" ng-click="CreateJobStage(true)"><a><i class="fa fa-arrow-circle-o-down"></i>Inward Job Order</a></li>
+            <li style="cursor:pointer" ng-click="WorkOrderGRN()"><a><i class="fa fa-chevron-circle-down"></i>GRN</a></li>
+            <li style="cursor:pointer" ng-click="BOMConsume(true)"><a><i class="fa fa-arrow-circle-up"></i>DC</a></li>
+            <li style="cursor:pointer" ng-click="BOMConsume(false)"><a><i class="fa fa-arrow-circle-right"></i>Consumption</a></li>
+            <li style="cursor:pointer" ng-click="BOMRequest(false)"><a><i class="fa fa-arrow-circle-right"></i>Request</a></li>
+            <li style="cursor:pointer" ng-click="ChangeStatus()"><a><i class="fa fa-gears"></i>Status</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'whdashboard', 'dashboard')"><a><i class="fa fa-download"></i></a></li>
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-6 col-sm-6">
+                        <label for="inputEmail3" class="col-sm-1 col-md-2 control-label no-padding">Type</label>
+                        <div class="col-sm-4 col-md-4">
+                            <select class="form-control input-sm" select2="Type" ng-change="typechanged()"
+                                    ng-options="item.id as item.name for item in ItemTypes track by item.id"
+                                    ng-model="SearchRequest.inboxtype"></select>
+                        </div>
+                        <div class="col-md-6 no-padding" ng-hide="IsSampleBased">
+                            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label no-padding">Supplier</label>
+                            <div class="col-sm-8 col-md-8">
+                                <select class="form-control input-sm" select2='Supplier'
+                                        style="width:100%"
+                                        ng-model="SearchRequest.supplierid" ng-options="item.id as item.name for item in Suppliers track by item.id"
+                                        ng-change="supplierchanged()"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 no-padding" ng-show="IsSampleBased">
+                            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label no-padding">Customer</label>
+                            <div class="col-sm-8 col-md-8">
+                                <select class="form-control input-sm" select2='Customer' 
+                                        style="width:100%"
+                                        ng-model="SearchRequest.customerid" ng-options="item.id as item.name for item in Customers track by item.id"
+                                        ng-change="customerchanged()"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Status</label>
+                        <div class="col-sm-4 col-md-4">
+                            <select class="form-control input-sm" select2="Status" ng-change="statuschanged()" ng-options="item.id as item.name for item in StatusList track by item.id" ng-model="SearchRequest.statusid"></select>
+                        </div>
+                        <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Date</label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto" class="form-control pull-right input-sm">
+                        </div>
+                        <div class="col-sm-2 col-md-2 no-padding">
+                            <button type="button" class="btn btn-primary btn-sm btn-box pull-right" ng-click="Search()">Search</button>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-6 col-sm-6">
+                        <label for="inputEmail3" class="col-sm-2 col-md-1 control-label no-padding">Status</label>
+                        <div class="col-sm-2 col-md-4">
+
+                        </div>
+                        <label for="inputEmail3" class="col-sm-4 col-md-1 control-label no-padding">Date</label>
+                        <div class="col-sm-2 col-md-4">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto" class="form-control pull-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <button type="button" class="btn btn-block btn-primary pull-left" ng-click="Search()">Search</button>
+                    </div>
+                    <div class="col-sm-5 no-padding">
+                        <label for="inputEmail3" class="col-sm-1 control-label no-padding">Status</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" select2="Status" ng-options="item.id as item.name for item in StatusList track by item.id" ng-model="SearchRequest.statusid"></select>
+                        </div>
+                        <label for="inputEmail3" class="col-sm-1 control-label no-pad">Date</label>
+                        <div class="col-sm-5 no-padding">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto" class="form-control pull-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-block btn-primary pull-left" ng-click="Search()">Search</button>
+                    </div>-->
+
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12" id="gridContainer">
+                       
+
+
+                    </div>
+                </div>
+
+              
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+<script type="text/ng-template" id="BOMRequest">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Mode</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <select class="form-control"
+                            style="width:100%;"
+                            ng-model="mode"
+                            ng-change="modechanged()"
+                            ng-options="item.id as item.name for item in Modes track by item.id"></select>
+                </div>
+            </div>
+        </div>
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Stage</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <select class="form-control"
+                            style="width:100%;"
+                            ng-model="stageid"
+                            ng-disabled="mode!=1"
+                            ng-options="item.index as item.name for item in StageList track by item.index"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" ng-hide="inward" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Create</button>
+        <button type="button" ng-show="inward" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Inward</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="ChooseStage">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Stage</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <select class="form-control"
+                            style="width:100%;"
+                            ng-model="stageid"
+                            ng-options="item.index as item.name for item in StageList track by item.index"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" ng-hide="inward" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Create</button>
+        <button type="button" ng-show="inward" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Inward</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="ChooseStatus">
+    <div class="ngdialog-message">
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Status</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <select class="form-control"
+                            style="width:100%;"
+                            ng-model="statusid"
+                            ng-options="item.id as item.name for item in StatusList track by item.id"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Change</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

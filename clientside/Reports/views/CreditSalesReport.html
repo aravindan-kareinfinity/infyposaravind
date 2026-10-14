@@ -1,0 +1,118 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Creadit Sales Tax Report
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Reports</a></li>
+            <li><a href back-button>Back</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box primary">
+            <div class="box-body">
+                <div class="col-md-3 no-padding">
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>FROM DATE</label>
+                            <div class="input-group-sm">
+                                <input type="text" class="input-sm form-control datepicker" datemodule="SearchCondition.fromdate" ng-model="SearchCondition.fromdate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+                            <label>TO DATE</label>
+                            <div class="input-group-sm">
+                                <input type="text" class="input-sm form-control datepicker" datemodule="SearchCondition.todate" ng-model="SearchCondition.todate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label>COMPANY</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Company track by item.id"
+                                    ng-model="SearchCondition.companyid"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-12">
+
+                            <label>LOCATION</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Location track by item.id"
+                                    ng-model="SearchCondition.locationid"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding" style="display:none">
+                        <div class="col-md-12">
+
+                            <label>MODE</label>
+                            <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.code  as item.name for item in Modes track by item.code"
+                                    ng-model="SearchCondition.mode"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-padding" ng-show="false">
+                        <div class="col-md-12">
+                            <label>SHOW ROW WISE</label>
+                            <input type="checkbox" class="icheckbox_flat-green" ng-model="SearchCondition.summary" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row row-padbot-15">
+                        <div class="form-group">
+                            <div class="col-md-4" style="padding-top:15px;"></div>
+                            <div class="col-md-2" style="padding-top:15px;">
+                                <button type="button" class="btn btn-info btn-sm" ng-click="printDiv('report', 'Report')" data-widget="print" data-toggle="tooltip" title="Print"><i class="glyphicon glyphicon-print" aria-hidden="true"></i></button>
+                            </div>
+                            <div class="col-md-2" style="padding-top:15px;" ng-show="SearchCondition.summary">
+                                <button type="button" class="btn-primary btn btn-sm pull-right" ng-click="exporttoExcel(igrid,'Sales Tax')" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></button>
+                            </div>
+                            
+                            <div class="col-md-3" style="padding-top:15px;">
+                                <button type="button" class="btn btn-sm btn-success pull-right" ng-click="SearchCreditSales()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-padbot-15" ng-show="false">
+                        <div class="row col-md-12">
+                            <label for="inputEmail3" class="col-md-4 control-label"><b>CASH</b></label>
+                            <label for="inputEmail3" class="col-md-8 control-label" style="vertical-align:top;font-size:large;color:brown;text-align:right"><b>{{totalcash| number:2}}</b></label>
+                        </div>
+                        <div class="row col-md-12">
+                            <label for="inputEmail3" class="col-md-4 control-label"><b>CARD</b></label>
+                            <label for="inputEmail3" class="col-md-8 control-label" style="vertical-align:top;font-size:large;color:brown;text-align:right"><b>{{totalcard| number:2}}</b></label>
+                        </div>
+                        <div class="row col-md-12">
+                            <label for="inputEmail3" class="col-md-4 control-label"><b>CREDIT</b></label>
+                            <label for="inputEmail3" class="col-md-8 control-label" style="vertical-align:top;font-size:large;color:brown;text-align:right"><b>{{totalcredit| number:2}}</b></label>
+                        </div>
+                        <div class="row col-md-12">
+                            <label for="inputEmail3" class="col-md-4 control-label"><b>ADJUSTMENT</b></label>
+                            <label for="inputEmail3" class="col-md-8 control-label" style="vertical-align:top;font-size:large;color:brown;text-align:right"><b>{{totaladjustment| number:2}}</b></label>
+                        </div>
+                        <div class="row col-md-12">
+                            <label for="inputEmail3" class="col-md-6 control-label"><b>CASH RETURN</b></label>
+                            <label for="inputEmail3" class="col-md-6 control-label pull-right" style="vertical-align:top;font-size:large;color:brown;text-align:right"><b>{{returnamount| number:2}}</b></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9 no-padding">
+                    <div>
+                        <div class="col-md-12" id="gridContainer">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</div>

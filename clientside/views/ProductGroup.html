@@ -1,0 +1,279 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Master  |  Product Types
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+<li><a href back-button>Back</a></li>
+            <li class="active">Product Types</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+
+                <div class="col-md-12">
+
+                    <div class="col-md-6">
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group control-label">Code</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ProductGroup.code" focusid="first">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 form-group control-label">Name</label>
+                                <div class="col-md-8">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ProductGroup.name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-padbot-15">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Pricing Mode</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2='Pricing Mode' style="width:100%;" ng-model="ProductGroup.searchmode"
+                                            options="item.id as item.name for item in PricingMode track by item.id"></select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <button type="button" class="btn btn-warning btn-sm pull-right" ng-click="SwitchPanel()">Search</button>
+                    </div>
+
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <h5>
+                                <b>
+                                    ATTRIBUTES
+                                </b>
+                            </h5>
+                        </div>
+                        <div class="form-group">
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+
+                                    <div class="col-md-4" style="vertical-align:top;font-size:large;color:brown;"><input type="checkbox" class="icheckbox_flat-green pull-left" style="margin-right:10px" ng-model="ProductGroup.materialenable" /><b>One</b></div>
+                                    <div class="col-md-8">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ProductGroup.materialname" ng-disabled="!ProductGroup.materialenable">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+
+                                    <div class="col-md-4" style="vertical-align:top;font-size:large;color:brown;"><input type="checkbox" class="icheckbox_flat-green pull-left" style="margin-right:10px" ng-model="ProductGroup.patternenable" ng-disabled="!ProductGroup.materialenable" /><b>Two</b></div>
+
+                                    <div class="col-md-8">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ProductGroup.patternname" ng-disabled="!ProductGroup.patternenable">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+
+                                    <div class="col-md-4" style="vertical-align:top;font-size:large;color:brown;"><input type="checkbox" class="icheckbox_flat-green pull-left" style="margin-right:10px" ng-model="ProductGroup.styleenable" ng-disabled="!ProductGroup.patternenable" /><b>Three</b></div>
+                                    <div class="col-md-8">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ProductGroup.stylename" ng-disabled="!ProductGroup.styleenable">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+
+                                    <div class="col-md-4" style="vertical-align:top;font-size:large;color:brown;"><input type="checkbox" class="icheckbox_flat-green pull-left" style="margin-right:10px" ng-model="ProductGroup.sizeenable" ng-disabled="!ProductGroup.styleenable" /><b>Four</b></div>
+
+                                    <div class="col-md-8">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ProductGroup.sizename" ng-disabled="!ProductGroup.sizeenable">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+
+
+
+                                    <div class="col-md-4" style="vertical-align:top;font-size:large;color:brown;"><input type="checkbox" class="icheckbox_flat-green pull-left" style="margin-right:10px" ng-model="ProductGroup.colourenable" ng-disabled="!ProductGroup.sizeenable" /><b>Five</b></div>
+
+                                    <div class="col-md-8">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ProductGroup.colourname" ng-disabled="!ProductGroup.colourenable">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row row-padbot-15">
+                                <div class="form-group">
+
+                                    <div class="col-md-4" style="vertical-align:top;font-size:large;color:brown;"><input type="checkbox" class="icheckbox_flat-green pull-left" style="margin-right:10px" ng-model="ProductGroup.typeenable" ng-disabled="!ProductGroup.colourenable" /><b>Six</b></div>
+
+                                    <div class="col-md-8">
+                                        <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ProductGroup.typename" ng-disabled="!ProductGroup.typeenable">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <h5>
+                                <b>
+                                    CONFIGURATION
+                                </b>
+                            </h5>
+                        </div>
+                        <div class="form-group">
+                            <div class="row row-padbot-15">
+
+                                <div class="col-md-12 no-padding" style="margin-bottom:20px">
+                                    <div class="col-md-6" style="vertical-align:top;font-size:large;color:orangered;"><input type="checkbox" class="icheckbox_flat-green pull-left" style="margin-right:10px" ng-model="ProductGroup.designenable" /><b>Batch ID</b></div>
+                                    <div class="col-md-6" style="vertical-align:top;font-size:large;color:orangered;"><input type="checkbox" class="icheckbox_flat-green pull-left" style="margin-right:10px" ng-model="ProductGroup.expiryenable" /><b>Expiry</b></div>
+                                    <div class="col-md-6" style="vertical-align:top;font-size:large;color:orangered;"><input type="checkbox" class="icheckbox_flat pull-left" style="margin-right:10px" ng-model="ProductGroup.support_textile" /><b>NO BARCODE</b></div>
+                                    <div class="col-md-6" style="vertical-align:top;font-size:large;color:orangered;"><input type="checkbox" class="icheckbox_flat pull-left" style="margin-right:10px" ng-model="ProductGroup.support_textile" /><b>EAN BARCODE</b></div>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <h5>
+                                <b>
+                                    BASIC SETTINGS
+                                </b>
+                            </h5>
+                        </div>
+                        <div class="form-group">
+                            <div class="row row-padbot-15">
+                                <div class="col-md-6" style="vertical-align:top;font-size:large;color:brown;"><input type="checkbox" class="icheckbox_flat pull-left" style="margin-right:10px" ng-model="ProductGroup.support_textile" /><b>Textile</b></div>
+
+
+
+                                <div class="col-md-6" style="vertical-align:top;font-size:large;color:brown;"><input type="checkbox" class="icheckbox_flat-green pull-left" style="margin-right:10px" ng-model="ProductGroup.support_textile" /><b>FMCG</b></div>
+
+
+                                <div class="col-md-6" style="vertical-align:top;font-size:large;color:brown;"><input type="checkbox" class="icheckbox_flat-green pull-left" style="margin-right:10px" ng-model="ProductGroup.support_textile" /><b>POS</b></div>
+
+
+                                <div class="col-md-6" style="vertical-align:top;font-size:large;color:brown;"><input type="checkbox" class="icheckbox_flat-green pull-left" style="margin-right:10px" ng-model="ProductGroup.support_textile" /><b>KOT</b></div>
+
+
+
+                                <div class="col-md-6" style="vertical-align:top;font-size:large;color:brown;"><input type="checkbox" class="icheckbox_flat-green pull-left" style="margin-right:10px" ng-model="ProductGroup.support_textile" /><b>VEGITABLES</b></div>
+
+                                <div class="col-md-6" style="vertical-align:top;font-size:large;color:brown;"><input type="checkbox" class="icheckbox_flat-green pull-left" style="margin-right:10px" ng-model="ProductGroup.support_textile" /><b>ELECTROICS</b></div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <a class="pull-right btn btn-primary btn-sm" ng-click="Clear()">Clear</a>
+
+
+                            <a class="btn btn-primary pull-right btn-sm" style="margin-right:10px" ng-click="Save()">Save</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label"> Code</label>
+                            <div class="col-md-8">
+                                <input type="text" class="input-sm form-control" id="inputEmail3" placeholder="" ng-model="SearchCondition.code">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="pull-right btn pull-right  btn-primary btn-sm" ng-click="SwitchPanel()">Back</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                <div class="row row-padbot-15">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-4 control-label">Name</label>
+                            <div class="col-md-8">
+                                <input type="text" class="input-sm form-control" id="inputEmail3" placeholder="" ng-model="SearchCondition.name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="pull-right btn pull-left  btn-warning btn-sm" ng-click="Search()">Search</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                <div class="row row-padbot-15">
+
+
+                    <div class="col-md-12">
+                        <div class="table-responsive mailbox-messages">
+
+                            <table fixed-header="500px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:50px">Code</th>
+                                        <th style="width:100px">Name</th>
+                                        <th style="width:100px;text-align:center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SearchResult">
+                                        <td>{{item.code}}</td>
+                                        <td>{{item.name}}</td>
+
+                                        <td><button type="button" class="btn btn-danger btn-xs" ng-click="ManageSearchItem('Delete',item)">Delete</button> <button type="button" class="btn btn-primary btn-xs" ng-click="ManageSearchItem('Edit',item)">Edit</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.content -->
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<!-- Page script -->

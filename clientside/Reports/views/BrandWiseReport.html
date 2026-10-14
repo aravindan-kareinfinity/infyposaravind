@@ -1,0 +1,109 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Brand Against Style Report
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Reports</a></li>
+            <li class="active">Reports</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box primary">
+            <div class="box-body">
+                <div class="col-md-10">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">BRAND</label>
+                                        <div class="col-md-8">
+                                            <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Brand track by item.id" ng-model="SearchCondition.brandid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">STYLE</label>
+                                        <div class="col-md-8">
+                                            <select class="input-sm form-control" select2="" style="width: 100%;" ng-options="item.id  as item.name for item in Style track by item.id" ng-model="SearchCondition.styleid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div class="row row-padbot-15">
+                                    <button type="button" class="btn btn-sm btn-success" ng-click="SearchStock()">Search</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="box-body">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-info btn-sm pull-right" ng-click="printDiv('printdiv', 'Report')" data-widget="print" data-toggle="tooltip" title="Print"><i class="glyphicon glyphicon-print" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn-primary btn btn-sm pull-left" ng-click="exporttoExcel(igrid,'Stock')" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="box no-border">
+                        <div class="box-body ">
+                            <div class="row">
+                                <div class="col-md-12" id="report">
+                                    <div class="col-md-12" id="gridContainer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="box no-border">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="col-md-6">
+                                    <div class="row col-md-12">
+                                        <label for="inputEmail3" class="col-md-6 control-label"><b>TOTAL QTY</b></label>
+                                        <label for="inputEmail3" class="col-md-6 control-label pull-right" style="vertical-align:top;font-size:large;color:brown;text-align:right"><b>{{totalqty|number:2}}</b></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row col-md-12">
+                                        <label for="inputEmail3" class="col-md-6 control-label"><b>TOTAL VALUE</b></label>
+                                        <label ng-show="Permission.p_SHOWVALUE.view" for="inputEmail3" class="col-md-6 control-label" style="vertical-align:top;font-size:large;color:brown;text-align:right"><b>{{amount|number:2}}</b></label>
+                                        <label ng-hide="Permission.p_SHOWVALUE.view" for="inputEmail3" class="col-md-6 control-label" style="vertical-align:top;font-size:large;color:brown;text-align:right"><b>*******.**</b></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </section>
+</div>

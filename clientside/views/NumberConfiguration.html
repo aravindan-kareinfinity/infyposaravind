@@ -1,0 +1,332 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->    
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Setting  /   Auto Number Configuration
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.print" style="cursor:pointer" ng-click=""><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+                <form name="Customer">
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 form-group required control-label">Number Type</label>
+                                <div class="col-md-5">
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in NumberType track by item.id" ng-model="AutoNumber.type" focusid="AutoNumber"></select>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-1">
+                                    <!--<button type="button" class="pull-right btn btn-sm btn btn-box btn btn-warning" ng-click="SwitchPanel()">Search</button>-->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 form-group required control-label">Company</label>
+                                <div class="col-md-5">
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in Company track by item.id" ng-model="AutoNumber.companyid" focusid="companyid"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 form-group required control-label">Location</label>
+                                <div class="col-md-5">
+                                    <select class="form-control input-sm" style="width: 100%;" select2=""
+                                            options="item.id as item.name for item in Location track by item.id"
+                                            ng-model="AutoNumber.locationid" focusid="locationid"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15" ng-hide="AutoNumber.type == 'voucher.voucherno'">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 form-group required control-label">Floor</label>
+                                <div class="col-md-5">
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in Floors track by item.id" ng-model="AutoNumber.floorid" focusid="floorid"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15" ng-show="AutoNumber.type == 'voucher.voucherno'">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 form-group required control-label">Voucher Type</label>
+                                <div class="col-md-5">
+                                    <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in VoucherTypes track by item.id" ng-model="AutoNumber.floorid" focusid="vouchertype"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">Prefix</label>
+                                <div class="col-md-5">
+
+                                    <div class="col-md-4 no-padding">
+                                        <input type="text" class="form-control input-sm " style="width:100%;" ng-model="AutoNumber.prefix">
+                                    </div>
+                                    <div class="col-md-8 no-padding">
+                                        <label for="inputEmail3" class="col-md-4 control-label">
+                                            Expiry <input type="checkbox"
+                                                          ng-model="AutoNumber.prefixexpiry" style="position:absolute;right:10px">
+                                        </label>
+
+                                        <div class="col-md-4 no-padding">
+                                            <input type="text"
+                                                   ng-disabled="!AutoNumber.prefixexpiry"
+                                                   class="form-control input-sm datepicker"
+                                                   datemodule="AutoNumber.prefixvalidfrom"
+                                                   ng-model="AutoNumber.prefixvalidfrom">
+                                        </div>
+                                        <div class="col-md-4 no-padding">
+                                            <input type="text"
+                                                   ng-disabled="!AutoNumber.prefixexpiry"
+                                                   class="form-control input-sm datepicker"
+                                                   datemodule="AutoNumber.prefixexpiryon"
+                                                   ng-model="AutoNumber.prefixexpiryon">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">Suffix</label>
+                                <div class="col-md-5">
+                                    <div class="col-md-4 no-padding">
+                                        <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="AutoNumber.suffix">
+                                    </div>
+                                    <div class="col-md-8 no-padding">
+                                        <label for="inputEmail3" class="col-md-4 control-label">
+                                            Expiry
+                                            <input type="checkbox"
+                                                   style="position:absolute;right:10px"
+                                                   ng-model="AutoNumber.suffixexpiry">
+
+                                        </label>
+
+                                        <div class="col-md-4 no-padding">
+                                            <input type="text"
+                                                   ng-disabled="!AutoNumber.suffixexpiry"
+                                                   class="form-control input-sm datepicker"
+                                                   datemodule="AutoNumber.suffixvalidfrom"
+                                                   ng-model="AutoNumber.suffixvalidfrom">
+                                        </div>
+                                        <div class="col-md-4 no-padding">
+                                            <input type="text"
+                                                   ng-disabled="!AutoNumber.suffixexpiry"
+                                                   class="form-control input-sm datepicker"
+                                                   datemodule="AutoNumber.suffixexpiryon"
+                                                   ng-model="AutoNumber.suffixexpiryon">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">Current No</label>
+
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="AutoNumber.currentidentity">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">Length</label>
+
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="AutoNumber.nolength">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">Filler</label>
+
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="AutoNumber.filler">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-10"></div>
+                            <div class="col-md-1">
+                                <!--<a class="btn btn-sm btn btn-block btn btn-primary" ng-click="Clear()">Clear</a>-->
+                            </div>
+                            <div class="col-md-1">
+                                <!--<button class="pull-right btn btn-sm btn btn-block btn btn-primary" ng-click="Save()">Save</button>-->
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">Number Type</label>
+                            <div class="col-md-5">
+                                <select class="form-control" style="width: 100%;" select2="" options="items.id as items.name for items in NumberType track by items.id" ng-model="SearchCondition.type"></select>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-1">
+                                <!--<button type="button" class="pull-right btn btn-sm btn btn-box btn btn-primary" ng-click="SwitchPanel()">Back</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">Company</label>
+                            <div class="col-md-5">
+                                <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in Company track by item.id" ng-model="SearchCondition.companyid"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.col -->
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label">Location</label>
+                            <div class="col-md-5">
+                                <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in Location track by item.id" ng-model="SearchCondition.locationid"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                <!-- /.row -->
+                <div class="row row-padbot-15">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-md-2 control-label"></label>
+                            <div class="col-md-9">
+
+                            </div>
+                            <div class="col-md-1">
+                                <!--<button type="button" class="pull-right btn btn-sm btn btn-box btn btn-warning" ng-click="Search()">Search</button>-->
+                                <!-- /.row -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row row-padbot-15">
+
+                    <div class="col-md-12">
+                        <div class="table-responsive mailbox-messages">
+
+                            <table fixed-header="500px" class="fixed_table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:10px">&nbsp;</th>
+                                        <th style="width:200px">Location</th>
+                                        <th style="width:100px">Floor</th>
+                                        <th style="width:200px">Number Code</th>
+                                        <th style="width:100px">Prefix</th>
+                                        <th style="width:100px">Suffix</th>
+                                        <th style="width:150px">Current No</th>
+                                        <th style="width:100px">Length</th>
+                                        <th style="width:100px">Padding Char</th>
+                                        <th style="width:100px;text-align:center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in SearchResult">
+                                        <td></td>
+                                        <td>{{SearchLocation(item.locationid, item.companyid)}}</td>
+                                        <td ng-show="AutoNumber.type == 'voucher.voucherno'">{{SearchRef(item.floorid,VoucherTypes)}}</td>
+                                        <td ng-hide="AutoNumber.type == 'voucher.voucherno'">{{SearchRef(item.floorid,Floors)}}</td>
+                                        <td>{{SearchNumberType(item.type, NumberType)}}</td>
+                                        <td>{{item.prefix}}</td>
+                                        <td>{{item.suffix}}</td>
+                                        <td>{{item.currentidentity}}</td>
+                                        <td>{{item.nolength}}</td>
+                                        <td>{{item.filler}}</td>
+                                        <td>
+                                            <button type="button" class="btn-danger btn btn-xs" ng-show="UserInfo.p_NUMBERCONFIG.delete"
+                                                    ng-click="ManageSearchItem('Delete',item)" data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn-primary btn btn-xs" ng-show="UserInfo.p_NUMBERCONFIG.modify" ng-click="ManageSearchItem('Edit',item)"
+                                                    data-widget="edit" data-toggle="tooltip" title="Edit">
+                                                <i class="fa fa-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </div>
+            <!-- /.content -->
+        </div>
+    </section>
+</div>
+

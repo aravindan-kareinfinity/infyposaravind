@@ -1,0 +1,145 @@
+﻿  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Sample - Inbox
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="Create()"><a><i class="fa far fa-list-alt"></i>Create</a></li>
+            <li style="cursor:pointer" ng-click="UpdateStatus('reject')"><a><i class="fa far fa-list-alt"></i>Reject</a></li>
+            <li style="cursor:pointer" ng-click="UpdateStatus('approve')"><a><i class="fa far fa-list-alt"></i>Approve</a></li>
+            <li style="cursor:pointer" ng-click="UpdateStatus('deactivate')"><a><i class="fa far fa-list-alt"></i>Deactivate</a></li>
+            <li style="cursor:pointer" ng-click="UpdateStatus('status')"><a><i class="fa far fa-list-alt"></i>Change Status</a></li>
+            <li style="cursor:pointer" ng-click="exporttoExcel(igrid,'SampleInbox.xls')"><a><i class="fa fa-file-excel-o"></i>Download</a></li>
+            
+        </ol>
+
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="row row-padbot-15">
+                   
+                    <div class="col-md-12 col-sm-12">
+                        <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Status</label>
+                        <div class="col-sm-2 col-md-2">
+                            <select class="form-control input-sm" select2="Status"
+                                    ng-options="item.id as item.name for item in StatusList track by item.id" ng-model="SearchRequest.statusid"></select>
+                        </div>
+                        <label for="inputEmail3" class="col-sm-1 col-md-1 control-label no-padding">Date</label>
+                        <div class="col-sm-2 col-md-2">
+                            <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto" class="form-control pull-right input-sm">
+                        </div>
+                        
+                            <button type="button" class="btn btn-primary btn-sm btn-box pull-right" ng-click="Search()">Search</button>
+                        
+                    </div>
+                    <!--<div class="col-md-6 col-sm-6">
+                        <label for="inputEmail3" class="col-sm-2 col-md-1 control-label no-padding">Status</label>
+                        <div class="col-sm-2 col-md-4">
+
+                        </div>
+                        <label for="inputEmail3" class="col-sm-4 col-md-1 control-label no-padding">Date</label>
+                        <div class="col-sm-2 col-md-4">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto" class="form-control pull-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <button type="button" class="btn btn-block btn-primary pull-left" ng-click="Search()">Search</button>
+                    </div>
+                    <div class="col-sm-5 no-padding">
+                        <label for="inputEmail3" class="col-sm-1 control-label no-padding">Status</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" select2="Status" ng-options="item.id as item.name for item in StatusList track by item.id" ng-model="SearchRequest.statusid"></select>
+                        </div>
+                        <label for="inputEmail3" class="col-sm-1 control-label no-pad">Date</label>
+                        <div class="col-sm-5 no-padding">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" daterange="SearchRequest.addedfrom,SearchRequest.addedto" class="form-control pull-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-block btn-primary pull-left" ng-click="Search()">Search</button>
+                    </div>-->
+
+                </div>
+                <div class="row row-padbot-15">
+                    <div class="col-md-12" id="gridContainer">
+                       
+
+
+                    </div>
+                </div>
+
+              
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+<script type="text/ng-template" id="ImageDialog">
+    <div class="ngdialog-message">
+        <div class="table-responsive mailbox-messages">
+            <div class="col-md-12 no-padding" style="height:400px;overflow:auto">
+                <img src="{{imagepath}}" style="height:100%;width:100%" />
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="ChangeStatusDialog">
+    <div class="ngdialog-message">
+        <div class="table-responsive mailbox-messages">
+            <div class="col-md-12" ng-show="ShowStatus">
+                <label>Status</label>
+                <select class="input-sm form-control" select2="" style="width: 100%;"
+                        options="item.id as item.name for item in Parent.FullStatusList track by item.id"
+                        ng-model="statusid"></select>
+            </div>
+            <div class="col-md-12" ng-hide="ShowStatus">
+                <label>Employee</label>
+                <select class="input-sm form-control" select2="" style="width: 100%;"
+                        options="item.id as item.name for item in Parent.Employee track by item.id"
+                        ng-model="employeeid"></select>
+            </div>
+            <div class="col-md-12" ng-hide="ShowStatus">
+                <label for="inputEmail3" class="form-group required control-label no-margin">Changed Date</label>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control datepicker input-sm"
+                           datemodule="actionon" ng-model="actionon">
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="ShowReason">
+                <label>Reason</label>
+                <input type="text" ng-model="reason" style="width:100%" class="input-sm" />
+            </div>
+            
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Change</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

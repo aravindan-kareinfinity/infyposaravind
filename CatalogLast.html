@@ -1,0 +1,2274 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="catalogApp">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA9CAYAAAAwJ0B7AAAAAXNSR0IArs4c6QAABl5JREFUaEPNWltIVFsY/sZxBsqETM85WkKBk6RZ0KGU6qGyhy6mZJYGFdjtJYigHsK8RDcpKCipCLpKlJeHHgSD7KGgi9lFDbOyevFhsjyd8qGb46XDtzl7s/eaPTNrb8fJH3poXOv/v73W//23vR0A4PF4/hgcHGwA8DcAN3/7zeID0BodHZ337t27fxypqakJPp/vI4Co3wzMzPyw2+3+yzFt2rRHALLGIEAVUgtB9lu94qioKBw8eBBlZWWReDYfQf6yaun8+fPIzs5GWloafD66z+iKZZDFxcXYv3+/gqqyshIEPNpiCSRP7ubNmxqmr1+/Yvbs2fj1y/JlWHouaZDjx49HW1sb3G5jhCooKEBra6slo1YXS4F0OBy4c+cOpk6d6qf/9evXWLFihVW7ltZLgTx69CjWrFkDl8tlUD44OIjh4WFkZWWhr6/PkmEri6VAUiGvuaury6B72bJlePPmjRV7ttZKg/R4PLh9+7ZmhGSZMWPG2ApBW7ZsQXl5uQby27dvyMjIsHUyVjdJn2Rtba3ie6o8e/YMa9eutWrP1nppkB0dHZgwYYJm5NixYzh37pz2/02bNmHHjh22QJhtam5uxu7du5U/SYE0I83y5csNRLpw4QKWLl0aNpB79+5FfX29PEgZ0jx8+BBJSUlhA7lw4UK8f/9eHuTWrVsNFY9IGgZ7hicxjtpFzNg7ffp0JQZLX3ddXR0yMzM1m0yDTId6SU5OtosJVVVVmDNnjrafJ8iTVEXKJ0ORxja6/zc+efIECQkJmhpGkpKSEnmQZqRhrmbODofQVd6+fQun06mp27hxIx48eCAP0ow0LNn6+1nQj1y2bduG0tJSg6JZs2aBZaD0dYtKvn//jpkzZ2oKJk6ciFu3btlCGxsbi3Hjxhn2/vjxA+np6YbfQvqkSBrWlKyIVFmyZAkuXbpkC6TZpj179uDGjRvWQIqkOX78OM6cOaMpYRlXVFQUFpBPnz7FunXr/HQFPUkz0uTk5ODly5eaonv37mEk4YeKBgYGUF1drfRMZq1IUJAMqE1NTRogKqC//Pz5U/mNrS3rST0zGfN6e3ulTpb+zfDj9XqD9klBQYqkITgyW5W4uDi//oakovFwSlCQYnlG/8zLywtIGrYTqampYe8eg4IUSXPy5EmcOnUqIGk+fPiA+fPnh/MQFV0BQZqRJjc3Fy9evAhImi9fvoDFsKxUVFSgp6cn5PKAIMVMQ030x2CkCWlNWKDXF2xvQJBieSZmgkmTJlk6NRGEWWYJBDQgyFCk4cDq4sWLVg9PW//8+XOsXr1aan9AkKFIk5+fjwULFsgZcTjA9Yyrqpw4cQKnT5+W2282+jMjDUMPgduR6OhoJeizLFNFzFyWfVLMNFTATEM/siOJiYlg96cXDhZkyz3T6w6VaawCPXz4MDZs2KBtszpYMAUplmednZ1YtWqVZmTy5MkoLCwMipVNFHM4/ZbxVS/3798H+3RZMQUpkoalGUs0Vdi079y5U9aGYR2LlLlz5+Lz58/S+/1AmpGGzGxvb9eUNjY2+lXPshaPHDkCDhKsiB/IUKSx22Pz+umbly9ftoJPWesHMhRpOA8SQxH75JiYGHBkzXBD4bWSILyBq1ev4u7du0pxa0f8QIqkYRXOmKYKq5zr168bbK1fvx4tLS1KHFT/EaQ6gbADTL/HD2Qo0hw6dAjsi/WyePFidHd3jxRLwP0GkGakYWfIDlEVXps44Bf75HCjNYA0I42+HTDracThUrgB+hFn+/bt2Ldvn2aHaYvpS5X4+Hiw7dTLp0+fMG/evNHApuk0nCSHlnqDr169wsqVK7XFnAGdPXvWAKihoQG7du2KHMhQpGFppWc6kXEw8Pjx48iANCON/pUc/86T1deEQ0NDSncYrlAT6Em166YxcfCkJ82VK1ewaNEig56amhqDD4/WcWogzUjDRonhhvMe/esRguF7br7HsZtFrDyQBlIkDZXwOvUjFL3izZs3K6kuEqKBZD/N/Csj165di9SnDQocBaQZaQKBpW8eOHBA5lnCtkYBaUYa0QInX/RbMjzSQpD9+fn5bk77ORqmD7KCYdPFgTtHf/yk4eNHfjr0W0T5mmXsfxeUkpLy59DQEKdGY/ILK6fTmaR061OmTIl3uVyNAPhaaqx8q9Y2MDCQ4/V6//0PlcURHbqrQWcAAAAASUVORK5CYII=" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fazhar - A Quanto Product</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!--<link rel="stylesheet" href="clientside/dist/flatpickr.min.css">
+    <script src="clientside/dist/flatpickr.js"></script>-->
+    <!--<script src="clientside/dist/angular.min.js"></script>
+    <script src="clientside/dist/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="clientside/dist/flatpickr.min.css">
+    <script src="clientside/dist/flatpickr.js"></script>-->
+    <script src="clientside/plugins/inview/angular-inview.js"></script>
+    <script src="clientside/controllers/catelogcontroller.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>-->
+    <!--<script src="https://cdn.tailwindcss.com"></script>-->
+    <!--<link href="clientside/dist/css/cdn.tailwindcss.js" rel="stylesheet" />-->
+    <script src="clientside/dist/css/tailwind.js"></script>
+
+    <style>
+        /* Mini toggle (CSS-only) */
+        .mini-toggle {
+            --w: 28px; /* width */
+            --h: 16px; /* height */
+            --p: 2px; /* knob padding */
+            --on: #22c55e; /* ON color */
+            --off: #cbd5e1; /* OFF color */
+            position: relative;
+            display: inline-block;
+            width: var(--w);
+            height: var(--h);
+        }
+
+            .mini-toggle input {
+                position: absolute;
+                inset: 0;
+                margin: 0;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+            .mini-toggle .slider {
+                position: absolute;
+                inset: 0;
+                background: var(--off);
+                border-radius: 999px;
+                transition: background .18s ease;
+                box-shadow: inset 0 0 0 1px #00000012;
+            }
+
+                .mini-toggle .slider::before {
+                    content: "";
+                    position: absolute;
+                    top: var(--p);
+                    left: var(--p);
+                    width: calc(var(--h) - var(--p)*2);
+                    height: calc(var(--h) - var(--p)*2);
+                    background: #fff;
+                    border-radius: 50%;
+                    transition: transform .18s ease;
+                    box-shadow: 0 1px 2px rgba(0,0,0,.15);
+                }
+
+            .mini-toggle input:checked + .slider {
+                background: var(--on);
+            }
+
+                .mini-toggle input:checked + .slider::before {
+                    transform: translateX(calc(var(--w) - var(--h)));
+                }
+            /* Focus ring for keyboard users */
+            .mini-toggle input:focus-visible + .slider {
+                outline: 2px solid #3b82f6;
+                outline-offset: 2px;
+            }
+            /* Disabled state */
+            .mini-toggle input:disabled + .slider {
+                opacity: .5;
+                cursor: not-allowed;
+            }
+
+        /* Responsive blocks */
+        .responsive-block {
+            width: 100%;
+            min-width: 300px;
+            flex: 1 1 300px;
+        }
+
+        /* Tablet portrait (768px and up) - 2 blocks per row */
+        @media (min-width: 768px) {
+            .responsive-block {
+                flex: 1 1 calc(50% - 4px);
+                max-width: calc(50% - 4px);
+            }
+        }
+
+        /* Desktop/Tablet landscape (1024px and up) - 4 blocks per row */
+        @media (min-width: 1024px) {
+            .responsive-block {
+                flex: 1 1 calc(25% - 6px);
+                max-width: calc(25% - 6px);
+            }
+        }
+    </style>
+    <!--<script src="clientside/dist/css/tailwindextra.js"></script>-->
+</head>
+
+<body ng-controller="CatalogController as vm" class="bg-gray-50 p-4">
+
+    <!-- Header left -->
+    <div class="flex gap-4 mb-4" ng-hide="vm.showLoginDialog">
+
+        <!-- Left side: Header (fixed width) -->
+        <div class=" rounded p-1 w-full md:w-64 flex items-center gap-4">
+
+            <!-- Desktop Filter Button -->
+            <button class="bg-gray-300 p-2 rounded" ng-hide="vm.isDesktop" ng-click="vm.showFilters = !vm.showFilters;vm.StoreLayout()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z" />
+                </svg>
+            </button>
+            <button class="bg-gray-300 p-2 rounded" ng-show="vm.isDesktop" ng-click="vm.hideFilters = !vm.hideFilters;vm.StoreLayout()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z" />
+                </svg>
+            </button>
+
+            <!-- Title -->
+            <h1 class="text-xl font-bold">
+                {{vm.viewMode}}
+            </h1>
+
+
+            <div class="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg z-50"
+                 ng-show="vm.showMenu"
+                 id="menuContainer1"
+                 style="top:10px;right:10px"
+                 ng-blur="vm.showMenu = false"
+                 tabindex="0">
+                <button class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 inline-flex items-center gap-2"
+                        ng-class="{'bg-blue-100 font-bold text-blue-700': vm.viewMode === 'Catalog'}"
+                        ng-click="vm.setMode('Catalog')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M4 4l4 2 2-2h4l2 2 4-2v2l-2 2v12h-4v-6h-4v6H6V8L4 6V4z" />
+                    </svg>
+                    Catalog
+                </button>
+                <button class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 inline-flex items-center gap-2"
+                        ng-class="{'bg-blue-100 font-bold text-blue-700': vm.viewMode === 'Order'}"
+                        ng-click="vm.setMode('Order')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M9 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2h-3M9 3h6v4H9V3z" />
+                    </svg>
+                    Orders
+                </button>
+                <button class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 inline-flex items-center gap-2"
+                        ng-class="{'bg-blue-100 font-bold text-blue-700': vm.viewMode === 'Bill'}"
+                        ng-click="vm.setMode('Bill')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M9 14h6M9 10h6M5 7h14M4 4h16v16l-2-2-2 2-2-2-2 2-2-2-2 2V4z" />
+                    </svg>
+                    Bill
+                </button>
+
+                <button class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 inline-flex items-center gap-2"
+                        ng-click="vm.logout()">
+                    <!-- Logout Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M10 16l4-4m0 0l-4-4m4 4H3m13-4v-1a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2h7a2 2 0 002-2v-1" />
+                    </svg>
+                    Logout
+                </button>
+            </div>
+
+        </div>
+        <!-- Right side: Empty to align -->
+
+        <div ng-hide="vm.isDesktop" style="position:absolute;right:10px">
+            <button class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center"
+                    ng-click="vm.showMenu = !vm.showMenu"
+                    id="menuContainer4"
+                    title="More Options">
+                <!-- Two vertical dots -->
+                <div class="flex flex-col items-center space-y-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-black" fill="currentColor" viewBox="0 0 20 20">
+                        <circle cx="10" cy="4" r="2" />
+                        <circle cx="10" cy="10" r="2" />
+                        <circle cx="10" cy="16" r="2" />
+                    </svg>
+                </div>
+            </button>
+        </div>
+
+        <div class="flex-grow flex justify-end">
+
+            <!-- Right-aligned container -->
+            <div ng-show="vm.isDesktop" class="flex justify-end">
+                <div class="flex flex-wrap gap-2 items-center text-sm">
+
+                    <!-- Catalog Button -->
+                    <button class="flex items-center gap-1 px-3 py-1.5 rounded bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium shadow-sm"
+                            ng-click="vm.setMode('Catalog')"
+                            ng-class="{'bg-blue-300 font-bold': vm.viewMode === 'Catalog'}"
+                            title="Catalog">
+                        <!-- Shirt Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M4 4l4 2 2-2h4l2 2 4-2v2l-2 2v12h-4v-6h-4v6H6V8L4 6V4z" />
+                        </svg>
+                        Catalog
+                    </button>
+
+
+                    <button class="flex items-center gap-1 px-3 py-1.5 rounded bg-green-100 hover:bg-green-200 text-green-800 font-medium shadow-sm"
+                            ng-click="vm.setMode('Order')"
+                            ng-class="{'bg-green-300 font-bold': vm.viewMode === 'Order'}">
+                        <!-- Clipboard Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M9 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2h-3M9 3h6v4H9V3z" />
+                        </svg>
+                        Orders
+                    </button>
+
+                    <button class="flex items-center gap-1 px-3 py-1.5 rounded bg-yellow-100 hover:bg-yellow-200 text-yellow-800 font-medium shadow-sm"
+                            ng-click="vm.setMode('Bill')"
+                            ng-class="{'bg-yellow-300 font-bold': vm.viewMode === 'Bill'}">
+                        <!-- Receipt Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M9 14h6M9 10h6M5 7h14M4 4h16v16l-2-2-2 2-2-2-2 2-2-2-2 2V4z" />
+                        </svg>
+                        Bill
+                    </button>
+
+                    <!-- Payment Button -->
+                    <!--<button class="flex items-center gap-1 px-3 py-1.5 rounded bg-purple-100 hover:bg-purple-200 text-purple-800 font-medium shadow-sm"
+                        ng-click="vm.setMode('Payment')"
+                        ng-class="{'bg-purple-300 font-bold': vm.viewMode === 'Payment'}">-->
+                    <!-- Rupee Icon SVG -->
+                    <!--<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M6 4h12M6 8h12M6 4c6 0 6 8 0 8l8 8" />
+                        </svg>
+                        Payment
+                    </button>-->
+
+                    <button class="flex items-center gap-1 px-3 py-1.5 rounded bg-red-100 hover:bg-red-200 text-red-800 font-medium shadow-sm"
+                            ng-click="vm.logout()">
+                        <!-- Logout Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M10 16l4-4m0 0l-4-4m4 4H3m13-4v-1a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2h7a2 2 0 002-2v-1" />
+                        </svg>
+                        Logout
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+           
+
+        </div>
+    </div>
+    <!-- FILTER left -->
+    <div ng-show="(vm.viewMode === 'Catalog') && (vm.showFilters || vm.isDesktop) && !vm.hideFilters"
+         class="bg-white rounded shadow-md p-4 mb-4 w-full md:w-64 md:float-left md:mr-4">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="font-bold text-lg">Filters</h2>
+            <button title="Search Garment Designs"
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm flex items-center gap-2 shadow"
+                    ng-click="vm.Search()">
+                <!-- Shirt Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M4 4l4 2 2-2h4l2 2 4-2v2l-2 2v12h-4v-6h-4v6H6V8L4 6V4z" />
+                </svg>
+                Designs
+            </button>
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">Design</label>
+            <input type="text" ng-model="vm.filters.designid" 
+                   ng-keypress="($event.which === 13) && vm.Search()"
+                   placeholder="Search..." class="w-full border rounded px-2 py-1">
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">Size Group</label>
+            <select ng-model="vm.filters.sizegroupid"
+                    ng-options="sizegroup.id as sizegroup.name for sizegroup in vm.fullsizegroup"
+                    ng-change="vm.sizegroupchanged()"
+                    class="w-full border rounded px-2 py-1">
+            </select>
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">Product</label>
+            <select ng-model="vm.filters.productid" class="w-full border rounded px-2 py-1"
+                    ng-options="product.id as product.name for product in vm.products">
+            </select>
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">Brand</label>
+            <select ng-model="vm.filters.brandid" class="w-full border rounded px-2 py-1"
+                    ng-options="brand.id as brand.name for brand in vm.brands">
+            </select>
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">Style</label>
+            <select ng-model="vm.filters.styleid" class="w-full border rounded px-2 py-1"
+                    ng-options="style.id as style.name for style in vm.styles">
+            </select>
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">Pattern</label>
+            <select ng-model="vm.filters.patternid" class="w-full border rounded px-2 py-1"
+                    ng-options="pattern.id as pattern.name for pattern in vm.patterns">
+            </select>
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">Class</label>
+            <select ng-model="vm.filters.classid" class="w-full border rounded px-2 py-1"
+                    ng-options="class.id as class.name for class in vm.classes">
+            </select>
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">Status</label>
+            <select ng-model="vm.filters.status" class="w-full border rounded px-2 py-1">
+                <option value="ALL">All</option>
+                <option value="Stock">In Stock</option>
+                <option value="WIP">Work in Process</option>
+                <option value="Both">Stock/WIP</option>
+                <option value="Any">Stock/WIP/SO</option>
+            </select>
+        </div>
+        <div class="hidden md:block mb-4">
+            <label class="block text-sm font-medium mb-1">Rule</label>
+            <select ng-model="vm.filters.rule" class="w-full border rounded px-2 py-1">
+                <option value="1">Image Only</option>
+                <option value="2">Assorted - 1</option>
+                <option value="3">Assorted - 2</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Main Section Right for both header/filter -->
+    <div class="flex flex-col gap-4" ng-show="vm.viewMode === 'Catalog'">
+        <!-- Customer Selection -->
+        <div class="bg-white p-4 mb-4 rounded shadow flex flex-col gap-4">
+            <!-- Top row: Customer dropdown + New Button -->
+            <!-- Combined Customer Selection Block -->
+            <!-- Selected Customer Details Card -->
+            <div class="bg-gray-100 rounded p-2 mt-2">
+
+
+
+                <div class="flex flex-col md:flex-row justify-between items-start gap-2">
+                    <!-- Left Part: Customer Details -->
+
+                    <div class="bg-gray-100 rounded p-2 mt-2" style="display: flex; flex-wrap: wrap; gap: 8px;">
+
+                        <div class="bg-white p-2 rounded shadow relative responsive-block">
+
+                            <div class="absolute top-2 right-2 flex gap-2">
+                                <!-- Search Button -->
+                                <button class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center transition"
+                                        ng-click="vm.openCustomerSearchModal(false)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"></circle>
+                                        <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2"></line>
+                                    </svg>
+                                </button>
+
+                                <!-- Add New Button -->
+                                <button class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center transition"
+                                        ng-click="vm.openCustomerModal()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M12 4v16m8-8H4" />
+                                    </svg>
+                                </button>
+
+                                <!-- Clear (Cross) Button -->
+                                <button class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center transition"
+                                        ng-click="vm.selectedCustomer = null">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+
+
+                            <!-- Heading -->
+                            <h2 class="font-bold text-gray-700 text-lg mb-2">Selected Customer</h2>
+
+                            <!-- Customer Info -->
+                            <div ng-if="vm.selectedCustomer" class="flex flex-col gap-1 text-sm text-gray-800">
+                                <p><strong>Name:</strong> {{vm.selectedCustomer.name}}</p>
+                                <p><strong>City:</strong> {{vm.selectedCustomer.cityname}}</p>
+                                <p><strong>State:</strong> {{vm.selectedCustomer.statename}}</p>
+                                <p><strong>GST No:</strong> {{vm.selectedCustomer.gstno}}</p>
+                            </div>
+
+                            <div style="position: absolute; bottom: 3px; width: 100%; overflow-y: scroll"
+                                 ng-hide="(vm.showFilters || vm.isDesktop) && !vm.hideFilters">
+                                <div style="height:36px;width:36px" ng-repeat="brand in vm.brandwithimage"
+                                     ng-click="vm.filters.brandid=brand.id">
+                                    <img style="height:32px;width:32px"
+                                         ng-src="File/Show/0/{{brand.logoid}}"
+                                         alt="{{brand.name}}"
+                                         ng-style="vm.filters.brandid == brand.id && {'border':'2px solid #4F46E5', 'border-radius':'4px'}">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="bg-white p-2 rounded shadow relative responsive-block" ng-show="vm.hasshipto">
+
+                            <div class="absolute top-2 right-2 flex gap-2">
+                                <!-- Search Button -->
+                                <button class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center transition"
+                                        ng-click="vm.openCustomerSearchModal(true)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"></circle>
+                                        <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2"></line>
+                                    </svg>
+                                </button>
+                            </div>
+
+
+                            <!-- Heading -->
+                            <h2 class="font-bold text-gray-700 text-lg mb-2">Ship to Customer</h2>
+
+                            <!-- Customer Info -->
+                            <div ng-if="vm.shiptoCustomer" class="flex flex-col gap-1 text-sm text-gray-800">
+                                <p><strong>Name:</strong> {{vm.shiptoCustomer.name}}</p>
+                                <p><strong>City:</strong> {{vm.shiptoCustomer.cityname}}</p>
+                                <p><strong>State:</strong> {{vm.shiptoCustomer.statename}}</p>
+                                <p><strong>GST No:</strong> {{vm.shiptoCustomer.gstno}}</p>
+                            </div>
+
+                        </div>
+
+                        <div class="bg-white p-2 rounded shadow relative responsive-block">
+                            <!-- Clear SO Button -->
+
+                            <div class="absolute top-2 right-2 flex gap-2">
+
+
+                                <!-- Cart Button -->
+                                <button class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center transition"
+                                        ng-click="vm.previewAllOrders()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <!-- Lucide: shopping-cart -->
+                                        <circle cx="9" cy="21" r="1"></circle>
+                                        <circle cx="20" cy="21" r="1"></circle>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                    </svg>
+                                </button>
+
+                                <!-- PDF Button -->
+                                <button class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center transition"
+                                        ng-click="vm.generatePdf()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <!-- Lucide: file-down (file + download arrow) -->
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline stroke-linecap="round" stroke-linejoin="round" points="14 2 14 8 20 8"></polyline>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-6m0 6l-3-3m3 3 3-3"></path>
+                                    </svg>
+                                </button>
+
+                                <!-- Save Button -->
+                                <button class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center transition"
+                                        ng-click="vm.saveAllOrders()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <!-- Lucide: save (floppy) -->
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 3H7a2 2 0 0 0-2 2v14h14V7z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 3v5h8"></path>
+                                        <rect x="9" y="13" width="6" height="6" rx="1" ry="1"></rect>
+                                    </svg>
+                                </button>
+
+
+
+                                <!-- Add New Button -->
+                                <button class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center transition"
+                                        ng-click="vm.createNewSO()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M12 4v16m8-8H4" />
+                                    </svg>
+                                </button>
+
+
+                                <!-- Clear (Cross) Button -->
+                                <button ng-show="vm.salesorder != null" class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center transition"
+                                        ng-click="vm.salesorder = null">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+
+
+                            <!-- Heading -->
+                            <h2 class="font-bold text-gray-700 text-lg mb-2">Sales Order</h2>
+
+                            <p ng-show="vm.salesorder && vm.salesorder!=null"><strong>SO No:</strong> {{vm.salesorder.sono}}</p>
+                            <p ng-show="vm.salesorder && vm.salesorder!=null"><strong>SO Date:</strong> {{vm.salesorder.sodate  | date:'dd/MM/yyyy'}}</p>
+
+                            <label class="block text-sm font-medium mb-1">
+                                <strong>Salesmen</strong>
+                            </label>
+                            <select ng-model="vm.salesmenid" class="w-full border rounded px-2 py-1"
+                                    ng-options="location.id as location.name for location in vm.employees">
+                            </select>
+
+                            <label class="block text-sm font-medium mb-1">
+                                <strong>Box</strong>
+                            </label>
+                            <select ng-model="vm.soboxid" class="w-full border rounded px-2 py-1"
+                                    ng-options="location.id as location.name for location in vm.BoxList">
+                            </select>
+                            <label class="block text-sm font-medium mb-1">
+                                <strong>Remark</strong>
+                            </label>
+                            <input type="text" ng-model="vm.remarks" class="w-full border rounded px-2 py-1" placeholder="Remarks" />
+                        </div>
+
+                        <div class="bg-white p-2 rounded shadow relative responsive-block" ng-hide="(vm.showFilters || vm.isDesktop) && !vm.hideFilters">
+
+
+                            <div class="absolute top-2 right-2 flex gap-2">
+                                <button class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center transition"
+                                        ng-click="vm.Search()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"></circle>
+                                        <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2"></line>
+                                    </svg>
+                                </button>
+                            </div>
+
+
+                            <!-- Heading -->
+                            <div class="flex items-center gap-2 mb-2">
+                                <!--<label class="text-sm font-medium">
+                                <strong>Design</strong>
+                            </label>-->
+                                <input type="text"
+                                       ng-model="vm.filters.designid"
+                                       ng-keypress="($event.which === 13) && vm.Search()"
+                                       class="flex-1 border rounded px-2 py-1"
+                                       placeholder="Type Design Here">
+                            </div>
+
+
+
+                            <label class="block text-sm font-medium mb-1">
+                                <strong>Brand</strong>
+                            </label>
+                            <select ng-model="vm.filters.brandid" class="w-full border rounded px-2 py-1"
+                                    ng-options="brand.id as brand.name for brand in vm.brands">
+                            </select>
+                            <label class="block text-sm font-medium mb-1">
+                                <strong>Style</strong>
+                            </label>
+                            <select ng-model="vm.filters.styleid" class="w-full border rounded px-2 py-1"
+                                    ng-options="style.id as style.name for style in vm.styles">
+                            </select>
+
+
+                            <div class="block text-sm font-medium mb-1" style="display: flex; justify-content: space-between; align-items: center;">
+                                <strong>Filter</strong>
+                                <div style="display:flex;align-items:center;gap:6px;">
+                                    <!-- Font Awesome Image Icon -->
+                                    <svg width="16" height="16" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="1.8"
+                                         stroke-linecap="round" stroke-linejoin="round"
+                                         role="img" aria-label="Image"
+                                         style="display:block">
+                                        <!-- Frame -->
+                                        <rect x="3" y="5" width="18" height="14" rx="2" ry="2"></rect>
+                                        <!-- Sun -->
+                                        <circle cx="9" cy="10" r="2" fill="currentColor" stroke="none"></circle>
+                                        <!-- Mountains -->
+                                        <path d="M4 17l5-5 3 3 3-4 5 6"></path>
+                                    </svg>
+
+
+                                    <!-- Tiny Toggle -->
+                                    <label class="mini-toggle" style="--w:32px; --h:18px" title="Tiny toggle">
+                                        <input type="checkbox" ng-model="vm.filters.statusimg" aria-label="Tiny toggle">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2 mt-2">
+                                <!-- Dropdown takes remaining space -->
+                                <select ng-model="vm.filters.status"
+                                        class="flex-grow border rounded px-2 py-1 text-sm">
+                                    <option value="ALL">All</option>
+                                    <option value="Stock">In Stock</option>
+                                    <option value="WIP">Work in Process</option>
+                                    <option value="Both">Stock/WIP</option>
+                                    <option value="Any">Stock/WIP/SO</option>
+                                </select>
+
+                                <!-- Search Button (fixed size) -->
+                                <button type="button"
+                                        ng-click="vm.Search()"
+                                        class="flex items-center gap-1 bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                                    <!-- Search Icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                         stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M21 21l-4.35-4.35M16 10.5a5.5 5.5 0 11-11 0
+                     5.5 5.5 0 0111 0z" />
+                                    </svg>
+                                    <span>Search</span>
+                                </button>
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="bg-white p-2 rounded shadow relative responsive-block">
+
+
+
+                            <label class="block text-sm font-medium mb-1">
+                                <strong>Product</strong>
+                            </label>
+                            <select ng-model="vm.filters.productid" class="w-full border rounded px-2 py-1"
+                                    ng-options="product.id as product.name for product in vm.products">
+                            </select>
+
+                            <label class="block text-sm font-medium mb-1">
+                                <strong>Agent</strong>
+                            </label>
+                            <select ng-model="vm.agentid" class="w-full border rounded px-2 py-1"
+                                    ng-options="location.id as location.name for location in vm.agents">
+                            </select>
+
+                            <label class="block text-sm font-medium mb-1">
+                                <strong>Location</strong>
+                            </label>
+                            <select ng-model="vm.deliverylocationid" class="w-full border rounded px-2 py-1"
+                                    ng-options="location.id as location.name for location in vm.locations">
+                            </select>
+                            <label class="block text-sm font-medium mb-1">
+                                <strong>Company</strong>
+                            </label>
+                            <select ng-model="vm.companyid" class="w-full border rounded px-2 py-1"
+                                    ng-change="vm.companyChanged()"
+                                    ng-options="location.id as location.name for location in vm.company">
+                            </select>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Order Summary + Save All -->
+            <!-- Summary and Actions Section -->
+            <div class="flex flex-wrap items-center justify-between gap-4">
+
+                <!-- Left Stats: Available and Total Designs/Qty -->
+                <div class="flex flex-col gap-2">
+
+                    <!-- Metrics Row -->
+                    <div class="flex w-full items-stretch gap-4">
+                        <!-- 1 -->
+                        <div class="bg-gray-100 rounded p-3 min-w-[100px] flex-none h-16
+              flex flex-col justify-center text-center">
+                            <p class="text-xs font-semibold text-gray-600 leading-none">Available</p>
+                            <p ng-hide="vm.perRow == -1" class="text-lg font-bold leading-none">{{vm.availDesigns}}</p>
+                            <p ng-show="vm.perRow == -1" class="text-lg font-bold leading-none">{{vm.groupedDesignsCount}}</p>
+                        </div>
+
+                        <!-- 2 -->
+                        <div class="bg-gray-100 rounded p-3 min-w-[160px] flex-none h-16
+              flex flex-col justify-center text-center">
+                            <p class="text-xs font-semibold text-gray-600 leading-none">Ordered</p>
+                            <p class="text-lg font-bold leading-none">
+                                {{vm.totalDesigns}} / {{vm.totalQty}} <span class="font-semibold">Pcs</span>
+                            </p>
+                        </div>
+
+                        <!-- 3 (fills remaining width, same height) -->
+                        <div class="bg-gray-100 rounded p-3 min-w-[160px] flex-1 h-16
+              flex items-center"
+                             ng-hide="(vm.showFilters || vm.isDesktop) && !vm.hideFilters">
+                            <label class="text-sm font-medium mr-2 whitespace-nowrap">Size Group</label>
+                            <select ng-model="vm.filters.sizegroupid"
+                                    ng-options="sizegroup.id as sizegroup.name for sizegroup in vm.fullsizegroup"
+                                    ng-change="vm.sizegroupchanged()"
+                                    class="w-full h-9 border rounded px-2">
+                            </select>
+                        </div>
+
+                        <!-- 4 -->
+                        <div class="bg-gray-100 rounded p-3 min-w-[160px] flex-none h-16
+              flex items-center justify-center text-center"
+                             ng-hide="(vm.showFilters && !vm.hideFilters) || vm.isDesktop">
+                            <div class="flex space-x-2">
+                                <!-- 1 per row -->
+                                <button ng-click="vm.perRow = 1;vm.StoreLayout()"
+                                        ng-class="{
+                'bg-gray-800 text-white border-2 border-gray-700': vm.perRow == 1,
+                'bg-gray-100 text-gray-800 border border-gray-300': vm.perRow != 1
+              }"
+                                        class="w-10 h-10 flex items-center justify-center rounded">
+                                    <div class="w-3 h-3 bg-gray-400 rounded-sm"></div>
+                                </button>
+
+                                <!-- 2 per row -->
+                                <button ng-click="vm.perRow = 2;vm.StoreLayout()"
+                                        ng-class="{
+                'bg-gray-800 text-white border-2 border-gray-700': vm.perRow == 2,
+                'bg-gray-100 text-gray-800 border border-gray-300': vm.perRow != 2
+              }"
+                                        class="w-10 h-10 flex flex-col items-center justify-around py-1 rounded">
+                                    <div class="w-3 h-3 bg-gray-400 rounded-sm"></div>
+                                    <div class="w-3 h-3 bg-gray-400 rounded-sm"></div>
+                                </button>
+
+                                <!-- grouped -->
+                                <button ng-click="vm.perRow = -1;vm.processGroupedDesign();vm.StoreLayout()"
+                                        ng-class="{
+                'bg-gray-800 text-white border-2 border-gray-700': vm.perRow === -1,
+                'bg-gray-100 text-gray-800 border border-gray-300': vm.perRow !== -1
+              }"
+                                        class="w-12 h-10 flex items-center justify-center rounded relative">
+                                    <svg viewBox="0 0 24 24" class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                        <rect x="2" y="5" width="8" height="14" rx="1" class="fill-current text-gray-400"></rect>
+                                        <rect x="13" y="5" width="8" height="3.5" rx="1" class="fill-current text-gray-400"></rect>
+                                        <rect x="13" y="10" width="8" height="3.5" rx="1" class="fill-current text-gray-400"></rect>
+                                        <rect x="13" y="15" width="8" height="3.5" rx="1" class="fill-current text-gray-400"></rect>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+
+
+
+                <!-- Right Actions: Designs per Row and Buttons -->
+                <div class="flex flex-wrap items-center justify-end gap-2 flex-1">
+
+                    <div class="flex gap-2 items-center justify-center">
+
+
+                        <button ng-click="vm.perRow = -1;vm.processGroupedDesign();vm.StoreLayout()"
+                                ng-show="vm.isDesktop"
+                                ng-class="{
+  'bg-gray-800 text-white border-2 border-gray-700': vm.perRow === -1,
+  'bg-gray-100 text-gray-800 border border-gray-300': vm.perRow !== -1
+}" class="w-12 h-10 flex items-center justify-center rounded relative">
+
+                            <svg viewBox="0 0 24 24" class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                <!-- Large Rectangle -->
+                                <rect x="2" y="5" width="8" height="14" rx="1" class="fill-current text-gray-400"></rect>
+                                <!-- Right Small Rounded Rectangles -->
+                                <rect x="13" y="5" width="8" height="3.5" rx="1" class="fill-current text-gray-400"></rect>
+                                <rect x="13" y="10" width="8" height="3.5" rx="1" class="fill-current text-gray-400"></rect>
+                                <rect x="13" y="15" width="8" height="3.5" rx="1" class="fill-current text-gray-400"></rect>
+                            </svg>
+
+                        </button>
+
+                        <!-- 1 per row -->
+                        <button ng-click="vm.perRow = 1;vm.StoreLayout()"
+                                ng-show="vm.isDesktop"
+                                ng-class="{
+            'bg-gray-800 text-white border-2 border-gray-700': vm.perRow == 1,
+            'bg-gray-100 text-gray-800 border border-gray-300': vm.perRow != 1
+        }"
+                                class="w-10 h-10 flex items-center justify-center rounded">
+                            <div class="w-3 h-3 bg-gray-400 rounded-sm"></div>
+                        </button>
+
+                        <!-- 2 per row -->
+                        <button ng-click="vm.perRow = 2;vm.StoreLayout()"
+                                ng-show="vm.isDesktop"
+                                ng-class="{
+            'bg-gray-800 text-white border-2 border-gray-700': vm.perRow == 2,
+            'bg-gray-100 text-gray-800 border border-gray-300': vm.perRow != 2
+        }"
+                                class="w-12 h-10 flex items-center justify-between px-2 rounded">
+                            <div class="w-3 h-3 bg-gray-400 rounded-sm"></div>
+                            <div class="w-3 h-3 bg-gray-400 rounded-sm"></div>
+                        </button>
+
+                        <!-- 3 per row -->
+                        <button ng-show="vm.isDesktop"
+                                ng-click="vm.perRow = 3;vm.StoreLayout()"
+                                ng-class="{
+            'bg-gray-800 text-white border-2 border-gray-700': vm.perRow == 3,
+            'bg-gray-100 text-gray-800 border border-gray-300': vm.perRow != 3
+        }"
+                                class="w-16 h-10 flex items-center justify-between px-2 rounded">
+                            <div class="w-3 h-3 bg-gray-400 rounded-sm"></div>
+                            <div class="w-3 h-3 bg-gray-400 rounded-sm"></div>
+                            <div class="w-3 h-3 bg-gray-400 rounded-sm"></div>
+                        </button>
+
+                        <!-- 4 per row -->
+                        <button ng-click="vm.perRow = 4;vm.StoreLayout()"
+                                ng-show="vm.isDesktop"
+                                ng-class="{
+            'bg-gray-800 text-white border-2 border-gray-700': vm.perRow == 4,
+            'bg-gray-100 text-gray-800 border border-gray-300': vm.perRow != 4
+        }"
+                                class="w-20 h-10 flex items-center justify-between px-2 rounded">
+                            <div class="w-3 h-3 bg-gray-400 rounded-sm"></div>
+                            <div class="w-3 h-3 bg-gray-400 rounded-sm"></div>
+                            <div class="w-3 h-3 bg-gray-400 rounded-sm"></div>
+                            <div class="w-3 h-3 bg-gray-400 rounded-sm"></div>
+                        </button>
+
+                    </div>
+
+                    <!-- Save / Preview / Clone Buttons -->
+                    <div class="flex flex-wrap gap-3 items-center justify-start" ng-show="vm.totalQty > 0 && vm.isDesktop">
+
+                        <!-- Preview Button -->
+                        <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-medium shadow transition-all"
+                                ng-click="vm.previewAllOrders()"
+                                title="Preview Order">
+                            <!-- Eye Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+                            </svg>
+                            Preview
+                        </button>
+
+                        <!-- PDF Button -->
+                        <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white font-medium shadow transition-all"
+                                ng-click="vm.generatePdf()"
+                                title="Download PDF">
+                            <!-- PDF/File Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M12 4v16m8-8H4" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" />
+                            </svg>
+                            PDF
+                        </button>
+
+                        <!-- Update Button (when salesorder exists) -->
+                        <button ng-show="vm.salesorder && vm.salesorder != null"
+                                class="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-medium shadow transition-all"
+                                ng-click="vm.saveAllOrders()"
+                                title="Update Order">
+                            <!-- Sync Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M4 4v6h6M20 20v-6h-6M5 19a9 9 0 0114-14M19 5a9 9 0 01-14 14" />
+                            </svg>
+                            Update
+                        </button>
+
+                        <!-- Save Button (when salesorder doesn't exist) -->
+                        <button ng-hide="vm.salesorder && vm.salesorder != null"
+                                class="flex items-center gap-2 px-4 py-2 rounded-lg bg-green-500 hover:bg-green-600 text-white font-medium shadow transition-all"
+                                ng-click="vm.saveAllOrders()"
+                                title="Save Order">
+                            <!-- Check Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M5 13l4 4L19 7" />
+                            </svg>
+                            Save
+                        </button>
+
+                    </div>
+
+                    <!-- Mobile-friendly Actions -->
+                    <div class="flex flex-wrap gap-2 items-center justify-start sm:hidden mt-2" ng-show="vm.totalQty > 0">
+
+                        <!-- Preview Icon Button -->
+                        <button class="w-9 h-9 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow"
+                                ng-click="vm.previewAllOrders()" title="Preview">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+
+                        <!-- PDF Icon Button -->
+                        <button class="w-9 h-9 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow"
+                                ng-click="vm.generatePdf()" title="Download PDF">
+                            <!-- PDF Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M12 4v16m8-8H4" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" />
+                            </svg>
+                        </button>
+
+
+                        <!-- Update Icon Button -->
+                        <button ng-show="vm.salesorder && vm.salesorder != null"
+                                class="w-9 h-9 bg-orange-500 hover:bg-orange-600 text-white rounded-full flex items-center justify-center shadow"
+                                ng-click="vm.updateAllOrders()" title="Update Order">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M4 4v6h6M20 20v-6h-6M5 19a9 9 0 0114-14M19 5a9 9 0 01-14 14" />
+                            </svg>
+                        </button>
+
+                        <!-- Save Icon Button -->
+                        <button class="w-9 h-9 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow"
+                                ng-click="vm.saveAllOrders()" title="Save Order">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M5 13l4 4L19 7" />
+                            </svg>
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- Size list full width -->
+            <div class="bg-gray-100 rounded p-4 mt-4 flex flex-wrap gap-4 justify-start">
+                <div ng-repeat="size in vm.sizes" class="w-16 text-center">
+                    <p class="text-xs font-semibold text-gray-600">{{size}}</p>
+                    <p class="text-base font-bold">{{vm.sizeTotals[size] || 0}}</p>
+                </div>
+                <div class="ml-auto" id="designfilter" ng-show="vm.isDesktop">
+                    <input type="text" ng-model="vm.filterdesign" class="border px-2 py-1 rounded" placeholder="Search design" />
+                </div>
+
+                <div class="fixed right-3 bottom-3 flex flex-col gap-2" ng-show="vm.canRestore">
+                    <!-- Back (return to saved position) -->
+                    <button class="bg-gray-300 hover:bg-gray-400 rounded-full w-9 h-9 flex items-center justify-center shadow"
+                            
+                            ng-click="vm.restorePosition()"
+                            title="Back to where you were">
+                        <!-- ↩ return arrow -->
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="w-4 h-4"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M3 10h12a5 5 0 010 10h-1M3 10l4-4M3 10l4 4" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div id="designListTop"></div>
+
+        <!-- Back button (sticks near the top) -->
+
+
+        <div class="grid grid-cols-1 md:grid-cols-1"
+             ng-show="vm.perRow == -1">
+
+
+            <div class="border rounded-lg shadow p-4 bg-white flex flex-col gap-4"
+                 ng-repeat="grpitem in vm.groupedDesigns | filter:vm.designGroupFilterFn | limitTo: gdlimit"
+                 in-view="loadMoreGroup($last, $inview, $inviewInfo)"
+                 in-view-options="{ generateParts: true }">
+
+                <div class="flex flex-col">
+
+                    <!-- Main Design Block -->
+                    <div class="flex flex-col md:flex-row gap-4">
+
+                        <!-- Left: Large Design Image (50%) -->
+                        <div class="w-full md:w-1/2 bg-gray-100 rounded shadow flex items-center justify-center relative">
+
+                            <img ng-show="grpitem.currentdesign.showmimgid" ng-src="File/Show/0/{{grpitem.mimgid}}" alt="Design Image"
+                                 class="object-contain w-full h-auto rounded">
+
+                            <img ng-hide="grpitem.currentdesign.showmimgid" ng-src="File/Show/0/{{grpitem.currentdesign.imgid}}" alt="Design Image"
+                                 class="object-contain w-full h-auto rounded">
+
+                            <!--Right top corner small icon -->
+                            <img ng-hide="grpitem.currentdesign.showmimgid || !grpitem.hasmimgid"
+                                 ng-src="File/Show/0/{{grpitem.mimgid}}"
+                                 ng-click="vm.groupMasterItemClicked(grpitem)"
+                                 alt="Small Icon"
+                                 class="absolute top-2 right-2 w-16 h-16 object-contain rounded shadow" />
+
+                        </div>
+
+                        <!-- Right: Info Section (50%) -->
+                        <div class="w-full md:w-1/2 flex flex-col gap-4">
+
+                            <!-- Design Code Title -->
+                            <div class="text-center">
+                                <h2 class="text-xl font-bold" ng-show="grpitem.currentdesign.showmimgid">{{grpitem.currentdesign.code}}</h2>
+                                <h2 class="text-lg font-bold" ng-hide="grpitem.currentdesign.showmimgid">{{grpitem.currentdesign.designitemcode}}</h2>
+                            </div>
+
+                            <div class="overflow-x-auto" ng-hide="vm.isDesktop">
+                                <div class="min-w-max flex flex-col text-xs">
+                                    <div class="flex bg-gray-200 font-semibold">
+                                        <div class="w-20 px-2 py-1">Size</div>
+                                        <div class="flex">
+                                            <div ng-repeat="size in vm.sizes" class="w-12 px-2 py-1 text-center">{{size}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center border-t">
+                                        <div class="w-20 px-2 py-1">Qty</div>
+                                        <div class="flex">
+                                            <div ng-repeat="size in vm.sizes" class="w-12 px-1 py-1 text-center">
+                                                <!--{{grpitem.designs == undefined}}<br />
+                                            {{grpitem.designs == null}}<br />
+                                            {{grpitem.designs.length}}<br />-->
+
+                                                <input type="number"
+                                                       ng-hide="grpitem.currentdesign.showmimgid && grpitem.designs.length>0"
+                                                       ng-model="grpitem.currentdesign.order[size]"
+                                                       ng-change="vm.updateSizeSummary(grpitem.currentdesign, size)"
+                                                       ng-blur="vm.cleanZeroOrInvalid(grpitem.currentdesign, size)"
+                                                       ng-class="{'border-green-500': grpitem.currentdesign.order[size]}"
+                                                       style="width:100%"
+                                                       class="text-center border rounded focus:ring focus:ring-blue-200" />
+
+                                                <div class="flex-1 px-2 py-1"
+                                                     style="border: solid 1px gray;"
+                                                     ng-show="grpitem.currentdesign.showmimgid && grpitem.designs.length>0">{{ vm.getGroupStockInfo(grpitem,grpitem.currentdesign, size).order }}</div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center border-t">
+                                        <div class="w-20 px-2 py-1 text-green-600 font-semibold">Stock</div>
+                                        <div class="flex">
+                                            <div ng-repeat="size in vm.sizes" class="w-12 px-2 py-1 text-center">{{vm.getGroupStockInfo(grpitem,grpitem.currentdesign, size).stock}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center border-t">
+                                        <div class="w-20 px-2 py-1 text-yellow-600 font-semibold">WIP</div>
+                                        <div class="flex">
+                                            <div ng-repeat="size in vm.sizes" class="w-12 px-2 py-1 text-center">{{vm.getGroupStockInfo(grpitem,grpitem.currentdesign, size).wip}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center border-t">
+                                        <div class="w-20 px-2 py-1 text-yellow-600 font-semibold">Orders</div>
+                                        <div class="flex">
+                                            <div ng-repeat="size in vm.sizes" class="w-12 px-2 py-1 text-center">{{vm.getGroupStockInfo(grpitem,grpitem.currentdesign, size).so }}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center border-t">
+                                        <div class="w-20 px-2 py-1 text-blue-600 font-semibold">Possible</div>
+                                        <div class="flex">
+                                            <div ng-repeat="size in vm.sizes" class="w-12 px-2 py-1 text-center">{{vm.getGroupStockInfo(grpitem,grpitem.currentdesign, size).available}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Size Table -->
+                            <div class="overflow-x-auto" ng-show="vm.isDesktop">
+                                <div class="flex flex-col w-full text-sm text-center">
+                                    <div class="flex bg-gray-200 font-semibold">
+                                        <div class="flex-1 px-2 py-1">Size</div>
+                                        <div class="flex-1 px-2 py-1">Qty</div>
+                                        <div class="flex-1 px-2 py-1">Stock</div>
+                                        <div class="flex-1 px-2 py-1">WIP</div>
+                                        <div class="flex-1 px-2 py-1">Order</div>
+                                        <div class="flex-1 px-2 py-1">Possible</div>
+                                    </div>
+
+                                    <div class="flex border-b" ng-repeat="size in vm.sizes">
+                                        <div class="flex-1 px-2 py-1 font-semibold text-left">{{size}}</div>
+                                        <div class="flex-1 px-2 py-1" ng-hide="grpitem.currentdesign.showmimgid && grpitem.designs.length>0">
+                                            <input type="number" ng-model="grpitem.currentdesign.order[size]"
+                                                   ng-change="vm.updateSizeSummary(grpitem.currentdesign, size)"
+                                                   ng-blur="vm.cleanZeroOrInvalid(grpitem.currentdesign, size)"
+                                                   ng-class="{'border-green-500': grpitem.currentdesign.order[size]}"
+                                                   class="w-16 text-center border rounded focus:ring focus:ring-blue-200" />
+
+                                        </div>
+
+                                        <div class="flex-1 px-2 py-1"
+                                             style="border: solid 1px gray;"
+                                             ng-show="grpitem.currentdesign.showmimgid && grpitem.designs.length>0">{{ vm.getGroupStockInfo(grpitem,grpitem.currentdesign, size).order }}</div>
+
+                                        <div class="flex-1 px-2 py-1">{{ vm.getGroupStockInfo(grpitem,grpitem.currentdesign, size).stock }}</div>
+                                        <div class="flex-1 px-2 py-1">{{ vm.getGroupStockInfo(grpitem,grpitem.currentdesign, size).wip }}</div>
+                                        <div class="flex-1 px-2 py-1">{{ vm.getGroupStockInfo(grpitem,grpitem.currentdesign, size).so }}</div>
+                                        <div class="flex-1 px-2 py-1">{{ vm.getGroupStockInfo(grpitem,grpitem.currentdesign, size).available }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Scrollable Design Carousel -->
+                            <div class="w-full">
+                                <div id="designScrollContainer"
+                                     class="flex overflow-x-auto space-x-3 scroll-smooth mt-2 pb-2 border-t pt-3">
+                                    <div class="min-w-[130px] max-w-[150px] flex-shrink-0 bg-white border rounded shadow p-2 text-center cursor-pointer transition hover:shadow-lg"
+                                         ng-repeat="dsgnitem in grpitem.designs"
+                                         ng-click="vm.groupItemClicked(dsgnitem, grpitem)">
+                                        <h2 class="text-sm font-semibold truncate">{{dsgnitem.designitemcode}}</h2>
+                                        <div class="bg-gray-100 mt-1 flex items-center justify-center rounded w-full h-20">
+                                            <img ng-src="File/Show/0/{{dsgnitem.imgid}}" alt="Design"
+                                                 class="object-contain h-full w-full rounded">
+                                        </div>
+                                        <h4 class="mt-1 text-xs font-bold">{{vm.getOrderQty(dsgnitem)}} Pcs</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <!-- Product List Grid -->
+        <!-- Catalog Grid (dynamic) -->
+
+        <div class="grid grid-cols-1"
+             ng-hide="vm.perRow == -1"
+             ng-class="{
+    'md:grid-cols-1': vm.perRow == 1,
+    'md:grid-cols-2': vm.perRow == 2,
+    'md:grid-cols-3': vm.perRow == 3,
+    'md:grid-cols-4': vm.perRow == 4
+}">
+
+            <div class="border rounded-lg shadow p-4 bg-white flex flex-col gap-4"
+                 ng-repeat="item in vm.designs | filter:vm.designFilterFn | limitTo: limit"
+                 in-view="loadMore($last, $inview, $inviewInfo)"
+                 in-view-options="{ generateParts: true }"
+                 data-imageid="{{$index}}">
+
+                <div class="flex flex-col">
+
+                    <!-- Image Top for 3/4 column layout -->
+                    <div ng-if="vm.perRow > 2" class="w-full flex justify-center mb-2 cursor-pointer"
+                         ng-click="vm.openImageViewer($index)">
+                        <img ng-src="File/Show/0/{{item.imgid}}" alt="Design Image"
+                             class="object-contain h-48 w-auto rounded shadow" />
+                    </div>
+
+                    <!-- Image Top for 3/4 column layout -->
+                    <div ng-if="vm.perRow == 2" class="w-full mb-4 cursor-pointer"
+                         ng-click="vm.openImageViewer($index)">
+                        <div class="w-1/2 mx-auto flex justify-center">
+                            <img ng-src="File/Show/0/{{item.imgid}}" alt="Design Image"
+                                 class="object-contain h-96 w-full rounded shadow" />
+                        </div>
+                    </div>
+
+                    <!-- 2-column image side-by-side -->
+                    <div class="flex gap-4" ng-if="vm.perRow < 2">
+                        <!-- Image -->
+                        <div class="flex-shrink-0 cursor-pointer bg-gray-100 flex items-center justify-center rounded"
+                             ng-class="{
+                                 'w-full md:w-1/2 max-h-[500px]': vm.perRow == 1 && vm.isDesktop,
+                                 'w-full max-h-[500px]': vm.perRow == 1 && !vm.isDesktop,
+                                 'w-full md:w-60 h-72': vm.perRow == 2
+                                 }"
+                             ng-click="vm.openImageViewer($index)">
+                            <img ng-src="File/Show/0/{{item.imgid}}" alt="Design Image"
+                                 class="object-contain w-full h-full rounded">
+                        </div>
+
+                        <!-- Content beside image for perRow 1/2 -->
+                        <div class="flex-grow flex flex-col min-w-0">
+                            <div class="w-full flex justify-between items-center" ng-show="vm.isDesktop">
+                                <!-- Design Code (centered) -->
+                                <h2 class="font-bold text-md text-center mx-auto">{{item.designitemcode}}</h2>
+
+                                <!-- Box Dropdown -->
+                                <div class="ml-auto" ng-show="vm.soboxid && vm.soboxid == -1">
+                                    <select ng-model="item.soboxid" class="border rounded px-2 py-1 min-w-[140px]"
+                                            ng-options="location.id as location.name for location in vm.BoxList">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- PerRow = 1: Vertical Table -->
+                            <div ng-if="vm.perRow == 1 && vm.isDesktop" class="overflow-x-auto mt-2">
+                                <div class="flex flex-col w-full text-sm text-center">
+                                    <div class="flex bg-gray-200 font-semibold">
+                                        <div class="flex-1 px-2 py-1">Size</div>
+                                        <div class="flex-1 px-2 py-1">Qty</div>
+                                        <div class="flex-1 px-2 py-1">Stock</div>
+                                        <div class="flex-1 px-2 py-1">Wip</div>
+                                        <div class="flex-1 px-2 py-1">Order</div>
+                                        <div class="flex-1 px-2 py-1">Possible</div>
+                                    </div>
+
+                                    <div class="flex border-b" ng-repeat="size in vm.sizes">
+                                        <div class="flex-1 px-2 py-1 font-semibold text-left">{{size}}</div>
+                                        <div class="flex-1 px-2 py-1">
+                                            <input type="number" ng-model="item.order[size]"
+                                                   ng-change="vm.updateSizeSummary(item, size)"
+                                                   ng-blur="vm.cleanZeroOrInvalid(item, size)"
+                                                   ng-class="{'border-green-500': item.order[size]}"
+                                                   class="w-16 text-center border rounded focus:ring focus:ring-blue-200" />
+                                        </div>
+                                        <div class="flex-1 px-2 py-1">{{ vm.getStockInfo(item, size).stock }}</div>
+                                        <div class="flex-1 px-2 py-1">{{ vm.getStockInfo(item, size).wip }}</div>
+                                        <div class="flex-1 px-2 py-1">{{ vm.getStockInfo(item, size).so }}</div>
+                                        <div class="flex-1 px-2 py-1">{{ vm.getStockInfo(item, size).available }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PerRow = 2: Horizontal Table -->
+                            <div ng-if="vm.perRow == 2 && vm.isDesktop" class="overflow-x-auto mt-2 rounded bg-white">
+                                <div class="min-w-max flex flex-col">
+                                    <div class="flex bg-gray-200 text-sm font-semibold">
+                                        <div class="w-24 px-2 py-2 text-left flex-shrink-0">Size</div>
+                                        <div class="flex">
+                                            <div ng-repeat="size in vm.sizes" class="w-16 px-2 py-2 text-center flex-shrink-0">{{size}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center border-t">
+                                        <div class="w-24 px-2 py-2 font-medium text-left flex-shrink-0">Qty</div>
+                                        <div class="flex">
+                                            <div ng-repeat="size in vm.sizes" class="w-16 px-2 py-2 text-center flex-shrink-0">
+                                                <input type="number" ng-model="item.order[size]"
+                                                       ng-change="vm.updateSizeSummary(item, size)"
+                                                       ng-blur="vm.cleanZeroOrInvalid(item, size)"
+                                                       class="w-12 text-center border rounded focus:ring focus:ring-blue-200" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center border-t">
+                                        <div class="w-24 px-2 py-2 text-green-600 font-semibold text-left flex-shrink-0">Stock</div>
+                                        <div class="flex">
+                                            <div ng-repeat="size in vm.sizes" class="w-16 px-2 py-2 text-center flex-shrink-0">
+                                                {{vm.getStockInfo(item, size).stock}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center border-t">
+                                        <div class="w-24 px-2 py-2 text-green-600 font-semibold text-left flex-shrink-0">WIP</div>
+                                        <div class="flex">
+                                            <div ng-repeat="size in vm.sizes" class="w-16 px-2 py-2 text-center flex-shrink-0">
+                                                {{vm.getStockInfo(item, size).wip}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center border-t">
+                                        <div class="w-24 px-2 py-2 text-yellow-600 font-semibold text-left flex-shrink-0">Orders</div>
+                                        <div class="flex">
+                                            <div ng-repeat="size in vm.sizes" class="w-16 px-2 py-2 text-center flex-shrink-0">
+                                                {{vm.getStockInfo(item, size).so}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center border-t">
+                                        <div class="w-24 px-2 py-2 text-blue-600 font-semibold text-left flex-shrink-0">Possible</div>
+                                        <div class="flex">
+                                            <div ng-repeat="size in vm.sizes" class="w-16 px-2 py-2 text-center flex-shrink-0">
+                                                {{vm.getStockInfo(item, size).available}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- perRow 3 or 4 layout - below image -->
+                    <div ng-if="vm.perRow >= 2 || !vm.isDesktop" class="w-full overflow-x-auto mt-2 border rounded">
+                        <div class="w-full flex justify-center">
+                            <h2 class="font-bold text-md text-center">{{item.designitemcode}}</h2>
+                        </div>
+                        <div class="min-w-max flex flex-col text-xs">
+                            <div class="flex bg-gray-200 font-semibold">
+                                <div class="w-20 px-2 py-1">Size</div>
+                                <div class="flex">
+                                    <div ng-repeat="size in vm.sizes" class="w-12 px-2 py-1 text-center">{{size}}</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center border-t">
+                                <div class="w-20 px-2 py-1">Qty</div>
+                                <div class="flex">
+                                    <div ng-repeat="size in vm.sizes" class="w-12 px-1 py-1 text-center">
+                                        <input type="number" ng-model="item.order[size]"
+                                               ng-change="vm.updateSizeSummary(item, size)"
+                                               ng-blur="vm.cleanZeroOrInvalid(item, size)"
+                                               class="w-10 text-center border rounded text-xs focus:ring focus:ring-blue-200" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center border-t">
+                                <div class="w-20 px-2 py-1 text-green-600 font-semibold">Stock</div>
+                                <div class="flex">
+                                    <div ng-repeat="size in vm.sizes" class="w-12 px-2 py-1 text-center">{{vm.getStockInfo(item, size).stock}}</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center border-t">
+                                <div class="w-20 px-2 py-1 text-yellow-600 font-semibold">WIP</div>
+                                <div class="flex">
+                                    <div ng-repeat="size in vm.sizes" class="w-12 px-2 py-1 text-center">{{vm.getStockInfo(item, size).wip}}</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center border-t">
+                                <div class="w-20 px-2 py-1 text-yellow-600 font-semibold">Orders</div>
+                                <div class="flex">
+                                    <div ng-repeat="size in vm.sizes" class="w-12 px-2 py-1 text-center">{{vm.getStockInfo(item, size).so}}</div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center border-t">
+                                <div class="w-20 px-2 py-1 text-blue-600 font-semibold">Possible</div>
+                                <div class="flex">
+                                    <div ng-repeat="size in vm.sizes" class="w-12 px-2 py-1 text-center">{{vm.getStockInfo(item, size).available}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fixed right-3 bottom-3 flex flex-col gap-2">
+            <!-- Move Top (saves current position, scrolls to top) -->
+            <button class="bg-gray-300 hover:bg-gray-400 rounded-full w-9 h-9 flex items-center justify-center shadow"
+                    ng-show="vm.showMoveTop"
+                    ng-click="vm.savePosAndGoTop()"
+                    title="Move Top">
+                <!-- up arrow -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7M12 8v13" />
+                </svg>
+            </button>
+        </div>
+
+
+    </div>
+
+    <!--showFilters {{vm.showFilters}},
+    isDesktop {{vm.isDesktop}},
+    hideFilters {{vm.hideFilters}},
+    viewMode {{vm.viewMode}}-->
+
+    <div ng-show="vm.viewMode === 'Order' && (vm.showFilters || vm.isDesktop) && !vm.hideFilters"
+         class="bg-white rounded shadow-md p-4 mb-4 w-full md:w-64 md:float-left md:mr-4">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="font-bold text-lg">Filters</h2>
+
+            <button title="Search Orders"
+                    class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded text-sm flex items-center gap-2 shadow"
+                    ng-click="vm.SearchOrder()">
+                <!-- Document Search Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M9 12h6M9 16h6M5 6h14M4 4h16a1 1 0 011 1v14a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1z" />
+                </svg>
+                Orders
+            </button>
+
+
+        </div>
+        <div class="mb-4">
+
+
+            <div class="flex justify-between items-start bg-gray-100 rounded p-2">
+
+                <!-- Left Side: Customer Details -->
+                <div class="flex-1">
+                    <label class="block text-sm font-medium mb-2 text-xl font-bold">
+                        Customer
+                    </label>
+                    <p ng-hide="vm.selectedCustomer == null"><strong>Name:</strong> {{vm.selectedCustomer.name}}</p>
+                    <p ng-hide="vm.selectedCustomer == null"><strong>City:</strong> {{vm.selectedCustomer.cityname}}</p>
+                    <p ng-hide="vm.selectedCustomer == null"><strong>State:</strong> {{vm.selectedCustomer.statename}}</p>
+                    <p ng-hide="vm.selectedCustomer == null"><strong>GST No:</strong> {{vm.selectedCustomer.gstno}}</p>
+                </div>
+
+
+                <div class="flex-shrink-0 flex gap-2">
+                    <!-- Search Button -->
+                    <button class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center transition"
+                            ng-click="vm.openCustomerSearchModal()">
+                        <svg class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M10 2a8 8 0 015.292 13.707l5.505 5.506-1.414 1.414-5.506-5.505A8 8 0 1110 2zm0 2a6 6 0 100 12 6 6 0 000-12z" />
+                        </svg>
+                    </button>
+
+                    <!-- Close Button -->
+                    <button ng-hide="vm.selectedCustomer == null"
+                            class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center transition"
+                            ng-click="vm.selectedCustomer = null">
+                        <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+
+
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">SO Number</label>
+                <input type="text"
+                       id="searchsonumber"
+                       ng-model="vm.filters.sono"
+                       class="w-full border rounded px-2 py-1 focus:ring focus:ring-blue-200">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">From Date</label>
+                <input type="date"
+                       id="fromDatePicker"
+                       ng-model="vm.filters.fromDate"
+                       class="w-full border rounded px-2 py-1 focus:ring focus:ring-blue-200"
+                       placeholder="DD/MM/YYYY">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">To Date</label>
+                <input type="date"
+                       id="toDatePicker"
+                       ng-model="vm.filters.toDate"
+                       class="w-full border rounded px-2 py-1 focus:ring focus:ring-blue-200"
+                       placeholder="DD/MM/YYYY">
+            </div>
+
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">Agent</label>
+                <select ng-model="vm.filters.agentid" class="w-full border rounded px-2 py-1"
+                        ng-options="location.id as location.name for location in vm.agents">
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">Location</label>
+                <select ng-model="vm.filters.deliverylocationid" class="w-full border rounded px-2 py-1"
+                        ng-options="location.id as location.name for location in vm.locations">
+                </select>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="flex flex-col gap-4" ng-show="vm.viewMode === 'Order' && !vm.showLoginDialog">
+
+        <!-- Desktop View: Grid Table -->
+        <div class="hidden md:block">
+            <div class="overflow-x-auto border rounded shadow h-[calc(100vh-90px)] overflow-y-auto">
+                <div class="min-w-max">
+
+                    <!-- Header -->
+                    <div class="bg-gray-200 text-gray-700 font-semibold sticky top-0 z-10">
+                        <div class="grid grid-cols-7 gap-4 p-3 border-b">
+                            <div class="w-20">Order No</div>
+                            <div class="w-20">Order Date</div>
+                            <div class="w-50">Customer</div>
+                            <div class="w-30">Agent</div>
+                            <div class="w-30">City</div>
+                            <div class="w-20">Qty</div>
+                            <div class="w-30 text-center">Actions</div>
+                        </div>
+                    </div>
+
+                    <!-- Data Rows -->
+                    <div ng-repeat="item in vm.Orders | limitTo: orderlimit"
+                         in-view="loadMoreOrders($last, $inview, $inviewInfo)"
+                         in-view-options="{ generateParts: true }"
+                         class="hover:bg-gray-50 transition border-b">
+                        <div class="grid grid-cols-7 gap-4 p-3 items-center text-sm">
+                            <div class="w-20">{{item.sono}}</div>
+                            <div class="w-20">{{item.sodate | date:'dd/MM/yyyy'}}</div>
+                            <div class="w-50">{{item.customername}}</div>
+                            <div class="w-30">{{item.agentname}}</div>
+                            <div class="w-30">{{item.cityname}}</div>
+                            <div class="w-20">{{item.totalqty}}</div>
+                            <div class="w-30 flex gap-2 justify-center">
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm"
+                                        ng-click="vm.editOrder(item)">
+                                    <svg width="12" height="12" viewBox="0 0 16 16" fill="white">
+                                        <path d="M12.146.854a.5.5 0 0 1 .708 0l2.292 2.292a.5.5 0 0 1 0 .708L5.854 12.146l-3.18.795a.5.5 0 0 1-.607-.607l.795-3.18L12.146.854z" />
+                                    </svg>
+
+                                    Edit
+                                </button>
+                                <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
+                                        ng-click="vm.downloadPdf(item)">
+                                    <svg width="12" height="12" viewBox="0 0 16 16" fill="white">
+                                        <path d="M4 0h6l4 4v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
+                                    </svg>
+
+                                    PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Mobile View: Card Style -->
+        <div class="block md:hidden">
+            <div ng-repeat="item in vm.Orders | limitTo: orderlimit"
+                 class="border rounded-lg shadow p-4 bg-white flex flex-col gap-3 mb-4">
+
+                <div class="flex flex-wrap gap-2 text-sm">
+                    <div class="w-1/2"><span class="font-semibold">Order No:</span> {{item.sono}}</div>
+                    <div class="w-1/2"><span class="font-semibold">Order Date:</span> {{item.sodate | date:'dd/MM/yyyy'}}</div>
+                    <div class="w-1/2"><span class="font-semibold">Customer:</span> {{item.customername}}</div>
+                    <div class="w-1/2"><span class="font-semibold">City:</span> {{item.cityname}}</div>
+                    <div class="w-full"><span class="font-semibold">Agent:</span> {{item.agentname}}</div>
+                    <div class="w-full"><span class="font-semibold">Qty:</span> {{item.totalqty}}</div>
+                </div>
+
+                <div class="flex justify-end gap-2 mt-2">
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm"
+                            ng-click="vm.editOrder(item)">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="white">
+                            <path d="M12.146.854a.5.5 0 0 1 .708 0l2.292 2.292a.5.5 0 0 1 0 .708L5.854 12.146l-3.18.795a.5.5 0 0 1-.607-.607l.795-3.18L12.146.854z" />
+                        </svg>
+
+                        Edit
+                    </button>
+                    <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
+                            ng-click="vm.downloadPdf(item)">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="white">
+                            <path d="M4 0h6l4 4v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
+                        </svg>
+
+                        PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+    <div ng-show="vm.viewMode === 'Bill' && (vm.showFilters || vm.isDesktop) && !vm.hideFilters"
+         class="bg-white rounded shadow-md p-4 mb-4 w-full md:w-64 md:float-left md:mr-4">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="font-bold text-lg">Filters</h2>
+
+            <button title="Search Orders"
+                    class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded text-sm flex items-center gap-2 shadow"
+                    ng-click="vm.SearchBill()">
+                <!-- Document Search Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M9 12h6M9 16h6M5 6h14M4 4h16a1 1 0 011 1v14a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1z" />
+                </svg>
+                Bills
+            </button>
+
+
+        </div>
+        <div class="mb-4">
+
+
+            <div class="flex justify-between items-start bg-gray-100 rounded p-4">
+
+                <!-- Left Side: Customer Details -->
+                <div class="flex-1">
+                    <label class="block text-sm font-medium mb-2 text-xl font-bold">
+                        Customer
+                    </label>
+                    <p ng-hide="vm.selectedCustomer == null"><strong>Name:</strong> {{vm.selectedCustomer.name}}</p>
+                    <p ng-hide="vm.selectedCustomer == null"><strong>City:</strong> {{vm.selectedCustomer.cityname}}</p>
+                    <p ng-hide="vm.selectedCustomer == null"><strong>State:</strong> {{vm.selectedCustomer.statename}}</p>
+                    <p ng-hide="vm.selectedCustomer == null"><strong>GST No:</strong> {{vm.selectedCustomer.gstno}}</p>
+                </div>
+
+
+                <div class="flex-shrink-0 flex gap-2">
+                    <!-- Search Button -->
+                    <button class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center transition"
+                            ng-click="vm.openCustomerSearchModal()">
+                        <svg class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M10 2a8 8 0 015.292 13.707l5.505 5.506-1.414 1.414-5.506-5.505A8 8 0 1110 2zm0 2a6 6 0 100 12 6 6 0 000-12z" />
+                        </svg>
+                    </button>
+
+                    <!-- Close Button -->
+                    <button ng-hide="vm.selectedCustomer == null"
+                            class="bg-gray-300 hover:bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center transition"
+                            ng-click="vm.selectedCustomer = null">
+                        <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+
+
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">From Date</label>
+                <input type="date"
+                       id="fromDatePicker"
+                       ng-model="vm.filters.addedfrom"
+                       class="w-full border rounded px-2 py-1 focus:ring focus:ring-blue-200"
+                       placeholder="DD/MM/YYYY">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">To Date</label>
+                <input type="date"
+                       id="toDatePicker"
+                       ng-model="vm.filters.addedto"
+                       class="w-full border rounded px-2 py-1 focus:ring focus:ring-blue-200"
+                       placeholder="DD/MM/YYYY">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">Location</label>
+                <select ng-model="vm.filters.billlocationid" class="w-full border rounded px-2 py-1"
+                        ng-options="location.id as location.name for location in vm.locations">
+                </select>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="flex flex-col gap-4" ng-show="vm.viewMode === 'Bill' && !vm.showLoginDialog">
+
+
+        <div class="hidden md:block">
+            <!-- Scrollable area -->
+            <div class="overflow-x-auto border rounded shadow h-[calc(100vh-90px)] overflow-y-auto">
+                <div class="min-w-max">
+
+                    <!-- Sticky Header -->
+                    <div class="bg-gray-200 text-gray-700 font-semibold sticky top-0 z-10">
+                        <div class="flex p-3 border-b">
+                            <div class="w-28">Invoice No</div>
+                            <div class="w-32">Invoice Date</div>
+                            <div class="w-28">SO No</div>
+                            <div class="w-64">Customer</div>
+                            <div class="w-24">Amount</div>
+                            <div class="w-40">City</div>
+                            <div class="w-40">Transport</div>
+                            <div class="w-20">Bundles</div>
+                            <div class="w-20">Qty</div>
+                            <div class="w-32">Eway</div>
+                            <div class="w-32">E-Ack</div>
+                            <div class="w-40 text-center">Actions</div>
+                        </div>
+                    </div>
+
+                    <!-- Rows -->
+                    <div ng-repeat="item in vm.Bills | limitTo: billlimit"
+                         in-view="loadMoreBills($last, $inview, $inviewInfo)"
+                         in-view-options="{ generateParts: true }"
+                         class="hover:bg-gray-50 transition border-b">
+                        <div class="flex p-3 items-center text-sm">
+                            <div class="w-28">{{item.billno}}</div>
+                            <div class="w-32">{{item.billdate | date:'dd/MM/yyyy'}}</div>
+                            <div class="w-28">{{item.billsono}}</div>
+                            <div class="w-64">{{item.customername}}</div>
+                            <div class="w-24">{{item.billvalue}}</div>
+                            <div class="w-40">{{vm.SearchRef(item.cityid,'name',vm.cities)}}</div>
+                            <div class="w-40">{{vm.SearchRef(item.transportid,'name',vm.transports)}}</div>
+                            <div class="w-20">{{item.noofbundles}}</div>
+                            <div class="w-20">{{item.noofpieces}}</div>
+                            <div class="w-32">{{item.ewb}}</div>
+                            <div class="w-32">{{item.ackno}}</div>
+                            <div class="w-40 flex gap-2 justify-center flex-wrap">
+                                <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs"
+                                        ng-click="vm.DownloadPdf_bill(item)">
+                                    <svg width="12" height="12" viewBox="0 0 16 16" fill="white">
+                                        <path d="M4 0h6l4 4v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
+                                    </svg>
+
+                                    PDF
+                                </button>
+                                <div class="flex gap-1">
+                                    <a ng-show="item.lrimg" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded text-xs"
+                                       target="_blank" href="File/Show/0/{{item.lrimg}}">
+                                        <svg width="12" height="12" viewBox="0 0 16 16" fill="white">
+                                            <path d="M4 0h6l4 4v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
+                                        </svg> LR
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Mobile View: Card Style -->
+        <div class="block md:hidden">
+            <div ng-repeat="item in vm.Bills | limitTo: billlimit"
+                 class="border rounded-lg shadow p-4 bg-white flex flex-col gap-3 mb-4">
+
+                <div class="flex flex-wrap gap-2 text-sm">
+                    <div class="w-1/2"><span class="font-semibold">Invoice No:</span> {{item.billno}}</div>
+                    <div class="w-1/2"><span class="font-semibold">Invoice Date:</span> {{item.billdate | date:'dd/MM/yyyy'}}</div>
+                    <div class="w-1/2"><span class="font-semibold">SO No:</span> {{item.billsono}}</div>
+                    <div class="w-1/2"><span class="font-semibold">Customer:</span> {{item.customername}}</div>
+                    <div class="w-1/2"><span class="font-semibold">Amount:</span> {{item.billvalue}}</div>
+                    <div class="w-1/2"><span class="font-semibold">City:</span> {{vm.SearchRef(item.cityid,'name',vm.cities)}}</div>
+                    <div class="w-1/2"><span class="font-semibold">Transport:</span> {{vm.SearchRef(item.transportid,'name',vm.transports)}}</div>
+                    <div class="w-1/2"><span class="font-semibold">Bundles:</span> {{item.noofbundles}}</div>
+                    <div class="w-full"><span class="font-semibold">Qty:</span> {{item.noofpieces}}</div>
+                    <div class="w-full"><span class="font-semibold">Eway:</span> {{item.ewb}}</div>
+                    <div class="w-full"><span class="font-semibold">E-Ack:</span> {{item.ackno}}</div>
+                </div>
+                <div class="flex justify-end gap-2 mt-2">
+                    <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
+                            ng-click="vm.downloadPdf(item)">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="white">
+                            <path d="M4 0h6l4 4v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
+                        </svg> PDF
+                    </button>
+
+                    <a ng-show="item.lrimg" class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded text-xs"
+                       target="_blank" href="File/Show/0/{{item.lrimg}}">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="white">
+                            <path d="M4 0h6l4 4v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
+                        </svg> LR
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Order Preview and PDF Generation UI -->
+    <div ng-hide="true">
+
+
+        <div class="p-6 bg-white rounded-lg shadow-lg PrintPreviewContent">
+
+            <div class="pdf-page-header break-inside-avoid mb-6 text-sm text-gray-800">
+                <div class="flex justify-between items-start gap-8">
+
+                    <!-- Left: Seller (Company) Info -->
+                    <div class="flex gap-4 items-start">
+                        <!-- Logo -->
+                        <div class="flex-shrink-0">
+                            <img ng-src="File/Show/0/{{vm.selectedCompany.logo}}" alt="Logo"
+                                 class="h-16 w-16 object-contain rounded shadow" />
+                        </div>
+
+                        <!-- Company Details -->
+                        <div>
+                            <p class="text-base font-bold text-gray-900">{{vm.selectedCompany.name}}</p>
+                            <p>{{vm.selectedCompany.addressline1}}</p>
+                            <p>{{vm.selectedCompany.addressline2}}</p>
+                            <p>{{vm.selectedCompany.citywithpin}}, {{vm.selectedCompany.statename}}</p>
+                            <p>GST {{vm.selectedCompany.gstno}}</p>
+                            <p>Contact {{vm.selectedCompany.contactno}}</p>
+                        </div>
+                    </div>
+
+                    <!-- Right: Buyer (Customer) Info -->
+                    <div class="text-right flex-1">
+                        <p class="text-base font-bold text-gray-900">#{{vm.salesorder.sono}} / {{vm.salesorder.sodate | date:'dd-MM-yyyy'}}</p>
+                        <p class="font-semibold">{{vm.selectedCustomer.name}}</p>
+                        <p>{{vm.selectedCustomer.address}}</p>
+                        <p>{{vm.selectedCustomer.cityname}}</p>
+                        <p>{{vm.selectedCustomer.statename}} ,GST : {{vm.selectedCustomer.gstno}}</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Order Grid as Div-Based Layout -->
+            <div class="overflow-x-auto">
+                <!-- Header Row -->
+                <div class="bg-gray-200 font-semibold text-sm flex break-inside-avoid-page">
+                    <div class="border px-2 py-1 w-10">#</div>
+                    <div class="border px-2 py-1 flex-1">Design Code</div>
+                    <div class="border px-2 py-1 w-16">Image</div>
+                    <div class="flex" ng-repeat="size in vm.sizes">
+                        <div class="border px-2 py-1 w-12 text-center">{{size}}</div>
+                    </div>
+                </div>
+
+                <ng-container ng-repeat="item in vm.designs track by $index" ng-if="item.order && vm.hasQty(item.order)">
+
+                    <!-- Conditional Header Insert every 12 rows -->
+                    <div ng-if="$index > 0 && $index % 12 === 0" class="break-before-page">
+                        <div class="pdf-page-header mb-4">
+                            <div class="flex justify-between">
+                                <div>
+                                    <h2 class="text-lg font-bold mb-2">Customer Details</h2>
+                                    <p><strong>Name:</strong> {{vm.selectedCustomer.name}}</p>
+                                    <p><strong>City:</strong> {{vm.selectedCustomer.cityname}}</p>
+                                    <p><strong>State:</strong> {{vm.selectedCustomer.statename}}</p>
+                                    <p><strong>GST No:</strong> {{vm.selectedCustomer.gstno}}</p>
+                                </div>
+                                <div class="text-right">
+                                    <h2 class="text-lg font-bold mb-2">Sales Order</h2>
+                                    <p><strong>SO No:</strong> {{vm.salesorder.sono}}</p>
+                                    <p><strong>SO Date:</strong> {{vm.salesorder.sodate | date:'dd/MM/yyyy'}}</p>
+                                </div>
+                            </div>
+
+                            <!-- Header Row -->
+                            <div class="bg-gray-200 font-semibold text-sm flex mt-2">
+                                <div class="border px-2 py-1 w-10">#</div>
+                                <div class="border px-2 py-1 flex-1">Design Code</div>
+                                <div class="border px-2 py-1 w-16">Image</div>
+                                <div class="flex" ng-repeat="size in vm.sizes">
+                                    <div class="border px-2 py-1 w-12 text-center">{{size}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Row -->
+                    <div class="flex break-inside-avoid">
+                        <div class="border px-2 py-1 w-10">{{$index + 1}}</div>
+                        <div class="border px-2 py-1 flex-1">{{item.designitemcode}}</div>
+                        <div class="border px-2 py-1 w-16">
+                            <img ng-src="File/Show/0/{{item.imgid}}" alt="Design Image" class="w-12 h-12 object-contain rounded">
+                        </div>
+                        <div class="flex" ng-repeat="size in vm.sizes">
+                            <div class="border px-2 py-1 w-12 text-center">{{item.order[size] || ''}}</div>
+                        </div>
+                    </div>
+                </ng-container>
+
+
+                <!-- Totals Row -->
+                <div class="flex font-semibold bg-gray-100 break-inside-avoid-page break-inside-avoid">
+                    <div class="border px-2 py-1" style="width:calc(100% - {{vm.sizes.length * 3}}rem);" colspan="3">Total</div>
+                    <div class="flex" ng-repeat="size in vm.sizes">
+                        <div class="border px-2 py-1 w-12 text-center">{{vm.getTotalQty(size)}}</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Be sure to include html2pdf CDN -->
+    <!-- Toast Container -->
+    <div ng-if="vm.toastMessage"
+         ng-click="vm.closeToast()"
+         class="fixed top-6 right-6 px-4 py-3 rounded shadow-lg flex items-center gap-3 cursor-pointer transition-all duration-300 text-white"
+         ng-class="[
+         vm.toastType === 'success' ? 'bg-green-500' :
+         vm.toastType === 'error' ? 'bg-red-500' :
+         vm.toastType === 'warning' ? 'bg-yellow-500 text-black' :
+         'bg-blue-500',
+         vm.toastClosing ? 'opacity-0' : 'opacity-100'
+     ]">
+        <span class="text-sm">{{vm.toastMessage}}</span>
+    </div>
+
+
+
+    <!-- New Customer Modal -->
+    <!-- Customer Search Modal -->
+    <!-- Customer Search Modal -->
+    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" ng-show="vm.showCustomerSearchModal">
+        <div class="bg-white rounded-lg shadow-lg w-96 max-h-[90vh] flex flex-col relative">
+
+            <!-- Modal Title -->
+            <h2 class="text-2xl font-bold p-4 text-center border-b">Select Customer</h2>
+
+            <!-- Customer List (Scrollable) -->
+            <div class="flex-1 overflow-y-auto p-4">
+                <div ng-repeat="item in vm.customers | filter:{name: vm.customerSearchKeyword}"
+                     ng-click="vm.selectCustomerFromList(item)"
+                     class="cursor-pointer border rounded p-3 hover:bg-blue-100 mb-2">
+                    <div class="font-semibold">{{item.name}}</div>
+                    <div class="text-xs text-gray-500">{{item.city}}</div>
+                </div>
+
+                <div ng-if="(vm.customers | filter:{name: vm.customerSearchKeyword}).length == 0"
+                     class="text-center text-gray-400 mt-4">
+                    No customers found
+                </div>
+            </div>
+
+            <!-- Search Box (Fixed at Bottom) -->
+            <div class="p-4 border-t bg-white sticky bottom-0">
+                <input type="text" ng-model="vm.customerSearchKeyword"
+                       placeholder="Search customer name..."
+                       class="w-full border rounded px-3 py-2 text-sm" />
+                <div class="flex justify-end mt-2">
+                    <button class="bg-gray-400 text-white px-4 py-2 rounded" ng-click="vm.closeCustomerSearchModal()">Cancel</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Login Modal -->
+
+    <div ng-show="vm.showLoginDialog" class="flex items-center justify-center min-h-screen px-4">
+
+        <div class="flex flex-col md:flex-row max-w-3xl w-full rounded-lg bg-white shadow-xl overflow-hidden border">
+
+            <!-- Logo Section -->
+            <div class="bg-gray-500 flex items-center justify-center p-6 md:w-1/2">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMIAAAEaCAMAAAB0JXj1AAAANlBMVEVHcEz///////////////////////////////////////////////////////////////////+GUsxbAAAAEXRSTlMA8TNVCfrAlxEg4M9BcYRlruN29fQAAAcwSURBVHja7Z3tctwgDEUXYwzGBtvv/7JNdtNOk0BWCwhJLepM/nSm9Y199AWC223YsGHNbHLSFazbIVyBO69lli0hXpfaRSvQ6rouKxpl/6bg8pNglJfrblGsgtk+FFybWL8azIcEoyWj/LBzFozyw2T6Vbdcf5mVjPLD/CpPwmE+SbiCOAW7+qzgWqT51XX7okCcX31LT7/ZKS49/WayEqVDJSSISpR2n1JwbatglD9MTAE6nxkFRkwBGk1GgphESasrazISpcnnFchIlD6np99MQKL0JT397lf5J0rB/CyBf6K0q+uJcS9Ap+2ZgkvxTpTceT031onSHAEKePvVw0AkcE6UnqPMvgDV8cNsUsvy+6+DgBp6N6IT7Xt4E+hMv5gVm+D98a2LxKj8uez00kv/QfOgGbFs+wdotoPmQfOIzfc0ddA8aG5B8z5opo/Ng2auNK8Tvq24NFuFbwGVZrdd6GZKHCE8Nq8eX0KRI4TTPCl8CUWOEE6zNvgSLC7NAV9BWVoDj80WX0FRkQKPzfOCL2HDpbmHTz1xae7hkCIuzTu+QypbH4bTfHQIbBNqbL7FDjQ7VJpvJ74Ei5tp93BIAZfmDkleUZr6As0dfGpRmvoCzZppmvoCzUEUzUmq4tbQkh+lOZrRnKZqdu0s/fLLeulEXbC0aygKbFQ97XT9d0rqgoV2aeoLNON3ccvS1NAuRtZ/v2UIEtGcTrdE0Zx2SFYSzbodglQ0N1xWIqK5JYJENDfcwEVFc9ohRfk0a0E0p1ugZWkqEc2x4aAHDc3pKcayNDVN84ZLswuqYf+lP83zeiymZf8FTPOsm9gRF994RAJMM9tlQjjNHTpIZd9vhmZH0tIuiwpgmmeuLW04zR1a2oXz+ZxoLtyjz4jmwul8RjSrwiFSRjTbwpyGD83FhzwEaEMNm+by3aRcaDbFJRYXmk0sTu6TNJuzO83lCpjQrEJFgcWBZrNU1en0NJvlqJrfJafZn7pyADkdmzvRbPwZpuouAxnNyi9Rry26JHU0m20psjMe+9qqyWOhhYdOZzVzmaG3x8E0nzd6q6SZwyB0Jc0chq3qaGYxbGWhvRxNs5SFTjOHM58qaebgkNJHwUTUhb3WCy11mfYhnmYODqmSZg4OqZJmDg4pHZvBNJ/yaY7iaebgkCpp5uCQKmnm4JAqYzOHcfRKmr0ttYMLzb2XNVl1wQ4mNFOshTSmuaIHuTKhufdOkUHzoJmc5nXQPGj+H2meR2wmp/kaNA+aB83/SGzO0GzKjA3NrniDfPp+HAKay00zobnCIhOaK+xkQnPjb9UQ0Nz6W8WmuWmfF3mFsQfNGvdF96A5UtDcdtXG4r7oDjSncYu4/3zbVZs0bqJoTm9gEkWzFU9z+rckiebMFYKSaI6X9Ew7M1Auh+bsQDkFzS8dCb66eZ7dOoXcQDkFzW575Wxv/74HffP55p85+tP8Hp4M+M/zVqRDpTlZTrU9OLXhNaBpmi30iyu2hi4PTHPbk5xbbl+y0P+g7amjDc/VgNMMvVYSZC0L8/TvFpvmplf60tBsWxYjJDQvTStCCpp9h7I8SXOzQ81V27ut4TQHpgpeoLnVIptvfb84mOZWS+ZL8xvrwDS3WTJXsfmEAJzmFnemqBPh0kA4zfVL5t7uGHuie9Fs/HkgbUvvQrNarF7RNqXX0uw39SMjRm32mDCHfF6gOf2IwU27DtGeb4W+V+qxyv/+817+26gn7Bmlapp/f3Lv7ZZ12vf9sdK/7/cmzK2DgWnObYDRN2oD05xJUw29hFqa6UeQ4DRnik76K3rhNFvsxi4+zZmi0zvpNDOYTE3fFbDDi07ya8/hNAf8lhwRzfTDtdU0dzhJv4jmAKeZPjiDac4VneSRrZ5m8sgGpzlXdJKHBTDN2aKTPCyAac62kKx4msl9KpzmeDH1qfU0+0k8zeQOqZ7mUwzN2ZXOOGjuRnM2TVViaM6mqXJo3uXH5gN9LhCdZssVhQzNDk6znEw7u2+BHAU4zUZ83cy26ATT7BauCVL6C08Qmi13yM9ng9Kc9Uf0bXkozdmXQO6PoPffZkmg90dQmrPbqOgXFoA0T9nteOT9YCDN+dMWGJxUCKM5GK4lJ5RmrS6u3RcgzXkQOLwECM371mXLeFua/8563OE7zOAg0uz0YrqMfyDRPP8wxsWE5Z9odquOy5MNqYGBggzNPsRz8093oy6Og4T8RMvz7bQsPqO6iRYWn1HVRMvJ4jOqmWhh8hlVTLQozUNB+XyaiUwUlNNsZy4SrGyUK2heVi4KSmlmpKCQ5pORgiKajXWMFJTQ7MPMSUEBzct+Y2Uv04wwitaXZsPtFbxM83Y4dgpeonkLKz8BL9BsFpYCwDQbb7W78TQAzeY+DXhja8eTp9/OqKf5xtn0nznAL8+u/PL+9I734z94/pgD1McRQogxvv08tN6nVcDDDxs27GG/AHumLkiWTFCvAAAAAElFTkSuQmCC" alt="Logo"
+                     class="w-32 md:w-48 h-auto object-contain rounded shadow" />
+            </div>
+
+            <!-- Login Form Section -->
+            <div class="flex-1 p-6" ng-class="{'animate-shake': vm.authFailed}">
+
+                <!-- Error Message -->
+                <div ng-if="vm.authFailed"
+                     class="bg-red-100 text-red-700 text-center text-sm font-semibold py-2 rounded mb-4">
+                    You are not authorized – Please log in
+                </div>
+
+                <!-- Title -->
+                <h2 class="text-xl font-bold text-center mb-4">Login</h2>
+
+                <!-- Form Inputs -->
+                <div class="space-y-3">
+                    <input type="text" ng-model="vm.loginData.username" placeholder="Username"
+                           class="w-full px-3 py-2 border rounded focus:ring focus:ring-blue-300" />
+                    <input type="password" ng-model="vm.loginData.password" placeholder="Password"
+                           class="w-full px-3 py-2 border rounded focus:ring focus:ring-blue-300" />
+                </div>
+
+                <!-- Submit Button -->
+                <button ng-click="vm.authenticate()"
+                        class="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded shadow">
+                    Login
+                </button>
+
+                <!-- Optional Error -->
+                <p class="text-center text-red-600 mt-2 animate-fade-shake" ng-show="vm.showauthFailed">
+                    {{vm.showauthFailed_description}}
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <!--<div ng-show="vm.showLoginDialog" class="bg-gray-700 flex items-center justify-center min-h-screen">
+
+        <div class="flex max-w-3xl w-full rounded-lg bg-white shadow-xl overflow-hidden border">
+            Left: Logo Image Panel
+            <div class="bg-gray-300 flex items-center justify-center p-6">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMIAAAEaCAMAAAB0JXj1AAAANlBMVEVHcEz///////////////////////////////////////////////////////////////////+GUsxbAAAAEXRSTlMA8TNVCfrAlxEg4M9BcYRlruN29fQAAAcwSURBVHja7Z3tctwgDEUXYwzGBtvv/7JNdtNOk0BWCwhJLepM/nSm9Y199AWC223YsGHNbHLSFazbIVyBO69lli0hXpfaRSvQ6rouKxpl/6bg8pNglJfrblGsgtk+FFybWL8azIcEoyWj/LBzFozyw2T6Vbdcf5mVjPLD/CpPwmE+SbiCOAW7+qzgWqT51XX7okCcX31LT7/ZKS49/WayEqVDJSSISpR2n1JwbatglD9MTAE6nxkFRkwBGk1GgphESasrazISpcnnFchIlD6np99MQKL0JT397lf5J0rB/CyBf6K0q+uJcS9Ap+2ZgkvxTpTceT031onSHAEKePvVw0AkcE6UnqPMvgDV8cNsUsvy+6+DgBp6N6IT7Xt4E+hMv5gVm+D98a2LxKj8uez00kv/QfOgGbFs+wdotoPmQfOIzfc0ddA8aG5B8z5opo/Ng2auNK8Tvq24NFuFbwGVZrdd6GZKHCE8Nq8eX0KRI4TTPCl8CUWOEE6zNvgSLC7NAV9BWVoDj80WX0FRkQKPzfOCL2HDpbmHTz1xae7hkCIuzTu+QypbH4bTfHQIbBNqbL7FDjQ7VJpvJ74Ei5tp93BIAZfmDkleUZr6As0dfGpRmvoCzZppmvoCzUEUzUmq4tbQkh+lOZrRnKZqdu0s/fLLeulEXbC0aygKbFQ97XT9d0rqgoV2aeoLNON3ccvS1NAuRtZ/v2UIEtGcTrdE0Zx2SFYSzbodglQ0N1xWIqK5JYJENDfcwEVFc9ohRfk0a0E0p1ugZWkqEc2x4aAHDc3pKcayNDVN84ZLswuqYf+lP83zeiymZf8FTPOsm9gRF994RAJMM9tlQjjNHTpIZd9vhmZH0tIuiwpgmmeuLW04zR1a2oXz+ZxoLtyjz4jmwul8RjSrwiFSRjTbwpyGD83FhzwEaEMNm+by3aRcaDbFJRYXmk0sTu6TNJuzO83lCpjQrEJFgcWBZrNU1en0NJvlqJrfJafZn7pyADkdmzvRbPwZpuouAxnNyi9Rry26JHU0m20psjMe+9qqyWOhhYdOZzVzmaG3x8E0nzd6q6SZwyB0Jc0chq3qaGYxbGWhvRxNs5SFTjOHM58qaebgkNJHwUTUhb3WCy11mfYhnmYODqmSZg4OqZJmDg4pHZvBNJ/yaY7iaebgkCpp5uCQKmnm4JAqYzOHcfRKmr0ttYMLzb2XNVl1wQ4mNFOshTSmuaIHuTKhufdOkUHzoJmc5nXQPGj+H2meR2wmp/kaNA+aB83/SGzO0GzKjA3NrniDfPp+HAKay00zobnCIhOaK+xkQnPjb9UQ0Nz6W8WmuWmfF3mFsQfNGvdF96A5UtDcdtXG4r7oDjSncYu4/3zbVZs0bqJoTm9gEkWzFU9z+rckiebMFYKSaI6X9Ew7M1Auh+bsQDkFzS8dCb66eZ7dOoXcQDkFzW575Wxv/74HffP55p85+tP8Hp4M+M/zVqRDpTlZTrU9OLXhNaBpmi30iyu2hi4PTHPbk5xbbl+y0P+g7amjDc/VgNMMvVYSZC0L8/TvFpvmplf60tBsWxYjJDQvTStCCpp9h7I8SXOzQ81V27ut4TQHpgpeoLnVIptvfb84mOZWS+ZL8xvrwDS3WTJXsfmEAJzmFnemqBPh0kA4zfVL5t7uGHuie9Fs/HkgbUvvQrNarF7RNqXX0uw39SMjRm32mDCHfF6gOf2IwU27DtGeb4W+V+qxyv/+817+26gn7Bmlapp/f3Lv7ZZ12vf9sdK/7/cmzK2DgWnObYDRN2oD05xJUw29hFqa6UeQ4DRnik76K3rhNFvsxi4+zZmi0zvpNDOYTE3fFbDDi07ya8/hNAf8lhwRzfTDtdU0dzhJv4jmAKeZPjiDac4VneSRrZ5m8sgGpzlXdJKHBTDN2aKTPCyAac62kKx4msl9KpzmeDH1qfU0+0k8zeQOqZ7mUwzN2ZXOOGjuRnM2TVViaM6mqXJo3uXH5gN9LhCdZssVhQzNDk6znEw7u2+BHAU4zUZ83cy26ATT7BauCVL6C08Qmi13yM9ng9Kc9Uf0bXkozdmXQO6PoPffZkmg90dQmrPbqOgXFoA0T9nteOT9YCDN+dMWGJxUCKM5GK4lJ5RmrS6u3RcgzXkQOLwECM371mXLeFua/8563OE7zOAg0uz0YrqMfyDRPP8wxsWE5Z9odquOy5MNqYGBggzNPsRz8093oy6Og4T8RMvz7bQsPqO6iRYWn1HVRMvJ4jOqmWhh8hlVTLQozUNB+XyaiUwUlNNsZy4SrGyUK2heVi4KSmlmpKCQ5pORgiKajXWMFJTQ7MPMSUEBzct+Y2Uv04wwitaXZsPtFbxM83Y4dgpeonkLKz8BL9BsFpYCwDQbb7W78TQAzeY+DXhja8eTp9/OqKf5xtn0nznAL8+u/PL+9I734z94/pgD1McRQogxvv08tN6nVcDDDxs27GG/AHumLkiWTFCvAAAAAElFTkSuQmCC"
+                     alt="Logo" class="w-48 h-auto rounded shadow" />
+            </div>
+            Right: Login Form
+            <div class="flex-1 p-6" ng-class="{'animate-shake': vm.authFailed}">
+                Alert
+                <div ng-if="vm.authFailed" class="bg-red-100 text-red-700 text-center text-sm font-semibold py-2 rounded mb-4">
+                    You are not authorized – Please log in
+                </div>
+                Heading
+                <h2 class="text-xl font-bold text-center mb-4">Login</h2>
+                Inputs
+                <div class="space-y-3">
+                    <input type="text" ng-model="vm.loginData.username" placeholder="Username"
+                           class="w-full px-3 py-2 border rounded focus:ring focus:ring-blue-300" />
+                    <input type="password" ng-model="vm.loginData.password" placeholder="Password"
+                           class="w-full px-3 py-2 border rounded focus:ring focus:ring-blue-300" />
+                </div>
+                Button
+                <button ng-click="vm.authenticate()"
+                        class="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded shadow">
+                    Login
+                </button>
+                Error message
+                <p class="text-center text-red-600 mt-2 animate-fade-shake"
+                   ng-show="vm.showauthFailed">
+                    {{vm.showauthFailed_description}}
+                </p>
+            </div>
+        </div>
+    </div>-->
+    <!-- New Customer Modal -->
+    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" ng-show="vm.showCustomerModal">
+ 
+        <div class="bg-white rounded-lg shadow-lg p-6 w-80">
+            <h2 class="text-lg font-bold mb-4">Add New Customer</h2>
+
+            <div class="mb-3">
+                <label class="block text-sm font-medium mb-1">Customer Name</label>
+                <input type="text" ng-model="vm.newCustomer.name" class="w-full border rounded px-2 py-1">
+            </div>
+
+            <div class="mb-3">
+                <label class="block text-sm font-medium mb-1">Address</label>
+                <input type="text" ng-model="vm.newCustomer.address" class="w-full border rounded px-2 py-1">
+            </div>
+
+            <div class="mb-3">
+                <label class="block text-sm font-medium mb-1">GST No</label>
+                <input type="text" ng-model="vm.newCustomer.gstno" class="w-full border rounded px-2 py-1">
+            </div>
+
+            <div class="mb-3">
+                <label class="block text-sm font-medium mb-1">City</label>
+                <select ng-model="vm.newCustomer.cityid" class="w-full border rounded px-2 py-1"
+                        ng-options="city.id as city.name for city in vm.cities">
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="block text-sm font-medium mb-1">State</label>
+                <select ng-model="vm.filters.stateid" class="w-full border rounded px-2 py-1"
+                        ng-options="state.id as state.name for state in vm.states">
+                </select>
+            </div>
+
+
+            <div class="flex justify-end gap-2 mt-4">
+                <button class="bg-gray-300 px-3 py-1 rounded" ng-click="vm.closeCustomerModal()">Cancel</button>
+                <button class="bg-blue-600 text-white px-3 py-1 rounded" ng-click="vm.saveCustomer()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Screen Image Viewer Modal -->
+    <div ng-show="vm.showImageViewer" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50"
+         id="imageViewerModal">
+
+        <!-- + Add Button at Top Left -->
+        <button class="absolute top-4 left-4 bg-green-500 text-white rounded-full px-4 py-2 text-sm font-semibold shadow-lg hover:bg-green-600"
+                ng-click="vm.addFromImageViewer()">
+            + Add
+        </button>
+
+        <!-- Close Button -->
+        <button class="absolute top-4 right-4 bg-white rounded-full p-2" ng-click="vm.closeImageViewer()">
+            ❌
+        </button>
+
+        <!-- Left Navigation -->
+        <button class="absolute left-4 text-white text-4xl" ng-click="vm.prevImage()">&#10094;</button>
+
+        <!-- Image Display -->
+        <img ng-src="File/Show/0/{{vm.designs[vm.activeImageIndex].imgid}}"
+             alt="Design Full Image"
+             class="max-h-full max-w-full rounded shadow-lg">
+
+        <!-- Right Navigation -->
+        <button class="absolute right-4 text-white text-4xl" ng-click="vm.nextImage()">&#10095;</button>
+
+        <div class="absolute bottom-6 right-6 bg-white bg-opacity-80 rounded px-4 py-2 shadow-lg">
+            <p class="text-lg font-bold text-gray-800">
+                {{vm.designs[vm.activeImageIndex].designitemcode}}
+            </p>
+        </div>
+    </div>
+
+
+    <!-- Progress Dialog -->
+    <div ng-show="vm.showProgress" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+            <div class="mb-4">
+                <div class="loader mb-4 mx-auto"></div> <!-- Optional spinner -->
+                <p class="text-lg font-bold">{{vm.progressMessage}}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional Simple Spinner (CSS) -->
+    <style>
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
+    <style>
+        /* Horizontal Scroll Shadow */
+        .scroll-shadow::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 100%;
+            background: linear-gradient(to left, rgba(0, 0, 0, 0.1), transparent);
+            pointer-events: none;
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+
+            20%, 60% {
+                transform: translateX(-10px);
+            }
+
+            40%, 80% {
+                transform: translateX(10px);
+            }
+        }
+
+
+        .animate-shake {
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes fadeShake {
+            0% {
+                opacity: 0;
+                transform: translateX(0);
+            }
+
+            30% {
+                opacity: 1;
+                transform: translateX(-4px);
+            }
+
+            60% {
+                transform: translateX(4px);
+            }
+
+            90% {
+                transform: translateX(-2px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .animate-fade-shake {
+            animation: fadeShake 0.5s ease-in-out;
+        }
+    </style>
+
+    <style>
+        /* Make scrollbar thin */
+        ::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 5px;
+        }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #888;
+            }
+
+        @media print {
+            .print-header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                padding: 1rem;
+                background: white;
+                z-index: 1000;
+            }
+
+            body {
+                margin-top: 180px; /* adjust based on header height */
+            }
+        }
+
+
+        .break-inside-avoid,
+        .break-inside-avoid-page {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+    </style>
+
+
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1><a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a> HR /
+            Form Generation
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <!--<li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+    <li><a href back-button>Back</a></li>
+    <li class="active">Form Generation Processing</li>-->
+            <li style="cursor:pointer"><a ng-href="ExcelExportService/{{formid}}/{{companyid}}/{{month}}/{{year}}" target="_blank"><i class="fa fas fa-search-plus"></i>Generate</a></li>           
+           
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12" ng-show="ShowNew">
+                <div class="box box-info">
+                    <div class="box-body">
+
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Type Of Form</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control" style="width: 100%;" select2="" options="item.id as item.name for item in Forms track by item.id" ng-model="formid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- basic details ends -->
+                            <div class="col-md-3">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4">Month</label>
+                                        <div class="col-md-8">
+                                            <select class="input-sm form-control" style="width: 100%;" select2="" ng-model="month" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Year</label>
+                                        <div class="col-md-8 col-sm-8">
+                                            <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="year">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-9">
+                            </div>
+                            <div class="col-md-3">
+                                <!--<h4>
+                                    <a class="btn btn-primary btn-sm pull-right" href="ExcelExportService/{{formid}}/{{companyid}}/{{month}}/{{year}}" target="_blank">Generate</a>
+                                </h4>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>

@@ -1,0 +1,1222 @@
+﻿<div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+                Master / Supplier
+            </h1>
+            <ol class="breadcrumb">
+                <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+                <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+                <li ng-show="Navigation.save && UserInfo.p_APIACCESS.view && Suppliers.id && Suppliers.id>0"
+                    style="cursor:pointer" ng-click="ShowAccessDialog()"><a><i class="fa fa-user-secret"></i>API Access</a></li>
+                <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+                <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+                <li ng-show="selectedcount>0 && Navigation.edit" style="cursor:pointer" ng-click="ShowStatusDialog()"><a><i class="fa fa-ban"></i>Change Status</a></li>
+                <li style="cursor:pointer" ng-show="selectedcount>1" ng-click="MergeSelected()"><a><i class="fa fa-trash">({{selectedcount}}) Merge Selected</i></a></li>
+                <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="PrintSticker()"><a><i class="fa fa-print"></i>Print Label Sticker</a></li>
+                <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="PrintLabel()"><a><i class="fa fa-print"></i>Print Label PDF</a></li>
+                <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Export()"><a><i class="fa fa-download"></i>Export</a></li>
+                <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <!-- first row starts  -->
+            <div class="box box-primary" ng-hide="ShowSearch">
+                <div class="box-body">
+                    <form name="supplier">
+                        <div class="nav-tabs-custom">
+                            <ul class="nav  nav-pills" style="padding-right:45px">
+                                <li class="active"><a data-target="#basicinfo" data-toggle="tab">Primary</a></li>
+                                <li><a data-target="#advanceinfo" data-toggle="tab">Advance</a></li>
+                            </ul>
+                            <div class="tab-content" style="height:620px;">
+                                <div class="tab-pane active" id="basicinfo">
+                                    <div class="col-md-12" style="padding-left: 0px; padding-right: 0px; border-top: 1px solid lightgrey;padding-top: 5px">
+                                        <!-- basic details starts -->
+                                        <div class="col-md-6">
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 form-group control-label">Code</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="col-md-6 no-padding">
+                                                            <select class="form-control" select2="" style="width: 100%;" ng-model="Suppliers.rowtype"
+                                                                    options="item.id as item.name for item in RowTypes track by item.id"
+                                                                    focusid="rowtype" focusonenter="code"
+                                                                    ng-change="RowTypeChanged()"></select>
+                                                        </div>
+
+                                                        <div class="col-md-6 no-padding">
+                                                            <input type="text" name="name" class="form-control input-sm" id="inputEmail3" placeholder=""
+                                                                   style="width:100%" focusid="first"
+                                                                   focusonenter="tinanddate"
+                                                                   ng-model="Suppliers.code" ng-change="Suppliers.code = Suppliers.code.toUpperCase()">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">GST</label>
+                                                    <div class="col-sm-8">
+
+                                                        <div class="input-group input-group-sm" style="width:100%">
+                                                            <input type="text" class="form-control input-sm" id="inputPassword3"
+                                                                   placeholder="" ng-model="SupplierCompany.tinanddate" focusid="tinanddate"
+                                                                   focusonenter="name">
+
+                                                            <span class="input-group-btn" style="width:10px">
+                                                                <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="ManageAddress()">
+                                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Name</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="name" class="form-control input-sm" id="inputEmail3"
+                                                               ng-text-change="if(Suppliers.name.startsWith(SupplierCompany.name)) SupplierCompany.name=Suppliers.name"
+                                                               placeholder="" ng-model="Suppliers.name" focusid="name"
+                                                               focusonenter="companyname"
+                                                               ng-change="Suppliers.name = Suppliers.name.toUpperCase()">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 form-group required control-label">Company Reg.Name</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control input-sm" ng-model="SupplierCompany.name"
+                                                               focusid="companyname" focusonenter="contactperson">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 form-group required control-label">Contact Person</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control input-sm" id="inputPassword3" placeholder=""
+                                                               ng-model="Suppliers.contactperson" ng-maxlength="150" ng-required="true"
+                                                               focusid="contactperson" focusonenter="contactnumber">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 form-group required control-label">Contact No</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="suppliercontactno" class="form-control input-sm" placeholder=""
+                                                               ng-model="Suppliers.contactnumber" ng-maxlength="150" ng-required="true"
+                                                               focusid="contactnumber" focusonenter="address">
+                                                        <!--focusid="contactnumber" focusonenter="emailid-->
+                                                        <!--<span class="error" ng-show="supplier.suppliercontactno.$invalid  && supplier.suppliercontactno.$dirty">Please Enter number below 15</span>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 form-group required control-label">Address</label>
+                                                    <div class="col-sm-8">
+                                                        <textarea class="form-control" ng-model="SupplierCompany.address" placeholder=""
+                                                                  rows="2" focusid="address"
+                                                                  onkeyctrlenter="setFocuscityid()"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">City</label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" select2="" style="width: 100%;" ng-model="SupplierCompany.cityid"
+                                                                options="item.id as item.name for item in Cities track by item.id"
+                                                                focusid="cityid" focusonenter="stateid"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">State/Country</label>
+                                                    <div class="col-md-8">
+                                                        <div class="col-sm-6 no-padding">
+                                                            <select class="form-control" select2="" ng-model="SupplierCompany.stateid"
+                                                                    options="item.id as item.name for  item in States track by item.id"
+                                                                    focusid="stateid" focusonenter="countryid"></select>
+                                                        </div>
+                                                        <div class="col-sm-6 no-padding">
+                                                            <select class="form-control" select2="" ng-model="SupplierCompany.countryid"
+                                                                    options="item.id  as  item.name for item in Countries track by item.id" focusid="countryid"
+                                                                    focusonenter="pincode"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">Pincode</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control input-sm" id="inputPassword3" placeholder=""
+                                                               ng-model="SupplierCompany.pincode" focusid="pincode" focusonenter="emailid">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">Email ID</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control input-sm" placeholder=""
+                                                               focusid="emailid" focusonenter="preferredtransportid"
+                                                               ng-model="Suppliers.emailid">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">Transport</label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" select2="" style="width: 100%;" placeholder=""
+                                                                ng-model="SupplierCompany.preferredtransportid"
+                                                                options="item.id as item.name for item in TransportList track by item.id"
+                                                                focusid="preferredtransportid" focusonenter="companyid"></select>
+                                                        <!--focusid="locationid" focusonenter="creditdays"-->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">Company</label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" select2="" style="width: 100%;" ng-model="Suppliers.locationid"
+                                                                options="item.id as item.name for item in Company track by item.id" focusid="companyid"
+                                                                focusonenter="suppliergroupid"></select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">Supplier/Buyer Group</label>
+                                                    <div class="col-md-8">
+                                                        <div class="col-md-6 no-padding">
+                                                            <select class="form-control" select2="" ng-model="Suppliers.suppliergroupid"
+                                                                    options="item.id as item.name for  item in SupplierGroups track by item.id"
+                                                                    focusid="suppliergroupid" focusonenter="buyergroupid"></select>
+                                                        </div>
+                                                        <div class="col-md-6 no-padding">
+                                                            <select class="form-control" select2="" ng-model="Suppliers.buyergroupid"
+                                                                    options="item.id as item.name for  item in BuyerGroup track by item.id"
+                                                                    focusid="buyergroupid" focusonenter="deliverylocationid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">Delivery Location</label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" select2="" style="width: 100%;" ng-model="Suppliers.deliverylocationid"
+                                                                options="item.id as item.name for item in WarehouseLocations track by item.id" focusid="deliverylocationid"
+                                                                focusonenter="minpurdisctpercentage"></select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- basic details ends -->
+                                        <div class="col-md-6">
+
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 form-group control-label">Minimum Discount Percentage</label>
+                                                    <div class="col-md-8">
+                                                        <div class="col-md-5 no-padding">
+                                                            <label for="inputEmail3" class="col-md-4 no-padding control-label">%</label>
+                                                            <div class="col-md-8" style="padding-right:5px">
+                                                                <input type="text" class="form-control input-sm"
+                                                                       focusid="minpurdisctpercentage" focusonenter="intrateagrmnt"
+                                                                       ng-model="Suppliers.minpurdisctpercentage">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-7 no-padding">
+                                                            <label for="inputEmail3" style="padding-left:0px" class="col-md-4 no-padding control-label">Interest</label>
+                                                            <div class="col-md-8 no-padding">
+                                                                <div class="col-md-6 no-padding">
+                                                                    <input type="text" style="width:100%" class="form-control input-sm" ng-model="Suppliers.intrateagrmnt"
+                                                                           focusid="intrateagrmnt" focusonenter="intrateagrmntdays">
+                                                                    <div style="position: absolute; right: 5px;top: 10px">
+                                                                        %
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6 no-padding">
+                                                                    <input type="text" style="width:100%" class="form-control input-sm" ng-model="Suppliers.intrateagrmntdays"
+                                                                           focusid="intrateagrmntdays" focusonenter="minmargin">
+                                                                    <div style="position:absolute;right:5px;top:10px">
+                                                                        Days
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 form-group control-label">Cash Discount</label>
+                                                    <div class="col-md-8">
+                                                        <div class="col-md-5 no-padding">
+                                                            <label for="inputEmail3" class="col-md-4 no-padding control-label">Days</label>
+                                                            <div class="col-md-8" style="padding-right:5px">
+                                                                <input type="text" class="form-control input-sm"
+                                                                       focusid="discountdays" focusonenter="discountpercentage"
+                                                                       ng-model="Suppliers.discountdays">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-7 no-padding">
+                                                            <label for="inputEmail3" style="padding-left:0px" class="col-md-4 no-padding control-label">%</label>
+                                                            <div class="col-md-8 no-padding">
+                                                                <input type="text" class="form-control input-sm" ng-model="Suppliers.discountpercentage"
+                                                                       focusid="discountpercentage" focusonenter="minmargin">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row row-padbot-15">
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-md-4 control-label">Margin</label>
+                                                    <div class="col-md-8">
+                                                        <div class="col-md-5 no-padding">
+                                                            <label for="inputEmail3" class="col-md-4 no-padding control-label">Min</label>
+                                                            <div class="col-md-8" style="padding-right:5px">
+                                                                <input type="text" class="form-control input-sm" ng-model="Suppliers.minmargin"
+                                                                       focusid="minmargin" focusonenter="maxmargin">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-7 no-padding">
+                                                            <label for="inputEmail3" style="padding-left:0px" class="col-md-4 no-padding control-label">Max</label>
+                                                            <div class="col-md-8 no-padding">
+                                                                <input type="text" class="form-control input-sm" ng-model="Suppliers.maxmargin"
+                                                                       focusid="maxmargin" focusonenter="creditdays">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row row-padbot-15">
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-md-4 control-label">Payment Credit </label>
+                                                    <div class="col-md-8">
+                                                        <div class="col-md-5 no-padding">
+                                                            <label for="inputEmail3" style="padding-left:0px" class="no-padding col-md-4 control-label">Days</label>
+                                                            <div class="col-md-8" style="padding-right:5px">
+                                                                <input type="text" class="form-control input-sm" ng-model="Suppliers.creditdays"
+                                                                       focusid="creditdays" focusonenter="limit_creditvalue">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-7 no-padding">
+                                                            <label for="inputEmail3" style="padding-left:0px" class="no-padding col-md-4 control-label">Sold %</label>
+                                                            <div class="col-md-8     no-padding">
+                                                                <input type="text" class="form-control input-sm" ng-model="Suppliers.soldpercentage"
+                                                                       focusid="limit_creditvalue" focusonenter="leadtime">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-md-4 control-label">Auto PO</label>
+                                                    <div class="col-md-8">
+                                                        <div class="col-md-5 no-padding">
+                                                            <label for="inputEmail3" class=" no-padding col-md-4 control-label">Lead Time</label>
+                                                            <div class="col-md-8" style="padding-right:5px">
+                                                                <input type="text" class="form-control input-sm" ng-model="Suppliers.autopo_lead"
+                                                                       focusid="leadtime" focusonenter="leadrate">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-7 no-padding">
+                                                            <label for="inputEmail3" style="padding-left:0px" class="no-padding col-md-4 control-label">Rating</label>
+                                                            <div class="col-md-8 no-padding">
+                                                                <input type="text" class="form-control input-sm" ng-model="Suppliers.autopo_rate"
+                                                                       focusid="leadrate" focusonenter="limit_billvalue">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">Turnover</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="col-md-5 no-padding">
+                                                            <label for="inputEmail3" class=" no-padding col-md-4 control-label">Taxable</label>
+                                                            <div class="col-md-8" style="padding-right:5px">
+                                                                <input type="checkbox" class="icheckbox_minimal-blue"
+                                                                       ng-model="Suppliers.limit_billvaluetaxable"
+                                                                       focusid="limit_billvaluetaxable" focusonenter="isunregistered">
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-7 no-padding">
+                                                            <label for="inputEmail3" style="padding-left:0px" class="no-padding col-md-4 control-label">Limit</label>
+                                                            <div class="col-md-8 no-padding">
+                                                                <input type="text" name="credit days" style="width:100%" class="form-control input-sm" placeholder=""
+                                                                       ng-model="Suppliers.limit_billvalue" focusid="limit_billvalue" focusonenter="limit_billvaluetaxable">
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">Unregistered</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="col-md-5 no-padding">
+
+                                                            <label for="inputEmail3" class=" no-padding col-md-4 control-label">URD</label>
+                                                            <div class="col-md-8" style="padding-right:5px">
+                                                                <input type="checkbox" ng-model="Suppliers.isunregistered" class="icheckbox_minimal-blue"
+                                                                       focusid="isunregistered" focusonenter="supportpo">
+                                                            </div>
+
+
+
+
+                                                        </div>
+                                                        <div class="col-sm-7 no-padding">
+
+                                                            <label for="inputEmail3" style="padding-left:0px" class="no-padding col-md-4 control-label">Support PO</label>
+                                                            <div class="col-md-8 no-padding">
+                                                                <input type="checkbox" class="icheckbox_minimal-blue pull-right" ng-model="Suppliers.supportpo"
+                                                                       focusid="supportpo" focusonenter="msmeno">
+                                                            </div>
+
+
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">MSME No/TDS Group</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="col-md-6 no-padding">
+                                                            <input type="text" class="form-control input-sm" id="inputPassword3" placeholder=""
+                                                                   ng-model="SupplierCompany.msmeno" focusid="msmeno" focusonenter="tdsgroupid">
+                                                        </div>
+                                                        <div class="col-md-6 no-padding">
+                                                            <select class="input-sm form-control" select2=""
+                                                                    ng-model="SupplierCompany.tdsgroupid" options="item.id as item.name for item in TDSGroups track by item.id"
+                                                                    focusid="tdsgroupid" focusonenter="agentid" style="width:100%"></select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15" ng-hide="Suppliers.supportsourcesupplier">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 control-label">Agent Name</label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" select2=""
+                                                                ng-model="SupplierCompany.agentid" options="item.id as item.name for item in Agent track by item.id"
+                                                                focusid="agentid" focusonenter="tan" style="width:100%"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">TAN/PAN</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="col-md-6 no-padding">
+                                                            <input type="text" class="form-control input-sm" id="inputPassword3" placeholder=""
+                                                                   ng-model="SupplierCompany.tan" focusid="tan" focusonenter="pan">
+                                                        </div>
+                                                        <div class="col-md-6 no-padding">
+                                                            <input type="text" class="form-control input-sm" id="inputPassword3" placeholder=""
+                                                                   ng-model="SupplierCompany.pan" focusid="pan" focusonenter="BankID">
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">Bank/Branch</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="col-md-6 no-padding">
+
+                                                            <select class="input-sm form-control" select2="" style="width: 100%;"
+                                                                    ng-model="SupplierCompany.bankid"
+                                                                    options="item.id as item.name for item in Banks track by item.id"
+                                                                    focusid="BankID" focusonenter="bankbranch"></select>
+                                                        </div>
+                                                        <div class="col-md-6 no-padding">
+                                                            <input type="text" class="form-control input-sm"
+                                                                   id="inputPassword3" placeholder=""
+                                                                   ng-model="SupplierCompany.bankbranch"
+                                                                   focusid="bankbranch" focusonenter="bankaccountname">
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">Bank Account Name</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control input-sm" id="inputPassword3" placeholder=""
+                                                               ng-model="SupplierCompany.bankaccountname" focusid="bankaccountname" focusonenter="bankifci">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label">IFSC/Account No</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="col-md-6 no-padding">
+                                                            <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="" ng-model="SupplierCompany.bankifci" focusid="bankifci" focusonenter="bankaccountno">
+                                                        </div>
+                                                        <div class="col-md-6 no-padding">
+                                                            <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="" ng-model="SupplierCompany.bankaccountno" focusid="bankaccountno" focusonenter="activatedon">
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 form-group control-label">Added/Removed On</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="col-md-6 no-padding">
+                                                            <input type="text" class="form-control input-sm  pull-right" datemodule="Suppliers.activatedon"
+                                                                   focusid="activatedon" focusonenter="deactivatedon"
+                                                                   ng-model="Suppliers.activatedon">
+                                                        </div>
+                                                        <div class="col-md-6 no-padding">
+                                                            <input type="text" class="form-control input-sm pull-right"
+                                                                   focusid="deactivatedon" focusonenter="isinterstatesale"
+                                                                   datemodule="Suppliers.deactivatedon" ng-model="Suppliers.deactivatedon">
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 form-group control-label">Renamed</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="col-sm-12 no-padding">
+                                                            <div class="col-sm-12" style="padding-left:30px;padding-right:0px">
+                                                                <select class="input-sm form-control" select2="Redirect" style="width: 100%;"
+                                                                        ng-model="Suppliers.asupplierid"
+                                                                        ng-disabled="!Suppliers.closed"
+                                                                        options="item.id as item.name for item in AlternativeSuppliers track by item.id"
+                                                                        focusid="asupplierid" focusonenter="manageproduct"></select>
+                                                            </div>
+                                                            <input type="checkbox" style="position:absolute;left:0px" class="icheckbox_minimal-blue"
+                                                                   focusid="closed"
+                                                                   onkeyenter="ConditionalExecute(Suppliers.closed,setFocusasupplierid,setFocusactive)"
+                                                                   ng-model="Suppliers.closed">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-padbot-15">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 form-group control-label">Interstate Sale</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="col-md-1 no-padding">
+                                                            <input type="checkbox" class="icheckbox_minimal-blue"
+                                                                   focusid="isinterstatesale" focusonenter="closed"
+                                                                   id="inputPassword3" placeholder="" ng-model="SupplierCompany.isinterstatesale">
+                                                        </div>
+                                                        <div class="col-md-11 no-padding">
+
+                                                            <div class="col-md-8">
+                                                                <label for="inputEmail3" class="col-sm-8 form-group control-label">Internal Transfer</label>
+                                                                <div class="col-sm-4 no-padding">
+                                                                    <input type="checkbox" class="icheckbox_minimal-blue  pull-right"
+                                                                           focusid="internal" focusonenter="active"
+                                                                           ng-model="Suppliers.internal">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <label for="inputEmail3" class="col-sm-8 form-group control-label">Active</label>
+                                                                <div class="col-sm-4 no-padding">
+
+                                                                    <input type="checkbox" class="icheckbox_minimal-blue pull-right"
+                                                                           focusid="active"
+                                                                           ng-model="Suppliers.isactive">
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="advanceinfo">
+                                    <div class="col-md-12 " style="padding-left: 0px; padding-right: 0px; border-top: 1px solid lightgrey;padding-top:5px">
+                                        <div class="col-md-4 no-padding">
+
+
+                                            <div class="col-md-12 no-padding">
+                                                <h4 class="box-title">Address List</h4>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-4 form-group required control-label">Address type</label>
+                                                        <div class="col-sm-8">
+                                                            <select class="form-control input-sm" select2='Type' style="width:100%;"
+                                                                    ng-model="AddressItem.typeid" focusid="typeid" focusonenter="itemcontactnumber"
+                                                                    options="item.id as item.name for item in AddressTypes track by item.id"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputPassword3" class="col-sm-4 form-group required control-label">Contact No</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" name="suppliercontactno" class="form-control input-sm" placeholder=""
+                                                                   ng-model="AddressItem.contactnumber" ng-maxlength="150" ng-required="true"
+                                                                   focusid="itemcontactnumber" focusonenter="itemaddress">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputPassword3" class="col-sm-4 form-group required control-label">Address</label>
+                                                        <div class="col-sm-8">
+                                                            <textarea class="form-control" ng-model="AddressItem.address" placeholder=""
+                                                                      rows="2" focusid="itemaddress"
+                                                                      onkeyctrlenter="setFocusitemcityid()"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputPassword3" class="col-sm-4 control-label">City</label>
+                                                        <div class="col-sm-8">
+                                                            <select class="form-control" select2="" style="width: 100%;" ng-model="AddressItem.cityid"
+                                                                    options="item.id as item.name for item in Cities track by item.id"
+                                                                    focusid="itemcityid" focusonenter="itemstateid"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputPassword3" class="col-sm-4 control-label">State/Country</label>
+                                                        <div class="col-md-8">
+                                                            <div class="col-sm-6 no-padding">
+                                                                <select class="form-control" select2="" style="width:100%;" ng-model="AddressItem.stateid"
+                                                                        options="item.id as item.name for  item in States track by item.id"
+                                                                        focusid="itemstateid" focusonenter="itemcountryid"></select>
+                                                            </div>
+                                                            <div class="col-sm-6 no-padding">
+                                                                <select class="form-control" select2="" style="width:100%;" ng-model="AddressItem.countryid"
+                                                                        options="item.id  as  item.name for item in Countries track by item.id" focusid="itemcountryid"
+                                                                        focusonenter="itempincode"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputPassword3" class="col-sm-4 control-label">Pincode</label>
+                                                        <div class="col-sm-8">
+
+                                                            <div class="input-group input-group-sm" style="width:100%">
+
+                                                                <input type="text" class="form-control input-sm" id="inputPassword3" placeholder=""
+                                                                       ng-model="AddressItem.pincode" focusid="itempincode" focusonenter="itememailid">
+
+                                                                <span class="input-group-btn" style="width:10px">
+                                                                    <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="AddAddress()">
+                                                                        <i class="glyphicon glyphicon-plus-sign"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="col-md-12">
+                                                        <table fixed-header="160px" additionalheight="300" class="fixed_table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="100px">Type</th>
+                                                                    <th width="500px">Address</th>
+                                                                    <th width="50px">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="item in SupplierCompany.addresslist">
+
+                                                                    <td style="align-content:center">{{item.typename}}</td>
+                                                                    <td style="align-content:center">{{item.address}}</td>
+
+                                                                    <td>
+                                                                        <button type="button" class="btn-danger btn btn-xs btn-flat" ng-click="ManagesearchAddressItem('Delete',item)"
+                                                                                data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                        </button>
+                                                                        <button type="button" class="btn-primary btn btn-xs btn-flat" ng-click="ManagesearchAddressItem('Edit',item)" data-widget="edit" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-md-4 no-padding">
+                                            <div class="row-padbot-15 no-padding">
+                                                <div class="col-md-12" style="padding:5px 0px 5px 0px">
+
+                                                    <label for="inputEmail3" class="col-md-3 control-label" style="color:brown"><b>Product</b></label>
+                                                    <div class="col-md-9">
+
+                                                        <div class="input-group input-group-sm" style="width:100%">
+
+                                                            <select class="input-sm form-control" select2="" style="width: 100%;"
+                                                                    ng-model="Addlists.productname"
+                                                                    options="item.id as item.name for item in ProductList track by item.id"
+                                                                    focusid="productname" focusonenter="manageproduct"></select>
+                                                            <span class="input-group-btn" style="width:10px">
+                                                                <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="ManageProducts()">
+                                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-12 no-padding">
+                                                    <div class="form-group col-md-12">
+                                                        <table fixed-header="200px" class="fixed_table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width:80%">Name</th>
+                                                                    <th style="width:100px">Action</th>
+
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="item in Suppliers.product">
+                                                                    <td>{{SearchRef(item.id, ProductList)}}</td>
+                                                                    <td><button type="button" class="btn-danger btn btn-xs" title="Remove" ng-click="ManageList('Deleteproduct',item)"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row-padbot-15 no-padding">
+
+                                                <div class="col-md-12" style="padding:5px 0px 5px 0px">
+
+                                                    <label for="inputEmail3" class="col-md-3 control-label" style="color:brown"><b>Brand</b></label>
+                                                    <div class="col-md-9">
+
+                                                        <div class="input-group input-group-sm" style="width:100%">
+
+                                                            <select class="input-sm form-control" select2="" style="width: 100%;" ng-model="Addlists.brandname" options="item.id as item.name for item in Brands track by item.id"></select>
+                                                            <span class="input-group-btn" style="width:10px">
+                                                                <button type="button" class="btn btn-info btn-sm btn-flat" ng-click="ManageBrands()">
+                                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-12 no-padding">
+
+                                                    <div class="form-group col-md-12">
+                                                        <table fixed-header="170px" class="fixed_table" additionalheight="300">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width:80%">Name</th>
+                                                                    <th style="width:100px">Action</th>
+
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="item in Suppliers.brand">
+                                                                    <td>{{SearchRef(item.id, Brands)}}</td>
+                                                                    <td><button type="button" class="btn-danger btn btn-xs" title="Remove" ng-click="ManageList('Deletebrand',item)"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+
+                                        </div>
+
+                                        <div class="col-md-4 no-padding">
+
+
+                                            <div class="row-padbot-15 no-padding">
+                                                <div class="col-md-12">
+
+                                                    <h4 class="box-title">Remarks</h4>
+                                                </div>
+                                                <div class="col-md-12">
+
+                                                    <textarea class="form-control input-sm" rows="7" ng-model="Suppliers.remarks"
+                                                              placeholder="Remarks"></textarea>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <h4 class="box-title">File Attachments</h4>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-4 form-group required control-label">Type</label>
+                                                        <div class="col-sm-8">
+                                                            <select class="form-control input-sm" select2='Type' style="width:100%;"
+                                                                    ng-model="Slide.title" focusid="typeid"
+                                                                    options="item.id as item.name for item in DocTypes track by item.id"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-4 form-group required control-label">Images</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="col-md-6" style="padding-left:0px">
+
+                                                                <div class="col-md-2 no-padding">
+                                                                    <button class="btn btn-success btn-rad btn-trans btn-xs" ng-click="CaptureImage('IMAGE',Slide,'image')">
+                                                                        <i class="fa fa-camera"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-md-10 no-padding">
+                                                                    <div class="col-md-6 no-padding">
+                                                                        <file-upload class="btn btn-success btn-rad btn-trans btn-xs file-upload"
+                                                                                     resize="true" max-width="1280"
+                                                                                     max-height="1280"
+                                                                                     preview="true"
+                                                                                     ng-model="Slide.image"
+                                                                                     filemodel="Slide.image"
+                                                                                     filetype="IMAGE"
+                                                                                     multiple="false">
+                                                                            <i class="fa fa-upload"></i>
+                                                                            <span>Upload Files</span>
+                                                                        </file-upload>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-md-6" style="padding-right:0px">
+                                                                <button type="button" class="btn btn-primary btn-xs pull-right" ng-click="AddSlide()">ADD</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-padbot-15">
+                                                    <div class="col-md-12">
+                                                        <table fixed-header="170px" class="fixed_table" additionalheight="300">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="50px">Image</th>
+                                                                    <th width="150px">Type</th>
+                                                                    <th width="50px">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="item in SupplierCompany.attachment">
+
+                                                                    <td style="align-content:center">
+
+                                                                        <a href="File/Show/{{UserInfo.OrganizationID}}/{{item.image}}" target="_blank">
+                                                                            <img ng-src="File/Thumbnail/{{UserInfo.OrganizationID}}/{{item.image}}" style="height:50px;width:50px" />
+                                                                        </a>
+
+                                                                    </td>
+                                                                    <td style="align-content:center">{{item.typename}}</td>
+
+                                                                    <td>
+                                                                        <button type="button" class="btn-danger btn btn-xs btn-flat" ng-click="ManagesearchSlideItem('DeleteSlide',item)"
+                                                                                data-widget="delete" data-toggle="tooltip" title="Delete">
+                                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                        </button>
+                                                                        <button type="button" class="btn-primary btn btn-xs btn-flat" ng-click="ManagesearchSlideItem('EditSlide',item)" data-widget="edit" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- main box box-primary ends -->
+            <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+                <div class="box-body">
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Name</label>
+                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>GST</label>
+                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.tinanddate">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>City</label>
+                                <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondition.cityid" options="item.id as item.name for item in Cities track by item.id"></select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Agent</label>
+                                <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondition.agentid" options="item.id as item.name for item in Agent track by item.id"></select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Type</label>
+                                <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondition.rowtype"
+                                        options="item.id as item.name for item in RowTypeList track by item.id"></select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Status</label>
+                                <select class="form-control" select2="" style="width: 100%;" ng-model="SearchCondition.activestatus"
+                                        options="item.id as item.name for item in StatusList track by item.id"></select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-3 no-padding">
+                                    <label class="col-md-12 no-padding">In Active</label>
+                                    <input type="checkbox" class="icheckbox_minimal-blue" ng-model="SearchCondition.inactive">
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <label class="col-md-12 no-padding">Closed</label>
+                                    <input type="checkbox" class="icheckbox_minimal-blue" ng-model="SearchCondition.closed">
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <label class="col-md-12 no-padding">Interstate</label>
+                                    <input type="checkbox" class="icheckbox_minimal-blue" ng-model="SearchCondition.isinterstatesale">
+                                </div>
+                                <div class="col-md-3 no-padding">
+                                    <label class="col-md-12 no-padding">GST</label>
+                                    <input type="checkbox" class="icheckbox_minimal-blue" ng-model="SearchCondition.hasgst">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9 no-padding">
+                        <div class="col-md-12 no-padding" id="gridContainer">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section><!-- /.content -->
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="ChooseMerge">
+    <h4 style="font-size:medium;color:brown">
+        All the selected items will be merged as single item. {{SelectedItem.name}}
+    </h4>
+    <div class="ngdialog-message">
+        <div class="md-col-12 row">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Select the Merge To</label>
+                <div class="input-group input-group-sm col-sm-6 no-padding">
+                    <select class="form-control input-sm" select2=''
+                            style="width:100%;"
+                            ng-model="id"
+                            ng-change="rowselected()"
+                            ng-options="item.id as item.name for item in SelectedRows track by item.id"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="ManageAddress">
+    <div class="ngdialog-message">
+
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Description</label>
+                <div class="input-group input-group-sm col-sm-9 no-padding">
+                    <div class="col-md-6 no-padding">
+                        <label for="inputEmail3" class="control-label">Quanto</label>
+                    </div>
+                    <div class="col-md-6 no-padding">
+                        <label for="inputEmail3" class="control-label">GST Server</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Name</label>
+                <div class="input-group input-group-sm col-sm-9 no-padding">
+                    <div class="col-md-6 no-padding">
+                        <input type="text" class="input-sm form-control" placeholder="Code"
+                               ng-model="SupplierCompany.name">
+                    </div>
+                    <div class="col-md-6 no-padding">
+                        <input type="text" class="input-sm form-control" placeholder="Code"
+                               ng-model="gst.tradeNam">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="md-col-12">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-md-3 control-label">Address</label>
+                <div class="input-group input-group-sm col-sm-9 no-padding">
+                    <div class="col-md-6 no-padding">
+                        <textarea type="text" class="input-sm form-control" placeholder="Code"
+                                  ng-model="SupplierCompany.address" rows="12" />
+                    </div>
+                    <div class="col-md-6 no-padding">
+
+                        <input type="text" class="input-sm form-control" placeholder="building no"
+                               ng-model="gst.pradr.addr.bno">
+                        <input type="text" class="input-sm form-control" placeholder="building name"
+                               ng-model="gst.pradr.addr.bnm">
+                        <input type="text" class="input-sm form-control" placeholder="flat no"
+                               ng-model="gst.pradr.addr.flno">
+                        <input type="text" class="input-sm form-control" placeholder="street"
+                               ng-model="gst.pradr.addr.st">
+                        <input type="text" class="input-sm form-control" placeholder="location"
+                               ng-model="gst.pradr.addr.loc">
+                        <input type="text" class="input-sm form-control" placeholder="city"
+                               ng-model="gst.pradr.addr.city">
+                        <input type="text" class="input-sm form-control" placeholder="district"
+                               ng-model="gst.pradr.addr.dst">
+                        <select class="form-control" select2="Branches" style="width: 100%;"
+                                ng-change="addresschanged()"
+                                ng-model="gst.pradrid" options="item.id as item.name for item in gst.adadrlist track by item.id"></select>
+
+                    </div>
+                </div>
+
+                <div class="md-col-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">City</label>
+                        <div class="input-group input-group-sm col-sm-9 no-padding">
+                            <div class="col-md-6 no-padding">
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-model="SupplierCompany.cityid" options="item.id as item.name for item in Cities track by item.id" focusid="cityid" focusonenter="stateid"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="text" class="input-sm form-control" placeholder="city"
+                                       ng-model="gst.pradr.addr.city">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md-col-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">State</label>
+                        <div class="input-group input-group-sm col-sm-9 no-padding">
+                            <div class="col-md-6 no-padding">
+                                <select class="form-control" select2="" style="width: 100%;"
+                                        ng-model="SupplierCompany.stateid" options="item.id as item.name for item in States track by item.id" focusid="cityid" focusonenter="stateid"></select>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="text" class="input-sm form-control" placeholder="Code"
+                                       ng-model="gst.pradr.addr.stcd">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md-col-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-3 control-label">Pincode</label>
+                        <div class="input-group input-group-sm col-sm-9 no-padding">
+                            <div class="col-md-6 no-padding">
+                                <input type="text" class="input-sm form-control" placeholder="Code"
+                                       ng-model="SupplierCompany.pincode">
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <input type="text" class="input-sm form-control" placeholder="Code"
+                                       ng-model="gst.pradr.addr.pncd">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary pull-left" ng-click="Apply()">Apply</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="Selected()">Save</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+
+
+
+<script type="text/ng-template" id="ChangeStatusDialog">
+    <div class="ngdialog-message">
+        <div class="table-responsive mailbox-messages">
+
+            <div class="col-md-12">
+                <label>Status</label>
+                <select class="input-sm form-control" select2="" style="width: 100%;"
+                        options="item.id  as item.name for item in parent.StatusList track by item.id"
+                        ng-model="statusid"></select>
+
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="ChangeStock()">Change</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="APIAccessDialog">
+    <div class="ngdialog-message">
+        <div class="table-responsive mailbox-messages">
+            <div class="col-md-12">
+                <label>API Token</label>
+                <input type="text" ng-model="entity.accesskey" ng-readonly="true" style="width:100%">
+            </div>
+            <div class="col-md-12" ng-show="entity.status==1"
+                 style="padding-top:10px;padding-bottom:10px">
+                <label style="margin-left:25px">Revoke</label>
+                <input type="checkbox" ng-model="entity.revoke"
+                       style="position:absolute;left:15px;">
+                <input type="text" ng-show="entity.revoke"
+                       ng-model="entity.statusmessage"
+                       style="position:absolute;left:98px;width:460px">
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <div class="col-md-6" ng-show="entity.lastAccess && entity.lastAccess!=null">
+            <label style="color:orangered">Last Revoke Reason</label>
+            <input type="text" ng-model="entity.lastAccess.statusmessage" style="width:100%">
+        </div>
+        <div class="col-md-6 pull-right">
+            <div ng-show="entity.lastAccess && entity.lastAccess!=null">
+                <label style="color:orangered">&nbsp;</label>
+            </div>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-show="entity.revoke" ng-click="Revoke()">Revoke</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-show="entity.status==0" ng-click="Create()">Create</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    </div>
+</script>

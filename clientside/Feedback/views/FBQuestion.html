@@ -1,0 +1,121 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            CRM / Questions
+        </h1>
+        <ol class="breadcrumb">
+            <li style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Question.id>0" style="cursor:pointer" ng-click="Delete()"><a><i class="fa fa-trash"></i>Delete</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-4">
+                    <div class="col-md-12 no-padding">
+                        <h2><span style="font-size:large">Available Questions</span></h2>
+                    </div>
+                    <div class="col-md-12 no-padding" style="overflow-y:scroll;overflow-x:hidden" ng-style="panelheight">
+                        <div class="row row-padbot-15" ng-repeat="item in Questions">
+                            <div class="col-md-8">
+                                <button type="button" class="btn btn-info btn-xs" ng-click="ManageStatus('edit',item)"><i class="fa fa-edit"></i></button> <span style="font-size:medium">{{item.code}}</span>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-danger btn-xs" ng-show="item.enable==true" ng-click="ManageStatus('disable',item)">Disable</button>
+                                <button type="button" class="btn btn-primary btn-xs" ng-show="item.enable==false" ng-click="ManageStatus('enable',item)">Enable</button>
+
+                                <button type="button" class="btn btn-info btn-xs" ng-show="QuestionsCount>$index && QuestionsCount>0" ng-click="ManageStatus('movedown',item)"><i class="fa fa-arrow-down"></i></button>
+                                <button type="button" class="btn btn-info btn-xs" ng-show="$index>0 && QuestionsCount>0" ng-click="ManageStatus('moveup',item)"><i class="fa fa-arrow-up"></i></button>
+
+                                <button type="button" class="btn btn-danger btn-xs" ng-hide="QuestionsCount>$index && QuestionsCount>0"><i class="fa fa-arrow-down"></i></button>
+                                <button type="button" class="btn btn-danger btn-xs" ng-hide="$index>0 && QuestionsCount>0"><i class="fa fa-arrow-up"></i></button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <label for="inputEmail3" class="col-md-4 form-group required control-label">Short Code</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control input-sm" focusid="code"
+                                       style="width: 100%;"
+                                       ng-model="Question.code" ng-required="true" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="inputEmail3" class="col-md-4 form-group required control-label">No Of Answers</label>
+                            <div class="col-md-8">
+                                <div class="col-md-3 no-padding">
+                                    <input type="text" class="form-control input-sm" focusid="code"
+                                           style="width: 100%;"
+                                           ng-model="Question.answercount"
+                                           ng-change="BuildAnswerList()"
+                                           ng-required="true" />
+                                </div>
+                                <div class="col-md-9 no-padding">
+                                    <div class="col-md-8 no-padding pull-right">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Chart</label>
+                                        <div class="col-md-8 no-padding">
+                                            <select class="form-control" style="width: 100%;" select2=""
+                                                    ng-options="item.id as item.name for item in ChartList track by item.id"
+                                                    ng-model="Question.charttype"></select>
+                                        </div>
+                                    </div>
+
+                                    <!--<div class="col-md-6 no-padding">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Place</label>
+                                        <div class="col-md-8 no-padding">
+                                            <select class="form-control" style="width: 100%;" select2=""
+                                                    ng-options="item.id as item.name for item in ChartPosition track by item.id"
+                                                    ng-model="Question.chartposition"></select>
+                                        </div>
+                                    </div>-->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="inputEmail3" class="col-md-4 form-group required control-label">Question</label>
+                            <div class="col-md-8">
+                                <textarea rows="4" class="form-control input-sm" focusid="question"
+                                          style="width: 100%;"
+                                          ng-model="Question.question" ng-required="true" />
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-top:5px" ng-show="Question.answerlist.length>0">
+                            <label for="inputEmail3" class="col-md-9 form-group required control-label">Answers</label>
+                            <label for="inputEmail3" class="col-md-3 form-group required control-label" style="text-align:right">Acknowledge</label>
+                        </div>
+                        <div class="col-md-12" style="margin-top:5px;" ng-repeat="item in Question.answerlist track by $index">
+
+                            <div class="col-md-11 no-padding">
+                                <input class="form-control input-sm" focusid="question"
+                                       style="width: 90%;padding-left:10px;padding-right:10px"
+                                       ng-model="item.answer" ng-required="true" />
+                            </div>
+                            <div class="col-md-1 no-padding">
+                                <input type="checkbox" focusid="question"
+                                       ng-model="item.ack" ng-required="true" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+</div>
+

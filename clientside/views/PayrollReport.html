@@ -1,0 +1,524 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            HR / Payroll Reports
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <!--<li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+            <li><a href back-button>Back</a></li>
+            <li class="active">Payroll Reports</li>-->
+            <li ng-show="Payroll.payrolltypeid==0" style="cursor:pointer" ng-click="Generate()"><a><i class="fa fas fa-search-plus"></i>Generate</a></li>
+            <li ng-show="Payroll.payrolltypeid==1" style="cursor:pointer" ng-click="Generate()"><a><i class="fa fas fa-search-plus"></i>Generate</a></li>
+            <li ng-show="Payroll.payrolltypeid==2" style="cursor:pointer" ng-click="Summary()"><a><i class="fa fas fa-search-plus"></i>Generate</a></li>
+
+            <li style="cursor:pointer" ng-show="Payroll.payrolltypeid==0" ng-click="printDiv('pftable')"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-show="Payroll.payrolltypeid==1" ng-click="printDiv('esitable')"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-show="Payroll.payrolltypeid==2" ng-click="printDiv('summary')"><a><i class="fa fa-print"></i>Print</a></li>
+
+            <li style="cursor:pointer" ng-show="Payroll.payrolltypeid==0" ng-click="exporttoExcel('pftable','pfreport')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-show="Payroll.payrolltypeid==1" ng-click="exporttoExcel('esitable','esireport')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-show="Payroll.payrolltypeid==2" ng-click="exporttoExcel('summary','salreport')"><a><i class="fa fa-download"></i>Download</a></li>
+            <li style="cursor:pointer" ng-show="Payroll.payrolltypeid==0" ng-click="Export2PF()"><a><i class="fa fa-download"></i>Export</a></li>
+
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info" ng-hide="ShowSearch">
+                    <div class="box-body">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Types Of Report</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2="" ng-change="ReportProcess()" style="width: 100%;" options="item.id as item.name for item in ParollProcess track by item.id" ng-model="Payroll.payrolltypeid"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="Payroll.payrolltypeid==0">
+                            <!-- Your Page Content Here -->
+                            <div class="col-md-12">
+                                <!-- Horizontal Form -->
+                                <div class="">
+                                    <div class="box-body">
+                                        <div class="row row-padbot-15">
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="col-md-3">
+                                                    <div class="row row-padbot-15">
+                                                        <label for="inputEmail3" class="col-md-3 control-label">Company</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <!-- basic details ends -->
+                                                <div class="col-md-4">
+                                                    <div class="row row-padbot-15">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-sm-3 col-md-3 control-label">Month/Year</label>
+                                                            <div class="col-md-5">
+                                                                <select class="input-sm form-control" select2="" ng-model="month" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                                            </div>
+                                                            <div class="col-md-3 no-padding">
+                                                                <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="year" ng-maxlength="15">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-5">
+                                                    <!--<div class="col-md-3">
+                                                        <button class="btn btn-primary btn-sm btn-box  pull-right" ng-click="Generate()">Generate</button>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button class="glyphicon glyphicon-download-alt btn btn-info  btn-sm  pull-right" ng-click="exporttoExcel('pftable','pfreport')" data-widget="Excel" data-toggle="tooltip" title="Excel"></button>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button class="glyphicon glyphicon-print btn btn-info btn-block btn-sm pull-right" ng-click="printDiv('pftable')" data-widget="print" data-toggle="tooltip" title="Print"></button>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button class="glyphicon glyphicon-download-alt btn btn-info  btn-sm  pull-right" ng-click="Export2PF()" data-widget="text" data-toggle="tooltip" title="text"></button>
+                                                    </div>-->
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <form class="form-horizontal">
+                                            <div class="box-body no-padding">
+
+                                                <div>
+                                                    <table id="pftable" class="fixed_table">
+                                                        <!--<template>PF REPORT</template>-->
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="50px">
+                                                                    S.No
+                                                                </th>
+                                                                <th width="100px">
+                                                                    EMP ID
+                                                                </th>
+                                                                <th width="200px">
+                                                                    Name
+                                                                </th>
+                                                                <th width="100px">
+                                                                    UAN
+                                                                </th>
+                                                                <th width="150px" class="text-right">
+                                                                    PF EARNINGS
+                                                                </th>
+                                                                <th width="150px" class="text-right">
+                                                                    Contribution EPF
+                                                                </th>
+                                                                <th width="150px" class="text-right">
+                                                                    EPF Difference
+                                                                </th>
+                                                                <th width="150px" class="text-right">
+                                                                    Pension Fund-8.33%
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in SearchResult">
+                                                                <td>
+                                                                    {{$index+1}}
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    {{item.employeecode}}
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    {{item.name}}
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    {{item.pfuan}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{item.pfearning | number :2}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{item.pf | number :2}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{item.pfcontribution | number :2}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{item.pfpension | number :2}}
+                                                                </td>
+                                                            </tr>
+                                                            <tr></tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td class="text-right" colspan="1">
+                                                                    GRAND TOTAL :
+                                                                </td>
+                                                                <td class="text-right" colspan="3">
+                                                                    {{totalpfearning}}
+                                                                </td>
+                                                                <td class="text-right" colspan="1">
+                                                                    {{totalepfcontribution}}
+                                                                </td>
+
+                                                                <td class="text-right" colspan="1">
+                                                                    {{totalepfdifference}}
+                                                                </td>
+                                                                <td class="text-right" colspan="1">
+                                                                    {{totalpensionfund}}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td class="text-right" colspan="6">
+                                                                    Account No:01 (Column Nos.6+7)
+                                                                </td>
+                                                                <td class="text-right" colspan="1">
+                                                                    {{totalepfcontribution+totalepfdifference}}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td class="text-right" colspan="6">
+                                                                    Account No:02 (0.65000% of Column No. 5)
+                                                                </td>
+                                                                <td class="text-right" colspan="1">
+                                                                    {{totalpfearning/100*0.65000}}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td class="text-right" colspan="6">
+                                                                    Account No:10 (Column No.8)
+                                                                </td>
+                                                                <td class="text-right" colspan="1">
+                                                                    {{totalpensionfund}}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td class="text-right" colspan="6">
+                                                                    Account No:21 EDLI WAGES *0.50000%
+                                                                </td>
+                                                                <td class="text-right" colspan="1">
+                                                                    {{totaledliratio}}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td class="text-right" colspan="6">
+                                                                    Account No:22 EDLI Wages *0.00000%
+                                                                </td>
+                                                                <td class="text-right" colspan="3">
+                                                                    {{edlizeroratio}}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td class="text-right" colspan="6">
+                                                                    T O T A L
+                                                                </td>
+                                                                <td class="text-right" colspan="4">
+                                                                    {{total}}
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="Payroll.payrolltypeid==1">
+                            <!-- Your Page Content Here -->
+                            <div class="col-md-12">
+                                <!-- Horizontal Form -->
+                                <div class="">
+                                    <div class="box-body">
+                                        <div class="row row-padbot-15">
+                                            <div class="col-md-12 col-sm-12">
+                                                <!-- basic details starts -->
+                                                <div class="col-md-4">
+                                                    <div class="row row-padbot-15">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" style="width: 100%;" select2="" options="company.id as company.name for company in Companies track by company.id" ng-model="companyid"></select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <!-- basic details ends -->
+                                                <div class="col-md-4">
+                                                    <div class="row row-padbot-15">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Month/Year</label>
+                                                            <div class="col-md-5">
+                                                                <select class="input-sm form-control" select2="" ng-model="month" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                                            </div>
+                                                            <div class="col-md-3 no-padding">
+                                                                <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="year" ng-maxlength="15">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-4">
+                                                    <div class="col-md-2"></div>
+                                                    <!--<div class="col-md-4">
+                                                        <button class="btn btn-primary btn-sm btn-box" ng-click="Generate()">Generate</button>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="glyphicon glyphicon-download-alt btn-info btn  btn-sm  pull-right" ng-click="exporttoExcel('esitable','esireport')" data-widget="Excel" data-toggle="tooltip" title="Excel"></button>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="glyphicon glyphicon-print btn  btn-info btn-sm pull-right" ng-click="printDiv('esitable')" data-widget="print" data-toggle="tooltip" title="Print"></button>
+                                                    </div>-->
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <form class="form-horizontal">
+                                            <div class="box-body no-padding">
+
+                                                <div>
+                                                    <table id="esitable" style="border-collapse: collapse;">
+                                                        <!--<template>PF REPORT</template>-->
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="100px">
+                                                                    S.No
+                                                                </th>
+                                                                <th width="100px">
+                                                                    EMP ID
+                                                                </th>
+                                                                <th width="200px">
+                                                                    Name
+                                                                </th>
+                                                                <th width="200px">
+                                                                    ESI No.
+                                                                </th>
+                                                                <th width="150px" class="text-right">
+                                                                    Days Worked
+                                                                </th>
+                                                                <th width="200px" class="text-right">
+                                                                    ESI Earnings
+                                                                </th>
+                                                                <th width="200px" class="text-right">
+                                                                    ESI Contribution
+                                                                </th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in SearchResult">
+                                                                <td>
+                                                                    {{$index+1}}
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    {{item.employeecode}}
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    {{item.name}}
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    {{item.esino}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{item.workingdays-item.leavedays}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{item.esiearning | number :2}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{item.esi | number :2}}
+                                                                </td>
+
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td></td>
+                                                                <td class="text-right" colspan="1">
+                                                                    GRAND TOTAL :
+                                                                </td>
+                                                                <td class="text-right" colspan="4">
+                                                                    {{totalesiearning}}
+                                                                </td>
+                                                                <td class="text-right" colspan="1">
+                                                                    {{totalesi}}
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="Payroll.payrolltypeid==2">
+                            <!-- Your Page Content Here -->
+                            <div class="col-md-12">
+                                <!-- Horizontal Form -->
+                                <div class="">
+                                    <div class="box-body">
+                                        <div class="row row-padbot-15">
+                                            <div class="col-md-12 col-sm-12">
+                                                <!-- basic details starts -->
+                                                <div class="col-md-4">
+                                                    <div class="row row-padbot-15">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">Mode</label>
+                                                        <div class="col-md-8">
+                                                            <select class="form-control input-sm" select2="" style="width: 100%;" options="item.id as item.name for item in SummaryMode track by item.id" ng-model="SearchRequest.mode"></select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="row row-padbot-15">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-md-3 control-label">Employee</label>
+                                                            <div class="col-md-9">
+                                                                <select class="form-control select2 input-sm" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="SearchRequest.employeeid"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- basic details ends -->
+                                                <div class="col-md-4">
+                                                    <div class="row row-padbot-15">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Date Range</label>
+                                                            <div class="col-md-8">
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" daterange="SearchRequest.from,SearchRequest.to" class="form-control input-sm" startDate="SearchRequest.from" endDate="SearchRequest.to">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 no-padding">
+
+                                                <div class="col-md-9"></div>
+
+                                                <!--<div class="col-md-1 pull-right">
+                                                    <button class="glyphicon glyphicon-print btn  btn-info btn-sm" ng-click="printDiv('summary')" data-widget="print" data-toggle="tooltip" title="Print"></button>
+                                                </div>
+                                                <div class="col-md-1 pull-right">
+                                                    <button class="glyphicon glyphicon-download-alt btn  btn-info btn-sm" ng-click="exporttoExcel('summary','salreport')" data-widget="Excel" data-toggle="tooltip" title="Excel"></button>
+                                                </div>
+
+
+                                                    <div class="col-md-1 pull-right">
+                                                        <button class="btn btn-primary btn-sm btn-box " ng-click="Summary()">Generate</button>
+                                                    </div>-->
+
+                                            </div>
+                                        </div>
+
+                                        <form class="form-horizontal">
+                                            <div class="box-body no-padding">
+
+                                                <div>
+                                                    <table id="summary" style="border-collapse: collapse;">
+                                                        <!--<template>PF REPORT</template>-->
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="150px">
+                                                                    S.No
+                                                                </th>
+                                                                <th width="150px" ng-show="SearchRequest.mode==0 || SearchRequest.employeeid>0">
+                                                                    Month
+                                                                </th>
+                                                                <th width="150px" ng-show="SearchRequest.mode==1 || SearchRequest.employeeid==0">
+                                                                    EMP ID
+                                                                </th>
+                                                                <th width="200px" ng-show="SearchRequest.mode==1 || SearchRequest.employeeid==0">
+                                                                    Name
+                                                                </th>
+                                                                <th width="200px">
+                                                                    ESI
+                                                                </th>
+                                                                <th width="200px">
+                                                                    PF
+                                                                </th>
+                                                                <th width="200px">
+                                                                    Earnings
+                                                                </th>
+                                                                <th width="200px">
+                                                                    Deductions
+                                                                </th>
+                                                                <th width="200px">
+                                                                    Paid
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in SummaryResult">
+                                                                <td>
+                                                                    {{$index+1}}
+                                                                </td>
+                                                                <td class="text-left" ng-show="SearchRequest.mode==0 || SearchRequest.employeeid>0">
+                                                                    {{item.salarymonth | date : 'MMM-yyyy'}}
+                                                                </td>
+                                                                <td class="text-left" ng-show="SearchRequest.mode==1 || SearchRequest.employeeid==0">
+                                                                    {{item.employeecode}}
+                                                                </td>
+                                                                <td class="text-left" ng-show="SearchRequest.mode==1 || SearchRequest.employeeid==0">
+                                                                    {{item.name}}
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    {{item.esi | number :2}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{item.pf | number :2}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{item.earnings | number :2}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{item.deductions | number :2}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{item.netsalary | number :2}}
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>

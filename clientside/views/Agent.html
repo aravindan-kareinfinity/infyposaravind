@@ -1,0 +1,326 @@
+﻿<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Master / Agent
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="selectedcount>0 && Navigation.edit" style="cursor:pointer" ng-click="ShowStatusDialog()"><a><i class="fa fa-ban"></i>Change Status</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.print" style="cursor:pointer" ng-click=""><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+            <li ng-show="Navigation.searchentity"  style="cursor:pointer" ng-click="exporttoExcel()"><a><i class="fa fa-download"></i></a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary" ng-hide="ShowSearch">
+            <div class="box-body">
+                <form name="agent">
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 form-group required control-label">Agent Type</label>
+                                <div class="col-md-5">
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="state.id as state.name for state in AgentTypes track by state.id" ng-model="Agent.agenttypeid"></select>
+                                </div>
+                                <div class="col-md-4"></div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 form-group required control-label">Name</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control input-sm" style="width: 100%;" ng-model="Agent.name" required focusid="first" ng-change="Agent.name = Agent.name.toUpperCase()">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 form-group required control-label">Contact Person</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control input-sm " style="width: 100%;" ng-model="Agent.contactperson" ng-required="true" focusid="contactperson">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 form-group required control-label">Contact No</label>
+                                <div class="col-md-5">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Agent.contactno" ng-required="true" focusid="contactno">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">Email ID</label>
+                                <div class="col-md-5">
+                                    <input type="email" class="form-control input-sm " style="width: 100%;" ng-model="Agent.emailid">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">Address</label>
+                                <div class="col-md-5">
+                                    <textarea name="address" class="form-control input-sm" rows="5" ng-model="Agent.address"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">PAN</label>
+                                <div class="col-md-2">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Agent.pan">
+                                </div>
+                                <label for="inputEmail3" class="col-md-1 control-label">GST</label>
+
+                                <div class="col-md-2">
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="Agent.gst">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">Commission Amt</label>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control input-sm " style="width: 100%;" ng-model="Agent.commissionamount">
+                                </div>
+                                <label for="inputEmail3" class="col-md-1 control-label">Commission%</label>
+
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control input-sm " style="width: 100%;" ng-model="Agent.commissionpercentage">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">City</label>
+                                <div class="col-md-2">
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="city.id as city.name for city in Cities track by city.id" ng-model="Agent.cityid"></select>
+                                </div>
+                                <label for="inputEmail3" class="col-md-1 control-label">Tax</label>
+                                <div class="col-md-2">
+                                    <select class="form-control select2" style="width: 100%;" select2="" options="ledger.id as ledger.name for ledger in TaxList track by ledger.id" ng-model="Agent.taxledgerid"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-2 control-label">Bank/Branch</label>
+                                <div class="col-sm-5">
+                                    <div class="col-md-6 no-padding">
+                                        <select class="input-sm form-control" select2="" style="width: 100%;"
+                                                ng-model="Agent.bankid"
+                                                options="item.id as item.name for item in Banks track by item.id"
+                                                focusid="BankID" focusonenter="bankbranch"></select>
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" class="form-control input-sm"
+                                               id="inputPassword3" placeholder=""
+                                               ng-model="Agent.bankbranch"
+                                               focusid="bankbranch" focusonenter="bankaccountname">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-2 control-label">Bank Account Name</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control input-sm" id="inputPassword3" placeholder=""
+                                           ng-model="Agent.bankaccountname" focusid="bankaccountname" focusonenter="bankifci">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-2 control-label">IFSC/Account No</label>
+                                <div class="col-sm-5">
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="" ng-model="Agent.bankifci" focusid="bankifci" focusonenter="bankaccountno">
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <input type="text" class="form-control input-sm" id="inputPassword3" placeholder="" ng-model="Agent.bankaccountno" focusid="bankaccountno" focusonenter="activatedon">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">State/Country</label>
+                                <div class="col-md-5">
+                                    <div class="col-md-6 no-padding">
+                                        <select class="form-control select2" style="width: 100%;" select2="" options="state.id as state.name for state in States track by state.id" ng-model="Agent.stateid"></select>
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <select class="form-control select2" style="width: 100%;" select2="" options="country.id as country.name for country in Countries track by country.id" ng-model="Agent.countryid"></select>
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">Pincode</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control input-sm " style="width: 100%;" name="pincode" ng-model="Agent.pincode">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-2 control-label">Active</label>
+                                <div class="col-md-5">
+                                    <label>
+                                        <input type="checkbox" class="icheckbox_minimal-blue" ng-model="Agent.isactive">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="inputEmail3" class="col-md-2 control-label text-green" ng-class="ErrorStyle">{{ErrorMessage}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Name</label>
+                            <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Contact No</label>
+                            <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.contactno">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>In Active</label>
+                            <input type="checkbox" class="icheckbox_minimal-blue" ng-model="SearchCondition.inactive">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 no-padding">
+                    <div class="col-md-12 no-padding" id="gridContainer">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.content -->
+    </section>
+</div>
+<!-- /.content-wrapper -->
+
+
+
+<script type="text/ng-template" id="ChangeStatusDialog">
+    <div class="ngdialog-message">
+        <div class="table-responsive mailbox-messages">
+
+            <div class="col-md-12">
+                <label>Status</label>
+                <select class="input-sm form-control" select2="" style="width: 100%;"
+                        options="item.id  as item.name for item in parent.StatusList track by item.id"
+                        ng-model="statusid"></select>
+
+            </div>
+        </div>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="ChangeStock()">Change</button>
+        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">Close</button>
+    </div>
+</script>

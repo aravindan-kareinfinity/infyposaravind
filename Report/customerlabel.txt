@@ -1,0 +1,35 @@
+<Config>
+  <PageSetting>
+    <Setting topmargin='40' leftmargin='20' bottommargin='30' rightmargin='10' columnwidth='200' columnheight='200' noofcolumns='3' width='750' height='900' style='Verdana,8,regular'></Setting>
+  </PageSetting>
+
+  <Body LineHeight='15' style='Verdana,8,regular'>
+    <Line/>
+    <Line>
+      <Content type='Field' name='name' Length='120'/>
+    </Line>
+<Line>
+      <Content type='Field' name='addressline1' style='Verdana,6' Length='200'/>
+    </Line>
+<Line>
+      <Content type='Field' name='addressline2' style='Verdana,6' Length='200'/>
+    </Line>
+<Line>
+      <Content type='Field' name='cityname' style='Verdana,7' Length='100'/>
+    </Line>
+<Line>
+      <Content type='Field' name='statename' style='Verdana,7' Length='100'/>
+    </Line>
+<Line>
+      <Content type='Word'  length='35' align='left'>Pincode:</Content>
+      <Content type='Word'  length='20' align='left'></Content>
+      <Content type='Field' name='pincode' length='35' align='center'></Content>
+    </Line>
+  <Line>
+      <Content type='Word'  length='35' align='left'>Ph No:</Content>
+      <Content type='Word'  length='20' align='left'></Content>
+      <Content type='Field' name='mobileno' length='35' align='center'></Content>
+    </Line>
+    <Line/>
+  </Body>
+</Config>

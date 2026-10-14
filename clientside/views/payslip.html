@@ -1,0 +1,1359 @@
+﻿        <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+           HR / Payslip
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <!--<li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+            <li><a href back-button>Back</a></li>
+            <li class="active">View Payslip</li>-->
+            <li style="cursor:pointer" ng-show="ShowPayslip" ng-click="Search()"><a><i class="fa fa-search"></i>Search</a></li>
+            <li style="cursor:pointer" ng-show="ShowPayslip" ng-click="printDiv(ShowAll && 'payslipall' || 'payslipsingle', CompanyName)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-show="ShowPayslip && !ShowAll" ng-click="Delete()"><a><i class="fa fa-trash"></i>Delete</a></li>
+
+            <li style="cursor:pointer" ng-show="SeasonStaff" ng-click="SearchDailwages()"><a><i class="fa fa-search"></i>Search</a></li>
+            <li style="cursor:pointer" ng-show="SeasonStaff" ng-click="printDiv(ShowAll && 'dwpayslipall' || 'dwpayslipsingle', CompanyName)"><a><i class="fa fa-print"></i>Print</a></li>
+
+            <li style="cursor:pointer" ng-show="ShowFinal" ng-click="Search()"><a><i class="fa fa-search"></i>Search</a></li>
+            <li style="cursor:pointer" ng-show="ShowFinal" ng-click="printDiv('finalset', CompanyName)"><a><i class="fa fa-print"></i>Print</a></li>
+            <li style="cursor:pointer" ng-show="ShowFinal" ng-click="exporttoExcel('#final','Final Report')"><a><i class="fa fa-trash"></i>Download</a></li>
+
+            <li style="cursor:pointer" ng-show="ShowHold" ng-click="SearchHoldSalary()"><a><i class="fa fa-search"></i>Search</a></li>
+            <li style="cursor:pointer" ng-show="ShowHold" ng-click="exporttoExcel('holdsalary', 'holdsalary')"><a><i class="fa fa-print"></i>Print</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info" ng-hide="ShowSearch">
+                    <div class="box-body">
+
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-md-4 control-label">Types Of Payslip</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" select2=""
+                                            ng-change="PayslipProcess()" style="width: 100%;"
+                                            options="item.id as item.name for item in Payslips track by item.id"
+                                            ng-model="payslipid"></select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3" ng-show="ShowPayslip">
+                            <input type="checkbox" ng-model="showdetail" /><span style="padding-left:10px">Show Default</span>
+                        </div>
+                       
+                    </div>
+                    <div class="box-body" ng-show="ShowPayslip">
+                        <div class="row">
+
+
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Employee</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control select2" style="width: 100%;" select2="" options="department.id as department.name for department in Company track by department.id" required ng-model="companyid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Department</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control select2" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" required ng-model="departmentid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Location</label>
+                                        <div class="col-md-8 col-sm-8">
+                                            <select class="form-control" style="width: 100%;" select2="" options="location.id as location.name for location in Locations track by location.id" ng-model="locationid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Floor</label>
+                                        <div class="col-md-8 col-sm-8">
+                                            <select class="form-control" style="width: 100%;" select2="" options="floor.id as floor.code for floor in Floors track by floor.id" ng-model="floorid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Month/Year</label>
+                                        <div class="col-md-5 col-sm-5">
+                                            <select class="input-sm form-control" select2="" ng-model="month" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3">
+                                            <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="year" ng-maxlength="15">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                               <div class="row row-padbot-15">
+                                   <div class="form-group">
+                                       <label for="inputEmail3" class="col-md-4 control-label">Working Mode</label>
+                                       <div class="col-md-8 col-sm-8">
+                                           <select class="form-control input-sm" style="width: 100%;" select2="" options="item.id as item.name for item in WorkingModes track by item.id" ng-model="workingmode"></select>
+
+                                       </div>
+                                   </div>
+                               </div>
+                            </div>
+                        </div>
+                        
+                        <div class="table-responsive form-horizontal" style="border-color:brown" ng-hide="ShowAll" id="payslipsingle">
+                            <section class="invoice">
+                                <!-- title row -->
+                                <!--<div class="row">
+        <div class="col-xs-12" style="text-align:center;font-size:xx-large">
+            {{SearchResult.companyname}}
+        </div>
+        <div class="col-xs-12" style="text-align:center;font-size:large">
+            Pay Slip for the month of {{SearchResult.salarymonth | date : 'MMMM, y'}}
+        </div>
+    </div>
+    <div class="row invoice-info">
+        <div class="col-md-6">
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th style="width:35%">Employee Name :</th>
+                        <td colspan="2">{{SearchResult.name}}</td>
+                    </tr>
+                    <tr>
+                        <th>Employee ID :</th>
+                        <td colspan="2">{{SearchResult.employeeno}}</td>
+                    </tr>
+                    <tr>
+                        <th>Department :</th>
+                        <td colspan="2">{{SearchRef(SearchResult.departmentid,Departments)}}</td>
+                    </tr>
+                    <tr>
+                        <th> EARNING </th>
+                        <th style="text-align:right"> Default </th>
+                        <th style="text-align:right"> Current </th>
+                    </tr>
+                    <tr ng-repeat="item in SearchResult.detailearnings">
+                        <td>{{SearchRef(item.id, refpaycategorylist)}}</td>
+                        <td align="right">{{item.value | number:2}}</td>
+                        <td align="right">{{item.amount | number:2}}</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td colspan="2" align="right">{{SearchResult.totalearnings | number:2}}</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;font-size:large">NET PAY</td>
+                        <td style="font-weight:bold;font-size:large" colspan="2" align="right">{{SearchResult.netsalary | number:2}}</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th style="width:35%">Total Working days :</th>
+                        <td>{{SearchResult.workingdays}}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Present Days :</th>
+                        <td>{{SearchResult.workingdays-SearchResult.leavedays}}</td>
+                    </tr>
+                    <tr>
+                        <th>PF No :</th>
+                        <td>{{SearchResult.pfno}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"> DEDUCTION </th>
+                    </tr>
+                    <tr ng-repeat="item in SearchResult.detaildeduction">
+                        <td>{{SearchRef(item.id, refpaycategorylist)}}</td>
+                        <td align="right">{{item.amount | number:2}}</td>
+                    </tr>
+                    <tr ng-repeat="item in SearchResult.detaildeductiondummy">
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td align="right">{{SearchResult.totaldeduction | number:2}}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>-->
+                                <div >
+
+                                    <div class="avoidbreak">
+
+                                        <div class="col-md-12">
+
+                                            <div class="row text-center">
+                                                <span class="pull-left" style="margin-left:15px"><b style="padding-left:10px;font-size:medium">{{SearchResult.companyname}}</b></span>
+                                                <small class="pull-right" style="margin-right:10px;font-size:medium"><b>Month :</b> <b> {{SalaryMonth | date : 'MMMM, y'}}</b></small>
+                                            </div>
+
+                                            <div class="row text-center">
+                                                {{employee_payslip_title}}
+                                            </div>
+
+                                            <div class="row text-center">
+                                                {{employee_payslip_subtitle}}
+                                            </div>
+
+                                            <div class="row text-center">
+                                                Wage Slip / Leave Card
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-12">
+
+                                            <table style="margin-left:10px;width:100%">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            Employee:
+                                                        </td>
+                                                        <td>
+                                                            {{SearchResult.name}}
+                                                        </td>
+
+                                                        <td></td>
+                                                        <td></td>
+
+                                                        <td>
+                                                            Designation:
+                                                        </td>
+                                                        <td>
+                                                            {{SearchResult.designation}}
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+
+
+                                                        <td>Employee Code</td>
+                                                        <td>{{SearchResult.employeeno}}</td>
+                                                        <td></td>
+                                                        <td></td>
+
+                                                        <td>
+                                                            Present Days:{{SearchResult.workingdays}}
+                                                        </td>
+                                                        <td>
+                                                            {{SearchResult.workingdays-SearchResult.leavedays}}
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr style="border-top:1px solid black">
+                                                        <td colspan="6"><b>Earnings</b></td>
+                                                    </tr>
+
+
+                                                    <tr>
+                                                        <td colspan="2" style="vertical-align:top">
+                                                            <table style="width:100%;vertical-align:top">
+                                                                <tr ng-repeat="item in GetPart(SearchResult.detailearnings,0,3)">
+                                                                    <td>
+                                                                        {{SearchRef(item.id, refpaycategorylist)}}
+                                                                    </td>
+                                                                    <td ng-show="showdetail" style="text-align:right;padding-right:10px">
+                                                                        {{item.value | number:0}}
+                                                                    </td>
+                                                                    <td style="text-align:right;padding-right:10px">
+                                                                        {{item.amount | number:0}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        <td colspan="2" style="vertical-align:top">
+                                                            <table style="width:100%;">
+                                                                <tr ng-repeat="item in GetPart(SearchResult.detailearnings,1,3)">
+                                                                    <td>
+                                                                        {{SearchRef(item.id, refpaycategorylist)}}
+                                                                    </td>
+                                                                    <td ng-show="showdetail" style="text-align:right;padding-right:10px">
+                                                                        {{item.value | number:0}}
+                                                                    </td>
+                                                                    <td style="text-align:right;padding-right:10px">
+                                                                        {{item.amount | number:0}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        <td colspan="2" style="vertical-align:top">
+                                                            <table style="width:100%;">
+                                                                <tr ng-repeat="item in GetPart(SearchResult.detailearnings,2,3)">
+                                                                    <td>
+                                                                        {{SearchRef(item.id, refpaycategorylist)}}
+                                                                    </td>
+                                                                    <td ng-show="showdetail" style="text-align:right;padding-right:10px">
+                                                                        {{item.value | number:0}}
+                                                                    </td>
+                                                                    <td style="text-align:right;padding-right:10px">
+                                                                        {{item.amount | number:0}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr style="border-top:1px solid black">
+                                                        <td colspan="6"><b>Deductions</b></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td colspan="2" style="vertical-align:top">
+                                                            <table style="width:100%;">
+                                                                <tr ng-repeat="item in GetPart(SearchResult.detaildeduction,0,3)">
+                                                                    <td>
+                                                                        {{SearchRef(item.id, refpaycategorylist)}}
+                                                                    </td>
+                                                                    <td style="text-align:right;padding-right:10px">
+                                                                        {{item.amount | number:0}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        <td colspan="2" style="vertical-align:top">
+                                                            <table style="width:100%">
+                                                                <tr ng-repeat="item in GetPart(SearchResult.detaildeduction,1,3)">
+                                                                    <td>
+                                                                        {{SearchRef(item.id, refpaycategorylist)}}
+                                                                    </td>
+                                                                    <td style="text-align:right;padding-right:10px">
+                                                                        {{item.amount | number:0}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <table style="width:100%;vertical-align:top">
+                                                                <tr ng-repeat="item in GetPart(SearchResult.detaildeduction,2,3)">
+                                                                    <td>
+                                                                        {{SearchRef(item.id, refpaycategorylist)}}
+                                                                    </td>
+                                                                    <td style="text-align:right;padding-right:10px">
+                                                                        {{item.amount | number:0}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr style="border-top:1px solid black;border-bottom:1px solid black">
+                                                        <td style="font-size:12px;font-weight:bold">
+                                                            Total Earnings:
+                                                        </td>
+                                                        <td style="text-align:right;padding-right:10px;font-size:12px;font-weight:bold">
+                                                            {{SearchResult.totalearnings | number:0}}
+                                                        </td>
+
+                                                        <td style="font-size:12px;font-weight:bold">Total Deduction:</td>
+                                                        <td style="text-align:right;padding-right:10px;font-size:12px;font-weight:bold">{{SearchResult.totaldeduction | number:0}}</td>
+
+                                                        <td style="font-size:13px;font-weight:bold">
+                                                            Net Salary:
+                                                        </td>
+                                                        <td style="text-align:right;padding-right:10px;border-top:1px solid black;font-size:13px;font-weight:bold">
+                                                            {{SearchResult.netsalary | number:0}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">&nbsp;</td>
+                                                    </tr>
+                                                    <tr style="border-bottom:1px solid black;">
+                                                        <td colspan="3">
+                                                            Authorised Signatory
+                                                        </td>
+                                                        <td colspan="3">
+                                                            Employee Signature
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                        <div class="row row-padbot-15">
+                                            &nbsp;
+                                        </div>
+
+                                        <div class="row row-padbot-15">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="table-responsive form-horizontal" style="border-color:brown;font:10px verdana" ng-show="ShowAll" id="payslipall">
+                            <div ng-repeat="SearchResult in SearchResultAll">
+
+                                <div class="avoidbreak">
+
+                                    <div class="col-md-12">
+
+                                        <div class="row text-center">
+                                            <span class="pull-left" style="margin-left:15px"><b style="padding-left:10px;font-size:medium">{{SearchResult.companyname}}</b></span>
+                                            <small class="pull-right" style="margin-right:10px;font-size:medium"><b>Month :</b> <b> {{SalaryMonth | date : 'MMMM, y'}}</b></small>
+                                        </div>
+
+                                        <div class="row text-center">
+                                            Form - T
+                                        </div>
+
+                                        <div class="row text-center">
+                                            [See Sub-Rule(6) of Rule 11 of the Tamil Nadu Shops and Establishments Rule, 1948]
+                                        </div>
+
+                                        <div class="row text-center">
+                                            Wage Slip / Leave Card
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-12">
+
+                                        <table style="margin-left:10px;width:100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        Employee:
+                                                    </td>
+                                                    <td>
+                                                        {{SearchResult.name}}
+                                                    </td>
+
+                                                    <td></td>
+                                                    <td></td>
+
+                                                    <td>
+                                                        Designation:
+                                                    </td>
+                                                    <td>
+                                                        {{SearchResult.designation}}
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+
+
+                                                    <td>Employee Code</td>
+                                                    <td>{{SearchResult.employeeno}}</td>
+                                                    <td></td>
+                                                    <td></td>
+
+                                                    <td>
+                                                        Present Days:
+                                                    </td>
+                                                    <td>
+                                                        <!--SearchResult.workingdays-->
+                                                        {{30-SearchResult.leavedays}}
+                                                    </td>
+                                                </tr>
+
+                                                <tr style="border-top:1px solid black">
+                                                    <td colspan="6"><b>Earnings</b></td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td colspan="2" style="vertical-align:top">
+                                                        <table style="width:100%;vertical-align:top">
+                                                            <tr ng-repeat="item in GetPart(SearchResult.detailearnings,0,3)">
+                                                                <td>
+                                                                    {{SearchRef(item.id, refpaycategorylist)}}
+                                                                </td>
+                                                                <td ng-show="showdetail" style="text-align:right;padding-right:10px">
+                                                                    {{item.value | number:0}}
+                                                                </td>
+                                                                <td style="text-align:right;padding-right:10px">
+                                                                    {{item.amount | number:0}}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td colspan="2" style="vertical-align:top">
+                                                        <table style="width:100%;">
+                                                            <tr ng-repeat="item in GetPart(SearchResult.detailearnings,1,3)">
+                                                                <td>
+                                                                    {{SearchRef(item.id, refpaycategorylist)}}
+                                                                </td>
+                                                                <td ng-show="showdetail" style="text-align:right;padding-right:10px">
+                                                                    {{item.value | number:0}}
+                                                                </td>
+                                                                <td style="text-align:right;padding-right:10px">
+                                                                    {{item.amount | number:0}}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td colspan="2" style="vertical-align:top">
+                                                        <table style="width:100%;">
+                                                            <tr ng-repeat="item in GetPart(SearchResult.detailearnings,2,3)">
+                                                                <td>
+                                                                    {{SearchRef(item.id, refpaycategorylist)}}
+                                                                </td>
+                                                                <td ng-show="showdetail" style="text-align:right;padding-right:10px">
+                                                                    {{item.value | number:0}}
+                                                                </td>
+                                                                <td style="text-align:right;padding-right:10px">
+                                                                    {{item.amount | number:0}}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+                                                <tr style="border-top:1px solid black">
+                                                    <td colspan="6"><b>Deductions</b></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td colspan="2" style="vertical-align:top">
+                                                        <table style="width:100%;">
+                                                            <tr ng-repeat="item in GetPart(SearchResult.detaildeduction,0,3)">
+                                                                <td>
+                                                                    {{SearchRef(item.id, refpaycategorylist)}}
+                                                                </td>
+                                                                <td style="text-align:right;padding-right:10px">
+                                                                    {{item.amount | number:0}}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td colspan="2" style="vertical-align:top">
+                                                        <table style="width:100%">
+                                                            <tr ng-repeat="item in GetPart(SearchResult.detaildeduction,1,3)">
+                                                                <td>
+                                                                    {{SearchRef(item.id, refpaycategorylist)}}
+                                                                </td>
+                                                                <td style="text-align:right;padding-right:10px">
+                                                                    {{item.amount | number:0}}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td colspan="2">
+                                                        <table style="width:100%;vertical-align:top">
+                                                            <tr ng-repeat="item in GetPart(SearchResult.detaildeduction,2,3)">
+                                                                <td>
+                                                                    {{SearchRef(item.id, refpaycategorylist)}}
+                                                                </td>
+                                                                <td style="text-align:right;padding-right:10px">
+                                                                    {{item.amount | number:0}}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+                                                <tr style="border-top:1px solid black;border-bottom:1px solid black">
+                                                    <td style="font-size:12px;font-weight:bold">
+                                                        Total Earnings:
+                                                    </td>
+                                                    <td style="text-align:right;padding-right:10px;font-size:12px;font-weight:bold">
+                                                        {{SearchResult.totalearnings | number:0}}
+                                                    </td>
+
+                                                    <td style="font-size:12px;font-weight:bold">Total Deduction:</td>
+                                                    <td style="text-align:right;padding-right:10px;font-size:12px;font-weight:bold">{{SearchResult.totaldeduction | number:0}}</td>
+
+                                                    <td style="font-size:13px;font-weight:bold">
+                                                        Net Salary:
+                                                    </td>
+                                                    <td style="text-align:right;padding-right:10px;border-top:1px solid black;font-size:13px;font-weight:bold">
+                                                        {{SearchResult.netsalary | number:0}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6">&nbsp;</td>
+                                                </tr>
+                                                <tr style="border-bottom:1px solid black;">
+                                                    <td colspan="3">
+                                                        Authorised Signatory
+                                                    </td>
+                                                    <td colspan="3">
+                                                        Employee Signature
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                    <div class="row row-padbot-15">
+                                        &nbsp;
+                                    </div>
+
+                                    <div class="row row-padbot-15">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box-body" ng-show="SeasonStaff">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Employee</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Company</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control select2" style="width: 100%;" select2="" options="department.id as department.name for department in Company track by department.id" required ng-model="companyid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Department</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control select2" style="width: 100%;" select2="" options="department.id as department.name for department in Departments track by department.id" required ng-model="departmentid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Location</label>
+                                        <div class="col-md-8 col-sm-8">
+                                            <select class="form-control" style="width: 100%;" select2="" options="location.id as location.code for location in Locations track by location.id" ng-model="locationid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Date Range</label>
+                                        <div class="col-md-8">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" daterange="fromdate,todate" class="form-control input-sm" startDate="fromdate" endDate="todate">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2"></div>
+
+                            <div class="col-md-1">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <!--<button type="button" class="btn btn-primary btn-sm pull-left" ng-click="SearchDailwages()" data-widget="go" data-toggle="tooltip" title="Go">Search</button>-->
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <!--<button type="button" class="btn btn-info btn-sm pull-right" ng-click="printDiv(ShowAll && 'dwpayslipall' || 'dwpayslipsingle', CompanyName)"
+                                                data-widget="print" data-toggle="tooltip" title="Print">
+                                            <i class="fa fa-print" aria-hidden="true">Print</i>
+                                        </button>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive form-horizontal" style="border-color:brown" ng-hide="ShowAll" id="dwpayslipsingle">
+                            <section class="invoice">
+                                <!-- title row -->
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h4>
+                                            <i class="fa fa-globe"></i> SEASON STAFF PAYSLIP
+                                            <small class="pull-right"><b>Month : {{SearchResult.salarymonth | date : 'MMMM, y'}}</b></small>
+                                        </h4>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <div class="row invoice-info">
+                                    <div class="col-md-6">
+                                        <div class="table-responsive">
+                                            <table class="table">
+
+                                                <tr>
+                                                    <th>Employee ID :</th>
+                                                    <td>{{SearchResult.employeecode}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="width:35%">Working days :</th>
+                                                    <td>{{SearchResult.paiddays}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Designation :</th>
+                                                    <td>{{SearchResult.designation }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="2"> EARNINGS </th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="2"> EARNINGS </th>
+                                                    <td>{{SearchResult.earnings | number:2}}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>Total</td>
+                                                    <td align="right">{{SearchResult.totalearnings | number:2}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <th style="width:35%">Employee Name :</th>
+                                                    <td>{{SearchResult.name}}</td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <th>Present Days :</th>
+                                                    <td>{{SearchResult.workingdays-SearchResult.leavedays}}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th colspan="2"> DEDUCTIONS </th>
+                                                </tr>
+                                                <tr ng-repeat="item in SearchResult.advancelist">
+                                                    <td></td>
+                                                    <td align="right">{{item.amount | number:2}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Advance</td>
+                                                    <td align="right">{{SearchResult.advance | number:2}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <b>NET PAY : {{SearchResult.salary | number:2}}</b>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="table-responsive form-horizontal" style="border-color:brown;font:10px verdana" ng-show="ShowAll" id="dwpayslipall">
+                            <div ng-repeat="SearchResult in SearchResultAll">
+
+                                <div class="avoidbreak">
+
+                                    <div class="col-md-12">
+
+                                        <div class="row text-center">
+                                            <span class="pull-left" style="margin-left:15px"><b style="padding-left:10px">{{CompanyName}}</b></span>
+                                            <small class="pull-right" style="margin-right:10px"><b>Month :</b> <b> {{SalaryMonth | date : 'MMMM, y'}}</b></small>
+                                        </div>
+
+                                        <div class="row text-center">
+                                            DailyWage Slip
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-12">
+
+                                        <table style="margin-left:10px;width:100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        Employee:
+                                                    </td>
+                                                    <td>
+                                                        {{SearchResult.name}}
+                                                    </td>
+
+                                                    <td></td>
+                                                    <td></td>
+
+                                                    <td>
+                                                        Designation:
+                                                    </td>
+                                                    <td>
+                                                        {{SearchResult.designation}}
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+
+
+                                                    <td>Employee Code</td>
+                                                    <td>{{SearchResult.employeecode}}</td>
+                                                    <td></td>
+                                                    <td></td>
+
+                                                    <td>
+                                                        Present Days:
+                                                    </td>
+                                                    <td>
+                                                        {{SearchResult.paiddays}}
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>Date Of Join</td>
+                                                    <td>{{SearchResult.dateofjoin | date:'dd-MM-yyyy'}}</td>
+                                                    <td></td>
+                                                    <td></td>
+
+                                                    <td>Per day</td>
+                                                    <td>{{SearchResult.perday | number:0}}</td>
+                                                </tr>
+
+
+                                                <tr style="border-top:1px solid black">
+                                                    <td colspan="6"><b>Advance List</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="vertical-align:top">
+                                                        <table style="width:100%;vertical-align:top">
+                                                            <tr ng-repeat="item in GetAdvancePart(SearchResult.advancelist,0)">
+                                                                <td>
+                                                                    {{item.date| date:'dd-MM-yyyy'}}
+                                                                </td>
+                                                                <td style="text-align:right;padding-right:10px">
+                                                                    {{item.amount | number:0}}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td colspan="2" style="vertical-align:top">
+                                                        <table style="width:100%;">
+                                                            <tr ng-repeat="item in GetAdvancePart(SearchResult.advancelist,1)">
+                                                                <td>
+                                                                    {{item.date| date:'dd-MM-yyyy'}}
+                                                                </td>
+                                                                <td style="text-align:right;padding-right:10px">
+                                                                    {{item.amount | number:0}}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td colspan="2" style="vertical-align:top">
+                                                        <table style="width:100%;">
+                                                            <tr ng-repeat="item in GetAdvancePart(SearchResult.advancelist,2)">
+                                                                <td>
+                                                                    {{item.date| date:'dd-MM-yyyy'}}
+                                                                </td>
+                                                                <td style="text-align:right;padding-right:10px">
+                                                                    {{item.amount | number:0}}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+                                                <tr style="border-top:1px solid black">
+                                                    <td>Earnings</td>
+                                                    <td style="text-align:right;padding-right:10px">{{SearchResult.earnings | number:0}}</td>
+                                                    <td>Deduction</td>
+                                                    <td style="text-align:right;padding-right:10px">{{SearchResult.advance | number:0}}</td>
+
+                                                    <td>
+                                                        Net Salary
+                                                    </td>
+                                                    <td style="text-align:right;padding-right:10px">
+                                                        {{SearchResult.salary | number:0}}
+                                                    </td>
+                                                </tr>
+
+                                                <tr style="border-top:1px solid black">
+                                                    <td colspan="6">&nbsp;</td>
+                                                </tr>
+
+                                                <tr style="border-bottom:1px solid black;">
+                                                    <td colspan="3">
+                                                        Authorised Signatory
+                                                    </td>
+                                                    <td colspan="3">
+                                                        Employee Signature
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                    <div class="row row-padbot-15">
+                                        &nbsp;
+                                    </div>
+
+                                    <div class="row row-padbot-15">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box-body" ng-show="ShowFinal">
+                        <div class="row">
+
+
+                            <div class="col-md-4">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Employee</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control select2" style="width: 100%;" select2="" options="item.id as item.code for item in Employee track by item.id" ng-model="employeeid"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-padbot-15">
+                                    <label for="inputEmail3" class="col-md-12 control-label" style="text-align:left;font-size:large;color:green">{{SearchResultMessage}}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Month/Year</label>
+                                        <div class="col-md-5 col-sm-5">
+                                            <select class="input-sm form-control" select2="" ng-model="month" options="item.id as item.name for item in MonthList track by item.id"></select>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3">
+                                            <input type="text" class="input-sm form-control" style="width: 100%;" ng-model="year" ng-maxlength="15">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-1">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <!--<button type="button" class="btn btn-primary btn-sm pull-right" ng-click="Search()" data-widget="go" data-toggle="tooltip" title="Go">Search</button>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="row row-padbot-15">
+                                    <div class="form-group">
+                                        <!--<button type="button" class="btn btn-info btn-sm pull-right" ng-click="printDiv('finalset', CompanyName)"
+                                                data-widget="print" data-toggle="tooltip" title="Print">
+                                            <i class="fa fa-print" aria-hidden="true">&nbsp;&nbsp;Print</i>
+                                        </button>
+                                        <button class="glyphicon glyphicon-download-alt btn btn-info btn-sm btn-box" data-widget="ExcelExport" data-toggle="ExcelExport" title="ExcelExport" ng-click="exporttoExcel('#final','Final Report')"></button>-->
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="table-responsive form-horizontal" style="border-color:brown;padding-right:30px;padding-right:20px;" id="finalset">
+                            <code style="color:black">
+                                <div class="row text-center">
+                                    <span class="pull-left" style="margin-left:15px"><b style="padding-left:20px;"><label style="font-size:medium">{{CompanyName}}</label></b></span>
+                                    <small class="pull-right" style="margin-right:15px;padding-right:20px"><b>Print Date : {{SearchResult.salarymonth | date : 'dd,MMMM, y'}}</b></small>
+                                </div>
+                                <div class="row text-center">
+                                    <h3 style="font-family:Menlo">
+                                        <label style="text-align:center;border-bottom:1px solid black">FULL & FINAL SETTLEMENT PAYSLIP</label>
+                                    </h3>
+                                </div>
+                                <!-- /.col -->
+                                <table class="table table-bordered" id="final">
+                                    <tbody></tbody>
+                                    <tr>
+                                        <td colspan="1" class="right">
+                                            <b>Employee ID :</b>
+                                        </td>
+                                        <td colspan="2" align="left">
+                                            <b>{{SearchResult.employeeno}}</b>
+                                        </td>
+                                        <td colspan="7" class="right">
+                                            <b>DOJ :</b>
+                                        </td>
+                                        <td colspan="10" align="right">
+                                            <b>{{SearchResult.dateofjoining | date : 'dd,MMMM, y' }}</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="1" class="right">
+                                            <b>Employee Name :</b>
+                                        </td>
+                                        <td colspan="2" align="left">
+                                            <b>{{SearchResult.name}}</b>
+                                        </td>
+                                        <td colspan="7" class="right">
+                                            <b>DOL :</b>
+                                        </td>
+                                        <td colspan="10" align="right">
+                                            <b>{{SearchResult.relievingdate | date : 'dd,MMMM, y'}}</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="1" class="right">
+                                            <b>Designation :</b>
+                                        </td>
+                                        <td colspan="2" align="left">
+                                            <b>{{SearchResult.designation}}</b>
+                                        </td>
+                                        <td colspan="7" class="right">
+                                            <b>Month/Year :</b>
+                                        </td>
+                                        <td colspan="10" align="right">
+                                            <b>{{SearchResult.salarymonth | date : 'MMMM/y'}}</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="1" class="right">
+                                            <b>Department :</b>
+                                        </td>
+                                        <td colspan="2" align="left">
+                                            <b>{{SearchRef(SearchResult.sectionid, Sections)}}</b>
+                                        </td>
+                                        <td colspan="7" class="right">
+                                            <b>UAN No :</b>
+                                        </td>
+                                        <td colspan="10" align="right">
+                                            <b>{{SearchResult.pfuan}}</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                        <td colspan="1" class="right">
+                                            <b>Total Working days :</b>
+                                        </td>
+                                        <td colspan="2" align="left">
+                                            <b>{{SearchResult.workingdays}}</b>
+                                        </td>
+                                        <td colspan="7" class="right">
+                                            <b>PF No :</b>
+                                        </td>
+                                        <td colspan="10" align="right">
+                                            <b>{{SearchResult.pfno}}</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="1" class="right">
+                                            <b>Present Days :</b>
+                                        </td>
+                                        <td colspan="2" align="left">
+                                            <b>{{SearchResult.workingdays-SearchResult.leavedays}}</b>
+                                        </td>
+                                        <td colspan="7" class="right">
+                                            <b>ESI No :</b>
+                                        </td>
+                                        <td colspan="10" align="right">
+                                            <b>{{SearchResult.esino}}</b>
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                                <table style="margin-left:10px;width:100%">
+                                    <tbody>
+                                        <tr style="border-top:1px solid black">
+                                            <td colspan="6"><b>Earnings</b></td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td colspan="2" style="vertical-align:top">
+                                                <table style="width:100%;vertical-align:top">
+                                                    <tr ng-repeat="item in GetPart(SearchResult.detailearnings,0,3)">
+                                                        <td>
+                                                            {{SearchRef(item.id, refpaycategorylist)}}
+                                                        </td>
+                                                        <td style="text-align:right;padding-right:10px">
+                                                            {{item.amount | number:0}}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td colspan="2" style="vertical-align:top">
+                                                <table style="width:100%;">
+                                                    <tr ng-repeat="item in GetPart(SearchResult.detailearnings,1,3)">
+                                                        <td>
+                                                            {{SearchRef(item.id, refpaycategorylist)}}
+                                                        </td>
+                                                        <td style="text-align:right;padding-right:10px">
+                                                            {{item.amount | number:0}}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td colspan="2" style="vertical-align:top">
+                                                <table style="width:100%;">
+                                                    <tr ng-repeat="item in GetPart(SearchResult.detailearnings,2,3)">
+                                                        <td>
+                                                            {{SearchRef(item.id, refpaycategorylist)}}
+                                                        </td>
+                                                        <td style="text-align:right;padding-right:10px">
+                                                            {{item.amount | number:0}}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="border-top:1px solid black">
+                                            <td colspan="6"><b>Deductions</b></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2" style="vertical-align:top">
+                                                <table style="width:100%;">
+                                                    <tr ng-repeat="item in GetPart(SearchResult.detaildeduction,0,3)">
+                                                        <td>
+                                                            {{SearchRef(item.id, refpaycategorylist)}}
+                                                        </td>
+                                                        <td style="text-align:right;padding-right:10px">
+                                                            {{item.amount | number:0}}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td colspan="2" style="vertical-align:top">
+                                                <table style="width:100%">
+                                                    <tr ng-repeat="item in GetPart(SearchResult.detaildeduction,1,3)">
+                                                        <td>
+                                                            {{SearchRef(item.id, refpaycategorylist)}}
+                                                        </td>
+                                                        <td style="text-align:right;padding-right:10px">
+                                                            {{item.amount | number:0}}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td colspan="2">
+                                                <table style="width:100%;vertical-align:top">
+                                                    <tr ng-repeat="item in GetPart(SearchResult.detaildeduction,2,3)">
+                                                        <td>
+                                                            {{SearchRef(item.id, refpaycategorylist)}}
+                                                        </td>
+                                                        <td style="text-align:right;padding-right:10px">
+                                                            {{item.amount | number:0}}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="border-top:1px solid black;">
+                                            <td>
+                                                Total Earnings:
+                                            </td>
+                                            <td style="text-align:right;padding-right:10px">
+                                                {{SearchResult.totalearnings | number:0}}
+                                            </td>
+
+                                            <td>Total Deduction:</td>
+                                            <td style="text-align:right;padding-right:10px">{{SearchResult.totaldeduction | number:0}}</td>
+
+                                            <td>
+                                                Net Salary:
+                                            </td>
+                                            <td style="text-align:right;padding-right:10px">
+                                                {{SearchResult.netsalary | number:0}}
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+                                <div class="col-md-12" style="border-bottom:1px solid black">
+                                    <b>Amount In Words : {{SearchResult.inwords}} </b>
+                                </div>
+                                <div class="col-md-12">
+                                    Received the full and final settlement payment through bank / by cash as above
+                                    stated and declared that there is no dues to me but always liable for any mistakes occurred
+                                    in my service period which finds in future.<br /><br /><br />
+
+                                </div>
+                                <div class="col-md-12 pull-right">
+                                    Signature
+                                </div>
+                            </code>
+                        </div>
+
+                    </div>
+
+                    <div class="box-body" ng-show="ShowHold">
+                        <div class="row">
+
+                            <div class="col-md-7">
+                                <div class="box no-border">
+                                    <div class="box-header no-border">
+                                        <h3 class="box-title">FILTER</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">From Date</label>
+                                                        <div class="col-md-8">
+                                                            <div class="input-group date">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                                <input type="text" class="input-sm form-control datepicker" datemodule="SearchCondition.fromdate" ng-model="SearchCondition.fromdate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="row row-padbot-15">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-md-4 control-label">To Date</label>
+                                                        <div class="col-md-8">
+                                                            <div class="input-group date">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                                <input type="text" class="input-sm form-control datepicker" datemodule="SearchCondition.todate" ng-model="SearchCondition.todate">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="box no-border">
+                                    <div class="box-header no-border">
+                                        <h3 class="box-title">SUMMARY</h3>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <!-- form start -->
+
+                                    <div class="box-body no-padding">
+
+                                        <div class="col-md-12 no-padding">
+                                            <div class="row col-md-12">
+                                                <label for="inputEmail3" class="col-md-8 control-label"><b>NO OF EMPLOYEES</b></label>
+                                                <label for="inputEmail3" class="col-md-4 control-label no-padding" style="vertical-align:top;font-size:large;color:brown;text-align:left"><b>{{employeecount| number:0}}</b></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row col-md-12">
+                                            <!--<button type="button" class="btn-primary btn btn-sm  pull-right" ng-click="exporttoExcel('holdsalary', 'holdsalary')" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></button>&nbsp;
+                                            <button type="button" class="btn btn-sm btn-success pull-right" ng-click="SearchHoldSalary()">Search</button>-->
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row row-padbot-15">
+                                <div class="col-md-12" id="sales">
+                                    <table fixed-header="500px" class="fixed_table" id="holdsalary">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:100px">EMPLOYEE ID</th>
+                                                <th style="width:100px">EMPLOYEE NAME</th>
+                                                <th style="width:150px">HOLD DATE</th>
+                                                <th style="width:150px">IS SETTLED</th>
+                                                <th style="width:150px">SETTLEMENT DATE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in HoldSalaryResult">
+                                                <td>{{item.employeecode}}</td>
+                                                <td>{{item.employeename}}</td>
+                                                <td>{{item.holddate|date:'dd/MM/yyyy'}}</td>
+                                                <td>
+                                                    <input type="checkbox" class="icheckbox_minimal-blue" ng-model="issettled">
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" class="form-control pull-right" style="width:100%" datemodule="settlementdate" ng-disabled="!issettled" ng-model="settlementdate">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>

@@ -1,0 +1,70 @@
+<Config>
+  <PageSetting>
+    <Setting topmargin='5' leftmargin='5' bottommargin='5' rightmargin='10' width='210' height='297' style='Verdana,8,regular'></Setting>
+  </PageSetting>
+  <Header>
+    <Line>
+      <Content type='Logo'>250</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='500' align='center' style='bold'>PAKSHI K RAMANATHAM CHETTIAR SON</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='500' align='center'>MUTHAIYA TALKIES ROAD,</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='500' align='center'>NEAR BUS STAND, CUDDALORE</Content>
+    </Line>
+    <Line>
+      <Content type='Word' length='500' align='center'>GST:33AAAPL6912G1Z2     PHONE NO : 236391</Content>
+    </Line>
+    <Line/>
+    <Line/>
+        <Line>
+      <Content type='Word' length='50' align='center' >Address :</Content>
+       </Line>
+ <Line/>
+   <Line>
+   <Content type='Field' name='supplier.address' align='left' length='500'/>
+    </Line>
+   <Line>
+  <Content type='Field' name='supplier.cityname' length='500' align='left'/>
+   </Line>
+   <Line>
+  <Content type='Field' name='supplier.statename' length='500' align='left'/>
+   </Line>
+  <Line>
+  <Content type='Field' name='supplier.pincode' length='500' align='left'/>
+   </Line>
+    <Line>
+      <Content type='Word' length='50' align='right'>Supplier: </Content>
+      <Content type='Field' name='supplier.name' length='100' align='left' style='bold'/>
+    </Line>
+ <Line/>
+  </Header>
+  <Body >
+    <Line Length='1' type='Table' field='cheques'  align='right' >
+      <Content type='Field' name='bankname' text="bank" Length='100' align='center'/>
+      <Content type='Field' name='chequeno' text="Cq number" Length='140' align='center'/>
+      <Content type='Field' name='chequedate' text="Cq Date" Length='180' align='center'/>
+      <Content type='Field' name='amount' text="Amount" Length='110' Total='true' align='right' format='F0'/>
+    </Line>
+    <Line/>
+
+    <Line/>
+    <Line>
+      <Content type='Word' length='100' align='center'>    PURCHASE DETAILS :</Content>
+    </Line>
+    <Line/>
+    <Line Length='1' type='Table' field='Bills'  align='right' >
+      <Content type='Field' name='invoiceno' text="Invoiceno" Length='100' align='center'/>
+      <Content type='Field' name='invoicedate' text="date" Length='140' align='center'/>
+      <Content type='Field' name='Bills.invoiceamount' text="Amount" Length='90'  align='center' format='F0'/>
+      <Content type='Field' name='Bills.balance' text="Balance" Length='90' align='center' format='F0'/>
+      <Content type='Field' name='paidamount' text="Paid" Length='110' Total='true' align='center' format='F0'/>
+    </Line>  
+    <Line/>
+  </Body>
+  <Footer>
+  </Footer>
+</Config>

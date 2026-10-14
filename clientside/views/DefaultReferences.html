@@ -1,0 +1,49 @@
+﻿
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Default Actions
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="New()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.print" style="cursor:pointer" ng-click=""><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-primary">
+            <div class="box-body no-border">
+
+                <div class="col-md-12 no-padding" ng-show="UserInfo.RootUser">
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Organization code</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="input-sm form-control" style="width:100%"
+                                   ng-change="OrganizationSelected=false"
+                                   ng-model="organizationcode" />
+                        </div>
+                        <div class="col-md-1 no-padding">
+                            <button class="btn btn-success btn-sm" ng-click="SearchOrganization()">Search</button>
+                        </div>
+                        <div class="col-md-4 no-padding">
+                            Current Organization : {{OrganizationName}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    </section>
+</div>
+

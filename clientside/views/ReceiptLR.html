@@ -1,0 +1,434 @@
+﻿   <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href back-button><i class="fa fa-arrow-left" style="font-size:large"></i></a>
+            Warehouse / Receive LR
+        </h1>
+        <ol class="breadcrumb">
+            <li ng-show="Navigation.create" style="cursor:pointer" ng-click="Clear()"><a><i class="fa fa-file"></i>New</a></li>
+            <li ng-show="Navigation.save" ng-disabled="SaveRequest" style="cursor:pointer" ng-click="Save()"><a><i class="fa fa-save"></i>Save</a></li>
+            <li ng-show="Navigation.delete" style="cursor:pointer" ng-click=""><a><i class="fa fa-trash"></i>Delete</a></li>
+            <li ng-show="Navigation.search" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('SEARCH')"><a><i class="fa fa-search"></i>Search</a></li>
+            <li ng-show="Navigation.edit" style="cursor:pointer" ng-click="SwitchPanel();Navigation.SetMode('EDIT')"><a><i class="fa fa-backward"></i>Back</a></li>
+            <li ng-show="Navigation.searchentity && SearchResult.length>0" style="cursor:pointer" ng-click="exporttoExcel('#resulttable','Courier Entry Report')"><a><i class="fa fa-download"></i>Export</a></li>
+            <li ng-show="ReceiptLR.id>0" style="cursor:pointer" ng-click="printDiv()"><a><i class="fa fa-print"></i>Print</a></li>
+            <li ng-show="Navigation.searchentity" style="cursor:pointer" ng-click="Search()"><a><i class="fa fas fa-search-plus"></i>Search</a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <div class="box box-success" ng-hide="ShowSearch">
+            <div class="box-body">
+
+                <div class="col-md-3">
+
+                    <div class="row row-padbot-15">
+
+                        <label for="inputEmail3" class="control-label">Booking Office</label>
+                        <div style="vertical-align:middle;font-size:medium;color:orangered;">
+                            {{SearchRef(ReceiptLR.bookingofficeid,BookingOffice)}}
+                        </div>
+
+                    </div>
+
+                    <div class="row row-padbot-15">
+
+                        <div class="col-md-6 col-sm-6 no-padding">
+
+                            <label for="inputEmail3" class="control-label">Receipt Number</label>
+                            <div>
+                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ReceiptLR.receiptno" readonly>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 no-padding">
+
+                            <label for="inputEmail3" class="control-label">Received On</label>
+                            <div>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right input-sm" datemodule="ReceiptLR.receivedon" ng-model="ReceiptLR.ReceivedOn" focusid="first">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- /.row -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+
+
+                        <div class="col-md-6 col-sm-6 no-padding">
+
+                            <label for="inputEmail3" class="control-label">Issue Date</label>
+                            <div>
+                                <input type="text" class="form-control pull-right input-sm"
+                                       ng-readonly="true" datemodule="ReceiptLR.issuedate" ng-model="ReceiptLR.issuedate">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 no-padding">
+
+                            <label for="inputEmail3" class="control-label">Issue No</label>
+                            <div>
+
+                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ReceiptLR.issueno" readonly>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <!-- /.row -->
+                    </div>
+
+                    <div class="row row-padbot-15">
+
+                        <div class="col-md-6 col-sm-6 no-padding">
+
+                            <label for="inputEmail3" class="control-label">Received By</label>
+                            <div>
+                                <select class="form-control" select2='' ng-model="ReceiptLR.receivedby" style="width:100%"
+                                        options="item.id as item.name for item in ReceivedBy track by item.id"></select>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 col-sm-6 no-padding">
+
+                            <label for="inputEmail3" class="control-label">Company</label>
+                            <div>
+
+                                <select class="form-control" select2='' ng-model="ReceiptLR.companyid" style="width:100%"
+                                        options="item.id as item.name for item in BuyingCompany track by item.id"></select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row row-padbot-15">
+
+                        <div class="col-md-6 col-sm-6 no-padding">
+
+                            <label for="inputEmail3" class="control-label">Security Inward No</label>
+                            <div>
+                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ReceiptLR.securityinwardno">
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 col-sm-6 no-padding">
+
+                            <label for="inputEmail3" class="control-label">Security Inward Date</label>
+                            <div>
+                                <input type="text" class="form-control input-sm  pull-right" datemodule="ReceiptLR.securityinwarddate" ng-model="ReceiptLR.securityinwarddate">
+                            </div>
+
+                        </div>
+
+                        <!-- /.col -->
+
+
+
+                    </div>
+
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-6 col-sm-6 no-padding">
+
+                            
+                            
+                                <div class="col-md-6 col-sm-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">Bundles</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ReceiptLR.noofbundels">
+                                </div>
+                                <div class="col-md-6 col-sm-6 no-padding">
+                                    <label for="inputEmail3" class="control-label">Boxes</label>
+                                    <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ReceiptLR.noofboxes">
+                                </div>
+                            
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 no-padding">
+
+                            <div class="col-md-6 col-sm-6 no-padding">
+                                <label for="inputEmail3" class="control-label">C.Weight</label>
+                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ReceiptLR.chargedweight">
+                            </div>
+                            <div class="col-md-6 col-sm-6 no-padding">
+                                <label for="inputEmail3" class="control-label">R.Weight</label>
+                                <input method="text" class="form-control input-sm" style="width: 100%;" ng-model="ReceiptLR.receivedweight">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="row row-padbot-15">
+
+                        <label for="inputEmail3" class="control-label">Loading Charge</label>
+                        <div>
+                            <div class="col-md-6 no-padding">
+                                <input method="text" class="form-control input-sm" ng-readonly="true"
+                                       ng-model="ReceiptLR.loadingcharges">
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <div class="col-md-4 no-padding">
+                                    <input type="checkbox" ng-model="ReceiptLR.loadingchargespaid" />
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    Paid
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+                    <div class="row row-padbot-15">
+                        <label for="inputEmail3" class="control-label">Frieght Charge</label>
+                        <div>
+                            <div class="col-md-6 no-padding">
+                                <input method="text" class="form-control input-sm" ng-readonly="true" style="width: 100%;"
+                                       ng-model="ReceiptLR.frieghtcharges">
+                            </div>
+                            <div class="col-md-6 no-padding">
+
+                                <div class="col-md-4 no-padding">
+                                    <input type="checkbox" ng-model="ReceiptLR.frieghtchargespaid" />
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    Paid
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-padbot-15">
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="control-label">Other Charges</label>
+                            <div>
+                                <input type="text" class="form-control input-sm  pull-right"
+                                       ng-readonly="true"
+                                       ng-model="ReceiptLR.othercharges">
+                            </div>
+                        </div>
+                        <div class="col-md-6 no-padding">
+                            <label for="inputEmail3" class="control-label">Total Charges</label>
+                            <div>
+                                <input type="text" class="form-control input-sm  pull-right"
+                                       ng-readonly="true"
+                                       ng-model="ReceiptLR.totalcharges">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-9">
+                    <div class="col-md-12 col-sm-12" id="gridContainer">
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="box box-primary" id="searchBox" ng-show="ShowSearch">
+            <div class="box-body">
+                <div class="col-md-12 row-padbot-15">
+                    <div class="col-md-3">
+
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="control-label no-padding">Booking Office</label>
+                            <div class="no-padding">
+                                <select class="form-control" style="width:100%" select2='Booking office' ng-model="SearchCondition.bookingofficeid" options="item.id as item.name for item in BookingOffice track by item.id"></select>
+                            </div>
+
+                        </div>
+                        <div class="row row-padbot-15">
+                            <label for="inputEmail3" class="control-label no-padding">Supplier</label>
+                            <div class="no-padding">
+                                <select class="form-control" select2="" style="width: 100%;" options="item.id as item.name for item in Suppliers track by item.id" ng-model="SearchCondition.supplierid"></select>
+                            </div>
+
+                        </div>
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="control-label no-padding">LR No</label>
+                            <div class="no-padding">
+                                <input type="text" class="form-control input-sm" id="inputEmail3" placeholder="" ng-model="SearchCondition.lrno" onkeyenter="Search()">
+                            </div>
+
+                        </div>
+                        <div class="row row-padbot-15">
+
+                            <label for="inputEmail3" class="control-label no-padding">Received On</label>
+                            <div class="no-padding">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right input-sm" daterange="SearchCondition.fromdate,SearchCondition.todate">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-9">
+                        <div class="col-md-12 no-padding" id="searchgridContainer">
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="box box-success" ng-show="false">
+            <div id="printdiv" style="padding:10px">
+                <div class="table-responsive form-horizontal" style="border-color:brown;padding-right:30px;padding-right:20px;" id="finalset">
+                    <code style="color:black">
+
+                        <div class="row text-center">
+                            <h3 style="font-family:Menlo">
+                                <label style="text-align:center;border-bottom:1px solid black"><b style="font-size:17px;">LR RECEIPT REPORT</b></label>
+                            </h3>
+                        </div>
+                        <div class="row text-center">
+                            <span class="pull-left" style="margin-left:15px"><b style="padding-left:20px;"><label style="font-size:medium">{{CompanyName}}</label></b></span>
+                            <small class="pull-right" style="margin-right:15px;padding-right:20px"><b>Print Date : {{Today | date:'dd-MM-yyyy'}}</b></small>
+
+                        </div>
+
+                        <table class="table table-bordered">
+                            <tbody></tbody>
+                            <tr>
+                                <td colspan="1" class="right">
+                                    <b>Company Name :</b>
+                                </td>
+                                <td colspan="2" align="left">
+                                    <b>{{PrintDocument.company.name}}</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="1" class="right">
+                                    <b>Transport Name :</b>
+                                </td>
+                                <td colspan="2" align="left">
+                                    <b>{{SearchRef(PrintDocument.bookingofficeid,BookingOffice)}}</b>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="1" class="right">
+                                    <b>Issue No :</b>
+                                </td>
+                                <td colspan="2" align="left">
+                                    <b>{{PrintDocument.issueno}}</b>
+                                </td>
+                                <td colspan="7" class="right">
+                                    <b>Issue Date :</b>
+                                </td>
+                                <td colspan="10" align="right">
+                                    <b>{{PrintDocument.issuedate | date : 'dd-MM-yyyy'}}</b>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div class="row row-padbot-15">
+                            <div class="col-md-12 col-sm-12">
+                                <table fixed-header="275px" class="fixed_table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10px">&nbsp;</th>
+                                            <th style="width:100px">S.No</th>
+                                            <th style="width:150px">Supplier Name</th>
+                                            <th style="width:120px">City</th>
+                                            <!--<th style="width:100px">EntryNo</th>
+                                            <th style="width:100px">Entry Date</th>-->
+                                            <th style="width:200px">LR No &nbsp; /&nbsp;LR Date</th>
+                                            <!--<th style="width:100px">LR Date</th>-->
+                                            <th style="width:100px">Bundles/Pieces</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in PrintDocument.lrissuelist">
+                                            <td></td>
+                                            <td>{{$index+1}}</td>
+                                            <td>{{SearchRef(item.supplierid,Suppliers)}}</td>
+                                            <td>{{SearchRef(item.fromlocationid,FromLocations)}}</td>
+                                            om
+                                            <!--<td>{{item.lrentryno}}</td>
+                                            <td>{{item.createdon | date:'dd-MM-yyyy'}}</td>-->
+                                            /&
+                                            <td>{{item.lrno}}&nbsp;/&nbsp;{{item.lrdate | date:'dd-MM-yyyy'}}</td>
+
+                                            <!--<td>{{item.lrdate | date:'dd-MM-yyyy'}}</td>-->
+                                            }/
+                                            <td>{{item.noofbundels}}/{{item.noofpieces}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <table class="table table-bordered">
+                            <tbody></tbody>
+                            <tr>
+                                <td colspan="1" class="right">
+                                    sp
+                                    <b>Collected By :</b>
+                                </td>
+                                <td colspan="2" align="left">
+                                    {{SearchRef(PrintDocument.collectingby,CollectedBy)}}
+                                </td>
+                                <td colspan="7" class="right">
+                                    <b>Total Freight Charge :</b>
+                                </td>
+                                <td colspan="10" align="right">
+                                    {{IssueLR.frieghtcharges}}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="1" class="right">
+                                    <b>No Of Bundles :</b>
+                                </td>
+                                <td colspan="2" align="left">
+                                    {{IssueLR.noofbundels}}
+                                </td>
+                                <td colspan="7" class="right">
+                                    <b>No Of Pieces :</b>
+                                </td>
+                                <td colspan="10" align="right">
+                                    {{IssueLR.noofpieces}}
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </code>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- Page script -->
